@@ -1,49 +1,54 @@
 <script setup lang="ts">
-// ##imports
-// ##config:const
-// ##config ##props ##route ##attrs ##form-fields
-definePageMeta({
-  layout: "default",
-  // middleware: "",
-  // "@page": {
-  //   appBarTitle: "",
-  //   htmlClass: "",
-  //   bodyClass: "",
-  //   appClass: "",
-  // },
-});
-// ##schemas
-// ##utils
-// ##icons
-// ##refs ##flags ##models
-const x1 = ref(1);
-const y1 = computed(() => x1.value * 2);
-const updatex1 = () => {
-  x1.value = Math.random();
-};
-// ##data ##auth ##state
-// ##computed
-// ##forms ##handlers ##helpers ##small-utils
-// ##watch
-// ##hooks ##lifecycle
-// ##head ##meta
-// useHead({ title: "" });
-// ##provide
-// ##io
+// ## imports (external first, then internal)
+// ## config:const
+// ## nuxt:core
+// ## props / emits / v-model / v-model helper
+// ## page-meta, pages only
+// definePageMeta({
+//   layout: "default",
+//   // middleware: ["auth"],
+//   "@page": {
+//     appBarTitle: "",
+//     htmlClass: "",
+//     bodyClass: "",
+//     appClass: "",
+//   },
+// });
+// ## attrs / slots
+// ## schemas / validation
+// ## icons
+// ## refs / flags / models
+// ## state, pinia, local
+// ## storage / cookies
+// ## async data
+// ## computed
+// ## helpers / utils
+// ## handlers
+// ## watch
+// ## hooks / lifecycle
+// ## head / meta
+// ## provide / expose
+// ## io, events, websockets
 
 // @@eos
 </script>
+
 <template>
-  <section class="page--index app-container-reset">
-    <h2>index [{{ x1 }}]</h2>
-    <h5>index [{{ y1 }}]</h5>
+  <section class="app-container-reset component--NAME">
     <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum
-      cupiditate provident?
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus unde
+      ipsam voluptatibus laboriosam fugiat tempora ad. Aspernatur similique
+      deleniti, ratione vitae id voluptates voluptas enim reiciendis veritatis
+      tempore laudantium neque?
     </p>
-    <button @click="updatex1()">ok</button>
   </section>
 </template>
+
+<!-- scoped component styles, default -->
 <style lang="scss" scoped></style>
+
+<!-- css modules, per-class hashing -->
 <style module></style>
+
+<!-- global styles, rare, prefer styles.scss -->
 <style lang="scss"></style>
