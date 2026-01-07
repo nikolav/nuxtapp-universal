@@ -1,0 +1,129 @@
+my-nuxt-app/
+├─ .vscode/
+│  ├─ settings.json
+│  └─ extensions.json
+├─ .github/
+│  └─ workflows/
+│     └─ ci.yml
+├─ app/
+│  ├─ app.vue
+│  ├─ router.options.ts
+│  ├─ middleware/
+│  │  ├─ analytics.global.ts
+│  │  ├─ auth.global.ts
+│  │  └─ redirects.global.ts
+│  └─ plugins/
+│     ├─ axios.ts                 # if you prefer axios wrapper (optional)
+│     ├─ dayjs.ts
+│     ├─ sentry.client.ts
+│     ├─ sentry.server.ts
+│     └─ recaptcha.client.ts
+├─ assets/
+│  ├─ css/
+│  │  ├─ main.css                 # imports tailwind.css, globals
+│  │  ├─ tailwind.css
+│  │  └─ animations.css
+│  ├─ fonts/
+│  └─ images/
+├─ components/
+│  ├─ base/
+│  │  ├─ BaseButton.vue
+│  │  ├─ BaseInput.vue
+│  │  └─ BaseModal.vue
+│  ├─ icons/
+│  │  ├─ IconMission.vue
+│  │  ├─ IconVision.vue
+│  │  └─ IconValue.vue
+│  ├─ layout/
+│  │  ├─ SiteHeader.vue
+│  │  └─ SiteFooter.vue
+│  ├─ marketing/
+│  │  ├─ Hero.vue
+│  │  ├─ TestimonialsSlider.vue
+│  │  └─ PricingTable.vue
+│  └─ widgets/
+│     ├─ WhatsAppWidget.vue
+│     └─ CookieBanner.vue
+├─ composables/
+│  ├─ useApi.ts                   # wrapper around $fetch + baseURL
+│  ├─ useAuth.ts
+│  ├─ useBreakpoints.ts
+│  ├─ useSeo.ts                   # helpers for SEO meta
+│  └─ useToast.ts
+├─ content/                       # @nuxt/content (optional)
+│  ├─ blog/
+│  │  ├─ 2026-01-01-first-post.md
+│  │  └─ 2026-01-02-second-post.md
+│  └─ pages/
+│     └─ about.md
+├─ layouts/
+│  ├─ default.vue
+│  ├─ marketing.vue
+│  └─ admin.vue
+├─ middleware/
+│  ├─ auth.ts                     # page-level middleware (definePageMeta)
+│  ├─ guest.ts
+│  └─ track.ts
+├─ pages/
+│  ├─ index.vue
+│  ├─ o-nama.vue
+│  ├─ kontakt.vue
+│  ├─ usluge/
+│  │  ├─ index.vue
+│  │  └─ [slug].vue
+│  ├─ blog/
+│  │  ├─ index.vue
+│  │  └─ [slug].vue
+│  ├─ admin/
+│  │  ├─ index.vue
+│  │  ├─ login.vue
+│  │  └─ users.vue
+│  └─ (marketing)/                # route group (optional)
+│     ├─ terms.vue
+│     └─ privacy.vue
+├─ plugins/
+│  ├─ api.ts                      # Nuxt plugin: provide("api", ...)
+│  ├─ ui.client.ts                # client-only UI init
+│  └─ i18n.ts                     # if not using module auto plugin
+├─ public/
+│  ├─ robots.txt
+│  ├─ sitemap.xml                 # often generated, but can be here
+│  ├─ favicon.ico
+│  ├─ icons/
+│  └─ images/
+├─ server/
+│  ├─ api/
+│  │  ├─ health.get.ts
+│  │  └─ contact.post.ts          # optional: Nuxt server endpoints
+│  ├─ middleware/
+│  │  └─ rate-limit.ts
+│  └─ utils/
+│     └─ mailer.ts
+├─ stores/
+│  ├─ auth.ts                     # Pinia stores
+│  ├─ ui.ts
+│  └─ settings.ts
+├─ types/
+│  ├─ api.ts
+│  ├─ models.ts
+│  └─ env.d.ts
+├─ utils/
+│  ├─ format.ts
+│  ├─ dom.ts
+│  └─ constants.ts
+├─ tests/
+│  ├─ unit/
+│  │  └─ format.test.ts
+│  └─ e2e/
+│     └─ smoke.spec.ts
+├─ .env.example
+├─ .eslintignore
+├─ .gitignore
+├─ .npmrc
+├─ eslint.config.js               # ESLint flat config (modern)
+├─ prettier.config.cjs
+├─ postcss.config.cjs
+├─ tailwind.config.ts
+├─ tsconfig.json
+├─ nuxt.config.ts
+└─ package.json

@@ -1,0 +1,133 @@
+{
+  // =========================
+  // Editor basics
+  // =========================
+  "editor.tabSize": 12,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.renderWhitespace": "selection",
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  // Speed + noise reduction
+  "editor.minimap.enabled": false,
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggestSelection": "first",
+  "editor.snippetSuggestions": "top",
+
+  // Useful for imports in TS/JS + Vue SFC
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+
+  // Let VS Code suggest paths inside strings (imports, src, etc.)
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
+  // =========================
+  // Formatting: Prettier
+  // =========================
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+
+  // Ensure Vue/TS/JS use Prettier
+  "[vue]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[scss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[html]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  // =========================
+  // ESLint: auto-fix on save
+  // =========================
+  // "eslint.enable": true,
+  // "eslint.validate": [
+  //   "javascript",
+  //   "javascriptreact",
+  //   "typescript",
+  //   "typescriptreact",
+  //   "vue"
+  // ],
+  // "eslint.format.enable": true,
+
+  // // Auto-fix + organize imports on save
+  // "editor.codeActionsOnSave": {
+  //   "source.fixAll.eslint": "explicit",
+  //   "source.organizeImports": "explicit"
+  // },
+
+  // // Prevent double-format conflicts (ESLint + Prettier)
+  // // Prettier formats; ESLint fixes code issues.
+  // "eslint.alwaysShowStatus": true,
+
+  // =========================
+  // Vue / Nuxt: Volar
+  // =========================
+  "vue.server.hybridMode": true,
+  "volar.takeOverMode.enabled": true,
+
+  // If you have Vetur installed, disable it for Vue 3 projects
+  "vetur.validation.template": false,
+  "vetur.validation.script": false,
+  "vetur.validation.style": false,
+
+  // =========================
+  // Tailwind CSS
+  // =========================
+  // Make Tailwind IntelliSense work in Vue templates
+  "tailwindCSS.includeLanguages": {
+    "vue": "html",
+    "vue-html": "html"
+  },
+
+  // Nuxt often uses class bindings; Tailwind extension can scan these
+  "tailwindCSS.experimental.classRegex": [
+    ["class:\\s*\"([^\"]+)\"", "([^\"\\s]+)"],
+    ["class:\\s*'([^']+)'", "([^'\\s]+)"],
+    ["classList\\(([^\\)]+)\\)", "['\"`]([^'\"`]+)['\"`]"],
+    ["cn\\(([^\\)]+)\\)", "['\"`]([^'\"`]+)['\"`]"]
+  ],
+
+  // Helps Tailwind IntelliSense detect config files in monorepos
+  "tailwindCSS.files.exclude": [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/.nuxt/**",
+    "**/.output/**",
+    "**/dist/**"
+  ],
+
+  // =========================
+  // Nuxt DX (optional niceties)
+  // =========================
+  "files.associations": {
+    "*.css": "css",
+    "*.postcss": "css"
+  },
+
+  // =========================
+  // Search / Explorer exclusions
+  // =========================
+  "files.exclude": {
+    "**/.nuxt": true,
+    "**/.output": true,
+    "**/dist": true
+  },
+  "search.exclude": {
+    "**/.nuxt": true,
+    "**/.output": true,
+    "**/dist": true,
+    "**/node_modules": true
+  }
+}
