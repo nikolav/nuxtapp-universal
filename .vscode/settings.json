@@ -2,7 +2,7 @@
   // =========================
   // Editor basics
   // =========================
-  "editor.tabSize": 12,
+  "editor.tabSize": 4,
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
   "editor.renderWhitespace": "selection",
@@ -115,19 +115,11 @@
     "*.css": "css",
     "*.postcss": "css"
   },
-
-  // =========================
-  // Search / Explorer exclusions
-  // =========================
-  "files.exclude": {
-    "**/.nuxt": true,
-    "**/.output": true,
-    "**/dist": true
-  },
   "search.exclude": {
     "**/.nuxt": true,
     "**/.output": true,
     "**/dist": true,
     "**/node_modules": true
-  }
+  },
+  "editor.wordWrap": "off"
 }

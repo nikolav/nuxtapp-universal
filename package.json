@@ -7,12 +7,38 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "tinker": "npx tsx tinker.ts "
   },
   "dependencies": {
+    "@nuxt/icon": "^2.2.0",
+    "@nuxt/image": "^2.0.0",
     "@nuxtjs/seo": "^3.3.0",
+    "@pinia/nuxt": "^0.11.3",
+    "@vueuse/nuxt": "^14.1.0",
+    "animate.css": "^4.1.1",
+    "cash-dom": "^8.1.5",
+    "dayjs": "^1.11.19",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.8",
     "nuxt": "^4.2.2",
+    "pinia": "^3.0.4",
+    "query-string": "^9.3.1",
+    "rxjs": "^7.8.2",
+    "tree-model": "^1.0.7",
+    "uuid": "^13.0.0",
+    "validator": "^13.15.26",
     "vue": "^3.5.26",
-    "vue-router": "^4.6.4"
+    "vue-router": "^4.6.4",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^25.0.3",
+    "@types/uuid": "^10.0.0",
+    "@types/validator": "^13.15.10",
+    "sass": "^1.97.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }
