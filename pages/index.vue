@@ -34,7 +34,7 @@ const updatex1 = () => {
 // @@eos
 </script>
 <template>
-  <section class="page--index">
+  <section class="page--index app-container-reset">
     <h2>index [{{ x1 }}]</h2>
     <h5>index [{{ y1 }}]</h5>
     <p>

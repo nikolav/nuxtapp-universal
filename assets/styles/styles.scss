@@ -1,0 +1,12 @@
+@use "./vars";
+@use "./globals";
+
+@use "./base";
+@use "./reset_baseline";
+@use "./scrollbars";
+@use "./reset_custom";
+
+@use "./tailwind";
+
+// @use "@fancyapps/ui/dist/fancybox/fancybox.css";
+// @import "animate.css";

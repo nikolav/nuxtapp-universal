@@ -37,6 +37,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxt/icon",
     "@nuxt/image",
+    "@nuxtjs/tailwindcss",
   ],
 
   // ---------------------------------------------------------------------------
@@ -137,6 +138,19 @@ export default defineNuxtConfig({
     },
   },
 
+  css: [
+    // main
+    "~/assets/styles/styles.scss",
+
+    // // vuetify
+    // "@mdi/font/css/materialdesignicons.css",
+    // "vuetify/lib/styles/main.sass",
+
+    // // quill
+    // "quill/dist/quill.core.css",
+    // "quill/dist/quill.snow.css",
+  ],
+
   // ---------------------------------------------------------------------------
   // Payload / hydration safety for static sites
   // ---------------------------------------------------------------------------
@@ -163,4 +177,16 @@ export default defineNuxtConfig({
   //   quality: 80,
   //   format: ["webp", "avif", "jpeg"],
   // },
+
+  tailwindcss: {
+    cssPath: "~/assets/tailwind.scss",
+    // configPath: "~/config/tailwind.config.ts",
+    // // # Import fully resolved config
+    // // # import tailwindConfig from '#tailwind-config'
+    // exposeConfig: true,
+    // // # Extend the Tailwind config
+    // // config: {},
+    // // injectPosition: 0,
+    // viewer: false,
+  },
 });

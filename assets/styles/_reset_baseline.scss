@@ -1,0 +1,156 @@
+/* ==========================================================================
+   CSS Reset + Sane Safe Defaults (Merged + Deduped)
+   Combines: "Vanilla App Baseline" + Piccalilli modern reset
+   ========================================================================== */
+
+/* 1) Predictable box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2) Remove default margins (common block elements) */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* 3) Core document defaults */
+html {
+  line-height: 1.5;
+
+  /* Prevent font size inflation on mobile */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  /* Typography rendering (safe, no layout risk) */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  /* Subtle readability tweaks (optional, but safe) */
+  letter-spacing: 0.0122rem;
+  word-spacing: 0.033rem;
+
+  /* Prevent layout breaks from long strings */
+  overflow-wrap: anywhere;
+
+  /* UX choice — smooth scroll */
+  scroll-behavior: smooth;
+
+  /* Optional: prevent layout shift when scrollbar toggles */
+  /* scrollbar-gutter: stable; */
+}
+
+/* If you only want smooth scroll for keyboard focus navigation, use this instead:
+html { scroll-behavior: auto; }
+html:focus-within { scroll-behavior: smooth; }
+*/
+
+/* Optional for full-height app shells */
+/*
+html,
+body {
+  height: 100%;
+}
+*/
+
+/* 4) Body defaults */
+body {
+  /* Optional: baseline for app layouts */
+  /* min-height: 100vh; */
+
+  /* Keep consistent line-height even if html is overridden elsewhere */
+  line-height: 1.5;
+
+  /* Prefer legibility over optimizeSpeed for typical apps */
+  text-rendering: optimizeLegibility;
+
+  /* Modern sans-serif stack */
+  font-family: Inter, "Open Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial,
+    sans-serif;
+}
+
+/* 5) Lists: remove styles only when author opts in via role */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+  padding: 0;
+}
+
+/* 6) Links without a class get a sensible default */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* 7) Text selection styling */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/* 8) Media elements behave predictably */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 9) Forms inherit typography (keep native control UX) */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* 10) Better default monospace stack */
+code,
+pre,
+kbd,
+samp {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 1em;
+}
+
+/* 11) Accessible focus styles */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* 12) Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
