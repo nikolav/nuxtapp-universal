@@ -37,6 +37,26 @@
     @apply isolate;
   }
 
+  .app-container-reset--inline {
+    /* keep it inline + sane sizing */
+    @apply inline align-baseline box-border min-w-0 min-h-0;
+
+    /* spacing reset */
+    @apply m-0 p-0;
+
+    /* visual reset */
+    @apply bg-transparent border-0 rounded-none shadow-none outline-none;
+
+    /* typography: inherit everything from parent */
+    // @apply font-inherit text-inherit leading-inherit tracking-normal normal-case whitespace-normal;
+
+    /* interaction */
+    @apply select-auto pointer-events-auto;
+
+    /* don’t create a stacking context by default (inline wrappers usually shouldn’t) */
+    @apply isolate;
+  }
+
   /**
    * Popup / Overlay container reset
    * Structural wrapper only — NO visual responsibility

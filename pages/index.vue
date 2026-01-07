@@ -1,9 +1,13 @@
 <script setup lang="ts">
-// ## imports (external first, then internal)
+// ## imports, 1.external, 2.internal
 // ## config:const
 // ## nuxt:core
 // ## props / emits / v-model / v-model helper
-// ## page-meta, pages only
+// ## page-meta, macros
+// defineOptions({
+//   name: "COMPONENT_NAME",
+//   inheritAttrs: false,
+// });
 // definePageMeta({
 //   layout: "default",
 //   // middleware: ["auth"],
@@ -34,21 +38,12 @@
 </script>
 
 <template>
-  <section class="app-container-reset component--NAME">
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus unde
-      ipsam voluptatibus laboriosam fugiat tempora ad. Aspernatur similique
-      deleniti, ratione vitae id voluptates voluptas enim reiciendis veritatis
-      tempore laudantium neque?
-    </p>
-  </section>
+  <section class="app-container-reset component--NAME"></section>
 </template>
 
 <!-- scoped component styles, default -->
 <style lang="scss" scoped></style>
-
 <!-- css modules, per-class hashing -->
 <style module></style>
-
 <!-- global styles, rare, prefer styles.scss -->
 <style lang="scss"></style>
