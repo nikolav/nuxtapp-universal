@@ -1,0 +1,100 @@
+const route = useRoute();
+
+const SITE_NAME = "Site name";
+const SITE_URL = "https://example.com";
+
+const title = "Page title – Site name";
+const description =
+  "Short, human-readable description (140–160 chars).";
+
+const canonicalUrl = `${SITE_URL}${route.path}`;
+
+useHead({
+  // ---------------------------------------------------------------------------
+  // Document title (fallback if useSeoMeta is not used)
+  // ---------------------------------------------------------------------------
+  title,
+
+  // ---------------------------------------------------------------------------
+  // <html> attributes
+  // ---------------------------------------------------------------------------
+  htmlAttrs: {
+    lang: "en",
+    class: "no-js", // can be replaced by JS on hydration if needed
+  },
+
+  // ---------------------------------------------------------------------------
+  // <body> attributes (layout / page context)
+  // ---------------------------------------------------------------------------
+  bodyAttrs: {
+    class: "page--marketing",
+  },
+
+  // ---------------------------------------------------------------------------
+  // <meta> tags (low-level + SEO hygiene)
+  // ---------------------------------------------------------------------------
+  meta: [
+    // Required basics
+    { charset: "utf-8" },
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1",
+    },
+
+    // SEO hygiene
+    { name: "description", content: description },
+    { name: "robots", content: "index, follow" },
+    { name: "referrer", content: "strict-origin-when-cross-origin" },
+
+    // PWA / mobile friendliness
+    { name: "theme-color", content: "#ffffff" },
+    { name: "format-detection", content: "telephone=no" },
+
+    // Open Graph (fallbacks – primary setup should live in useSeoMeta)
+    { property: "og:site_name", content: SITE_NAME },
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: canonicalUrl },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // <link> tags
+  // ---------------------------------------------------------------------------
+  link: [
+    // Canonical URL (VERY important)
+    {
+      rel: "canonical",
+      href: canonicalUrl,
+    },
+
+    // Icons
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "/favicon.png",
+    },
+
+    // Preconnect / performance hints (example)
+    // { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Structured data (JSON-LD)
+  // ---------------------------------------------------------------------------
+  script: [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        description,
+        url: canonicalUrl,
+        isPartOf: {
+          "@type": "WebSite",
+          name: SITE_NAME,
+          url: SITE_URL,
+        },
+      }),
+    },
+  ],
+});

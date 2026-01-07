@@ -1,0 +1,46 @@
+const route = useRoute();
+
+const SITE_NAME = "Site name";
+const SITE_URL = "https://example.com";
+
+const title = "Page title – Site name";
+const description = "Short, human-readable description (140–160 chars).";
+
+const ogImage = "/og/default.png"; // must be absolute or resolvable
+const canonicalUrl = `${SITE_URL}${route.path}`;
+
+useSeoMeta({
+  // ---------------------------------------------------------------------------
+  // Basic SEO
+  // ---------------------------------------------------------------------------
+  title,
+  description,
+
+  // Prevent accidental duplicate indexing
+  robots: "index, follow",
+
+  // ---------------------------------------------------------------------------
+  // Open Graph (Facebook, LinkedIn, Slack, etc.)
+  // ---------------------------------------------------------------------------
+  ogTitle: title,
+  ogDescription: description,
+  ogType: "website",
+  ogSiteName: SITE_NAME,
+  ogUrl: canonicalUrl,
+  ogImage,
+  ogImageAlt: title,
+
+  // Optional OG image metadata (helps some crawlers)
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+
+  // ---------------------------------------------------------------------------
+  // Twitter / X
+  // ---------------------------------------------------------------------------
+  twitterCard: "summary_large_image",
+  twitterTitle: title,
+  twitterDescription: description,
+  twitterImage: ogImage,
+  // twitterSite: "@site_handle",
+  // twitterCreator: "@author_handle",
+});
