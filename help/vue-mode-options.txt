@@ -1,0 +1,41 @@
+{
+  // identity
+  name,
+
+  // structure
+  components, directives,
+
+  // inputs / outputs
+  props, emits,
+
+  // state
+  data, computed, methods, watch,
+
+  // rendering
+  template, render,
+
+  // lifecycle
+  beforeCreate, created,
+  beforeMount, mounted,
+  beforeUpdate, updated,
+  beforeUnmount, unmounted,
+
+  // composition
+  setup,
+
+  // reuse
+  mixins, extends,
+
+  // DI
+  provide, inject,
+
+  // routing / meta
+  meta,
+  beforeRouteEnter,
+  beforeRouteUpdate,
+  beforeRouteLeave,
+
+  // errors / SSR
+  errorCaptured,
+  serverPrefetch
+}
