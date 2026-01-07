@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// ## imports, 1.external, 2.internal
+// ## imports, external, internal
 // ## config:const
 // ## nuxt:core
 // ## props / emits / v-model / v-model helper

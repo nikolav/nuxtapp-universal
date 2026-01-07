@@ -15,7 +15,8 @@ export default defineNuxtPlugin((_nuxtapp) => {
         isEmpty,
         transform,
         // local
-        // misc.
+        // core, misc.
+        copy: Object.assign.bind(Object),
         cloned: structuredClone.bind(null),
       },
     },

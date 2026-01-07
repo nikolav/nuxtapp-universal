@@ -1,28 +1,59 @@
 <script setup lang="ts">
-// ##imports
-// ##config:const
-// ##config ##props ##route ##attrs ##form-fields
-// ##schemas
-// ##utils
-// ##icons
-// ##refs ##flags ##models
-// ##data ##auth ##state
-// ##computed
-// ##forms ##handlers ##helpers ##small-utils
-// ##watch
-// ##hooks ##lifecycle
-// ##head ##meta
-// useHead({ title: "" });
-// ##provide
-// ##io
+// ## imports, external, internal
+// ## config:const
+// ## nuxt:core
+const nuxtapp = useNuxtApp();
+// ## props / emits / v-model / v-model helper
+// ## page-meta, macros
+// defineOptions({
+//   name: "COMPONENT_NAME",
+//   inheritAttrs: false,
+// });
+// definePageMeta({
+//   layout: "default",
+//   // middleware: ["auth"],
+//   "@page": {
+//     appBarTitle: "",
+//     htmlClass: "",
+//     bodyClass: "",
+//     appClass: "",
+//   },
+// });
+// ## attrs / slots
+// ## schemas / validation
+// ## icons
+// ## refs / flags / models
+// ## state, pinia, local
+// ## storage / cookies
+// ## async data
+// ## computed
+// ## helpers / utils
+// ## handlers
+// ## watch
+// ## hooks / lifecycle
+// init app-monted flag
+onMounted(() => {
+  nuxtapp.$_onDomMountedSubject?.next();
+  nuxtapp.$_onDomMountedSubject?.complete();
+});
+// ## head / meta
+// ## provide / expose
+// ## io, events, websockets
 
 // @@eos
 </script>
+
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <section class="app-container-reset app--root">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </section>
 </template>
+
+<!-- scoped component styles, default -->
 <style lang="scss" scoped></style>
+<!-- css modules, per-class hashing -->
 <style module></style>
+<!-- global styles, rare, prefer styles.scss -->
 <style lang="scss"></style>

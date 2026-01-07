@@ -203,7 +203,7 @@ export default defineNuxtConfig({
   // Tailwind module settings
   // ---------------------------------------------------------------------------
   tailwindcss: {
-    cssPath: "~/assets/tailwind.scss", // Your Tailwind entry file
+    cssPath: "~/assets/styles/tailwind.scss", // Your Tailwind entry file
     // configPath: "~/config/tailwind.config.ts",
     // exposeConfig: true, // expose resolved config at runtime
     viewer: false, // Tailwind viewer UI
@@ -214,7 +214,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   imports: {
     // autoImport: false, // disable Nuxt auto-imports (force explicit imports)
-    dirs: ["./keys"], // custom auto-import directories
+    // dirs: ["./keys"], // custom auto-import directories
     presets: FROM_PACKAGES_IMPORT, // extra auto-import presets
   },
 

@@ -2,7 +2,7 @@
   // =========================
   // Editor basics
   // =========================
-  "editor.tabSize": 4,
+  "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
   "editor.renderWhitespace": "selection",
@@ -12,7 +12,7 @@
   "files.trimFinalNewlines": true,
 
   // Speed + noise reduction
-  "editor.minimap.enabled": false,
+  "editor.minimap.enabled": true,
   "editor.inlineSuggest.enabled": true,
   "editor.suggestSelection": "first",
   "editor.snippetSuggestions": "top",
@@ -32,7 +32,7 @@
   // Formatting: Prettier
   // =========================
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.formatOnPaste": false,
 
   // Ensure Vue/TS/JS use Prettier
