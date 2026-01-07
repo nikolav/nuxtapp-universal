@@ -1,47 +1,110 @@
+import { FROM_PACKAGES_IMPORT } from "./config/from-packages-import";
+
+type TMeta = Record<string, string>[];
+
+// -----------------------------------------------------------------------------
+// Environment + derived constants
+// -----------------------------------------------------------------------------
 const isProd = process.env.NODE_ENV === "production";
 
-// Prefer a real domain in prod; allow localhost only in dev
+/**
+ * Used as the canonical site URL for SEO (sitemap, canonical tags, schema, etc.)
+ * - prod: NUXT_SITE_URL (fallback: https://inspera.rs)
+ * - dev:  NUXT_SITE_URL_DEV (fallback: http://localhost:3000)
+ */
 const siteUrl =
   (isProd ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
   (isProd ? "https://inspera.rs" : "http://localhost:3000");
 
+const meta: TMeta = [
+  { name: "description", content: "NuxtApp --nuxt.config" },
+  { name: "theme-color", content: "#fafafa" },
+  { name: "format-detection", content: "telephone=no" },
+];
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2025-07-15",
-  devtools: { enabled: true },
+  // ---------------------------------------------------------------------------
+  // Core / project defaults
+  // ---------------------------------------------------------------------------
+  compatibilityDate: "2025-07-15", // Pin Nitro/compat behavior for reproducible builds
+  devtools: { enabled: true }, // Nuxt DevTools UI in dev
 
+  // ---------------------------------------------------------------------------
+  // Rendering mode
+  // ---------------------------------------------------------------------------
+  ssr: true, // SSG still uses SSR at build-time; keep true for best SEO
+
+  // ---------------------------------------------------------------------------
+  // Modules (features)
+  // ---------------------------------------------------------------------------
+  modules: [
+    "@nuxtjs/seo", // SEO Kit: meta defaults, robots, sitemap, schema, ogImage, linkChecker
+    "@vueuse/nuxt", // VueUse auto-imports
+    "@pinia/nuxt", // Pinia store integration
+    "@nuxt/icon", // Icon component + icon sets
+    "@nuxt/image", // Image optimization
+    "@nuxtjs/tailwindcss", // Tailwind integration
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Runtime config
+  // - runtimeConfig.* is server-only (not exposed to client)
+  // - runtimeConfig.public.* is exposed to browser
+  // ---------------------------------------------------------------------------
   runtimeConfig: {
-    // 🔒 server/build
+    // 🔒 server/build secrets (never exposed to client)
     apiSecret: process.env.API_SECRET,
     dbPassword: process.env.DB_PASSWORD,
     webhookToken: process.env.WEBHOOK_TOKEN,
 
-    // 🌍 browser
+    // 🌍 client-safe values
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
     },
   },
 
   // ---------------------------------------------------------------------------
-  // Rendering
+  // App HTML defaults (global <head>)
   // ---------------------------------------------------------------------------
-  // SSG uses SSR at build time
-  ssr: true,
+  app: {
+    head: {
+      charset: "utf-8",
+      viewport:
+        "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
+      title: "⌛app:loading",
+      // titleTemplate: "%s | app:name",
+      meta,
+      link: [
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      ],
+      htmlAttrs: {
+        // lang: "sr",
+      },
+      bodyAttrs: {
+        // class: "dark:selection:bg-white/20 scrollbar-thin-light",
+      },
+    },
+  },
 
   // ---------------------------------------------------------------------------
-  // Modules
+  // Global CSS entrypoints
   // ---------------------------------------------------------------------------
-  modules: [
-    "@nuxtjs/seo",
-    "@vueuse/nuxt",
-    "@pinia/nuxt",
-    "@nuxt/icon",
-    "@nuxt/image",
-    "@nuxtjs/tailwindcss",
+  css: [
+    // main global styles
+    "~/assets/styles/styles.scss",
+
+    // "@mdi/font/css/materialdesignicons.css",
+    // "vuetify/lib/styles/main.sass",
+
+    // # vendor
+    // "quill/dist/quill.core.css",
+    // "quill/dist/quill.snow.css",
   ],
 
   // ---------------------------------------------------------------------------
-  // Site identity (SEO Kit source of truth)
+  // SEO Kit: site identity (single source of truth)
   // ---------------------------------------------------------------------------
   site: {
     url: siteUrl,
@@ -52,44 +115,23 @@ export default defineNuxtConfig({
     defaultLocale: "sr",
   },
 
-  // ---------------------------------------------------------------------------
-  // SEO utils (canonicals, defaults)
-  // ---------------------------------------------------------------------------
+  // Canonicals + default meta behavior
   seo: {
     automaticDefaults: true,
     canonicalQueryWhitelist: ["page", "sort", "filter", "search", "q", "query"],
   },
 
-  // ---------------------------------------------------------------------------
-  // Robots.txt
-  // ---------------------------------------------------------------------------
+  // robots.txt (block indexing in dev, allow in prod)
   robots: {
-    groups:
-      process.env.NODE_ENV === "production"
-        ? [
-            {
-              userAgent: ["*"],
-              allow: ["/"],
-            },
-          ]
-        : [
-            {
-              userAgent: ["*"],
-              disallow: ["/"],
-            },
-          ],
+    groups: isProd
+      ? [{ userAgent: ["*"], allow: ["/"] }]
+      : [{ userAgent: ["*"], disallow: ["/"] }],
   },
 
-  // ---------------------------------------------------------------------------
-  // Sitemap
-  // ---------------------------------------------------------------------------
-  sitemap: {
-    autoLastmod: true,
-  },
+  // sitemap.xml (auto lastmod if possible)
+  sitemap: { autoLastmod: true },
 
-  // ---------------------------------------------------------------------------
-  // Schema.org
-  // ---------------------------------------------------------------------------
+  // JSON-LD identity used by Schema.org module
   schemaOrg: {
     identity: {
       type: "Organization",
@@ -98,95 +140,90 @@ export default defineNuxtConfig({
     },
   },
 
-  // ---------------------------------------------------------------------------
-  // Open Graph images & link checking
-  // ---------------------------------------------------------------------------
-  ogImage: { enabled: true },
-  linkChecker: { enabled: true },
+  // Extra SEO tooling from SEO Kit
+  ogImage: { enabled: true }, // Auto-generate OG images (if supported/used)
+  linkChecker: { enabled: true }, // Check internal/external links during dev/build
 
   // ---------------------------------------------------------------------------
   // Static generation / Nitro
   // ---------------------------------------------------------------------------
   nitro: {
-    preset: "static",
+    preset: "static", // Output a fully static site (great for marketing sites)
 
-    // Explicit prerendering (recommended for marketing sites)
     prerender: {
-      routes: ["/", "/about"],
-
-      // Fail build if a prerendered route errors (SEO safety)
-      failOnError: true,
+      routes: ["/", "/about"], // Explicit pre-render list (add more as needed)
+      failOnError: true, // Fail build if a prerender route errors (SEO safety)
     },
 
-    // Public asset cache headers (CDN-friendly)
     routeRules: {
+      // Cache Nuxt build assets aggressively (CDN-friendly)
       "/_nuxt/**": {
-        headers: {
-          "cache-control": "public, max-age=31536000, immutable",
-        },
+        headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
     },
   },
 
   // ---------------------------------------------------------------------------
-  // App-level HTML defaults
-  // ---------------------------------------------------------------------------
-  app: {
-    head: {
-      htmlAttrs: { lang: "sr" },
-      meta: [{ name: "format-detection", content: "telephone=no" }],
-    },
-  },
-
-  css: [
-    // main
-    "~/assets/styles/styles.scss",
-
-    // // vuetify
-    // "@mdi/font/css/materialdesignicons.css",
-    // "vuetify/lib/styles/main.sass",
-
-    // // quill
-    // "quill/dist/quill.core.css",
-    // "quill/dist/quill.snow.css",
-  ],
-
-  // ---------------------------------------------------------------------------
-  // Payload / hydration safety for static sites
+  // Static payload / hydration safety (helps static sites)
   // ---------------------------------------------------------------------------
   experimental: {
     payloadExtraction: true,
   },
 
   // ---------------------------------------------------------------------------
-  // Build output hygiene
+  // Build tooling
   // ---------------------------------------------------------------------------
-  build: {},
-
-  // vite config
   vite: {
     build: {
-      sourcemap: process.env.NODE_ENV !== "production",
+      sourcemap: !isProd, // Sourcemaps in dev; reduce output in prod
     },
   },
 
-  // icon: {},
+  // ---------------------------------------------------------------------------
+  // Nuxt Image configuration
+  // ---------------------------------------------------------------------------
+  image: {
+    quality: 99, // Default image quality (override per-component when needed)
+    domains: [
+      // "domain.nikolav.rs",
+    ],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      "2xl": 1536,
+    },
+    // presets: { ... }
+  },
 
-  // image: {
-  //   // sensible defaults
-  //   quality: 80,
-  //   format: ["webp", "avif", "jpeg"],
-  // },
-
+  // ---------------------------------------------------------------------------
+  // Tailwind module settings
+  // ---------------------------------------------------------------------------
   tailwindcss: {
-    cssPath: "~/assets/tailwind.scss",
+    cssPath: "~/assets/tailwind.scss", // Your Tailwind entry file
     // configPath: "~/config/tailwind.config.ts",
-    // // # Import fully resolved config
-    // // # import tailwindConfig from '#tailwind-config'
-    // exposeConfig: true,
-    // // # Extend the Tailwind config
-    // // config: {},
-    // // injectPosition: 0,
-    // viewer: false,
+    // exposeConfig: true, // expose resolved config at runtime
+    viewer: false, // Tailwind viewer UI
+  },
+
+  // ---------------------------------------------------------------------------
+  // Auto-imports configuration
+  // ---------------------------------------------------------------------------
+  imports: {
+    // autoImport: false, // disable Nuxt auto-imports (force explicit imports)
+    dirs: ["./keys"], // custom auto-import directories
+    presets: FROM_PACKAGES_IMPORT, // extra auto-import presets
+  },
+
+  // ---------------------------------------------------------------------------
+  // Router defaults
+  // ---------------------------------------------------------------------------
+  router: {
+    options: {
+      scrollBehaviorType: "smooth", // Smooth scroll on navigation
+    },
   },
 });

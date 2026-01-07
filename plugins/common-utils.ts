@@ -9,10 +9,14 @@ export default defineNuxtPlugin((_nuxtapp) => {
       // prepends '$' to export names
       //   foo => $foo
       $: {
+        // lodash
         each,
         get,
         isEmpty,
         transform,
+        // local
+        // misc.
+        cloned: structuredClone.bind(null),
       },
     },
   };
