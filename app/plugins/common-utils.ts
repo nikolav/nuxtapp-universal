@@ -2,6 +2,9 @@ import each from "lodash/each";
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import transform from "lodash/transform";
+import set from "lodash/set";
+import unset from "lodash/unset";
+import hasPath from "lodash/has";
 
 import { onDebug } from "~/utils/on-debug";
 //
@@ -16,6 +19,9 @@ export default defineNuxtPlugin((_nuxtapp) => {
         get,
         isEmpty,
         transform,
+        set,
+        unset,
+        hasPath,
         // local
         onDebug,
         // core, misc.
