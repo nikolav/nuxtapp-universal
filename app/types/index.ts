@@ -11,4 +11,10 @@ export type THasId<T = any> = T & { id: any };
 export type TOrNoValue<T = any> = T | undefined | null;
 export type TMaybeEmptySubject = TOrNoValue<Subject<void>>;
 export type TMaybeAsync<T> = T | Observable<T> | Promise<T>;
+export interface IEventApp<TEventAppPayload = unknown> {
+  type: string;
+  payload: TEventAppPayload;
+}
+
+//
 export type { TRecordJson, TJson, TJsonLiteral };
