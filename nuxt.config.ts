@@ -1,4 +1,4 @@
-import { FROM_PACKAGES_IMPORT } from "./config/from-packages-import";
+import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 type TMeta = Record<string, string>[];
 
@@ -24,6 +24,21 @@ const meta: TMeta = [
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // $ nuxt build --envName staging
+  // $production: {
+  //   routeRules: {
+  //     "/**": { isr: true },
+  //   },
+  // },
+  // $development: {
+  //   //
+  // },
+  // $env: {
+  //   staging: {
+  //     //
+  //   },
+  // },
+
   // ---------------------------------------------------------------------------
   // Core / project defaults
   // ---------------------------------------------------------------------------
@@ -62,6 +77,9 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
     },
+
+    //
+    // app: {},
   },
 
   // ---------------------------------------------------------------------------
@@ -93,7 +111,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   css: [
     // main global styles
-    "~/assets/styles/styles.scss",
+    "./app/assets/styles/styles.scss",
 
     // "@mdi/font/css/materialdesignicons.css",
     // "vuetify/lib/styles/main.sass",
@@ -203,7 +221,7 @@ export default defineNuxtConfig({
   // Tailwind module settings
   // ---------------------------------------------------------------------------
   tailwindcss: {
-    cssPath: "~/assets/styles/tailwind.scss", // Your Tailwind entry file
+    cssPath: "./app/assets/styles/tailwind.scss", // Your Tailwind entry file
     // configPath: "~/config/tailwind.config.ts",
     // exposeConfig: true, // expose resolved config at runtime
     viewer: false, // Tailwind viewer UI

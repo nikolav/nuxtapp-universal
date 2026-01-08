@@ -1,4 +1,4 @@
-import { EMPTY, of, ReplaySubject, shareReplay, type Observable } from "rxjs";
+ import { EMPTY, of, ReplaySubject, shareReplay, type Observable } from "rxjs";
 import type { TMaybeEmptySubject } from "@/types";
 
 export default defineNuxtPlugin(() => {

@@ -13,25 +13,25 @@ export default {
   // Use project-root relative paths (avoid ../ unless this file is inside /config)
   content: [
     // Nuxt 3
-    "./app.vue",
-    "./error.vue",
-    "./app.config.{js,ts}",
-    "./nuxt.config.{js,ts}",
+    "./app/app.vue",
+    "./app/error.vue",
+    "./app/app.config.{js,ts}",
+    "./app/nuxt.config.{js,ts}",
 
-    "./pages/**/*.{vue,js,ts,jsx,tsx}",
-    "./layouts/**/*.{vue,js,ts,jsx,tsx}",
-    "./components/**/*.{vue,js,ts,jsx,tsx}",
-    "./composables/**/*.{js,ts}",
-    "./plugins/**/*.{js,ts}",
-    "./middleware/**/*.{js,ts}",
+    "./app/pages/**/*.{vue,js,ts,jsx,tsx}",
+    "./app/layouts/**/*.{vue,js,ts,jsx,tsx}",
+    "./app/components/**/*.{vue,js,ts,jsx,tsx}",
+    "./app/composables/**/*.{js,ts}",
+    "./app/plugins/**/*.{js,ts}",
+    "./app/middleware/**/*.{js,ts}",
 
     // Common Vue/Vite structure (harmless if folder doesn't exist)
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-    "./index.html",
+    "./app/src/**/*.{vue,js,ts,jsx,tsx}",
+    "./app/index.html",
 
     // Optional content sources (keep if you actually use them)
-    "./content/**/*.{md,mdx,html,vue}",
-    "./docs/**/*.{md,mdx,html}",
+    "./app/content/**/*.{md,mdx,html,vue}",
+    "./app/docs/**/*.{md,mdx,html}",
   ],
 
   // Keep empty unless you *need* dynamic class support
