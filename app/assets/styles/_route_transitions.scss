@@ -1,0 +1,16 @@
+.ROUTE_TRANSITION_BLUR-enter-active,
+.ROUTE_TRANSITION_BLUR-leave-active {
+  transition: all 0.24s ease-out;
+}
+
+.ROUTE_TRANSITION_BLUR-enter-from,
+.ROUTE_TRANSITION_BLUR-leave-to {
+  opacity: 0;
+  filter: blur(0.122rem);
+}
+
+.ROUTE_TRANSITION_BLUR-leave-active {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+}

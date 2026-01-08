@@ -9,6 +9,7 @@
 //   inheritAttrs: false,
 // });
 // definePageMeta({
+//   validate: (route) => {},
 //   layout: "default",
 //   // middleware: ["auth"],
 //   "@page": {
@@ -38,7 +39,14 @@
 </script>
 
 <template>
-  <section class="app-container-reset component--NAME"></section>
+  <section class="app-container-reset page--index">
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error dolorum
+      nisi voluptatum odit laudantium temporibus quisquam tempore ut, expedita
+      incidunt? At, quaerat dignissimos tempora assumenda blanditiis unde
+      officia. Quo, nihil!
+    </p>
+  </section>
 </template>
 
 <!-- scoped component styles, default -->

@@ -1,3 +1,4 @@
+import { NuxtLink } from "../../.nuxt/components";
 <script setup lang="ts">
 // ##imports
 // ##config:const
@@ -30,9 +31,9 @@
 </script>
 <template>
   <section>
-    <nuxt-link to="/">home</nuxt-link>
+    <NuxtLink :to="{ name: 'index' }">home</NuxtLink>
     <span> | </span>
-    <nuxt-link to="/about">about</nuxt-link>
+    <NuxtLink :to="{ name: 'about' }">about</NuxtLink>
   </section>
   <slot />
 </template>

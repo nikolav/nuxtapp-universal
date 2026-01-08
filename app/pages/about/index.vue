@@ -29,7 +29,7 @@ definePageMeta({
 // @@eos
 </script>
 <template>
-  <section class="page--about">
+  <section class="app-container-reset page--about">
     <h2>about</h2>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed quas aperiam
