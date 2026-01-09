@@ -4,12 +4,16 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 type TMeta = Record<string, string>[];
 
 // -----------------------------------------------------------------------------
-// Environment + derived constants
+// Env + derived constants
 // -----------------------------------------------------------------------------
 const isProd = process.env.NODE_ENV === "production";
 
 /**
- * Used as the canonical site URL for SEO (sitemap, canonical tags, schema, etc.)
+ * Canonical base URL (SEO: sitemap, canonical tags, schema, etc.)
+ * - Prod: NUXT_SITE_URL (fallback: https://demo.nikolav.rs)
+ * - Dev:  NUXT_SITE_URL_DEV (fallback: http://localhost:3000)
+ *
+ * Note: trimmed to avoid double slashes in generated URLs.
  */
 const siteUrl = trimEnd(
   (isProd ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
@@ -17,6 +21,10 @@ const siteUrl = trimEnd(
   "/"
 );
 
+/**
+ * Default meta tags applied globally (app.head.meta).
+ * Page-level useHead() can override/extend these.
+ */
 const meta: TMeta = [
   { name: "description", content: "NuxtApp --nuxt.config" },
   { name: "theme-color", content: "#fafafa" },
@@ -25,59 +33,42 @@ const meta: TMeta = [
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  // $ nuxt build --envName staging
-  // $production: {
-  //   routeRules: {
-  //     "/**": { isr: true },
-  //   },
-  // },
-  // $development: {
-  //   //
-  // },
-  // $env: {
-  //   staging: {
-  //     //
-  //   },
-  // },
-
   // ---------------------------------------------------------------------------
-  // Core / project defaults
+  // 1) Core Nuxt / project defaults
   // ---------------------------------------------------------------------------
   compatibilityDate: "2025-07-15", // Pin Nitro/compat behavior for reproducible builds
-  devtools: { enabled: true }, // Nuxt DevTools UI in dev
+  devtools: { enabled: true }, // Nuxt DevTools (dev-only UI)
+  ssr: true, // Keep SSR on for best SEO; still fine for SSG build-time rendering
+
+  // Example env-specific config blocks (Nuxt CLI envName support)
+  // $ nuxt build --envName staging
+  // $production: {
+  //   routeRules: { "/**": { isr: true } },
+  // },
+  // $development: {},
+  // $env: { staging: {} },
 
   // ---------------------------------------------------------------------------
-  // Rendering mode
-  // ---------------------------------------------------------------------------
-
-  // SSG still uses SSR at build-time; keep true for best SEO
-  ssr: true,
-
-  // routeRules: {},
-
-  // ---------------------------------------------------------------------------
-  // Modules (features)
+  // 2) Modules (feature plugins)
   // ---------------------------------------------------------------------------
   modules: [
-    // SEO Kit: meta defaults, robots, sitemap, schema, ogImage, linkChecker
-    // VueUse auto-imports
-    "@nuxtjs/seo", // Pinia store integration
-    "@vueuse/nuxt", // Icon component + icon sets
-    "@pinia/nuxt", // Image optimization
-    "@nuxt/icon", // Tailwind integration
-    "@nuxt/image",
-    "@nuxtjs/tailwindcss",
-    "nuxt-security",
-    "@nuxtjs/fontaine",
+    "@nuxtjs/seo", // SEO Kit: meta defaults, robots, sitemap, schema, ogImage, linkChecker
+    "@vueuse/nuxt", // VueUse composables auto-imports
+    "@pinia/nuxt", // Pinia store
+    "@nuxt/icon", // <Icon> component + icon sets
+    "@nuxt/image", // Image optimization
+    "@nuxtjs/tailwindcss", // Tailwind CSS integration
+    "nuxt-security", // Security headers, CSP, etc.
+    "@nuxtjs/fontaine", // Font fallback / layout-shift reduction
   ],
 
   // ---------------------------------------------------------------------------
-  // Runtime config
-  // - runtimeConfig.* is server-only (not exposed to client)
-  // - runtimeConfig.public.* is exposed to browser
+  // 3) Runtime config
+  // - runtimeConfig.*          => server-only
+  // - runtimeConfig.public.*   => exposed to the browser
   // ---------------------------------------------------------------------------
   runtimeConfig: {
-    // 🔒 server/build secrets (never exposed to client)
+    // 🔒 server-only secrets (never exposed to client)
     apiSecret: process.env.API_SECRET,
     dbPassword: process.env.DB_PASSWORD,
     webhookToken: process.env.WEBHOOK_TOKEN,
@@ -86,13 +77,10 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
     },
-
-    //
-    // app: {},
   },
 
   // ---------------------------------------------------------------------------
-  // App HTML defaults (global <head>)
+  // 4) App HTML defaults (global <head>, transitions)
   // ---------------------------------------------------------------------------
   app: {
     head: {
@@ -102,42 +90,42 @@ export default defineNuxtConfig({
       title: "⌛app:loading",
       // titleTemplate: "%s | app:name",
       meta,
+
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        // Preconnect is a small perf win if you actually load Google Fonts
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
       ],
-      htmlAttrs: {
-        lang: "en",
-      },
+
+      htmlAttrs: { lang: "en" },
       bodyAttrs: {
         // class: "dark:selection:bg-white/20 scrollbar-thin-light",
       },
     },
-    // transition pages
+
+    // Global transitions (optional, but centralized here)
     pageTransition: { name: "ROUTE_TRANSITION_BLUR", mode: "in-out" },
-    // transition layouts
     layoutTransition: { name: "ROUTE_TRANSITION_BLUR" },
   },
 
   // ---------------------------------------------------------------------------
-  // Global CSS entrypoints
+  // 5) Styles
   // ---------------------------------------------------------------------------
   css: [
-    // main global styles
-    "~/assets/styles/styles.scss",
-
+    "~/assets/styles/styles.scss", // main global styles
+    "animate.css", // vendor
     // "@mdi/font/css/materialdesignicons.css",
     // "vuetify/lib/styles/main.sass",
-
-    // # vendor
-    "animate.css",
     // "quill/dist/quill.core.css",
     // "quill/dist/quill.snow.css",
   ],
 
   // ---------------------------------------------------------------------------
-  // SEO Kit: site identity (single source of truth)
-  // ---------------------------------------------------------------------------
+  // 6) SEO single-source-of-truth (Nuxt SEO Kit)
+  // ----------------------------------------------------------------------------
+  // site: used by sitemap/schema/robots and other SEO-kit submodules
+  // seo:  canonical + defaults + social tags behavior
+  // ----------------------------------------------------------------------------
   site: {
     url: siteUrl,
     name: process.env.NUXT_SITE_NAME || "nikolav.rs",
@@ -145,16 +133,15 @@ export default defineNuxtConfig({
     defaultLocale: "sr",
   },
 
-  // Canonicals + default meta behavior
   seo: {
     automaticDefaults: true,
+    // Allow only these query params to appear in canonicals (avoid duplicate URLs)
     canonicalQueryWhitelist: ["page", "sort", "filter", "search", "q", "query"],
     meta: {
       robots:
         "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     },
-    // canonical: true,
-    redirectToCanonicalSiteUrl: true,
+    redirectToCanonicalSiteUrl: true, // enforce canonical host
     automaticOgAndTwitterTags: true,
   },
 
@@ -168,23 +155,14 @@ export default defineNuxtConfig({
 
   sitemap: {
     autoLastmod: true,
-    // siteUrl,
-    exclude: [
-      // "/admin/**",
-      // "/account/**",
-      // "/login",
-      // "/signup",
-      "/api/**",
-      "/_nuxt/**",
-    ],
+    exclude: ["/api/**", "/_nuxt/**"],
     defaults: {
       changefreq: "weekly",
       priority: 0.8,
-      // lastmod: new Date(),
     },
   },
 
-  // JSON-LD identity used by Schema.org module
+  // Schema.org identity (used by @nuxtjs/seo schemaOrg integration)
   schemaOrg: {
     identity: {
       type: "Organization",
@@ -193,47 +171,34 @@ export default defineNuxtConfig({
     },
   },
 
-  // Auto-generate OG images (if supported/used)
+  // OG image generation (if you use it)
   ogImage: {
     enabled: true,
-    // defaults: {
-    //   # Create: components/OgImage.vue
-    //   component: "OgImage",
-    // },
+    // defaults: { component: "OgImage" }, // components/OgImage.vue
   },
-  // Check internal/external links during dev/build
+
+  // Link checker (useful during build/prerender; don’t fail prod builds on flaky externals)
   linkChecker: {
     enabled: true,
-
-    // run only when building/prerendering
     runOnBuild: true,
+    failOnError: false,
     // runOnDev: false,
-
-    // SEO-critical checks only
     // checkExternalLinks: true,
     // checkInternalLinks: true,
-
-    // don’t fail prod builds on flaky externals
-    failOnError: false,
-
-    // ignore private / utility routes
     // exclude: ["/admin/**", "/account/**", "/login", "/api/**"],
   },
 
   // ---------------------------------------------------------------------------
-  // Static generation / Nitro
+  // 7) Nitro / SSG output (static preset + prerender)
   // ---------------------------------------------------------------------------
   nitro: {
-    preset: "static", // Output a fully static site (great for marketing sites)
-
+    preset: "static", // fully static output (marketing sites, docs, etc.)
     prerender: {
-      // @@
-      routes: ["/", "/about"], // Explicit pre-render list (add more as needed)
-      failOnError: true, // Fail build if a prerender route errors (SEO safety)
+      routes: ["/", "/about"], // explicit pre-render list
+      failOnError: true, // fail build on prerender errors (SEO safety)
     },
-
     routeRules: {
-      // Cache Nuxt build assets aggressively (CDN-friendly)
+      // Cache built assets aggressively (CDN-friendly)
       "/_nuxt/**": {
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
@@ -242,39 +207,39 @@ export default defineNuxtConfig({
     // storage: {
     //   redis: {
     //     driver: "redis",
-    //     /* redis connector options */
-    //     port: 6379, // Redis port
-    //     host: "127.0.0.1", // Redis host
-    //     username: "", // needs Redis >= 6
+    //     port: 6379,
+    //     host: "127.0.0.1",
+    //     username: "", // Redis >= 6
     //     password: "",
-    //     db: 0, // Defaults to 0
-    //     tls: {}, // tls/ssl
+    //     db: 0,
+    //     tls: {},
     //   },
     // },
   },
 
-  // ---------------------------------------------------------------------------
-  // Static payload / hydration safety (helps static sites)
-  // ---------------------------------------------------------------------------
+  // Helps static sites by extracting payloads (smaller HTML, safer hydration)
   experimental: {
     payloadExtraction: true,
   },
 
   // ---------------------------------------------------------------------------
-  // Build tooling
+  // 8) Build tooling (Vite)
   // ---------------------------------------------------------------------------
   vite: {
     build: {
-      sourcemap: !isProd, // Sourcemaps in dev; reduce output in prod
+      sourcemap: !isProd, // sourcemaps in dev, smaller output in prod
     },
   },
 
+  // Nuxt core sourcemap option (separate from Vite)
+  // "hidden" = upload to Sentry, but don't expose in devtools by default
+  sourcemap: { client: "hidden" },
+
   // ---------------------------------------------------------------------------
-  // Nuxt Image configuration
+  // 9) Nuxt Image
   // ---------------------------------------------------------------------------
   image: {
-    quality: 81, // Default image quality (override per-component when needed)
-    // # allow domain assets to optimize
+    quality: 81,
     domains: [
       // "domain.nikolav.rs",
     ],
@@ -285,105 +250,58 @@ export default defineNuxtConfig({
       xl: 1280,
       "2xl": 1536,
     },
-
     providers: {
-      // random: {
-      //   provider: "~/providers/random",
-      //   options: {},
-      // },
+      // custom providers here
     },
-
     presets: {
-      // avatar: {
-      //   modifiers: {
-      //     format: "jpg",
-      //     width: 50,
-      //     height: 50,
-      //   },
-      // },
-      // cover: {
-      //   modifiers: {
-      //     fit: "cover",
-      //     format: "jpg",
-      //     width: 300,
-      //     height: 300,
-      //   },
-      // },
+      // avatar: { modifiers: { format: "jpg", width: 50, height: 50 } },
+      // cover:  { modifiers: { fit: "cover", format: "jpg", width: 300, height: 300 } },
     },
-    // # default format
-    // format: ['webp'],
-    // # globally initialize $img helper
-    // inject: true,
-    // densities: [1, 2]
   },
 
   // ---------------------------------------------------------------------------
-  // Tailwind module settings
+  // 10) Tailwind module
   // ---------------------------------------------------------------------------
   tailwindcss: {
-    cssPath: "~/assets/styles/tailwind.scss", // Your Tailwind entry file
-    // configPath: "~/config/tailwind.config.ts",
-    // exposeConfig: true, // expose resolved config at runtime
-    viewer: false, // Tailwind viewer UI
+    cssPath: "~/assets/styles/tailwind.scss",
+    viewer: false,
   },
 
   // ---------------------------------------------------------------------------
-  // Auto-imports configuration
+  // 11) Auto-imports
   // ---------------------------------------------------------------------------
   imports: {
-    // disable Nuxt auto-imports (force explicit imports)
+    presets: FROM_PACKAGES_IMPORT, // your external preset list
+    scan: false, // do not scan the filesystem for auto-imports (explicit-by-default)
     // autoImport: false,
-    // dirs: ["./keys", "./config"], // custom auto-import directories
-    presets: FROM_PACKAGES_IMPORT, // extra auto-import presets
-    // allow imports for local code
-    // import only defaults
-    // components are handled in .components
-    scan: false,
+    // dirs: ["./keys", "./config"],
   },
 
-  // allow imports of local components ~/components
-  // still allows module components
+  // Components auto-import (left default; customize only if you want to restrict it)
   // components: [],
 
   // ---------------------------------------------------------------------------
-  // Router defaults
+  // 12) Router defaults
   // ---------------------------------------------------------------------------
   router: {
     options: {
-      scrollBehaviorType: "smooth", // Smooth scroll on navigation
+      scrollBehaviorType: "smooth",
     },
   },
 
-  // hooks: {
-  //   async "prerender:routes"(ctx) {
-  //     const { pages } = await fetch("https://api.some-cms.com/pages").then(
-  //       (res) => res.json()
-  //     );
-  //     for (const page of pages) {
-  //       ctx.routes.add(`/${page.name}`);
-  //     }
-  //   },
-  // },
-  // nitro: {
-  //   hooks: {
-  //     "prerender:generate"(route) {
-  //       if (route.route?.includes("private")) {
-  //         route.skip = true;
-  //       }
-  //     },
-  //   },
-  // },
+  // ---------------------------------------------------------------------------
+  // 13) Security headers (nuxt-security)
+  // ---------------------------------------------------------------------------
   security: {
-    // Keep it strict, but practical
     headers: {
-      // ✅ Safe defaults (SEO-friendly)
+      // Safe baseline headers (SEO-friendly)
       xContentTypeOptions: "nosniff",
       xFrameOptions: "SAMEORIGIN",
       referrerPolicy: "strict-origin-when-cross-origin",
       xDNSPrefetchControl: "off",
       xPermittedCrossDomainPolicies: "none",
 
-      // ✅ HSTS only in production (don’t enable on localhost)
+      // HSTS only in production (never on localhost)
       strictTransportSecurity: isProd
         ? {
             maxAge: 15552000, // ~180 days
@@ -393,23 +311,27 @@ export default defineNuxtConfig({
         : false,
 
       /**
-       * ✅ CSP: keep Nuxt Security defaults (good baseline)
-       * - Uses nonces for scripts in SSR
-       * - In SSG it can fall back to a <meta http-equiv> approach
-       *
-       * If you add 3rd-party scripts (GA, Stripe, etc.), you’ll need to extend
-       * connect-src / script-src / frame-src accordingly.
+       * CSP:
+       * - Nuxt Security provides a strong default baseline.
+       * - Extend only when you add 3rd-party scripts (GA, Stripe, embeds, etc.)
        */
       contentSecurityPolicy: {
-        // Start with a “safe + compatible” baseline:
-        // (Nuxt Security already sets a strong default CSP by default.)
-        // If you want to add domains, do it like this:
-        // Example additions (uncomment + edit if needed):
+        // Example additions:
         // "connect-src": ["'self'", "https://www.google-analytics.com"],
-        // "script-src": ["'self'", "https:", "'unsafe-inline'", "'strict-dynamic'", "'nonce-{{nonce}}'"],
         // "img-src": ["'self'", "data:", "https:"],
       },
     },
   },
-  sourcemap: { client: "hidden" },
+
+  // ---------------------------------------------------------------------------
+  // 14) Optional: hooks examples (kept at bottom to reduce noise)
+  // ---------------------------------------------------------------------------
+  // hooks: {
+  //   async "prerender:routes"(ctx) {
+  //     const { pages } = await fetch("https://api.some-cms.com/pages").then((res) =>
+  //       res.json()
+  //     );
+  //     for (const page of pages) ctx.routes.add(`/${page.name}`);
+  //   },
+  // },
 });
