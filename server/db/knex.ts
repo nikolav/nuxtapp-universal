@@ -1,4 +1,8 @@
 import Knex from "knex";
 import * as knexConfig from "./knexfile";
 
-export const knex = Knex(knexConfig.development);
+import "../config/dotenv.init";
+
+export const knex = process.env.DATABASE_INIT
+  ? Knex(knexConfig.development)
+  : null;

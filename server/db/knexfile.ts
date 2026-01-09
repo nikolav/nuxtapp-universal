@@ -1,11 +1,7 @@
 import path from "node:path";
-
-import dotenv from "dotenv";
 import { Knex } from "knex";
 
-dotenv.config({
-  path: path.join("../../.env"),
-});
+import "../config/dotenv.init";
 
 const CWD = process.cwd();
 
