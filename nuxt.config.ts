@@ -183,7 +183,7 @@ export default defineNuxtConfig({
 
     prerender: {
       // @@
-      routes: ["/", "/about", "/sentry-example-page"], // Explicit pre-render list (add more as needed)
+      routes: ["/", "/about"], // Explicit pre-render list (add more as needed)
       failOnError: true, // Fail build if a prerender route errors (SEO safety)
     },
 
