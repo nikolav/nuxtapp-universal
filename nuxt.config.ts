@@ -281,9 +281,7 @@ export default defineNuxtConfig({
 
   // allow imports of local components ~/components
   // still allows module components
-  components: {
-    dirs: [],
-  },
+  // components: [],
 
   // ---------------------------------------------------------------------------
   // Router defaults

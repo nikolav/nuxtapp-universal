@@ -1,8 +1,8 @@
 <script setup lang="ts">
 // ## imports, external, internal
-import { AppConfigsClient } from "#components";
 // ## config:const
 // ## nuxt:core
+const nuxtapp = useNuxtApp();
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
 // defineOptions({
@@ -31,7 +31,12 @@ import { AppConfigsClient } from "#components";
 // ## handlers
 // ## watch
 // ## hooks / lifecycle
-// init app-monted flag
+onMounted(() => {
+  nextTick(() => {
+    nuxtapp.$_onDomMountedSubject?.next();
+    nuxtapp.$_onDomMountedSubject?.complete();
+  });
+});
 // ## head / meta
 // ## provide / expose
 // ## io, events, websockets
@@ -40,16 +45,7 @@ import { AppConfigsClient } from "#components";
 </script>
 
 <template>
-  <section class="app-container-reset app--root">
-    <!-- routed pages -->
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-
-    <!-- mount @client to init client flags -->
-    <!-- only works with Nuxt auto-imports and #components imports -->
-    <AppConfigsClient />
-  </section>
+  <slot></slot>
 </template>
 
 <!-- scoped component styles, default -->
