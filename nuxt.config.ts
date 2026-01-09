@@ -66,8 +66,6 @@ export default defineNuxtConfig({
     "@nuxt/image", // Tailwind integration
     "@nuxtjs/tailwindcss",
     "nuxt-security",
-    // black box flight recorder for nuxt
-    "@sentry/nuxt/module",
   ],
 
   // ---------------------------------------------------------------------------
@@ -355,12 +353,6 @@ export default defineNuxtConfig({
         // "img-src": ["'self'", "data:", "https:"],
       },
     },
-  },
-  // #
-  sentry: {
-    org: "nikolav",
-    project: "javascript-nuxt",
-    authToken: process.env.SENTRY_AUTH_TOKEN,
   },
   sourcemap: { client: "hidden" },
 });
