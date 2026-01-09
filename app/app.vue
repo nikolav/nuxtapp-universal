@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // ## imports, external, internal
-import { AppConfigsClient } from "#components";
 // ## config:const
 // ## nuxt:core
 // ## props / emits / v-model / v-model helper

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+// import { fontFamily } from "tailwindcss/defaultTheme";
 
 // import twTypography from "@tailwindcss/typography";
 // import twAspectRatio from "@tailwindcss/aspect-ratio";
@@ -18,15 +19,15 @@ export default {
     "./app/app.config.{js,ts}",
     "./app/nuxt.config.{js,ts}",
 
-    "./app/pages/**/*.{vue,js,ts,jsx,tsx}",
-    "./app/layouts/**/*.{vue,js,ts,jsx,tsx}",
-    "./app/components/**/*.{vue,js,ts,jsx,tsx}",
+    "./app/pages/**/*.{vue,js,ts,jsx,tsx,mjs}",
+    "./app/layouts/**/*.{vue,js,ts,jsx,tsx,mjs}",
+    "./app/components/**/*.{vue,js,ts,jsx,tsx,mjs}",
     "./app/composables/**/*.{js,ts}",
     "./app/plugins/**/*.{js,ts}",
     "./app/middleware/**/*.{js,ts}",
 
     // Common Vue/Vite structure (harmless if folder doesn't exist)
-    "./app/src/**/*.{vue,js,ts,jsx,tsx}",
+    "./app/src/**/*.{vue,js,ts,jsx,tsx,mjs}",
     "./app/index.html",
 
     // Optional content sources (keep if you actually use them)
@@ -78,6 +79,9 @@ export default {
       // containers: {
       //   "2xs": "16rem",
       // },
+      fontFamily: {
+        // roboto: ["Roboto", "Roboto fallback", ...fontFamily.sans],
+      },
     },
   },
 

@@ -1,3 +1,4 @@
+import trimEnd from "lodash/trimEnd";
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 type TMeta = Record<string, string>[];
@@ -10,9 +11,11 @@ const isProd = process.env.NODE_ENV === "production";
 /**
  * Used as the canonical site URL for SEO (sitemap, canonical tags, schema, etc.)
  */
-const siteUrl =
+const siteUrl = trimEnd(
   (isProd ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
-  (isProd ? "https://demo.nikolav.rs" : "http://localhost:3000");
+    (isProd ? "https://demo.nikolav.rs" : "http://localhost:3000"),
+  "/"
+);
 
 const meta: TMeta = [
   { name: "description", content: "NuxtApp --nuxt.config" },
@@ -57,13 +60,15 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   modules: [
     // SEO Kit: meta defaults, robots, sitemap, schema, ogImage, linkChecker
-    "@nuxtjs/seo", // VueUse auto-imports
-    "@vueuse/nuxt", // Pinia store integration
-    "@pinia/nuxt", // Icon component + icon sets
-    "@nuxt/icon", // Image optimization
-    "@nuxt/image", // Tailwind integration
+    // VueUse auto-imports
+    "@nuxtjs/seo", // Pinia store integration
+    "@vueuse/nuxt", // Icon component + icon sets
+    "@pinia/nuxt", // Image optimization
+    "@nuxt/icon", // Tailwind integration
+    "@nuxt/image",
     "@nuxtjs/tailwindcss",
     "nuxt-security",
+    "@nuxtjs/fontaine",
   ],
 
   // ---------------------------------------------------------------------------
@@ -102,7 +107,7 @@ export default defineNuxtConfig({
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
       ],
       htmlAttrs: {
-        // lang: "sr",
+        lang: "en",
       },
       bodyAttrs: {
         // class: "dark:selection:bg-white/20 scrollbar-thin-light",
@@ -136,9 +141,7 @@ export default defineNuxtConfig({
   site: {
     url: siteUrl,
     name: process.env.NUXT_SITE_NAME || "nikolav.rs",
-    description:
-      process.env.NUXT_SITE_DESCRIPTION ||
-      "Psihološko savetovalište i psihoterapija u Beogradu.",
+    description: process.env.NUXT_SITE_DESCRIPTION || "DESCRIPTION HERE",
     defaultLocale: "sr",
   },
 
@@ -146,6 +149,13 @@ export default defineNuxtConfig({
   seo: {
     automaticDefaults: true,
     canonicalQueryWhitelist: ["page", "sort", "filter", "search", "q", "query"],
+    meta: {
+      robots:
+        "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    },
+    // canonical: true,
+    redirectToCanonicalSiteUrl: true,
+    automaticOgAndTwitterTags: true,
   },
 
   // robots.txt (block indexing in dev, allow in prod)
@@ -153,10 +163,26 @@ export default defineNuxtConfig({
     groups: isProd
       ? [{ userAgent: ["*"], allow: ["/"] }]
       : [{ userAgent: ["*"], disallow: ["/"] }],
+    sitemap: `${siteUrl}/sitemap.xml`,
   },
 
-  // sitemap.xml (auto lastmod if possible)
-  sitemap: { autoLastmod: true },
+  sitemap: {
+    autoLastmod: true,
+    // siteUrl,
+    exclude: [
+      // "/admin/**",
+      // "/account/**",
+      // "/login",
+      // "/signup",
+      "/api/**",
+      "/_nuxt/**",
+    ],
+    defaults: {
+      changefreq: "weekly",
+      priority: 0.8,
+      // lastmod: new Date(),
+    },
+  },
 
   // JSON-LD identity used by Schema.org module
   schemaOrg: {
@@ -167,9 +193,32 @@ export default defineNuxtConfig({
     },
   },
 
-  // Extra SEO tooling from SEO Kit
-  ogImage: { enabled: true }, // Auto-generate OG images (if supported/used)
-  linkChecker: { enabled: true }, // Check internal/external links during dev/build
+  // Auto-generate OG images (if supported/used)
+  ogImage: {
+    enabled: true,
+    // defaults: {
+    //   # Create: components/OgImage.vue
+    //   component: "OgImage",
+    // },
+  },
+  // Check internal/external links during dev/build
+  linkChecker: {
+    enabled: true,
+
+    // run only when building/prerendering
+    runOnBuild: true,
+    // runOnDev: false,
+
+    // SEO-critical checks only
+    // checkExternalLinks: true,
+    // checkInternalLinks: true,
+
+    // don’t fail prod builds on flaky externals
+    failOnError: false,
+
+    // ignore private / utility routes
+    // exclude: ["/admin/**", "/account/**", "/login", "/api/**"],
+  },
 
   // ---------------------------------------------------------------------------
   // Static generation / Nitro
@@ -189,6 +238,19 @@ export default defineNuxtConfig({
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
     },
+
+    // storage: {
+    //   redis: {
+    //     driver: "redis",
+    //     /* redis connector options */
+    //     port: 6379, // Redis port
+    //     host: "127.0.0.1", // Redis host
+    //     username: "", // needs Redis >= 6
+    //     password: "",
+    //     db: 0, // Defaults to 0
+    //     tls: {}, // tls/ssl
+    //   },
+    // },
   },
 
   // ---------------------------------------------------------------------------
@@ -322,14 +384,13 @@ export default defineNuxtConfig({
       xPermittedCrossDomainPolicies: "none",
 
       // ✅ HSTS only in production (don’t enable on localhost)
-      strictTransportSecurity:
-        process.env.NODE_ENV === "production"
-          ? {
-              maxAge: 15552000, // ~180 days
-              includeSubdomains: true,
-              preload: false, // enable only if you're sure
-            }
-          : false,
+      strictTransportSecurity: isProd
+        ? {
+            maxAge: 15552000, // ~180 days
+            includeSubdomains: true,
+            preload: false, // enable only if you're sure
+          }
+        : false,
 
       /**
        * ✅ CSP: keep Nuxt Security defaults (good baseline)

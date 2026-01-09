@@ -132,9 +132,7 @@ export default defineNuxtConfig({
   site: {
     url: siteUrl,
     name: process.env.NUXT_SITE_NAME || "nikola.rs",
-    description:
-      process.env.NUXT_SITE_DESCRIPTION ||
-      "Psihološko savetovalište i psihoterapija u Beogradu.",
+    description: process.env.NUXT_SITE_DESCRIPTION || "DESCRIPTION HERE",
     defaultLocale: "sr",
   },
 
