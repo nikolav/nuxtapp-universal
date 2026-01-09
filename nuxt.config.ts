@@ -26,9 +26,10 @@ const siteUrl = trimEnd(
  * Page-level useHead() can override/extend these.
  */
 const meta: TMeta = [
-  { name: "description", content: "NuxtApp --nuxt.config" },
+  { name: "description", content: "NuxtApp --starter" },
   { name: "theme-color", content: "#fafafa" },
   { name: "format-detection", content: "telephone=no" },
+  { name: "robots", content: "index, follow" },
 ];
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -204,17 +205,24 @@ export default defineNuxtConfig({
       },
     },
 
-    // storage: {
-    //   redis: {
-    //     driver: "redis",
-    //     port: 6379,
-    //     host: "127.0.0.1",
-    //     username: "", // Redis >= 6
-    //     password: "",
-    //     db: 0,
-    //     tls: {},
-    //   },
-    // },
+    storage: {
+      redis: {
+        driver: "redis",
+        url: process.env.NUXT_REDIS_URL,
+        //
+        // port: 6379,
+        // host: "",
+        // username: "", // Redis >= 6
+        // password: "",
+        // db: 0,
+        // tls: {},
+        //
+        // lazyConnect: true,
+        // connectTimeout: 5000,
+        // maxRetriesPerRequest: 2,
+        // enableOfflineQueue: true,
+      },
+    },
   },
 
   // Helps static sites by extracting payloads (smaller HTML, safer hydration)
@@ -334,4 +342,28 @@ export default defineNuxtConfig({
   //     for (const page of pages) ctx.routes.add(`/${page.name}`);
   //   },
   // },
+  icon: {
+    provider: "none",
+    size: "1em",
+    class: "inline-block align-middle",
+    // mode: "svg",
+    customCollections: [
+      {
+        prefix: "local",
+        dir: "./app/assets/icons-local",
+        normalizeIconName: false,
+      },
+    ],
+    clientBundle: {
+      scan: true,
+      includeCustomCollections: true,
+      sizeLimitKb: 256,
+      icons: ["local:logo-nikolav"],
+    },
+    // scan all components in the project and include icons
+
+    // include all custom collections in the client bundle
+
+    // guard for uncompressed bundle size, will fail the build if exceeds
+  },
 });

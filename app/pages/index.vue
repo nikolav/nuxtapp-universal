@@ -46,6 +46,9 @@
       incidunt? At, quaerat dignissimos tempora assumenda blanditiis unde
       officia. Quo, nihil!
     </p>
+    <div>
+      <IconsIconX icon="local:logo-nikolav" />
+    </div>
   </section>
 </template>
 

@@ -5,6 +5,7 @@ import transform from "lodash/transform";
 import set from "lodash/set";
 import unset from "lodash/unset";
 import hasPath from "lodash/has";
+import isString from "lodash/isString";
 
 import { onDebug } from "~/utils/on-debug";
 //
@@ -22,6 +23,7 @@ export default defineNuxtPlugin((_nuxtapp) => {
         set,
         unset,
         hasPath,
+        isString,
         // local
         onDebug,
         // core, misc.
