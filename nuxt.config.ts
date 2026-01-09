@@ -69,10 +69,10 @@ export default defineNuxtConfig({
   // - runtimeConfig.public.*   => exposed to the browser
   // ---------------------------------------------------------------------------
   runtimeConfig: {
-    // 🔒 server-only secrets (never exposed to client)
-    apiSecret: process.env.API_SECRET,
-    dbPassword: process.env.DB_PASSWORD,
-    webhookToken: process.env.WEBHOOK_TOKEN,
+    // server-only secrets (never exposed to client)
+    databaseInit: Boolean(process.env.NUXT_DATABASE_INIT),
+    databaseUrl: process.env.NUXT_DATABASE_URL,
+    databaseCa: process.env.NUXT_DATABASE_CA,
 
     // 🌍 client-safe values
     public: {
@@ -241,6 +241,11 @@ export default defineNuxtConfig({
     },
   },
 
+  // Build settings (keep minimal)
+  build: {
+    transpile: [],
+  },
+
   // Nuxt core sourcemap option (separate from Vite)
   // "hidden" = upload to Sentry, but don't expose in devtools by default
   sourcemap: { client: "hidden" },
@@ -345,7 +350,9 @@ export default defineNuxtConfig({
   //   },
   // },
   icon: {
+    // disable icon fetching, client bundle only
     provider: "none",
+    componentName: "NuxtIcon",
     size: "1em",
     class: "inline-block align-middle",
     // mode: "svg",

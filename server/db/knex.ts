@@ -1,8 +1,6 @@
 import Knex from "knex";
 import * as knexConfig from "./knexfile";
 
-import "../config/dotenv.init";
+const config = useRuntimeConfig();
 
-export const knex = process.env.NUXT_DATABASE_INIT
-  ? Knex(knexConfig.development)
-  : null;
+export const knex = config.databaseInit ? Knex(knexConfig.development) : null;

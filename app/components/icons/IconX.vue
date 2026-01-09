@@ -14,7 +14,7 @@ const isRenderFN = computed(() => !$$.isString(props.icon));
 </script>
 <template>
   <component v-if="isRenderFN" :is="props.icon" v-bind="$attrs" />
-  <Icon v-else :name="props.icon" v-bind="$attrs" />
+  <NuxtIcon v-else :name="props.icon" v-bind="$attrs" />
 </template>
 <style lang="scss" scoped></style>
 <style lang="scss"></style>

@@ -1,16 +1,15 @@
 import path from "node:path";
 import { Knex } from "knex";
 
-import "../config/dotenv.init";
-
 const CWD = process.cwd();
+const config = useRuntimeConfig();
 
 export const development: Knex.Config = {
   client: "pg",
   connection: {
-    connectionString: process.env.DATABASE_URL,
+    connectionString: config.databaseUrl,
     ssl: {
-      ca: process.env.DATABASE_CA,
+      ca: config.databaseCa,
       rejectUnauthorized: true,
     },
   },
