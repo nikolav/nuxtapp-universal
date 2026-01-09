@@ -52,16 +52,22 @@ export default defineNuxtConfig({
   // SSG still uses SSR at build-time; keep true for best SEO
   ssr: true,
 
+  // routeRules: {},
+
   // ---------------------------------------------------------------------------
   // Modules (features)
   // ---------------------------------------------------------------------------
   modules: [
-    "@nuxtjs/seo", // SEO Kit: meta defaults, robots, sitemap, schema, ogImage, linkChecker
-    "@vueuse/nuxt", // VueUse auto-imports
-    "@pinia/nuxt", // Pinia store integration
-    "@nuxt/icon", // Icon component + icon sets
-    "@nuxt/image", // Image optimization
-    "@nuxtjs/tailwindcss", // Tailwind integration
+    // SEO Kit: meta defaults, robots, sitemap, schema, ogImage, linkChecker
+    "@nuxtjs/seo", // VueUse auto-imports
+    "@vueuse/nuxt", // Pinia store integration
+    "@pinia/nuxt", // Icon component + icon sets
+    "@nuxt/icon", // Image optimization
+    "@nuxt/image", // Tailwind integration
+    "@nuxtjs/tailwindcss",
+    "nuxt-security",
+    // black box flight recorder for nuxt
+    "@sentry/nuxt/module",
   ],
 
   // ---------------------------------------------------------------------------
@@ -176,7 +182,8 @@ export default defineNuxtConfig({
     preset: "static", // Output a fully static site (great for marketing sites)
 
     prerender: {
-      routes: ["/", "/about"], // Explicit pre-render list (add more as needed)
+      // @@
+      routes: ["/", "/about", "/sentry_example_page"], // Explicit pre-render list (add more as needed)
       failOnError: true, // Fail build if a prerender route errors (SEO safety)
     },
 
@@ -208,20 +215,48 @@ export default defineNuxtConfig({
   // Nuxt Image configuration
   // ---------------------------------------------------------------------------
   image: {
-    quality: 99, // Default image quality (override per-component when needed)
+    quality: 81, // Default image quality (override per-component when needed)
+    // # allow domain assets to optimize
     domains: [
       // "domain.nikolav.rs",
     ],
     screens: {
-      xs: 320,
       sm: 640,
       md: 768,
       lg: 1024,
       xl: 1280,
-      xxl: 1536,
       "2xl": 1536,
     },
-    // presets: { ... }
+
+    providers: {
+      // random: {
+      //   provider: "~/providers/random",
+      //   options: {},
+      // },
+    },
+
+    presets: {
+      // avatar: {
+      //   modifiers: {
+      //     format: "jpg",
+      //     width: 50,
+      //     height: 50,
+      //   },
+      // },
+      // cover: {
+      //   modifiers: {
+      //     fit: "cover",
+      //     format: "jpg",
+      //     width: 300,
+      //     height: 300,
+      //   },
+      // },
+    },
+    // # default format
+    // format: ['webp'],
+    // # globally initialize $img helper
+    // inject: true,
+    // densities: [1, 2]
   },
 
   // ---------------------------------------------------------------------------
@@ -238,9 +273,20 @@ export default defineNuxtConfig({
   // Auto-imports configuration
   // ---------------------------------------------------------------------------
   imports: {
-    // autoImport: false, // disable Nuxt auto-imports (force explicit imports)
+    // disable Nuxt auto-imports (force explicit imports)
+    // autoImport: false,
     // dirs: ["./keys", "./config"], // custom auto-import directories
     presets: FROM_PACKAGES_IMPORT, // extra auto-import presets
+    // allow imports for local code
+    // import only defaults
+    // components are handled in .components
+    scan: false,
+  },
+
+  // allow imports of local components ~/components
+  // still allows module components
+  components: {
+    dirs: [],
   },
 
   // ---------------------------------------------------------------------------
@@ -271,31 +317,50 @@ export default defineNuxtConfig({
   //     },
   //   },
   // },
+  security: {
+    // Keep it strict, but practical
+    headers: {
+      // ✅ Safe defaults (SEO-friendly)
+      xContentTypeOptions: "nosniff",
+      xFrameOptions: "SAMEORIGIN",
+      referrerPolicy: "strict-origin-when-cross-origin",
+      xDNSPrefetchControl: "off",
+      xPermittedCrossDomainPolicies: "none",
+
+      // ✅ HSTS only in production (don’t enable on localhost)
+      strictTransportSecurity:
+        process.env.NODE_ENV === "production"
+          ? {
+              maxAge: 15552000, // ~180 days
+              includeSubdomains: true,
+              preload: false, // enable only if you're sure
+            }
+          : false,
+
+      /**
+       * ✅ CSP: keep Nuxt Security defaults (good baseline)
+       * - Uses nonces for scripts in SSR
+       * - In SSG it can fall back to a <meta http-equiv> approach
+       *
+       * If you add 3rd-party scripts (GA, Stripe, etc.), you’ll need to extend
+       * connect-src / script-src / frame-src accordingly.
+       */
+      contentSecurityPolicy: {
+        // Start with a “safe + compatible” baseline:
+        // (Nuxt Security already sets a strong default CSP by default.)
+        // If you want to add domains, do it like this:
+        // Example additions (uncomment + edit if needed):
+        // "connect-src": ["'self'", "https://www.google-analytics.com"],
+        // "script-src": ["'self'", "https:", "'unsafe-inline'", "'strict-dynamic'", "'nonce-{{nonce}}'"],
+        // "img-src": ["'self'", "data:", "https:"],
+      },
+    },
+  },
+  // #
+  sentry: {
+    org: "your-org-slug",
+    project: "your-project-slug",
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+  },
+  sourcemap: { client: "hidden" },
 });
-
-// // minimal nuxt-config to eable SSR
-// export default defineNuxtConfig({
-//   ssr: true,
-
-//   app: {
-//     head: {
-//       charset: "utf-8",
-//       viewport: "width=device-width, initial-scale=1",
-//       title: "Nuxt SSR App",
-//     },
-//   },
-
-//   nitro: {
-//     // good default for VPS/Docker/Node runtime
-//     preset: "node-server",
-
-//     // optional: cache static build assets aggressively
-//     routeRules: {
-//       "/_nuxt/**": {
-//         headers: {
-//           "cache-control": "public, max-age=31536000, immutable",
-//         },
-//       },
-//     },
-//   },
-// });
