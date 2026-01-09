@@ -9,12 +9,10 @@ const isProd = process.env.NODE_ENV === "production";
 
 /**
  * Used as the canonical site URL for SEO (sitemap, canonical tags, schema, etc.)
- * - prod: NUXT_SITE_URL (fallback: https://inspera.rs)
- * - dev:  NUXT_SITE_URL_DEV (fallback: http://localhost:3000)
  */
 const siteUrl =
   (isProd ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
-  (isProd ? "https://inspera.rs" : "http://localhost:3000");
+  (isProd ? "https://nikolav.rs" : "http://localhost:3000");
 
 const meta: TMeta = [
   { name: "description", content: "NuxtApp --nuxt.config" },
@@ -102,7 +100,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   site: {
     url: siteUrl,
-    name: process.env.NUXT_SITE_NAME || "Centar Inspera",
+    name: process.env.NUXT_SITE_NAME || "nikola.rs",
     description:
       process.env.NUXT_SITE_DESCRIPTION ||
       "Psihološko savetovalište i psihoterapija u Beogradu.",
@@ -127,7 +125,7 @@ export default defineNuxtConfig({
   schemaOrg: {
     identity: {
       type: "Organization",
-      name: process.env.NUXT_SITE_NAME || "Centar Inspera",
+      name: process.env.NUXT_SITE_NAME || "nikola.rs",
       url: siteUrl,
     },
   },
