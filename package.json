@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "tinker": "npx tsx tinker.ts "
+    "tinker": "npx tsx tinker.ts ",
+    "knex": "tsx ./node_modules/knex/bin/cli.js --knexfile ./server/db/knexfile.ts"
   },
   "dependencies": {
     "@nuxt/icon": "^2.2.0",
@@ -21,10 +22,14 @@
     "animate.css": "^4.1.1",
     "cash-dom": "^8.1.5",
     "dayjs": "^1.11.19",
+    "dotenv": "^17.2.3",
+    "knex": "^3.1.0",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "nuxt": "^4.2.2",
     "nuxt-security": "^2.5.0",
+    "objection": "^3.1.5",
+    "pg": "^8.16.3",
     "pinia": "^3.0.4",
     "query-string": "^9.3.1",
     "rxjs": "^7.8.2",

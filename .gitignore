@@ -86,6 +86,8 @@ coverage/
 # =============================================================================
 .history/
 tinker.ts
+tinker.js
 
 # Sentry Config File
 .env.sentry-build-plugin
+ca_igdnhgauckc.pem
