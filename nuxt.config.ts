@@ -183,7 +183,7 @@ export default defineNuxtConfig({
 
     prerender: {
       // @@
-      routes: ["/", "/about", "/sentry_example_page"], // Explicit pre-render list (add more as needed)
+      routes: ["/", "/about", "/sentry-example-page"], // Explicit pre-render list (add more as needed)
       failOnError: true, // Fail build if a prerender route errors (SEO safety)
     },
 
@@ -358,8 +358,8 @@ export default defineNuxtConfig({
   },
   // #
   sentry: {
-    org: "your-org-slug",
-    project: "your-project-slug",
+    org: "nikolav",
+    project: "javascript-nuxt",
     authToken: process.env.SENTRY_AUTH_TOKEN,
   },
   sourcemap: { client: "hidden" },

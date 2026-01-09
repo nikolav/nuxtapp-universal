@@ -86,3 +86,6 @@ coverage/
 # =============================================================================
 .history/
 tinker.ts
+
+# Sentry Config File
+.env.sentry-build-plugin
