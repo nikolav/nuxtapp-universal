@@ -1,4 +1,6 @@
-exports.up = async function (knex) {
+import type { Knex } from "knex";
+
+export async function up(knex: Knex): Promise<void> {
   // Enable UUID generator (safe if already enabled)
   await knex.raw('CREATE EXTENSION IF NOT EXISTS "pgcrypto"');
 
@@ -20,8 +22,8 @@ exports.up = async function (knex) {
       .notNullable()
       .defaultTo(knex.raw("timezone('utc', now())"));
   });
-};
+}
 
-exports.down = async function (knex) {
+export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTableIfExists("main");
-};
+}
