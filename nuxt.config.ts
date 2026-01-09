@@ -208,7 +208,9 @@ export default defineNuxtConfig({
     storage: {
       redis: {
         driver: "redis",
-        url: process.env.NUXT_REDIS_URL,
+        url: process.env.NUXT_DATABASE_INIT
+          ? process.env.NUXT_REDIS_URL
+          : undefined,
         //
         // port: 6379,
         // host: "",
