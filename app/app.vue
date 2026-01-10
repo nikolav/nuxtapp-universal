@@ -2,6 +2,7 @@
 // ## imports, external, internal
 // ## config:const
 // ## nuxt:core
+const nuxtApp = useNuxtApp();
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
 // defineOptions({
@@ -30,6 +31,11 @@
 // ## handlers
 // ## watch
 // ## hooks / lifecycle
+onNuxtReady(() => {
+  // .onNuxtReady only runs on the client-side
+  nuxtApp.$_onDomMountedSubject?.next();
+  nuxtApp.$_onDomMountedSubject?.complete();
+});
 // init app-monted flag
 // ## head / meta
 // ## provide / expose
@@ -44,10 +50,6 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-
-    <!-- mount @client to init client flags -->
-    <!-- only works with Nuxt auto-imports and #components imports -->
-    <AppConfigsClient />
   </section>
 </template>
 

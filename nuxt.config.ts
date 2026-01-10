@@ -41,6 +41,18 @@ export default defineNuxtConfig({
   devtools: { enabled: true }, // Nuxt DevTools (dev-only UI)
   ssr: true, // Keep SSR on for best SEO; still fine for SSG build-time rendering
 
+  // routeRules: {
+  //   // Generated at build time for SEO purpose
+  //   "/": { prerender: true },
+  //   // Cached for 1 hour
+  //   "/api/*": { cache: { maxAge: 60 * 60 } },
+  //   // Redirection to avoid 404
+  //   "/old-page": {
+  //     redirect: { to: "/new-page", statusCode: 302 },
+  //   },
+  //   // ...
+  // },
+
   // Example env-specific config blocks (Nuxt CLI envName support)
   // $ nuxt build --envName staging
   // $production: {
@@ -193,7 +205,9 @@ export default defineNuxtConfig({
   // 7) Nitro / SSG output (static preset + prerender)
   // ---------------------------------------------------------------------------
   nitro: {
-    preset: "static", // fully static output (marketing sites, docs, etc.)
+    // # fully static output (marketing sites, docs, etc.)
+    // preset: "static",
+    preset: "node-server",
     prerender: {
       routes: ["/", "/about"], // explicit pre-render list
       failOnError: true, // fail build on prerender errors (SEO safety)
@@ -204,6 +218,9 @@ export default defineNuxtConfig({
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
     },
+
+    // optional: compress static assets served by Nitro
+    compressPublicAssets: true,
 
     storage: {
       redis: {
@@ -369,10 +386,5 @@ export default defineNuxtConfig({
       sizeLimitKb: 256,
       icons: ["local:logo-nikolav"],
     },
-    // scan all components in the project and include icons
-
-    // include all custom collections in the client bundle
-
-    // guard for uncompressed bundle size, will fail the build if exceeds
   },
 });

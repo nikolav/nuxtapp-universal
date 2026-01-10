@@ -2,7 +2,6 @@
 // ## imports, external, internal
 // ## config:const
 // ## nuxt:core
-const nuxtapp = useNuxtApp();
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
 // defineOptions({
@@ -31,12 +30,6 @@ const nuxtapp = useNuxtApp();
 // ## handlers
 // ## watch
 // ## hooks / lifecycle
-onMounted(() => {
-  nextTick(() => {
-    nuxtapp.$_onDomMountedSubject?.next();
-    nuxtapp.$_onDomMountedSubject?.complete();
-  });
-});
 // ## head / meta
 // ## provide / expose
 // ## io, events, websockets
