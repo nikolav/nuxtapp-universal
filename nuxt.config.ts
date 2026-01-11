@@ -1,4 +1,6 @@
 import trimEnd from "lodash/trimEnd";
+import parseBoolean from "@eturino/ts-parse-boolean";
+
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 type TMeta = Record<string, string>[];
@@ -29,7 +31,6 @@ const meta: TMeta = [
   { name: "description", content: "NuxtApp --starter" },
   { name: "theme-color", content: "#fafafa" },
   { name: "format-detection", content: "telephone=no" },
-  { name: "robots", content: "index, follow" },
 ];
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -38,7 +39,7 @@ export default defineNuxtConfig({
   // 1) Core Nuxt / project defaults
   // ---------------------------------------------------------------------------
   compatibilityDate: "2025-07-15", // Pin Nitro/compat behavior for reproducible builds
-  devtools: { enabled: true }, // Nuxt DevTools (dev-only UI)
+  devtools: { enabled: !isProd }, // Nuxt DevTools (dev-only UI)
   ssr: true, // Keep SSR on for best SEO; still fine for SSG build-time rendering
 
   // routeRules: {
@@ -82,7 +83,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   runtimeConfig: {
     // server-only secrets (never exposed to client)
-    databaseInit: Boolean(process.env.NUXT_DATABASE_INIT),
+    databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
     databaseUrl: process.env.NUXT_DATABASE_URL,
     databaseCa: process.env.NUXT_DATABASE_CA,
 
@@ -100,14 +101,15 @@ export default defineNuxtConfig({
       charset: "utf-8",
       viewport:
         "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
-      title: "⌛app:loading",
-      // titleTemplate: "%s | app:name",
+      title: "nikolav.rs",
+      titleTemplate: "%s | nikolav.rs",
+
       meta,
 
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         // Preconnect is a small perf win if you actually load Google Fonts
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        // { rel: "preconnect", href: "https://fonts.googleapis.com" },
       ],
 
       htmlAttrs: { lang: "en" },
@@ -154,7 +156,7 @@ export default defineNuxtConfig({
       robots:
         "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     },
-    redirectToCanonicalSiteUrl: true, // enforce canonical host
+    redirectToCanonicalSiteUrl: isProd,
     automaticOgAndTwitterTags: true,
   },
 
@@ -178,9 +180,9 @@ export default defineNuxtConfig({
   // Schema.org identity (used by @nuxtjs/seo schemaOrg integration)
   schemaOrg: {
     identity: {
+      url: siteUrl,
       type: "Organization",
       name: process.env.NUXT_SITE_NAME || "nikolav.rs",
-      url: process.env.NUXT_SITE_URL || "https://demo.nikolav.rs",
     },
   },
 
@@ -208,8 +210,12 @@ export default defineNuxtConfig({
     // # fully static output (marketing sites, docs, etc.)
     // preset: "static",
     preset: "node-server",
+    // explicit pre-render list
     prerender: {
-      routes: ["/", "/about"], // explicit pre-render list
+      routes: [
+        "/",
+        // "/about",
+      ],
       failOnError: true, // fail build on prerender errors (SEO safety)
     },
     routeRules: {
@@ -225,7 +231,7 @@ export default defineNuxtConfig({
     storage: {
       redis: {
         driver: "redis",
-        url: process.env.NUXT_DATABASE_INIT
+        url: parseBoolean(process.env.NUXT_REDIS_INIT)
           ? process.env.NUXT_REDIS_URL
           : undefined,
         //
@@ -254,7 +260,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   vite: {
     build: {
-      sourcemap: !isProd, // sourcemaps in dev, smaller output in prod
+      // sourcemap: !isProd, // sourcemaps in dev, smaller output in prod
     },
   },
 

@@ -6,6 +6,7 @@ import set from "lodash/set";
 import unset from "lodash/unset";
 import hasPath from "lodash/has";
 import isString from "lodash/isString";
+import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { onDebug } from "~/utils/on-debug";
 //
@@ -29,6 +30,8 @@ export default defineNuxtPlugin((_nuxtapp) => {
         // core, misc.
         copy: Object.assign.bind(Object),
         cloned: structuredClone.bind(null),
+        // 3rd party
+        parseBoolean,
       },
     },
   };
