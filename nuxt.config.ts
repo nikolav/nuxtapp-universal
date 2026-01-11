@@ -95,7 +95,8 @@ export default defineNuxtConfig({
   css: [
     "~/assets/styles/styles.scss",
     "animate.css",
-    "@mdi/font/css/materialdesignicons.css",
+    // # using mdi-svg svg icons, skip importing fotn defionitions
+    // "@mdi/font/css/materialdesignicons.css",
     "vuetify/styles",
   ],
 
