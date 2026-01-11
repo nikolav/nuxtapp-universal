@@ -1,14 +1,16 @@
-import each from "lodash/each";
 import get from "lodash/get";
-import isEmpty from "lodash/isEmpty";
-import transform from "lodash/transform";
 import set from "lodash/set";
-import unset from "lodash/unset";
 import hasPath from "lodash/has";
+import unset from "lodash/unset";
+import each from "lodash/each";
+import transform from "lodash/transform";
+import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
+
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { onDebug } from "~/utils/on-debug";
+import { coreHasOwn } from "~/utils/core-has-own";
 //
 export default defineNuxtPlugin((_nuxtapp) => {
   return {
@@ -27,6 +29,7 @@ export default defineNuxtPlugin((_nuxtapp) => {
         isString,
         // local
         onDebug,
+        hasOwn: coreHasOwn,
         // core, misc.
         copy: Object.assign.bind(Object),
         cloned: structuredClone.bind(null),
