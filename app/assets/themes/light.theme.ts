@@ -1,7 +1,8 @@
 import { type ThemeDefinition } from "vuetify";
 // import colorsVuetify from "vuetify/util/colors";
 import chroma from "chroma-js";
-import { THEME_ACCENT_SHIFT } from "~/config";
+
+const THEME_ACCENT_SHIFT = Number(process.env.NUXT_THEME_ACCENT_SHIFT);
 
 // const primary = "#3b6891";
 export const primary = "#184c9f";

@@ -5,7 +5,7 @@ import {
 import { md2 } from "vuetify/blueprints";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import { light, dark } from "~/assets/themes";
-import { SSR } from "~/config";
+
 // import {
 //   IconAccountKey,
 // } from "@/components/icons";
@@ -34,7 +34,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.vueApp.use(
     createVuetify({
-      ssr: SSR,
+      ssr: useRuntimeConfig().public.ssr,
       blueprint: md2,
 
       // @useDisplay composable configuration options
