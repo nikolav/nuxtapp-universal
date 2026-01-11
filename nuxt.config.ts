@@ -4,11 +4,11 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 type TMeta = Record<string, string>[];
 
-const isProd = process.env.NODE_ENV === "production";
+const PRODUCTION = "production" === process.env.NODE_ENV;
 
 const siteUrl = trimEnd(
-  (isProd ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
-    (isProd ? "https://demo.nikolav.rs" : "http://localhost:3000"),
+  (PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
+    (PRODUCTION ? "https://demo.nikolav.rs" : "http://localhost:3000"),
   "/"
 );
 
@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   compatibilityDate: "2025-07-15",
   ssr: true,
-  devtools: { enabled: !isProd },
+  devtools: { enabled: !PRODUCTION },
 
   // ---------------------------------------------------------------------------
   // Modules
@@ -95,12 +95,12 @@ export default defineNuxtConfig({
       robots:
         "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     },
-    redirectToCanonicalSiteUrl: isProd,
+    redirectToCanonicalSiteUrl: PRODUCTION,
     automaticOgAndTwitterTags: true,
   },
 
   robots: {
-    groups: isProd
+    groups: PRODUCTION
       ? [{ userAgent: ["*"], allow: ["/"] }]
       : [{ userAgent: ["*"], disallow: ["/"] }],
     sitemap: `${siteUrl}/sitemap.xml`,
@@ -120,7 +120,7 @@ export default defineNuxtConfig({
     },
   },
 
-  ogImage: { enabled: true },
+  ogImage: { enabled: PRODUCTION },
 
   linkChecker: {
     enabled: true,
@@ -165,7 +165,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   vite: {
     esbuild: {
-      drop: isProd ? ["console", "debugger"] : [],
+      drop: PRODUCTION ? ["console", "debugger"] : [],
     },
   },
 
@@ -209,7 +209,7 @@ export default defineNuxtConfig({
       referrerPolicy: "strict-origin-when-cross-origin",
       xDNSPrefetchControl: "off",
       xPermittedCrossDomainPolicies: "none",
-      strictTransportSecurity: isProd
+      strictTransportSecurity: PRODUCTION
         ? { maxAge: 15552000, includeSubdomains: true, preload: false }
         : false,
       contentSecurityPolicy: {},
