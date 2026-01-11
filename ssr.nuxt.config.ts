@@ -1,36 +1,30 @@
+import trimEnd from "lodash/trimEnd";
+import parseBoolean from "@eturino/ts-parse-boolean";
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 type TMeta = Record<string, string>[];
 
-// -----------------------------------------------------------------------------
-// Environment + derived constants
-// -----------------------------------------------------------------------------
 const isProd = process.env.NODE_ENV === "production";
 
-/**
- * Canonical site URL for SEO (sitemap, canonical tags, schema, etc.)
- */
-const siteUrl =
+const siteUrl = trimEnd(
   (isProd ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
-  (isProd ? "https://demo.nikolav.rs" : "http://localhost:3000");
+    (isProd ? "https://demo.nikolav.rs" : "http://localhost:3000"),
+  "/"
+);
 
 const meta: TMeta = [
-  { name: "description", content: "NuxtApp --nuxt.config" },
+  { name: "description", content: "NuxtApp --starter" },
   { name: "theme-color", content: "#fafafa" },
   { name: "format-detection", content: "telephone=no" },
 ];
 
 export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
-  // Core / project defaults
+  // Core
   // ---------------------------------------------------------------------------
   compatibilityDate: "2025-07-15",
-  devtools: { enabled: !isProd },
-
-  // ---------------------------------------------------------------------------
-  // Rendering mode
-  // ---------------------------------------------------------------------------
   ssr: true,
+  devtools: { enabled: !isProd },
 
   // ---------------------------------------------------------------------------
   // Modules
@@ -42,53 +36,60 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "@nuxtjs/tailwindcss",
+    "nuxt-security",
+    "@nuxtjs/fontaine",
   ],
 
   // ---------------------------------------------------------------------------
   // Runtime config
   // ---------------------------------------------------------------------------
   runtimeConfig: {
-    // server-only secrets
-    apiSecret: process.env.API_SECRET,
-    dbPassword: process.env.DB_PASSWORD,
-    webhookToken: process.env.WEBHOOK_TOKEN,
-
-    // browser-exposed
+    databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
+    databaseUrl: process.env.NUXT_DATABASE_URL,
+    databaseCa: process.env.NUXT_DATABASE_CA,
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE,
       siteUrl,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
     },
   },
 
   // ---------------------------------------------------------------------------
-  // App <head>
+  // App / head
   // ---------------------------------------------------------------------------
   app: {
     head: {
+      htmlAttrs: { lang: "en" },
       charset: "utf-8",
       viewport:
         "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
-      title: "⌛app:loading",
+      title: "nikolav.rs",
+      titleTemplate: "%s | nikolav.rs",
       meta,
-      link: [
-        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      script: [
+        {
+          innerHTML:
+            '(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f)})(window,document,"script","dataLayer","GTM-TX2J3DWP");',
+        },
       ],
-      htmlAttrs: {
-        // lang: "sr",
-      },
+      noscript: [
+        {
+          innerHTML:
+            '<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TX2J3DWP" height="0" width="0" style="display:none;visibility:hidden"></iframe>',
+        },
+      ],
     },
     pageTransition: { name: "ROUTE_TRANSITION_BLUR", mode: "in-out" },
     layoutTransition: { name: "ROUTE_TRANSITION_BLUR" },
   },
 
   // ---------------------------------------------------------------------------
-  // Global CSS
+  // Styling
   // ---------------------------------------------------------------------------
   css: ["~/assets/styles/styles.scss", "animate.css"],
 
   // ---------------------------------------------------------------------------
-  // SEO Kit (site identity)
+  // SEO Kit (single source of truth)
   // ---------------------------------------------------------------------------
   site: {
     url: siteUrl,
@@ -100,106 +101,148 @@ export default defineNuxtConfig({
   seo: {
     automaticDefaults: true,
     canonicalQueryWhitelist: ["page", "sort", "filter", "search", "q", "query"],
+    meta: {
+      robots:
+        "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    },
+    redirectToCanonicalSiteUrl: isProd,
+    automaticOgAndTwitterTags: true,
   },
 
   robots: {
     groups: isProd
       ? [{ userAgent: ["*"], allow: ["/"] }]
       : [{ userAgent: ["*"], disallow: ["/"] }],
+    sitemap: `${siteUrl}/sitemap.xml`,
   },
 
-  sitemap: { autoLastmod: true },
+  sitemap: {
+    autoLastmod: true,
+    exclude: ["/api/**", "/_nuxt/**"],
+    defaults: { changefreq: "weekly", priority: 0.8 },
+  },
 
   schemaOrg: {
     identity: {
+      url: siteUrl,
       type: "Organization",
       name: process.env.NUXT_SITE_NAME || "nikolav.rs",
-      url: siteUrl,
     },
   },
 
   ogImage: { enabled: true },
-  linkChecker: { enabled: !isProd }, // usually keep off in prod builds
+
+  linkChecker: {
+    enabled: true,
+    runOnBuild: true,
+    failOnError: false,
+  },
 
   // ---------------------------------------------------------------------------
-  // Nitro (SSR server runtime)
+  // Nitro (SSR server) + caching + storage
   // ---------------------------------------------------------------------------
   nitro: {
-    // ✅ SSR server output (VPS/Docker/Node runtime)
     preset: "node-server",
-
-    // optional: compress static assets served by Nitro
     compressPublicAssets: true,
 
+    prerender: {
+      routes: ["/"],
+      failOnError: true,
+    },
+
     routeRules: {
-      // Cache Nuxt build assets aggressively (CDN-friendly)
       "/_nuxt/**": {
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
+    },
 
-      // If you have truly static files under /public
-      "/favicon.ico": {
-        headers: { "cache-control": "public, max-age=86400" },
+    storage: {
+      redis: {
+        driver: "redis",
+        url: parseBoolean(process.env.NUXT_REDIS_INIT)
+          ? process.env.NUXT_REDIS_URL
+          : undefined,
       },
-
-      // --- OPTIONAL patterns ---
-      // Example: enable ISR (stale-while-revalidate) for marketing pages:
-      // "/": { isr: 60 },
-      // "/about": { isr: 3600 },
-
-      // Example: avoid caching for auth/user pages:
-      // "/account/**": { headers: { "cache-control": "no-store" } },
     },
   },
 
+  experimental: {
+    payloadExtraction: true,
+  },
+
   // ---------------------------------------------------------------------------
-  // Build tooling
+  // Tooling
   // ---------------------------------------------------------------------------
   vite: {
-    build: {
-      sourcemap: !isProd,
+    esbuild: {
+      drop: isProd ? ["console", "debugger"] : [],
     },
   },
 
+  sourcemap: { client: "hidden" },
+
   // ---------------------------------------------------------------------------
-  // Nuxt Image
+  // Modules config
   // ---------------------------------------------------------------------------
   image: {
-    quality: 99,
+    quality: 81,
     domains: [],
     screens: {
-      xs: 320,
       sm: 640,
       md: 768,
       lg: 1024,
       xl: 1280,
-      xxl: 1536,
       "2xl": 1536,
     },
+    providers: {},
+    presets: {},
   },
 
-  // ---------------------------------------------------------------------------
-  // Tailwind
-  // NOTE: align cssPath with your actual folder structure (/app/assets/...)
-  // ---------------------------------------------------------------------------
   tailwindcss: {
     cssPath: "~/assets/styles/tailwind.scss",
     viewer: false,
   },
 
-  // ---------------------------------------------------------------------------
-  // Auto-imports
-  // ---------------------------------------------------------------------------
   imports: {
     presets: FROM_PACKAGES_IMPORT,
+    scan: false,
   },
 
-  // ---------------------------------------------------------------------------
-  // Router defaults
-  // ---------------------------------------------------------------------------
   router: {
-    options: {
-      scrollBehaviorType: "smooth",
+    options: { scrollBehaviorType: "smooth" },
+  },
+
+  security: {
+    headers: {
+      xContentTypeOptions: "nosniff",
+      xFrameOptions: "SAMEORIGIN",
+      referrerPolicy: "strict-origin-when-cross-origin",
+      xDNSPrefetchControl: "off",
+      xPermittedCrossDomainPolicies: "none",
+      strictTransportSecurity: isProd
+        ? { maxAge: 15552000, includeSubdomains: true, preload: false }
+        : false,
+      contentSecurityPolicy: {},
+    },
+  },
+
+  icon: {
+    provider: "none",
+    componentName: "NuxtIcon",
+    size: "1em",
+    class: "inline-block align-middle",
+    customCollections: [
+      {
+        prefix: "local",
+        dir: "./app/assets/icons-local",
+        normalizeIconName: false,
+      },
+    ],
+    clientBundle: {
+      scan: true,
+      includeCustomCollections: true,
+      sizeLimitKb: 256,
+      icons: ["local:logo-nikolav"],
     },
   },
 });
