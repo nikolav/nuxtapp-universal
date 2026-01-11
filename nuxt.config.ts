@@ -66,14 +66,16 @@ export default defineNuxtConfig({
   // 2) Modules (feature plugins)
   // ---------------------------------------------------------------------------
   modules: [
-    "@nuxtjs/seo", // SEO Kit: meta defaults, robots, sitemap, schema, ogImage, linkChecker
-    "@vueuse/nuxt", // VueUse composables auto-imports
-    "@pinia/nuxt", // Pinia store
-    "@nuxt/icon", // <Icon> component + icon sets
-    "@nuxt/image", // Image optimization
-    "@nuxtjs/tailwindcss", // Tailwind CSS integration
-    "nuxt-security", // Security headers, CSP, etc.
-    "@nuxtjs/fontaine", // Font fallback / layout-shift reduction
+    // SEO Kit: meta defaults, robots, sitemap, schema, ogImage, linkChecker
+    "@nuxtjs/seo", // VueUse composables auto-imports
+    "@vueuse/nuxt", // Pinia store
+    "@pinia/nuxt", // <Icon> component + icon sets
+    "@nuxt/icon", // Image optimization
+    "@nuxt/image", // Tailwind CSS integration
+    "@nuxtjs/tailwindcss", // Security headers, CSP, etc.
+    "nuxt-security", // Font fallback / layout-shift reduction
+    "@nuxtjs/fontaine",
+    "nuxt-gtag",
   ],
 
   // ---------------------------------------------------------------------------
@@ -90,6 +92,7 @@ export default defineNuxtConfig({
     // 🌍 client-safe values
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
     },
   },
 
@@ -392,5 +395,8 @@ export default defineNuxtConfig({
       sizeLimitKb: 256,
       icons: ["local:logo-nikolav"],
     },
+  },
+  gtag: {
+    enabled: isProd,
   },
 });
