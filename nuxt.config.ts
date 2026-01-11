@@ -212,7 +212,7 @@ export default defineNuxtConfig({
       strictTransportSecurity: PRODUCTION
         ? { maxAge: 15552000, includeSubdomains: true, preload: false }
         : false,
-      contentSecurityPolicy: {},
+      contentSecurityPolicy: PRODUCTION ? {} : false,
     },
   },
 
@@ -235,6 +235,7 @@ export default defineNuxtConfig({
       icons: ["local:logo-nikolav"],
     },
   },
+
   gtag: {
     enabled: false,
   },
