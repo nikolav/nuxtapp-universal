@@ -1,6 +1,8 @@
+import vitePluginVuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
+import { SSR } from "./app/config";
 
 type TMeta = Record<string, string>[];
 
@@ -23,7 +25,7 @@ export default defineNuxtConfig({
   // Core
   // ---------------------------------------------------------------------------
   compatibilityDate: "2025-07-15",
-  ssr: true,
+  ssr: SSR,
   devtools: { enabled: !PRODUCTION },
 
   // ---------------------------------------------------------------------------
@@ -39,6 +41,19 @@ export default defineNuxtConfig({
     "nuxt-security",
     "@nuxtjs/fontaine",
     "nuxt-gtag",
+    async (_options, nuxt) => {
+      nuxt.hooks.hook("vite:extendConfig", (config) => {
+        // @ts-expect-error
+        config.plugins.push(
+          vitePluginVuetify({
+            autoImport: true,
+            styles: {
+              configFile: "assets/styles/vuetify/settings.scss",
+            },
+          })
+        );
+      });
+    },
   ],
 
   // ---------------------------------------------------------------------------
@@ -76,7 +91,12 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   // Styling
   // ---------------------------------------------------------------------------
-  css: ["~/assets/styles/styles.scss", "animate.css"],
+  css: [
+    "~/assets/styles/styles.scss",
+    "animate.css",
+    "@mdi/font/css/materialdesignicons.css",
+    "vuetify/styles",
+  ],
 
   // ---------------------------------------------------------------------------
   // SEO Kit (single source of truth)
@@ -167,9 +187,31 @@ export default defineNuxtConfig({
     esbuild: {
       drop: PRODUCTION ? ["console", "debugger"] : [],
     },
+
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
+
+    // global scss injection for all preprocessed .scss files
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData:
+            '@use "~/assets/styles/preprocessor-defaults-overrides.scss" as *;',
+        },
+      },
+    },
+
+    ssr: { noExternal: ["vuetify"] },
   },
 
   sourcemap: { client: "hidden" },
+
+  build: {
+    transpile: ["vuetify"],
+  },
 
   // ---------------------------------------------------------------------------
   // Modules config

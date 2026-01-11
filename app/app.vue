@@ -45,12 +45,12 @@ onNuxtReady(() => {
 </script>
 
 <template>
-  <section class="app-container-reset app--root">
+  <VApp class="*app-container-reset app--root">
     <!-- routed pages -->
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </section>
+  </VApp>
 </template>
 
 <!-- scoped component styles, default -->
