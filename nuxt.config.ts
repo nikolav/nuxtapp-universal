@@ -7,6 +7,7 @@ import { SSR } from "./app/config";
 type TMeta = Record<string, string>[];
 
 const PRODUCTION = "production" === process.env.NODE_ENV;
+const SSR = parseBoolean(process.env.NUXT_PUBLIC_SSR);
 
 const siteUrl = trimEnd(
   (PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
@@ -67,6 +68,7 @@ export default defineNuxtConfig({
       siteUrl,
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
+      ssr: SSR,
     },
   },
 

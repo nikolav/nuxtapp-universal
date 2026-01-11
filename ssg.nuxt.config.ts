@@ -1,297 +1,224 @@
+import trimEnd from "lodash/trimEnd";
+import parseBoolean from "@eturino/ts-parse-boolean";
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 type TMeta = Record<string, string>[];
 
-// -----------------------------------------------------------------------------
-// Environment + derived constants
-// -----------------------------------------------------------------------------
-const isProd = process.env.NODE_ENV === "production";
+const PRODUCTION = process.env.NODE_ENV === "production";
 
-/**
- * Used as the canonical site URL for SEO (sitemap, canonical tags, schema, etc.)
- */
-const siteUrl =
-  (isProd ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
-  (isProd ? "https://demo.nikolav.rs" : "http://localhost:3000");
+const siteUrl = trimEnd(
+  (PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
+    (PRODUCTION ? "https://demo.nikolav.rs" : "http://localhost:3000"),
+  "/"
+);
 
 const meta: TMeta = [
-  { name: "description", content: "NuxtApp --nuxt.config" },
+  { name: "description", content: "NuxtApp --starter" },
   { name: "theme-color", content: "#fafafa" },
   { name: "format-detection", content: "telephone=no" },
 ];
 
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  // $ nuxt build --envName staging
-  // $production: {
-  //   routeRules: {
-  //     "/**": { isr: true },
-  //   },
-  // },
-  // $development: {
-  //   //
-  // },
-  // $env: {
-  //   staging: {
-  //     //
-  //   },
-  // },
+  compatibilityDate: "2025-07-15",
 
-  // ---------------------------------------------------------------------------
-  // Core / project defaults
-  // ---------------------------------------------------------------------------
-  compatibilityDate: "2025-07-15", // Pin Nitro/compat behavior for reproducible builds
-  devtools: { enabled: true }, // Nuxt DevTools UI in dev
-
-  // ---------------------------------------------------------------------------
-  // Rendering mode
-  // ---------------------------------------------------------------------------
-
-  // SSG still uses SSR at build-time; keep true for best SEO
+  // SSR ostaje true, ali se output prerenderuje u statiku
   ssr: true,
+  devtools: { enabled: !PRODUCTION },
 
-  // ---------------------------------------------------------------------------
-  // Modules (features)
-  // ---------------------------------------------------------------------------
   modules: [
-    "@nuxtjs/seo", // SEO Kit: meta defaults, robots, sitemap, schema, ogImage, linkChecker
-    "@vueuse/nuxt", // VueUse auto-imports
-    "@pinia/nuxt", // Pinia store integration
-    "@nuxt/icon", // Icon component + icon sets
-    "@nuxt/image", // Image optimization
-    "@nuxtjs/tailwindcss", // Tailwind integration
+    "@nuxtjs/seo",
+    "@vueuse/nuxt",
+    "@pinia/nuxt",
+    "@nuxt/icon",
+    "@nuxt/image",
+    "@nuxtjs/tailwindcss",
+    "nuxt-security",
+    "@nuxtjs/fontaine",
+    "nuxt-gtag",
   ],
 
-  // ---------------------------------------------------------------------------
-  // Runtime config
-  // - runtimeConfig.* is server-only (not exposed to client)
-  // - runtimeConfig.public.* is exposed to browser
-  // ---------------------------------------------------------------------------
   runtimeConfig: {
-    // 🔒 server/build secrets (never exposed to client)
-    apiSecret: process.env.API_SECRET,
-    dbPassword: process.env.DB_PASSWORD,
-    webhookToken: process.env.WEBHOOK_TOKEN,
-
-    // 🌍 client-safe values
+    // ⚠️ Za full static: server runtimeConfig se NE koristi u runtime-u.
+    // Ostavi samo ako ti treba tokom build/prerender-a (npr. da povučeš rute).
+    databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
+    databaseUrl: process.env.NUXT_DATABASE_URL,
+    databaseCa: process.env.NUXT_DATABASE_CA,
     public: {
+      siteUrl,
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
     },
-
-    //
-    // app: {},
   },
 
-  // ---------------------------------------------------------------------------
-  // App HTML defaults (global <head>)
-  // ---------------------------------------------------------------------------
   app: {
     head: {
+      htmlAttrs: { lang: "en" },
       charset: "utf-8",
       viewport:
         "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
-      title: "⌛app:loading",
-      // titleTemplate: "%s | app:name",
+      title: "nikolav.rs",
+      titleTemplate: "%s | nikolav.rs",
       meta,
-      link: [
-        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      ],
-      htmlAttrs: {
-        // lang: "sr",
-      },
-      bodyAttrs: {
-        // class: "dark:selection:bg-white/20 scrollbar-thin-light",
-      },
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
     },
-    // transition pages
     pageTransition: { name: "ROUTE_TRANSITION_BLUR", mode: "in-out" },
-    // transition layouts
     layoutTransition: { name: "ROUTE_TRANSITION_BLUR" },
   },
 
-  // ---------------------------------------------------------------------------
-  // Global CSS entrypoints
-  // ---------------------------------------------------------------------------
-  css: [
-    // main global styles
-    "~/assets/styles/styles.scss",
+  css: ["~/assets/styles/styles.scss", "animate.css"],
 
-    // "@mdi/font/css/materialdesignicons.css",
-    // "vuetify/lib/styles/main.sass",
-
-    // # vendor
-    "animate.css",
-    // "quill/dist/quill.core.css",
-    // "quill/dist/quill.snow.css",
-  ],
-
-  // ---------------------------------------------------------------------------
-  // SEO Kit: site identity (single source of truth)
-  // ---------------------------------------------------------------------------
   site: {
     url: siteUrl,
-    name: process.env.NUXT_SITE_NAME || "nikola.rs",
+    name: process.env.NUXT_SITE_NAME || "nikolav.rs",
     description: process.env.NUXT_SITE_DESCRIPTION || "DESCRIPTION HERE",
     defaultLocale: "sr",
   },
 
-  // Canonicals + default meta behavior
   seo: {
     automaticDefaults: true,
     canonicalQueryWhitelist: ["page", "sort", "filter", "search", "q", "query"],
+    meta: {
+      robots:
+        "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    },
+    redirectToCanonicalSiteUrl: PRODUCTION,
+    automaticOgAndTwitterTags: true,
   },
 
-  // robots.txt (block indexing in dev, allow in prod)
   robots: {
-    groups: isProd
+    groups: PRODUCTION
       ? [{ userAgent: ["*"], allow: ["/"] }]
       : [{ userAgent: ["*"], disallow: ["/"] }],
+    sitemap: `${siteUrl}/sitemap.xml`,
   },
 
-  // sitemap.xml (auto lastmod if possible)
-  sitemap: { autoLastmod: true },
+  sitemap: {
+    autoLastmod: true,
+    exclude: ["/api/**", "/_nuxt/**"],
+    defaults: { changefreq: "weekly", priority: 0.8 },
+  },
 
-  // JSON-LD identity used by Schema.org module
   schemaOrg: {
     identity: {
+      url: siteUrl,
       type: "Organization",
-      name: process.env.NUXT_SITE_NAME || "nikola.rs",
-      url: process.env.NUXT_SITE_URL || "https://demo.nikolav.rs",
+      name: process.env.NUXT_SITE_NAME || "nikolav.rs",
     },
   },
 
-  // Extra SEO tooling from SEO Kit
-  ogImage: { enabled: true }, // Auto-generate OG images (if supported/used)
-  linkChecker: { enabled: true }, // Check internal/external links during dev/build
+  ogImage: { enabled: PRODUCTION },
 
-  // ---------------------------------------------------------------------------
-  // Static generation / Nitro
-  // ---------------------------------------------------------------------------
+  linkChecker: {
+    enabled: true,
+    runOnBuild: true,
+    failOnError: false,
+  },
+
+  // ✅ STATIC PRERENDER (SSR -> HTML fajlovi)
   nitro: {
-    preset: "static", // Output a fully static site (great for marketing sites)
+    preset: "static",
+    compressPublicAssets: true,
 
     prerender: {
-      routes: ["/", "/about"], // Explicit pre-render list (add more as needed)
-      failOnError: true, // Fail build if a prerender route errors (SEO safety)
+      // 1) Start rute (seed). Odavde kreće crawl.
+      routes: ["/"],
+
+      // 2) Crawluje <a href> linkove i generiše sve dostupne strane
+      crawlLinks: true,
+
+      // Ako imaš neku rutu koju NE želiš da prerenderuješ:
+      // ignore: ["/admin", "/login"],
+
+      // Preporuka: dok ne “ispeglaš” sve, drži true; kasnije može false.
+      failOnError: true,
     },
 
     routeRules: {
-      // Cache Nuxt build assets aggressively (CDN-friendly)
+      // Static asset caching
       "/_nuxt/**": {
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
+
+      // (opciono) eksplicitno označi sve strane kao prerender (uglavnom nije potrebno uz crawlLinks)
+      // "/**": { prerender: true },
     },
   },
 
-  // ---------------------------------------------------------------------------
-  // Static payload / hydration safety (helps static sites)
-  // ---------------------------------------------------------------------------
   experimental: {
     payloadExtraction: true,
   },
 
-  // ---------------------------------------------------------------------------
-  // Build tooling
-  // ---------------------------------------------------------------------------
   vite: {
-    build: {
-      sourcemap: !isProd, // Sourcemaps in dev; reduce output in prod
+    esbuild: {
+      drop: PRODUCTION ? ["console", "debugger"] : [],
     },
   },
 
-  // ---------------------------------------------------------------------------
-  // Nuxt Image configuration
-  // ---------------------------------------------------------------------------
+  sourcemap: { client: "hidden" },
+
   image: {
-    quality: 99, // Default image quality (override per-component when needed)
-    domains: [
-      // "domain.nikolav.rs",
-    ],
+    quality: 81,
+    domains: [],
     screens: {
-      xs: 320,
       sm: 640,
       md: 768,
       lg: 1024,
       xl: 1280,
-      xxl: 1536,
       "2xl": 1536,
     },
-    // presets: { ... }
+    providers: {},
+    presets: {},
   },
 
-  // ---------------------------------------------------------------------------
-  // Tailwind module settings
-  // ---------------------------------------------------------------------------
   tailwindcss: {
-    cssPath: "~/assets/styles/tailwind.scss", // Your Tailwind entry file
-    // configPath: "~/config/tailwind.config.ts",
-    // exposeConfig: true, // expose resolved config at runtime
-    viewer: false, // Tailwind viewer UI
+    cssPath: "~/assets/styles/tailwind.scss",
+    viewer: false,
   },
 
-  // ---------------------------------------------------------------------------
-  // Auto-imports configuration
-  // ---------------------------------------------------------------------------
   imports: {
-    // autoImport: false, // disable Nuxt auto-imports (force explicit imports)
-    // dirs: ["./keys", "./config"], // custom auto-import directories
-    presets: FROM_PACKAGES_IMPORT, // extra auto-import presets
+    presets: FROM_PACKAGES_IMPORT,
+    scan: false,
   },
 
-  // ---------------------------------------------------------------------------
-  // Router defaults
-  // ---------------------------------------------------------------------------
   router: {
-    options: {
-      scrollBehaviorType: "smooth", // Smooth scroll on navigation
+    options: { scrollBehaviorType: "smooth" },
+  },
+
+  security: {
+    headers: {
+      xContentTypeOptions: "nosniff",
+      xFrameOptions: "SAMEORIGIN",
+      referrerPolicy: "strict-origin-when-cross-origin",
+      xDNSPrefetchControl: "off",
+      xPermittedCrossDomainPolicies: "none",
+      strictTransportSecurity: PRODUCTION
+        ? { maxAge: 15552000, includeSubdomains: true, preload: false }
+        : false,
+      contentSecurityPolicy: PRODUCTION ? {} : false,
     },
   },
 
-  // hooks: {
-  //   async "prerender:routes"(ctx) {
-  //     const { pages } = await fetch("https://api.some-cms.com/pages").then(
-  //       (res) => res.json()
-  //     );
-  //     for (const page of pages) {
-  //       ctx.routes.add(`/${page.name}`);
-  //     }
-  //   },
-  // },
-  // nitro: {
-  //   hooks: {
-  //     "prerender:generate"(route) {
-  //       if (route.route?.includes("private")) {
-  //         route.skip = true;
-  //       }
-  //     },
-  //   },
-  // },
+  icon: {
+    provider: "none",
+    componentName: "NuxtIcon",
+    size: "1em",
+    class: "inline-block align-middle",
+    customCollections: [
+      {
+        prefix: "local",
+        dir: "./app/assets/icons-local",
+        normalizeIconName: false,
+      },
+    ],
+    clientBundle: {
+      scan: true,
+      includeCustomCollections: true,
+      sizeLimitKb: 256,
+      icons: ["local:logo-nikolav"],
+    },
+  },
+
+  gtag: {
+    enabled: false,
+  },
 });
-
-// // minimal nuxt-config to eable SSR
-// export default defineNuxtConfig({
-//   ssr: true,
-
-//   app: {
-//     head: {
-//       charset: "utf-8",
-//       viewport: "width=device-width, initial-scale=1",
-//       title: "Nuxt SSR App",
-//     },
-//   },
-
-//   nitro: {
-//     // good default for VPS/Docker/Node runtime
-//     preset: "node-server",
-
-//     // optional: cache static build assets aggressively
-//     routeRules: {
-//       "/_nuxt/**": {
-//         headers: {
-//           "cache-control": "public, max-age=31536000, immutable",
-//         },
-//       },
-//     },
-//   },
-// });
