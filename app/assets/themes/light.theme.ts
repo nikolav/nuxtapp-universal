@@ -5,12 +5,12 @@ import chroma from "chroma-js";
 const THEME_ACCENT_SHIFT = Number(process.env.NUXT_THEME_ACCENT_SHIFT);
 
 // const primary = "#3b6891";
-export const primary = "#184c9f";
+export const primary = "#1a73e9";
 // primary => accent1, accent2, complement
 
-const primary2 = "#2f1068";
-const primary3 = "#10685d";
-const secondary = "#a1a1aa";
+const primary2 = "#731ae8";
+const primary3 = "#8fe81a";
+const secondary = "#b9b8b4";
 
 const pHsla = chroma(primary).hsl();
 const hueShift = (amount: number) => (n: number, i: number) =>
