@@ -4,6 +4,11 @@ import type {
   TJson,
   TJsonLiteral,
 } from "../schemas/json.schema";
+import type {
+  Component as TVueComponent,
+  FunctionalComponent as TVueFunctionalComponent,
+  VNode,
+} from "vue";
 
 export type ElementOf<T extends readonly unknown[]> = T[number];
 export type TFunctionVoid = (...args: any[]) => void;
@@ -15,6 +20,12 @@ export interface IEventApp<TEventAppPayload = unknown> {
   type: string;
   payload: TEventAppPayload;
 }
+export type TIconProp =
+  | string
+  | TVueComponent
+  | TVueFunctionalComponent
+  | VNode;
 
 //
 export type { TRecordJson, TJson, TJsonLiteral };
+export type { TVueComponent, TVueFunctionalComponent };
