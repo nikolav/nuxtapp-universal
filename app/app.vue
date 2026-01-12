@@ -2,7 +2,6 @@
 // ## imports, external, internal
 // ## config:const
 // ## nuxt:core
-const nuxtApp = useNuxtApp();
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
 // defineOptions({
@@ -31,11 +30,6 @@ const nuxtApp = useNuxtApp();
 // ## handlers
 // ## watch
 // ## hooks / lifecycle
-onNuxtReady(() => {
-  // .onNuxtReady only runs on the client-side
-  nuxtApp.$_onDomMountedSubject?.next();
-  nuxtApp.$_onDomMountedSubject?.complete();
-});
 // init app-monted flag
 // ## head / meta
 // ## provide / expose
