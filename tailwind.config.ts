@@ -53,17 +53,46 @@ export default {
         },
       },
 
-      // Your custom breakpoints kept as-is
       screens: {
-        // tablet: "640px",
-        // laptop: "1024px",
-        // desktop: "1280px",
-        // tall: { raw: "(min-height: 792px)" },
-        // // vuetify-like breakpoints (kept)
-        // v_sm: "340px",
-        // v_md: "540px",
-        // v_lg: "800px",
-        // v_xl: "1280px",
+        /* size tiers */
+        xs: "599.98px", // replaces implicit <sm
+        sm: "959.98px",
+        md: "1279.98px",
+        lg: "1919.98px",
+        xl: { min: "1920px" },
+
+        /* semantic device ranges */
+        handset: {
+          raw: "(max-width: 599.98px) and (orientation: portrait), (max-width: 959.98px) and (orientation: landscape)",
+        },
+        tablet: {
+          raw: "(min-width: 600px) and (max-width: 839.98px) and (orientation: portrait), (min-width: 960px) and (max-width: 1279.98px) and (orientation: landscape)",
+        },
+        web: {
+          raw: "(min-width: 840px) and (orientation: portrait), (min-width: 1280px) and (orientation: landscape)",
+        },
+
+        /* orientation-aware */
+        "handset-p": {
+          raw: "(max-width: 599.98px) and (orientation: portrait)",
+        },
+        "handset-l": {
+          raw: "(max-width: 959.98px) and (orientation: landscape)",
+        },
+
+        "tablet-p": {
+          raw: "(min-width: 600px) and (max-width: 839.98px) and (orientation: portrait)",
+        },
+        "tablet-l": {
+          raw: "(min-width: 960px) and (max-width: 1279.98px) and (orientation: landscape)",
+        },
+
+        "web-p": {
+          raw: "(min-width: 840px) and (orientation: portrait)",
+        },
+        "web-l": {
+          raw: "(min-width: 1280px) and (orientation: landscape)",
+        },
       },
 
       // Tailwind's container sizing helper (safe default for apps)

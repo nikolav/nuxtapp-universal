@@ -5,6 +5,7 @@ import {
 import { md2 } from "vuetify/blueprints";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import { light, dark } from "~/assets/themes";
+import { displayDefaults as display } from "~/assets/breakpoints";
 
 // import {
 //   IconAccountKey,
@@ -39,16 +40,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       // @useDisplay composable configuration options
       // https://next.vuetifyjs.com/en/features/display-and-platform/#interface
-      // display: {
-      //   mobileBreakpoint: "sm",
-      //   thresholds: {
-      //     xs: 0,
-      //     sm: 340,
-      //     md: 540,
-      //     lg: 800,
-      //     xl: 1280,
-      //   },
-      // },
+      // sync with tailwindcss.config.screens
+      display,
 
       // https://next.vuetifyjs.com/en/features/theme/
       // https://next.vuetifyjs.com/en/features/theme/#theme-object-structure

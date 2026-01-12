@@ -1,0 +1,12 @@
+import type { VuetifyOptions } from "vuetify";
+
+export const displayDefaults = <VuetifyOptions["display"]>{
+  mobileBreakpoint: "sm",
+  thresholds: {
+    xs: 0,
+    sm: 599.98,
+    md: 959.98,
+    lg: 1279.98,
+    xl: 1919.98,
+  },
+};
