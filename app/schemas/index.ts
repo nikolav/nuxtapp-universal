@@ -1,7 +1,8 @@
 import { isVNode } from "vue";
 import { z } from "zod";
-import type { TIconProp } from "~/types";
 // import isJWT from "validator/es/lib/isJWT";
+
+import type { TIconProp } from "~/types";
 
 export { schemaJsonData, schemaJsonDataRecord } from "./json.schema";
 export * from "./transforms";

@@ -30,12 +30,12 @@ import { NuxtLink } from "../../.nuxt/components";
 // @@eos
 </script>
 <template>
-  <section>
+  <VMain>
     <NuxtLink :to="{ name: 'index' }">home</NuxtLink>
     <span> | </span>
     <NuxtLink :to="{ name: 'about' }">about</NuxtLink>
-  </section>
-  <slot />
+    <slot />
+  </VMain>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>
