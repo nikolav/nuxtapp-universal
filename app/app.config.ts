@@ -7,6 +7,11 @@ export default defineAppConfig({
   appShortName: "Nuxt",
   locale: "sr",
 
+  events: {
+    EVENT_notifications_granted:
+      "EVENT_notifications_granted:6a69b910-b0a5-5616-b628-77a800ff1386",
+  },
+
   // ---------------------------------------------------------------------------
   // UI / Layout defaults
   // ---------------------------------------------------------------------------
@@ -46,8 +51,7 @@ export default defineAppConfig({
     // class: "icon", // default <Icon> class applied
     // mode: "css", // default <Icon> mode applied
     // cssLayer: "base", // set the css layer to inject to
-    aliases: {
-    },
+    aliases: {},
     // # apply customizations globally
     // customize: (
     //   content: string,
