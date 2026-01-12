@@ -25,19 +25,18 @@ export default defineNuxtPlugin(() => {
     onAppMounted$ = _onDomMountedSubject.asObservable();
   }
 
+  onNuxtReady(() => {
+    // .onNuxtReady only runs on the client-side
+    _onDomMountedSubject?.next();
+    _onDomMountedSubject?.complete();
+  });
+
   return {
     provide: {
-      // flags
-      isBrowser,
-
       // streams
       onPlatformBrowser$,
       window$,
       onAppMounted$,
-
-      // misc.
-      // triggers in app.vue @mounted
-      _onDomMountedSubject,
     },
   };
 });
