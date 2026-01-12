@@ -30,7 +30,7 @@ import { NuxtLink } from "../../.nuxt/components";
 // @@eos
 </script>
 <template>
-  <section>
+  <section class="app-container-reset latout--default">
     <NuxtLink :to="{ name: 'index' }">home</NuxtLink>
     <span> | </span>
     <NuxtLink :to="{ name: 'about' }">about</NuxtLink>
