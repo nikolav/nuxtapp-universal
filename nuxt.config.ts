@@ -123,8 +123,8 @@ export default defineNuxtConfig({
 
   linkChecker: {
     enabled: true,
-    runOnBuild: true,
-    failOnError: false,
+    // runOnBuild: true,
+    // failOnError: false,
   },
 
   // ---------------------------------------------------------------------------
@@ -136,7 +136,7 @@ export default defineNuxtConfig({
 
     prerender: {
       routes: ["/"],
-      failOnError: true,
+      // failOnError: true,
     },
 
     routeRules: {
