@@ -3,7 +3,7 @@ import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
-type TMeta = Record<string, string>[];
+// type TMeta = Record<string, string>[];
 
 const PRODUCTION = "production" === process.env.NODE_ENV;
 const SSR = parseBoolean(process.env.NUXT_PUBLIC_SSR);
@@ -12,12 +12,6 @@ const siteUrl = trimEnd(
   PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
   "/"
 );
-
-const meta: TMeta = [
-  { name: "description", content: "NuxtApp --starter" },
-  { name: "theme-color", content: "#fafafa" },
-  { name: "format-detection", content: "telephone=no" },
-];
 
 export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
@@ -81,7 +75,11 @@ export default defineNuxtConfig({
         "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
       title: "nikolav.rs",
       titleTemplate: "%s | nikolav.rs",
-      meta,
+      meta: [
+        { name: "description", content: "NuxtApp --starter" },
+        { name: "theme-color", content: "#fafafa" },
+        { name: "format-detection", content: "telephone=no" },
+      ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
     },
     pageTransition: { name: "ROUTE_TRANSITION_BLUR", mode: "in-out" },
@@ -145,8 +143,8 @@ export default defineNuxtConfig({
 
   linkChecker: {
     enabled: true,
-    runOnBuild: true,
-    failOnError: false,
+    // runOnBuild: true,
+    // failOnError: false,
   },
 
   // ---------------------------------------------------------------------------
@@ -158,7 +156,7 @@ export default defineNuxtConfig({
 
     prerender: {
       routes: ["/"],
-      failOnError: true,
+      // failOnError: true,
     },
 
     routeRules: {

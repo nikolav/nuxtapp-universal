@@ -1,23 +1,24 @@
-#! /usr/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# remove Nuxt & build artifacts
-rm -rf .nuxt
-rm -rf .output
-rm -rf dist
+echo "🧹 Cleaning dependencies and build artifacts..."
 
-# remove dependencies & lockfile
-rm -rf node_modules
-rm -f package-lock.json yarn.lock pnpm-lock.yaml
+rm -rf \
+  node_modules \
+  .nuxt \
+  .output \
+  dist \
+  package-lock.json \
+  pnpm-lock.yaml \
+  yarn.lock
 
-# clear npm cache (safe)
+echo "🗑️  Clearing npm cache..."
 npm cache clean --force
 
-# reinstall deps
-npm install
+echo "📦 Installing dependencies..."
+npm install --no-audit --no-fund
 
-# regenerate Nuxt internals
-npx nuxt prepare
+echo "⚙️  Preparing Nuxt..."
+npm run postinstall
 
-# start dev server
-# npm run dev
-echo 'Done.'
+echo "✅ Done."

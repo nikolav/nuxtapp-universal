@@ -1,8 +1,9 @@
 import { Subject } from "rxjs";
 
-import type { IEventApp } from "~/types";
 import { TOKEN_appEmitter$ } from "~/keys";
+import type { IEventApp } from "~/types";
 
 export default defineNuxtPlugin((nuxtapp) => {
-  nuxtapp.vueApp.provide(TOKEN_appEmitter$, new Subject<IEventApp>());
+  const emitter$ = new Subject<IEventApp>();
+  nuxtapp.vueApp.provide(TOKEN_appEmitter$, emitter$);
 });
