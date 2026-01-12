@@ -9,8 +9,7 @@ const PRODUCTION = "production" === process.env.NODE_ENV;
 const SSR = parseBoolean(process.env.NUXT_PUBLIC_SSR);
 
 const siteUrl = trimEnd(
-  (PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV) ||
-    (PRODUCTION ? "https://demo.nikolav.rs" : "http://localhost:3000"),
+  PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
   "/"
 );
 
@@ -105,9 +104,9 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   site: {
     url: siteUrl,
-    name: process.env.NUXT_SITE_NAME || "nikolav.rs",
-    description: process.env.NUXT_SITE_DESCRIPTION || "DESCRIPTION HERE",
-    defaultLocale: "sr",
+    name: process.env.NUXT_SITE_NAME,
+    description: process.env.NUXT_SITE_DESCRIPTION,
+    defaultLocale: process.env.NUXT_DEFAULT_LOCALE ?? "en",
   },
 
   seo: {
@@ -131,14 +130,14 @@ export default defineNuxtConfig({
   sitemap: {
     autoLastmod: true,
     exclude: ["/api/**", "/_nuxt/**"],
-    defaults: { changefreq: "weekly", priority: 0.8 },
+    defaults: { changefreq: "weekly", priority: 0.7 },
   },
 
   schemaOrg: {
     identity: {
       url: siteUrl,
       type: "Organization",
-      name: process.env.NUXT_SITE_NAME || "nikolav.rs",
+      name: process.env.NUXT_SITE_NAME ?? "",
     },
   },
 
