@@ -8,7 +8,7 @@ export default defineNuxtPlugin({
     $dom$.subscribe(($) => {
       if ($(`#${scriptId}`).length) return;
       $("head").append(
-        $(`<script defer>`).attr({
+        $("<script defer>").attr({
           id: scriptId,
           type: "text/javascript",
         }).text(`
