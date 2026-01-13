@@ -1,11 +1,11 @@
 import type { Config } from "tailwindcss";
 // import { fontFamily } from "tailwindcss/defaultTheme";
-
 // import twTypography from "@tailwindcss/typography";
 // import twAspectRatio from "@tailwindcss/aspect-ratio";
 // import twContainer from "@tailwindcss/container-queries";
+import { COLOR_PRIMARY } from "./app/assets/themes";
 
-const primary = "#184c9f";
+const primary = COLOR_PRIMARY;
 
 export default {
   // Safer default for Vue/Nuxt (SSR friendly + predictable)
@@ -47,19 +47,17 @@ export default {
         current: "currentColor",
         transparent: "transparent",
         primary,
-        banana: {
-          DEFAULT: "#ffff00",
-          500: "#ffff00",
-        },
       },
 
       screens: {
         /* size tiers */
-        xs: "599.98px", // replaces implicit <sm
-        sm: "959.98px",
-        md: "1279.98px",
-        lg: "1919.98px",
-        xl: { min: "1920px" },
+        xs: { min: "0px" },
+        sm: { min: "599.98px" }, // mobile landscape / small tablets
+        md: { min: "959.98px" }, // tablets / small laptops
+        lg: { min: "1279.98px" }, // laptops
+        xl: { min: "1919.98px" }, // full HD
+        "2xl": { min: "2559.98px" }, // QHD / large desktop monitors
+        huge: { min: "3199.98px" }, // 4K+ / ultrawide / design & data screens
 
         /* semantic device ranges */
         handset: {

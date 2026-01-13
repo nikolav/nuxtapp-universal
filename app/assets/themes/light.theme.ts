@@ -1,16 +1,18 @@
 import { type ThemeDefinition } from "vuetify";
 // import colorsVuetify from "vuetify/util/colors";
 import chroma from "chroma-js";
+import {
+  COLOR_PRIMARY,
+  COLOR_PRIMARY2,
+  COLOR_PRIMARY3,
+  COLOR_SECONDARY,
+  THEME_ACCENT_SHIFT,
+  THEME_LIGHT_BG,
+  THEME_LIGHT_SURFACE,
+} from "./colors";
 
-const THEME_ACCENT_SHIFT = Number(process.env.NUXT_THEME_ACCENT_SHIFT);
-
-// const primary = "#3b6891";
-export const primary = "#1a73e9";
+export const primary = COLOR_PRIMARY;
 // primary => accent1, accent2, complement
-
-const primary2 = "#731ae8";
-const primary3 = "#8fe81a";
-const secondary = "#b9b8b4";
 
 const pHsla = chroma(primary).hsl();
 const hueShift = (amount: number) => (n: number, i: number) =>
@@ -34,21 +36,16 @@ const complement = chroma
 export const light: ThemeDefinition = {
   dark: false,
   colors: {
-    background: "#fffffc",
-    surface: "#fffffc",
-    // surface: "#fcfcfb",
-    //
+    background: THEME_LIGHT_BG,
+    surface: THEME_LIGHT_SURFACE,
     primary,
-    secondary,
-    //
-    success: "#4CAF50",
-    error: "#B00020",
-    info: "#2196F3",
-    warning: "#FB8C00",
-    //
-    primary2,
-    primary3,
-    //
+    secondary: COLOR_SECONDARY,
+    success: "#2E7D32",
+    error: "#C62828",
+    info: "#1565C0",
+    warning: "#ED6C02",
+    primary2: COLOR_PRIMARY2,
+    primary3: COLOR_PRIMARY3,
     accent1,
     accent2,
     complement,

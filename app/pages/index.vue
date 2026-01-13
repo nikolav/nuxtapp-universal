@@ -49,12 +49,6 @@
     <div>
       <IconsIconX icon="local:logo-nikolav" />
     </div>
-    <div>
-      <VBtn color="primary">ok</VBtn>
-      <VBtn color="primary2">ok</VBtn>
-      <VBtn color="primary3">ok</VBtn>
-      <VBtn color="complement">ok</VBtn>
-    </div>
   </section>
 </template>
 
