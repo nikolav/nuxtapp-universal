@@ -8,16 +8,16 @@
 //   name: "COMPONENT_NAME",
 //   inheritAttrs: false,
 // });
-// definePageMeta({
-//   layout: "default",
-//   // middleware: ["auth"],
-//   "@page": {
-//     appBarTitle: "",
-//     htmlClass: "",
-//     bodyClass: "",
-//     appClass: "",
-//   },
-// });
+definePageMeta({
+  title: "pages.title.blogs-travel-slug",
+  layout: "default",
+  i18n: {
+    paths: {
+      sr: "/clanci/putovanja/[slug]",
+      en: "/blogs/travel/[slug]",
+    },
+  },
+});
 // ## attrs / slots
 // ## schemas / validation
 // ## icons
@@ -30,7 +30,6 @@
 // ## handlers
 // ## watch
 // ## hooks / lifecycle
-// init app-monted flag
 // ## head / meta
 // ## provide / expose
 // ## io, events, websockets
@@ -39,12 +38,8 @@
 </script>
 
 <template>
-  <section class="app-container-reset app--root">
-    <AppSeoCore />
-    <!-- routed pages -->
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+  <section class="app-container-reset component--NAME">
+    <h2>blogs:travel</h2>
   </section>
 </template>
 

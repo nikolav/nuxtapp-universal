@@ -1,0 +1,13 @@
+{
+  "welcome": "Welcome",
+  "hello": "Hello",
+  "nav": { "home": "Home" },
+  "pages": {
+    "title": {
+      "index": "page:welcome",
+      "about": "page:about-us",
+      "blogs-tech-slug": "blogs:tech",
+      "blogs-travel-slug": "blogs:travel"
+    }
+  }
+}

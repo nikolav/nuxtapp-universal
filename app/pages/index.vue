@@ -4,21 +4,16 @@
 // ## nuxt:core
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
-// defineOptions({
-//   name: "COMPONENT_NAME",
-//   inheritAttrs: false,
-// });
-// definePageMeta({
-//   validate: (route) => {},
-//   layout: "default",
-//   // middleware: ["auth"],
-//   "@page": {
-//     appBarTitle: "",
-//     htmlClass: "",
-//     bodyClass: "",
-//     appClass: "",
-//   },
-// });
+definePageMeta({
+  title: "pages.title.index",
+  layout: "default",
+  i18n: {
+    paths: {
+      sr: "/dobrodosli",
+      en: "/welcome",
+    },
+  },
+});
 // ## attrs / slots
 // ## schemas / validation
 // ## icons

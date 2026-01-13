@@ -12,6 +12,8 @@ const siteUrl = trimEnd(
   "/"
 );
 
+export const defaultLocale = process.env.NUXT_PUBLIC_DEFAULT_LOCALE ?? "sr";
+
 export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   // Core
@@ -19,6 +21,9 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   ssr: SSR,
   devtools: { enabled: !PRODUCTION },
+  typescript: {
+    strict: true,
+  },
 
   // ---------------------------------------------------------------------------
   // Modules
@@ -33,6 +38,7 @@ export default defineNuxtConfig({
     "nuxt-security",
     "@nuxtjs/fontaine",
     "nuxt-gtag",
+    "@nuxtjs/i18n",
   ],
 
   // ---------------------------------------------------------------------------
@@ -47,6 +53,7 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
       ssr: SSR,
+      defaultLocale,
     },
   },
 
@@ -84,7 +91,7 @@ export default defineNuxtConfig({
     url: siteUrl,
     name: process.env.NUXT_SITE_NAME,
     description: process.env.NUXT_SITE_DESCRIPTION,
-    defaultLocale: process.env.NUXT_DEFAULT_LOCALE ?? "en",
+    defaultLocale,
   },
 
   seo: {
@@ -157,6 +164,13 @@ export default defineNuxtConfig({
 
   experimental: {
     payloadExtraction: true,
+
+    // # enable typed routes
+    // #⚠ disables custom route names for locales
+    // typedPages: true,
+
+    // keep generated route values
+    scanPageMeta: true,
   },
 
   // ---------------------------------------------------------------------------
@@ -237,5 +251,34 @@ export default defineNuxtConfig({
 
   gtag: {
     enabled: false,
+  },
+
+  i18n: {
+    strategy: "prefix",
+    baseUrl: siteUrl,
+    customRoutes: "meta",
+    detectBrowserLanguage: {
+      redirectOn: "root",
+      cookieCrossOrigin: true,
+    },
+    // vueI18n: "i18n.config.ts",
+    defaultLocale,
+    locales: [
+      {
+        code: "sr",
+        iso: "sr-RS",
+        name: "Srpski",
+        language: "sr-RS",
+        file: "sr.json",
+      },
+      {
+        isCatchallLocale: true,
+        code: "en",
+        iso: "en-US",
+        name: "English",
+        language: "en-US",
+        file: "en.json",
+      },
+    ],
   },
 });

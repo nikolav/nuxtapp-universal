@@ -3,14 +3,14 @@
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
 definePageMeta({
+  title: "pages.title.about",
   layout: "default",
-  // middleware: "",
-  // "@page": {
-  //   appBarTitle: "",
-  //   htmlClass: "",
-  //   bodyClass: "",
-  //   appClass: "",
-  // },
+  i18n: {
+    paths: {
+      sr: "/o-nama",
+      en: "/about-us",
+    },
+  },
 });
 // ##schemas
 // ##utils

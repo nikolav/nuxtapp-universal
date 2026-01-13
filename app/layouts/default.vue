@@ -1,4 +1,3 @@
-import { NuxtLink } from "../../.nuxt/components";
 <script setup lang="ts">
 // ##imports
 // ##config:const
@@ -27,15 +26,29 @@ import { NuxtLink } from "../../.nuxt/components";
 // ##provide
 // ##io
 
+const { t, setLocale } = useI18n();
+
 // @@eos
 </script>
 <template>
   <section class="app-container-reset latout--default">
-    <NuxtLink :to="{ name: 'index' }">home</NuxtLink>
+    <NuxtLinkLocale :to="{ name: 'index' }">home</NuxtLinkLocale>
     <span> | </span>
-    <NuxtLink :to="{ name: 'about' }">about</NuxtLink>
+    <NuxtLinkLocale :to="{ name: 'about' }">about</NuxtLinkLocale>
+    <span> | </span>
+    <NuxtLinkLocale
+      :to="{ name: 'blogs-travel-slug', params: { slug: 'foo:122' } }"
+      >blogs:travel</NuxtLinkLocale
+    >
+    <NuxtLinkLocale
+      :to="{ name: 'blogs-tech-slug', params: { slug: 'foo:333' } }"
+      >blogs:tech</NuxtLinkLocale
+    >
+    <h1>{{ t("hello") }}</h1>
+    <button @click="setLocale('sr')" class="p-2">sr</button>
+    <button @click="setLocale('en')" class="p-2">en</button>
+    <slot />
   </section>
-  <slot />
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

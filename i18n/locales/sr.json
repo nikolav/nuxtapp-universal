@@ -1,0 +1,13 @@
+{
+  "welcome": "Dobrodošli",
+  "hello": "Zdravo",
+  "nav": { "home": "Početna" },
+  "pages": {
+    "title": {
+      "index": "strana:dobrodosli",
+      "about": "strana:o-nama",
+      "blogs-tech-slug": "clanci:it",
+      "blogs-travel-slug": "clanci:put"
+    }
+  }
+}
