@@ -2,6 +2,7 @@
 // ## imports, external, internal
 // ## config:const
 // ## nuxt:core
+const { analyticsEnabled } = useRuntimeConfig().public;
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
 // defineOptions({
@@ -41,6 +42,17 @@ const { finalizePendingLocaleChange } = useI18n();
 
 <template>
   <section class="app-container-reset app--root">
+    <!-- Google Tag Manager --noscript -->
+    <Body v-if="analyticsEnabled">
+      <noscript
+        ><iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-TX2J3DWP"
+          height="0"
+          width="0"
+          style="display: none; visibility: hidden"
+        ></iframe
+      ></noscript>
+    </Body>
     <AppSeoCore />
     <!-- routed pages -->
     <NuxtLayout>
