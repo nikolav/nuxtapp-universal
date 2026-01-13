@@ -12,6 +12,7 @@ const siteUrl = trimEnd(
   PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
   "/"
 );
+const defaultLocale = process.env.NUXT_PUBLIC_DEFAULT_LOCALE ?? "en";
 
 export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
@@ -61,6 +62,7 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
       ssr: SSR,
+      defaultLocale,
     },
   },
 
@@ -104,7 +106,7 @@ export default defineNuxtConfig({
     url: siteUrl,
     name: process.env.NUXT_SITE_NAME,
     description: process.env.NUXT_SITE_DESCRIPTION,
-    defaultLocale: process.env.NUXT_DEFAULT_LOCALE ?? "en",
+    defaultLocale,
   },
 
   seo: {

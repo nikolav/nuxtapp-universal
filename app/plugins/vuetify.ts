@@ -1,32 +1,13 @@
-import {
-  createVuetify,
-  // ThemeDefinition
-} from "vuetify";
-import { md2 } from "vuetify/blueprints";
+import { createVuetify } from "vuetify";
+import { md3 } from "vuetify/blueprints";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
+import DayJsAdapter from "@date-io/dayjs";
+
 import { light, dark } from "~/assets/themes";
 import { displayDefaults as display } from "~/assets/breakpoints";
-
-// import {
-//   IconAccountKey,
-// } from "@/components/icons";
+import { DatetimeService } from "~/plugins/datetime";
 
 // import { srLatn } from "vuetify/locale";
-
-// # --default-light-theme
-// const demoLightTheme: ThemeDefinition = {
-//   dark: false,
-//   colors: {
-//     background: '#FFFFFF',
-//     surface: '#FFFFFF',
-//     primary: '#6200EE',
-//     secondary: '#03DAC6',
-//     error: '#B00020',
-//     info: '#2196F3',
-//     success: '#4CAF50',
-//     warning: '#FB8C00',
-//   }
-// };
 
 export default defineNuxtPlugin((nuxtApp) => {
   // const {
@@ -36,7 +17,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(
     createVuetify({
       ssr: useRuntimeConfig().public.ssr,
-      blueprint: md2,
+      blueprint: md3,
 
       // @useDisplay composable configuration options
       // https://next.vuetifyjs.com/en/features/display-and-platform/#interface
@@ -113,14 +94,14 @@ export default defineNuxtPlugin((nuxtApp) => {
           ...aliases,
           // # override
           // menu: IconMenu,
-          // # add: <VIcon icon="$other">
+          // # add: <VIcon icon="$iconCustom">
           // iconCustom: IconCustom,
-          // iconAccountKey: IconAccountKey,
         },
         sets: {
           mdi,
         },
       },
+
       locale: {
         // locale: "srLatn",
         // messages: { srLatn },
@@ -128,14 +109,23 @@ export default defineNuxtPlugin((nuxtApp) => {
         // locale: 'zhHans',
         // messages: { zhHans, pl, sv }
       },
-      // date: {
-      //   locale: {
-      //     srLatn: "sr-Latn-RS",
-      //   },
-      // },
+
+      date: {
+        adapter: DayJsAdapter,
+        // locale: {
+        //   srLatn: "sr-Latn-RS",
+        // },
+        formats: DatetimeService.FORMAT,
+      },
     })
   );
 });
+
+declare module "vuetify" {
+  namespace DateModule {
+    interface Adapter extends DayJsAdapter {}
+  }
+}
 
 // interface IconAliases {
 //   [name: string]: IconValue;
