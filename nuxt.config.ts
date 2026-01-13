@@ -53,6 +53,7 @@ export default defineNuxtConfig({
       ssr: SSR,
       defaultLocale,
       gtmId: process.env.NUXT_PUBLIC_GTM_ID,
+      analyticsEnabled: parseBoolean(process.env.NUXT_PUBLIC_ANALYTICS_ENABLED),
     },
   },
 
