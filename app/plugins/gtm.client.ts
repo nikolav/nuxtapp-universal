@@ -1,10 +1,10 @@
 export default defineNuxtPlugin({
   dependsOn: ["cashdom"],
   setup: () => {
+    const scriptId = "ID-93ee079b-2c0d-5044-8db0-27c27591f4f8";
+    const GTMID = useRuntimeConfig().public.gtmId;
     const { $dom$ } = useNuxtApp();
     $dom$.subscribe(($) => {
-      const GTMID = useRuntimeConfig().public.gtmId;
-      const scriptId = "ID-93ee079b-2c0d-5044-8db0-27c27591f4f8";
       if (!GTMID || $(`#${scriptId}`).length) return;
       $("head").append(
         $(`<script defer>`).attr({
