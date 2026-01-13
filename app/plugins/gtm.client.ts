@@ -4,12 +4,11 @@ export default defineNuxtPlugin({
   dependsOn: ["cashdom"],
   setup: () => {
     const scriptId = "ID-93ee079b-2c0d-5044-8db0-27c27591f4f8";
-
     const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
-    const { $dom$ } = useNuxtApp();
 
     if (import.meta.server || !analyticsEnabled || !GTMID) return;
 
+    const { $dom$ } = useNuxtApp();
     $dom$.pipe(take(1)).subscribe(($) => {
       if ($(`#${scriptId}`).length) return;
 
