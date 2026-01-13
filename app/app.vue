@@ -2,7 +2,7 @@
 // ## imports, external, internal
 // ## config:const
 // ## nuxt:core
-const { analyticsEnabled } = useRuntimeConfig().public;
+const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
 // defineOptions({
@@ -46,7 +46,7 @@ const { finalizePendingLocaleChange } = useI18n();
     <Body v-if="analyticsEnabled">
       <noscript
         ><iframe
-          src="https://www.googletagmanager.com/ns.html?id=GTM-TX2J3DWP"
+          :src="`https://www.googletagmanager.com/ns.html?id=${GTMID}`"
           height="0"
           width="0"
           style="display: none; visibility: hidden"
