@@ -18,3 +18,4 @@ export interface IEventApp<TEventAppPayload = unknown> {
 
 //
 export type { TRecordJson, TJson, TJsonLiteral };
+export type TCashDomClient = typeof import("cash-dom").default;
