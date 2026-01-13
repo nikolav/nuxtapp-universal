@@ -37,7 +37,6 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "nuxt-security",
     "@nuxtjs/fontaine",
-    "nuxt-gtag",
     "@nuxtjs/i18n",
   ],
 
@@ -51,9 +50,9 @@ export default defineNuxtConfig({
     public: {
       siteUrl,
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
-      gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
       ssr: SSR,
       defaultLocale,
+      gtmId: process.env.NUXT_PUBLIC_GTM_ID,
     },
   },
 
@@ -247,10 +246,6 @@ export default defineNuxtConfig({
       sizeLimitKb: 256,
       icons: ["local:logo-nikolav"],
     },
-  },
-
-  gtag: {
-    enabled: false,
   },
 
   i18n: {

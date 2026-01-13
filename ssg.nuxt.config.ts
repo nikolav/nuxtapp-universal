@@ -34,7 +34,6 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "nuxt-security",
     "@nuxtjs/fontaine",
-    "nuxt-gtag",
   ],
 
   runtimeConfig: {
@@ -46,7 +45,6 @@ export default defineNuxtConfig({
     public: {
       siteUrl,
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
-      gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
     },
   },
 
@@ -216,9 +214,5 @@ export default defineNuxtConfig({
       sizeLimitKb: 256,
       icons: ["local:logo-nikolav"],
     },
-  },
-
-  gtag: {
-    enabled: false,
   },
 });
