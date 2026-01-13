@@ -1,27 +1,32 @@
-import { from, Observable } from "rxjs";
-import { mergeMap, shareReplay } from "rxjs/operators";
+import { defer, from, Observable } from "rxjs";
+import { shareReplay, switchMap } from "rxjs/operators";
 
 import type { TCashDomClient } from "~/types";
 
-export default defineNuxtPlugin({
-  name: "cashdom",
-  setup: () => ({
-    provide: {
-      dom$: from(import("cash-dom")).pipe(
-        mergeMap(
+export default defineNuxtPlugin(() => ({
+  provide: {
+    dom$: defer(() =>
+      from(import("cash-dom")).pipe(
+        switchMap(
           ({ default: $ }) =>
-            new Observable<TCashDomClient>((obs) => {
+            new Observable<TCashDomClient>((observer) => {
+              if (import.meta.server) {
+                observer.complete();
+                return;
+              }
+
               $(() => {
-                obs.next($);
-                obs.complete();
+                observer.next($);
+                observer.complete();
               });
             })
-        ),
-        shareReplay({
-          bufferSize: 1,
-          refCount: false,
-        })
-      ),
-    },
-  }),
-});
+        )
+      )
+    ).pipe(
+      shareReplay({
+        bufferSize: 1,
+        refCount: false,
+      })
+    ),
+  },
+}));
