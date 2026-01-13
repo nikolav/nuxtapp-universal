@@ -27,6 +27,7 @@
 // ## async data
 // ## computed
 // ## helpers / utils
+const { finalizePendingLocaleChange } = useI18n();
 // ## handlers
 // ## watch
 // ## hooks / lifecycle
@@ -43,7 +44,7 @@
     <AppSeoCore />
     <!-- routed pages -->
     <NuxtLayout>
-      <NuxtPage />
+      <NuxtPage :transition="{ onBeforeEnter: finalizePendingLocaleChange }" />
     </NuxtLayout>
   </section>
 </template>

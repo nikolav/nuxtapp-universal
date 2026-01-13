@@ -1,7 +1,6 @@
 {
   "welcome": "Welcome",
   "hello": "Hello",
-  "nav": { "home": "Home" },
   "pages": {
     "title": {
       "index": "page:welcome",

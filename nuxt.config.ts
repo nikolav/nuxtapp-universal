@@ -261,6 +261,7 @@ export default defineNuxtConfig({
       redirectOn: "root",
       cookieCrossOrigin: true,
     },
+    skipSettingLocaleOnNavigate: true,
     // vueI18n: "i18n.config.ts",
     defaultLocale,
     locales: [
