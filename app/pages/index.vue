@@ -45,6 +45,7 @@ definePageMeta({
     <div>
       <IconsIconX icon="local:logo-nikolav" />
     </div>
+    <VBtn>ok</VBtn>
   </section>
 </template>
 
