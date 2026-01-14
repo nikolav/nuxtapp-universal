@@ -3,7 +3,7 @@
 // ##config:const
 // ##config ##props ##route ##attrs ##form-fields
 definePageMeta({
-  title: "pages.title.about",
+  title: "pages.about.title",
   layout: "default",
   i18n: {
     paths: {

@@ -53,8 +53,11 @@ const { finalizePendingLocaleChange } = useI18n();
         ></iframe
       ></noscript>
     </Body>
-    <AppSeoCore />
-    <!-- routed pages -->
+
+    <!-- head seo metadata for locale  -->
+    <AppSeoCoreLocale />
+
+    <!-- routes -->
     <NuxtLayout>
       <NuxtPage :transition="{ onBeforeEnter: finalizePendingLocaleChange }" />
     </NuxtLayout>

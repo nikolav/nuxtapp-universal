@@ -5,7 +5,8 @@
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
 definePageMeta({
-  title: "pages.title.index",
+  title: "pages.index.title",
+  description: "pages.index.description",
   layout: "default",
   i18n: {
     paths: {

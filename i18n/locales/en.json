@@ -2,11 +2,17 @@
   "welcome": "Welcome",
   "hello": "Hello",
   "pages": {
-    "title": {
-      "index": "page:welcome",
-      "about": "page:about-us",
-      "blogs-tech-slug": "blogs:tech",
-      "blogs-travel-slug": "blogs:travel"
+    "index": {
+      "title": "page:welcome",
+      "description": "page:welcome:description"
+    },
+    "about": {
+      "title": "page:about-us",
+      "description": "page:about-us:description"
+    },
+    "blogs-tech-slug": {
+      "title": "page:blogs-tech",
+      "description": "page:blogs-tech:description"
     }
   }
 }

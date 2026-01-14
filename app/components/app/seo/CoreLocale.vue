@@ -1,16 +1,19 @@
 <script setup lang="ts">
 const route = useRoute();
 const head = useLocaleHead();
-
 const { t } = useI18n();
 const title = computed(() => t(String(route.meta.title ?? "TBD")));
+const description = computed(() => t(String(route.meta.description ?? "TBD")));
+useSeoMeta({
+  title,
+  description,
+});
 
 // @@eos
 </script>
 
 <template>
   <Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir" />
-  <Title>{{ title }}</Title>
   <Link
     v-for="link in head.link"
     :key="link.key"

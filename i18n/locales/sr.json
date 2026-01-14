@@ -2,11 +2,17 @@
   "welcome": "Dobrodošli",
   "hello": "Zdravo",
   "pages": {
-    "title": {
-      "index": "strana:dobrodosli",
-      "about": "strana:o-nama",
-      "blogs-tech-slug": "clanci:it",
-      "blogs-travel-slug": "clanci:put"
+    "index": {
+      "title": "strana:dobrodosli",
+      "description": "strana:dobrodosli:opis"
+    },
+    "about": {
+      "title": "strana:o-nama",
+      "description": "strana:o-nama:opis"
+    },
+    "blogs-tech-slug": {
+      "title": "strana:clanci-it",
+      "description": "strana:clanci-it:opis"
     }
   }
 }

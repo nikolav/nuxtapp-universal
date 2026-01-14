@@ -257,11 +257,13 @@ export default defineNuxtConfig({
       redirectOn: "root",
       cookieCrossOrigin: true,
     },
+    // #https://i18n.nuxtjs.org/docs/guide/lang-switcher#wait-for-page-transition
     skipSettingLocaleOnNavigate: true,
     // vueI18n: "i18n.config.ts",
     defaultLocale,
     locales: [
       {
+        isCatchallLocale: true,
         code: "sr",
         iso: "sr-RS",
         name: "Srpski",
@@ -269,7 +271,6 @@ export default defineNuxtConfig({
         file: "sr.json",
       },
       {
-        isCatchallLocale: true,
         code: "en",
         iso: "en-US",
         name: "English",

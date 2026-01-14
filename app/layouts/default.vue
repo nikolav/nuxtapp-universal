@@ -37,10 +37,6 @@ const { t, setLocale } = useI18n();
     <NuxtLinkLocale :to="{ name: 'about' }">about</NuxtLinkLocale>
     <span> | </span>
     <NuxtLinkLocale
-      :to="{ name: 'blogs-travel-slug', params: { slug: 'foo:122' } }"
-      >blogs:travel</NuxtLinkLocale
-    >
-    <NuxtLinkLocale
       :to="{ name: 'blogs-tech-slug', params: { slug: 'foo:333' } }"
       >blogs:tech</NuxtLinkLocale
     >

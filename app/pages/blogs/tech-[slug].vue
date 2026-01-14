@@ -9,7 +9,7 @@
 //   inheritAttrs: false,
 // });
 definePageMeta({
-  title: "pages.title.blogs-tech-slug",
+  title: "pages.blogs-tech-slug.title",
   layout: "default",
   i18n: {
     paths: {
