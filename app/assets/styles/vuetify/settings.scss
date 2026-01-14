@@ -2,13 +2,21 @@
 
 // @use "vuetify/settings" with (
 @forward "vuetify/settings" with (
+  $layers: true,
   // # VBadge
   // $badge-font-size: 0.88rem,
   // // $badge-padding: 10px 10px,
   // $badge-height: 22px,
   // $badge-min-width: 22px,
   // $badge-border-radius: 11px,
-  $rounded: ("2lg": 12px, "3lg": 16px, "4lg": 20px, "2xl": 32px, "3xl": 48px),
+  $rounded:
+    (
+      "2lg": 12px,
+      "3lg": 16px,
+      "4lg": 20px,
+      "2xl": 32px,
+      "3xl": 48px,
+    ),
   // tailwind first utils set
   $utilities:
     (
@@ -143,6 +151,8 @@
       "text-transform": false,
       "typography": false,
 
-      "white-space": false
-    )
+      "white-space": false,
+    ),
+  // mostly unused in production
+  $color-pack: false
 );
