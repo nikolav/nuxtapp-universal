@@ -50,6 +50,8 @@ export default defineNuxtPlugin((nuxtApp) => {
           lighten: 5,
           darken: 5,
         },
+        // cspNonce: "foo",
+        // stylesheetId: "122",
       },
 
       // aliases: {
