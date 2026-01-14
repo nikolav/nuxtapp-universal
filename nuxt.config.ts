@@ -262,7 +262,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       redirectOn: "root",
       cookieCrossOrigin: true,
-      fallbackLocale: "sr",
+      fallbackLocale: "en",
     },
     // #https://i18n.nuxtjs.org/docs/api/options#skipsettinglocaleonnavigate
     skipSettingLocaleOnNavigate: true,
@@ -273,7 +273,6 @@ export default defineNuxtConfig({
       // example RTL:
       // { code: 'ar', language: 'ar-EG', file: 'ar.json', dir: 'rtl', name: 'العربية' },
       {
-        isCatchallLocale: true,
         code: "sr",
         iso: "sr-RS",
         name: "Srpski",
@@ -281,6 +280,7 @@ export default defineNuxtConfig({
         file: "sr.json",
       },
       {
+        isCatchallLocale: true,
         code: "en",
         iso: "en-US",
         name: "English",

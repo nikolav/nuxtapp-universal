@@ -3,7 +3,7 @@ export default defineI18nConfig(() => ({
   legacy: false,
 
   // fallback if key is missing
-  fallbackLocale: "sr",
+  fallbackLocale: "en",
   // fallbackLocale: ['en', 'fr'],
   // fallbackLocale: {
   //   'de-CH': ['fr', 'it'],
