@@ -150,8 +150,9 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
 
     prerender: {
-      routes: ["/"],
+      // crawlLinks: true,
       // failOnError: true,
+      routes: ["/"],
     },
 
     routeRules: {
