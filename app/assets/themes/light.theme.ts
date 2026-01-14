@@ -1,4 +1,4 @@
-import { type ThemeDefinition } from "vuetify";
+import type { ThemeDefinition } from "vuetify";
 // import colorsVuetify from "vuetify/util/colors";
 import chroma from "chroma-js";
 import {
