@@ -40,7 +40,7 @@ const { t, setLocale } = useI18n();
       :to="{ name: 'blogs-tech-slug', params: { slug: 'foo:333' } }"
       >blogs:tech</NuxtLinkLocale
     >
-    <h1>{{ t("HelloWorld") }}</h1>
+    <h1>{{ t("Danas je lepo vreme.") }}</h1>
     <button @click="setLocale('sr')" class="p-2">sr</button>
     <button @click="setLocale('en')" class="p-2">en</button>
     <slot />

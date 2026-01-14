@@ -2,8 +2,8 @@ export default defineI18nConfig(() => ({
   // required for Composition API
   legacy: false,
   // fallback if key is missing
-  // fallbackLocale: "en",
-  fallbackLocale: ["en", "sr"],
+  fallbackLocale: "sr",
+  // fallbackLocale: ["sr", "en"],
   // fallbackLocale: {
   //   'de-CH': ['fr', 'it'],
   //   'zh-Hant': ['zh-Hans'],
@@ -19,6 +19,7 @@ export default defineI18nConfig(() => ({
   fallbackWarn: false,
   // modifiers: {},
   // pluralRules: {},
+  formatFallbackMessages: true,
   datetimeFormats: {
     sr: {
       short: {
