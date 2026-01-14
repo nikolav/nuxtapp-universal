@@ -4,14 +4,18 @@
 // ## nuxt:core
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
+// defineOptions({
+//   name: "COMPONENT_NAME",
+//   inheritAttrs: false,
+// });
 definePageMeta({
-  title: "pages.index.title",
-  description: "pages.index.description",
+  title: "pages.blogs-tech-slug.title",
+  description: "pages.blogs-tech-slug.description",
   layout: "default",
   i18n: {
     paths: {
-      sr: "/dobrodosli",
-      en: "/welcome",
+      sr: "/clanci/it/[slug]",
+      en: "/blogs/tech/[slug]",
     },
   },
 });
@@ -35,16 +39,8 @@ definePageMeta({
 </script>
 
 <template>
-  <section class="app-container-reset page--index">
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error dolorum
-      nisi voluptatum odit laudantium temporibus quisquam tempore ut, expedita
-      incidunt? At, quaerat dignissimos tempora assumenda blanditiis unde
-      officia. Quo, nihil!
-    </p>
-    <div>
-      <IconsIconX icon="local:logo-nikolav" />
-    </div>
+  <section class="app-container-reset component--NAME">
+    <h2>blogs:tech</h2>
   </section>
 </template>
 

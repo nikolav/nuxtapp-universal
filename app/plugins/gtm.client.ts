@@ -1,0 +1,30 @@
+import { take } from "rxjs/operators";
+
+export default defineNuxtPlugin({
+  name: "gtm",
+  dependsOn: ["cashdom"],
+  setup: () => {
+    const scriptId = "ID-93ee079b-2c0d-5044-8db0-27c27591f4f8";
+    const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
+
+    if (import.meta.server || !analyticsEnabled || !GTMID) return;
+
+    const { $dom$ } = useNuxtApp();
+    $dom$.pipe(take(1)).subscribe(($) => {
+      if ($(`#${scriptId}`).length) return;
+
+      $("head").append(
+        $("<script defer>").attr({
+          id: scriptId,
+          type: "text/javascript",
+        }).text(`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','${GTMID}');
+          `)
+      );
+    });
+  },
+});

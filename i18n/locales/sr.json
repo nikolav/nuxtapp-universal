@@ -1,0 +1,21 @@
+{
+  "HelloWorld": "@:message.hello Svete!",
+  "message": {
+    "welcome": "Dobrodošli",
+    "hello": "Zdravo"
+  },
+  "pages": {
+    "index": {
+      "title": "strana:dobrodosli",
+      "description": "strana:dobrodosli:opis"
+    },
+    "about": {
+      "title": "strana:o-nama",
+      "description": "strana:o-nama:opis"
+    },
+    "blogs-tech-slug": {
+      "title": "strana:clanci-it",
+      "description": "strana:clanci-it:opis"
+    }
+  }
+}

@@ -1,4 +1,3 @@
-import { NuxtLink } from "../../.nuxt/components";
 <script setup lang="ts">
 // ##imports
 // ##config:const
@@ -26,6 +25,8 @@ import { NuxtLink } from "../../.nuxt/components";
 // useHead({ title: "" });
 // ##provide
 // ##io
+
+const { t, setLocale } = useI18n();
 
 // @@eos
 </script>

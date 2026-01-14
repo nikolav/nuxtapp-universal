@@ -12,7 +12,9 @@ const siteUrl = trimEnd(
   PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
   "/"
 );
-const defaultLocale = process.env.NUXT_PUBLIC_DEFAULT_LOCALE ?? "en";
+
+const CWD = process.cwd();
+export const defaultLocale = process.env.NUXT_PUBLIC_DEFAULT_LOCALE ?? "sr";
 
 export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
@@ -21,6 +23,9 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   ssr: SSR,
   devtools: { enabled: !PRODUCTION },
+  typescript: {
+    strict: true,
+  },
 
   // ---------------------------------------------------------------------------
   // Modules
@@ -34,7 +39,6 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "nuxt-security",
     "@nuxtjs/fontaine",
-    "nuxt-gtag",
     async (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
         // @ts-expect-error
@@ -48,6 +52,7 @@ export default defineNuxtConfig({
         );
       });
     },
+    "@nuxtjs/i18n",
   ],
 
   // ---------------------------------------------------------------------------
@@ -57,12 +62,20 @@ export default defineNuxtConfig({
     databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
     databaseUrl: process.env.NUXT_DATABASE_URL,
     databaseCa: process.env.NUXT_DATABASE_CA,
+    apiKeys: {
+      gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
+    },
     public: {
-      siteUrl,
-      apiBase: process.env.NUXT_PUBLIC_API_BASE,
-      gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
       ssr: SSR,
+      siteUrl,
+      baseUrl: siteUrl,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
       defaultLocale,
+      gtmId: process.env.NUXT_PUBLIC_GTM_ID,
+      analyticsEnabled: parseBoolean(process.env.NUXT_PUBLIC_ANALYTICS_ENABLED),
+      i18n: {
+        // .env extend i18n
+      },
     },
   },
 
@@ -179,6 +192,13 @@ export default defineNuxtConfig({
 
   experimental: {
     payloadExtraction: true,
+
+    // # enable typed routes
+    // #⚠ disables custom route names for locales
+    // typedPages: true,
+
+    // keep generated route values
+    scanPageMeta: true,
   },
 
   // ---------------------------------------------------------------------------
@@ -279,7 +299,39 @@ export default defineNuxtConfig({
     },
   },
 
-  gtag: {
-    enabled: false,
+  // #https://i18n.nuxtjs.org/docs/api/options
+  i18n: {
+    strategy: "prefix",
+    baseUrl: siteUrl,
+    customRoutes: "meta",
+    detectBrowserLanguage: {
+      redirectOn: "root",
+      cookieCrossOrigin: true,
+      fallbackLocale: "sr",
+    },
+    // #https://i18n.nuxtjs.org/docs/api/options#skipsettinglocaleonnavigate
+    skipSettingLocaleOnNavigate: true,
+    // langDir: "locales",
+    // vueI18n: "i18n.config.ts",
+    defaultLocale,
+    locales: [
+      // example RTL:
+      // { code: 'ar', language: 'ar-EG', file: 'ar.json', dir: 'rtl', name: 'العربية' },
+      {
+        code: "sr",
+        iso: "sr-RS",
+        name: "Srpski",
+        language: "sr-RS",
+        file: "sr.json",
+      },
+      {
+        isCatchallLocale: true,
+        code: "en",
+        iso: "en-US",
+        name: "English",
+        language: "en-US",
+        file: "en.json",
+      },
+    ],
   },
 });
