@@ -1,6 +1,9 @@
 {
-  "welcome": "Welcome",
-  "hello": "Hello",
+  "HelloWorld": "@:message.hello World!",
+  "message": {
+    "welcome": "Welcome",
+    "hello": "Hello"
+  },
   "pages": {
     "index": {
       "title": "page:welcome",

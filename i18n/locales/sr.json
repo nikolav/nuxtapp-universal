@@ -1,6 +1,9 @@
 {
-  "welcome": "Dobrodošli",
-  "hello": "Zdravo",
+  "HelloWorld": "@:message.hello Svete!",
+  "message": {
+    "welcome": "Dobrodošli",
+    "hello": "Zdravo"
+  },
   "pages": {
     "index": {
       "title": "strana:dobrodosli",
