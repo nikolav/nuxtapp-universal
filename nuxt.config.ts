@@ -56,6 +56,9 @@ export default defineNuxtConfig({
       defaultLocale,
       gtmId: process.env.NUXT_PUBLIC_GTM_ID,
       analyticsEnabled: parseBoolean(process.env.NUXT_PUBLIC_ANALYTICS_ENABLED),
+      i18n: {
+        // .env extend i18n
+      },
     },
   },
 
