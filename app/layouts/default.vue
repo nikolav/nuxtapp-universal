@@ -26,15 +26,13 @@
 // ##provide
 // ##io
 
-const { t, setLocale } = useI18n();
-
 // @@eos
 </script>
 <template>
   <VMain>
-    <NuxtLink :to="{ name: 'index' }">home</NuxtLink>
+    <NuxtLinkLocale :to="{ name: 'index' }">home</NuxtLinkLocale>
     <span> | </span>
-    <NuxtLink :to="{ name: 'about' }">about</NuxtLink>
+    <NuxtLinkLocale :to="{ name: 'about' }">about</NuxtLinkLocale>
     <slot />
   </VMain>
 </template>

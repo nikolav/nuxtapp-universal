@@ -3,7 +3,7 @@ import type { RouterConfig } from "@nuxt/schema";
 export default <RouterConfig>{
   linkActiveClass: "router-link-active",
   linkExactActiveClass: "router-link-exact-active",
-  scrollBehavior: async (to, from, savedPosition) => {
+  scrollBehavior: async (_to, _from, savedPosition) => {
     // const nuxtApp = useNuxtApp();
     // // @route, apply locale settings after route transition animation
     // //   .i18n.skipSettingLocaleOnNavigate:true @config
