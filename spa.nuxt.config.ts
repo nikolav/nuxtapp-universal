@@ -71,7 +71,7 @@ export default defineNuxtConfig({
   sourcemap: { client: "hidden" },
 
   // ✅ Reduce “magic”
-  devtools: { enabled: process.env.NODE_ENV !== "production" },
+  // devtools: { enabled: process.env.NODE_ENV !== "production" },
 
   // ✅ Optional: caching headers hints (actual caching set on hosting/CDN)
   routeRules: {
