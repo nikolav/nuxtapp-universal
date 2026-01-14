@@ -32,7 +32,6 @@ const { finalizePendingLocaleChange } = useI18n();
 // ## handlers
 // ## watch
 // ## hooks / lifecycle
-// init app-monted flag
 // ## head / meta
 // ## provide / expose
 // ## io, events, websockets
