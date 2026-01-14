@@ -4,11 +4,12 @@ import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import DayJsAdapter from "@date-io/dayjs";
 
 import {
-  light,
-  dark,
-  lightNgDocs,
-  lightNuxtDocs,
+  // light,
+  // dark,
+  // lightNgDocs,
+  // lightNuxtDocs,
   darkNuxtDocs,
+  lightGoogleAnalytics,
 } from "~/assets/themes";
 import { displayDefaults as display } from "~/assets/breakpoints";
 import { DatetimeService } from "~/plugins/datetime";
@@ -35,11 +36,13 @@ export default defineNuxtPlugin((nuxtApp) => {
       theme: {
         defaultTheme: "system",
         themes: {
-          light,
-          dark,
-          "light-nuxt-docs": lightNuxtDocs,
-          "dark-nuxt-docs": darkNuxtDocs,
-          "ng-docs": lightNgDocs,
+          // light,
+          light: lightGoogleAnalytics,
+          dark: darkNuxtDocs,
+          // "light-nuxt-docs": lightNuxtDocs,
+          // "dark-nuxt-docs": darkNuxtDocs,
+          // "ng-docs": lightNgDocs,
+          // "light-ga4": lightGoogleAnalytics,
         },
         variations: {
           colors: [
