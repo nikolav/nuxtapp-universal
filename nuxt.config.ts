@@ -48,6 +48,9 @@ export default defineNuxtConfig({
     databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
     databaseUrl: process.env.NUXT_DATABASE_URL,
     databaseCa: process.env.NUXT_DATABASE_CA,
+    apiKeys: {
+      gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
+    },
     public: {
       ssr: SSR,
       siteUrl,

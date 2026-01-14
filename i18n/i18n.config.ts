@@ -2,8 +2,8 @@ export default defineI18nConfig(() => ({
   // required for Composition API
   legacy: false,
   // fallback if key is missing
-  fallbackLocale: "en",
-  // fallbackLocale: ['en', 'fr'],
+  // fallbackLocale: "en",
+  fallbackLocale: ["en", "sr"],
   // fallbackLocale: {
   //   'de-CH': ['fr', 'it'],
   //   'zh-Hant': ['zh-Hans'],
