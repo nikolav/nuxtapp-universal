@@ -5,13 +5,15 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 // type TMeta = Record<string, string>[];
 
-const PRODUCTION = "production" === process.env.NODE_ENV;
+const PRODUCTION =
+  "production" === (process.env.NUXT_SITE_ENV || process.env.NODE_ENV);
 const SSR = parseBoolean(process.env.NUXT_PUBLIC_SSR);
 
 const siteUrl = trimEnd(
   PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
   "/"
 );
+const siteName = process.env.NUXT_SITE_NAME ?? "";
 
 const CWD = process.cwd();
 export const defaultLocale = process.env.NUXT_PUBLIC_DEFAULT_LOCALE ?? "sr";
@@ -68,6 +70,7 @@ export default defineNuxtConfig({
     public: {
       ssr: SSR,
       siteUrl,
+      siteName,
       baseUrl: siteUrl,
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       defaultLocale,
@@ -117,9 +120,12 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   site: {
     url: siteUrl,
-    name: process.env.NUXT_SITE_NAME,
+    name: siteName,
+    env: process.env.NUXT_SITE_ENV,
     description: process.env.NUXT_SITE_DESCRIPTION,
     defaultLocale,
+    trailingSlash: false,
+    indexable: PRODUCTION,
   },
 
   seo: {
@@ -134,6 +140,7 @@ export default defineNuxtConfig({
   },
 
   robots: {
+    cacheControl: PRODUCTION ? "max-age=14400, must-revalidate" : false,
     groups: PRODUCTION
       ? [{ userAgent: ["*"], allow: ["/"] }]
       : [{ userAgent: ["*"], disallow: ["/"] }],
@@ -141,6 +148,7 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
+    cacheMaxAgeSeconds: PRODUCTION ? 60 * 60 : 60 * 10,
     autoLastmod: true,
     exclude: ["/api/**", "/_nuxt/**"],
     defaults: { changefreq: "weekly", priority: 0.7 },
@@ -148,13 +156,21 @@ export default defineNuxtConfig({
 
   schemaOrg: {
     identity: {
-      url: siteUrl,
       type: "Organization",
-      name: process.env.NUXT_SITE_NAME ?? "",
+      name: siteName,
+      url: siteUrl,
+      // logo: "/logo.png",
     },
   },
 
-  ogImage: { enabled: PRODUCTION },
+  ogImage: {
+    enabled: PRODUCTION,
+    // defaults: {
+    //   // built-in default component exists; replace with your template
+    //   // if you have one :contentReference[oaicite:12]{index=12}
+    //   component: "NuxtSeo",
+    // },
+  },
 
   linkChecker: {
     enabled: true,
@@ -170,8 +186,9 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
 
     prerender: {
-      routes: ["/"],
+      // crawlLinks: true,
       // failOnError: true,
+      routes: ["/"],
     },
 
     routeRules: {
@@ -199,6 +216,25 @@ export default defineNuxtConfig({
 
     // keep generated route values
     scanPageMeta: true,
+  },
+
+  hooks: {
+    "prerender:routes": async ({ routes }) => {
+      // const res = await fetch(API_URL);
+      // const d = await res.json();
+      // for (const pid of d.prerender.pids) {
+      //   routes.add(`/products/${pid}`);
+      // }
+      routes.add("/");
+    },
+    // "pages:extend"
+    // "render:html"
+    // # append dirs, extending default path
+    // "components:dirs": (dirs) => {
+    //   dirs.push({
+    //     path: "/path",
+    //     prefix: "App",
+    //   });
   },
 
   // ---------------------------------------------------------------------------
