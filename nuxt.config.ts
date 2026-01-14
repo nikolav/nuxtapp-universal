@@ -12,6 +12,7 @@ const siteUrl = trimEnd(
   "/"
 );
 
+const CWD = process.cwd();
 export const defaultLocale = process.env.NUXT_PUBLIC_DEFAULT_LOCALE ?? "sr";
 
 export default defineNuxtConfig({
@@ -48,9 +49,10 @@ export default defineNuxtConfig({
     databaseUrl: process.env.NUXT_DATABASE_URL,
     databaseCa: process.env.NUXT_DATABASE_CA,
     public: {
-      siteUrl,
-      apiBase: process.env.NUXT_PUBLIC_API_BASE,
       ssr: SSR,
+      siteUrl,
+      baseUrl: siteUrl,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
       defaultLocale,
       gtmId: process.env.NUXT_PUBLIC_GTM_ID,
       analyticsEnabled: parseBoolean(process.env.NUXT_PUBLIC_ANALYTICS_ENABLED),
@@ -249,6 +251,7 @@ export default defineNuxtConfig({
     },
   },
 
+  // #https://i18n.nuxtjs.org/docs/api/options
   i18n: {
     strategy: "prefix",
     baseUrl: siteUrl,
@@ -256,12 +259,16 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       redirectOn: "root",
       cookieCrossOrigin: true,
+      fallbackLocale: "sr",
     },
-    // #https://i18n.nuxtjs.org/docs/guide/lang-switcher#wait-for-page-transition
+    // #https://i18n.nuxtjs.org/docs/api/options#skipsettinglocaleonnavigate
     skipSettingLocaleOnNavigate: true,
+    // langDir: "locales",
     // vueI18n: "i18n.config.ts",
     defaultLocale,
     locales: [
+      // example RTL:
+      // { code: 'ar', language: 'ar-EG', file: 'ar.json', dir: 'rtl', name: 'العربية' },
       {
         isCatchallLocale: true,
         code: "sr",
