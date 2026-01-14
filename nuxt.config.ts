@@ -181,6 +181,25 @@ export default defineNuxtConfig({
     scanPageMeta: true,
   },
 
+  hooks: {
+    "prerender:routes": async ({ routes }) => {
+      // const res = await fetch(API_URL);
+      // const d = await res.json();
+      // for (const pid of d.prerender.pids) {
+      //   routes.add(`/products/${pid}`);
+      // }
+      routes.add("/");
+    },
+    // "pages:extend"
+    // "render:html"
+    // # append dirs, extending default path
+    // "components:dirs": (dirs) => {
+    //   dirs.push({
+    //     path: "/path",
+    //     prefix: "App",
+    //   });
+  },
+
   // ---------------------------------------------------------------------------
   // Tooling
   // ---------------------------------------------------------------------------
