@@ -10,6 +10,7 @@
 // });
 definePageMeta({
   title: "pages.blogs-tech-slug.title",
+  description: "pages.blogs-tech-slug.description",
   layout: "default",
   i18n: {
     paths: {
