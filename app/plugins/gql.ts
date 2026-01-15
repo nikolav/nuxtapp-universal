@@ -3,10 +3,12 @@ import { from } from "rxjs";
 import type { RequestExtendedOptions } from "graphql-request";
 
 export default defineNuxtPlugin({
-  name: "graphql:request",
+  name: "gql",
+  dependsOn: ["utils"],
   setup: () => {
-    // const url = useRuntimeConfig().public.graphqlEndpoint;
-    const url = "https://graphqlzero.almansi.me/api";
+    const { $$ } = useNuxtApp();
+    const { siteUrl, graphqlEndpoint } = useRuntimeConfig().public;
+    const url = `${siteUrl}/${$$.trim(graphqlEndpoint, "/")}`;
     return {
       provide: {
         gql: <TData = unknown>(config: Partial<RequestExtendedOptions>) =>

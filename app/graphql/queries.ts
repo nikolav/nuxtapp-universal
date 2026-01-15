@@ -1,13 +1,7 @@
 import { gql } from "graphql-request";
 
-export const Q_demo = gql`
-  query {
-    users {
-      data {
-        id
-        name
-        email
-      }
-    }
+export const Q_status = gql`
+  query q_status {
+    status
   }
 `;

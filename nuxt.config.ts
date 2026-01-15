@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 
 import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
+
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 // type TMeta = Record<string, string>[];
@@ -70,7 +71,7 @@ export default defineNuxtConfig({
       i18n: {
         // .env extend i18n
       },
-      graphqlEndpoint: process.env.NUXT_PUBLIC_GRAPHQL_ENDPOINT,
+      graphqlEndpoint: process.env.NUXT_PUBLIC_GRAPHQL_ENDPOINT ?? "",
     },
   },
 

@@ -6,6 +6,7 @@ import each from "lodash/each";
 import transform from "lodash/transform";
 import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
+import trim from "lodash/trim";
 
 import parseBoolean from "@eturino/ts-parse-boolean";
 
@@ -21,6 +22,7 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          trim,
           each,
           get,
           isEmpty,
