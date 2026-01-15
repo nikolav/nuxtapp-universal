@@ -3,7 +3,7 @@ import type { Config } from "tailwindcss";
 // import twTypography from "@tailwindcss/typography";
 // import twAspectRatio from "@tailwindcss/aspect-ratio";
 // import twContainer from "@tailwindcss/container-queries";
-import { COLOR_PRIMARY } from "./app/assets/themes";
+import { COLOR_PRIMARY } from "./app/assets/themes/colors";
 
 const primary = COLOR_PRIMARY;
 
