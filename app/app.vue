@@ -53,6 +53,9 @@ const { finalizePendingLocaleChange } = useI18n();
       ></noscript>
     </template>
 
+    <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
+    <NuxtLoadingIndicator color="primary" />
+
     <!-- head seo metadata for locale  -->
     <AppSeoCoreLocale />
 
