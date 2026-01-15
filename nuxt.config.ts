@@ -1,8 +1,13 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 // type TMeta = Record<string, string>[];
+
+const DIR = path.dirname(fileURLToPath(import.meta.url));
 
 const PRODUCTION =
   "production" === (process.env.NUXT_SITE_ENV || process.env.NODE_ENV);
@@ -14,7 +19,6 @@ const siteUrl = trimEnd(
 );
 const siteName = process.env.NUXT_SITE_NAME ?? "";
 
-const CWD = process.cwd();
 export const defaultLocale = process.env.NUXT_PUBLIC_DEFAULT_LOCALE ?? "sr";
 
 export default defineNuxtConfig({
@@ -47,6 +51,7 @@ export default defineNuxtConfig({
   // Runtime config
   // ---------------------------------------------------------------------------
   runtimeConfig: {
+    DIR,
     databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
     databaseUrl: process.env.NUXT_DATABASE_URL,
     databaseCa: process.env.NUXT_DATABASE_CA,
