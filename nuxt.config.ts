@@ -65,6 +65,7 @@ export default defineNuxtConfig({
       i18n: {
         // .env extend i18n
       },
+      graphqlEndpoint: process.env.NUXT_PUBLIC_GRAPHQL_ENDPOINT,
     },
   },
 

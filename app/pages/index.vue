@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useGraphQL } from "~/composables/request";
+import { Q_demo } from "~/graphql";
+
 // ## imports, external, internal
 // ## config:const
 // ## nuxt:core
@@ -31,19 +34,17 @@ definePageMeta({
 // ## provide / expose
 // ## io, events, websockets
 
+const { data } = await useGraphQL({ key: "122", document: Q_demo });
+
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--index">
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error dolorum
-      nisi voluptatum odit laudantium temporibus quisquam tempore ut, expedita
-      incidunt? At, quaerat dignissimos tempora assumenda blanditiis unde
-      officia. Quo, nihil!
-    </p>
     <div>
-      <IconsIconX icon="local:logo-nikolav" />
+      <small>
+        <pre>{{ data }}</pre>
+      </small>
     </div>
   </section>
 </template>
