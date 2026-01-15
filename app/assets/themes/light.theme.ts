@@ -5,7 +5,7 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from "./colors";
  * GA4-ish (screenshot): airy light-gray app bg, white cards,
  * subtle dividers, Google blue accents, cool neutral text.
  */
-export const lightGoogleAnalytics: ThemeDefinition = {
+export const light: ThemeDefinition = {
   dark: false,
 
   colors: {

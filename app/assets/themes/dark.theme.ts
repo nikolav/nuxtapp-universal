@@ -6,7 +6,7 @@ import { COLOR_PRIMARY_DARK, COLOR_SECONDARY_DARK } from "./colors";
  * deep neutral surfaces, subtle dividers, Google blue accent.
  * Aim: low-glare, high-contrast, “pro dashboard” feel.
  */
-export const darkGoogleAnalytics: ThemeDefinition = {
+export const dark: ThemeDefinition = {
   dark: true,
 
   colors: {
