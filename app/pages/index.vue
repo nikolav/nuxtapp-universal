@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGraphQL } from "~/composables/request";
+import { useAsyncGraphqlData } from "~/composables/request";
 import { Q_status } from "~/graphql";
 
 // ## imports, external, internal
@@ -34,7 +34,10 @@ definePageMeta({
 // ## provide / expose
 // ## io, events, websockets
 
-const { data } = await useGraphQL({ key: "Q_status", document: Q_status });
+const { data } = await useAsyncGraphqlData({
+  key: "Q_status",
+  document: Q_status,
+});
 
 // @@eos
 </script>

@@ -1,1 +1,1 @@
- export { useGraphQL } from "./use-graphql";
+export { useAsyncGraphqlData } from "./use-graphql";
