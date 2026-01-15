@@ -8,8 +8,9 @@ import {
   // dark,
   // lightNgDocs,
   // lightNuxtDocs,
-  darkNuxtDocs,
+  // darkNuxtDocs,
   lightGoogleAnalytics,
+  darkGoogleAnalytics,
 } from "~/assets/themes";
 import { displayDefaults as display } from "~/assets/breakpoints";
 import { DatetimeService } from "~/plugins/datetime";
@@ -36,13 +37,8 @@ export default defineNuxtPlugin((nuxtApp) => {
       theme: {
         defaultTheme: "system",
         themes: {
-          // light,
           light: lightGoogleAnalytics,
-          dark: darkNuxtDocs,
-          // "light-nuxt-docs": lightNuxtDocs,
-          // "dark-nuxt-docs": darkNuxtDocs,
-          // "ng-docs": lightNgDocs,
-          // "light-ga4": lightGoogleAnalytics,
+          dark: darkGoogleAnalytics,
         },
         variations: {
           colors: [

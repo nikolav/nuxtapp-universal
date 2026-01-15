@@ -1,62 +1,58 @@
 import type { ThemeDefinition } from "vuetify";
 
 /**
- * Roughly matches GA4 UI (clean whites, cool grays, Google blue accent)
- * Screenshot vibe:
- * - page bg: very light gray-blue
- * - cards: white with subtle borders
- * - primary: Google blue
- * - text: dark slate
+ * GA4-ish (screenshot): airy light-gray app bg, white cards,
+ * subtle dividers, Google blue accents, cool neutral text.
  */
 export const lightGoogleAnalytics: ThemeDefinition = {
   dark: false,
 
   colors: {
-    // Surfaces
-    background: "#F8FAFD", // GA-like app background
-    surface: "#FFFFFF", // cards
+    // App surfaces
+    background: "#F6F8FC", // GA page background (very light blue-gray)
+    surface: "#FFFFFF", // cards / panels
     "surface-bright": "#FFFFFF",
-    "surface-light": "#F1F3F4", // light panels / hover areas
-    "surface-variant": "#EEF2F7", // sidebar / separators
-    "on-surface-variant": "#1F2937",
+    "surface-light": "#F8F9FA", // hover fills / light strips
+    "surface-variant": "#F1F3F4", // sidebar sections / separators
+    "on-surface-variant": "#3C4043", // GA secondary text
 
-    // Brand / accents (Google-ish)
+    // Accents (Google)
     primary: "#1A73E8", // Google blue
-    secondary: "#5F6368", // GA neutral accent
+    secondary: "#5F6368", // neutral gray (icons/labels)
 
-    // Feedback (keep Google-y but not neon)
+    // Feedback
     success: "#1E8E3E",
     warning: "#F9AB00",
     error: "#D93025",
     info: "#1A73E8",
 
-    // Text
-    "on-background": "#202124", // GA primary text
+    // Text on surfaces
+    "on-background": "#202124",
     "on-surface": "#202124",
     "on-primary": "#FFFFFF",
     "on-secondary": "#FFFFFF",
   },
 
   variables: {
-    // Borders/dividers (GA is subtle but visible)
-    "border-color": "#E0E3E7",
+    // Dividers/borders (GA uses visible but soft lines)
+    "border-color": "#DADCE0",
     "border-opacity": 1,
 
-    // Typography emphasis (GA text is crisp, not too faded)
-    "high-emphasis-opacity": 0.9,
-    "medium-emphasis-opacity": 0.7,
+    // Typography emphasis (GA has crisp hierarchy)
+    "high-emphasis-opacity": 0.92,
+    "medium-emphasis-opacity": 0.72,
     "disabled-opacity": 0.38,
 
-    // Interaction states (GA: very light fills)
-    "idle-opacity": 0.02,
-    "hover-opacity": 0.06,
-    "focus-opacity": 0.12,
-    "selected-opacity": 0.1, // selected nav item / chips
-    "activated-opacity": 0.12,
+    // Interaction states (subtle fills like GA)
+    "idle-opacity": 0,
+    "hover-opacity": 0.04,
+    "focus-opacity": 0.1,
+    "selected-opacity": 0.08, // selected nav / chips
+    "activated-opacity": 0.1,
     "pressed-opacity": 0.12,
-    "dragged-opacity": 0.08,
+    "dragged-opacity": 0.06,
 
-    // Code / kbd (keep neutral)
+    // Code / kbd (neutral)
     "theme-kbd": "#202124",
     "theme-on-kbd": "#FFFFFF",
     "theme-code": "#F1F3F4",
