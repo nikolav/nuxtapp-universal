@@ -30,23 +30,11 @@ definePageMeta({
 // ## head / meta
 // ## provide / expose
 // ## io, events, websockets
-
 // @@eos
 </script>
 
 <template>
-  <section class="app-container-reset page--index">
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error dolorum
-      nisi voluptatum odit laudantium temporibus quisquam tempore ut, expedita
-      incidunt? At, quaerat dignissimos tempora assumenda blanditiis unde
-      officia. Quo, nihil!
-    </p>
-    <div>
-      <IconsIconX icon="local:logo-nikolav" />
-    </div>
-    <VBtn>ok</VBtn>
-  </section>
+  <section class="app-container-reset page--index"></section>
 </template>
 
 <!-- scoped component styles, default -->
