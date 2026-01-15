@@ -25,7 +25,7 @@ const apiBase = trimEnd(
   "/"
 );
 
-export const defaultLocale = process.env.NUXT_PUBLIC_DEFAULT_LOCALE ?? "sr";
+export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
 
 export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
