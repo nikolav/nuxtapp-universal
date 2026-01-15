@@ -8,7 +8,7 @@ import { Query, Mutation } from "../graphql/resolvers";
 export const yoga = createYoga({
   schema: createSchema({
     typeDefs: readFileSync(
-      path.resolve(useRuntimeConfig().DIR, "server/graphql/schema.graphql"),
+      path.resolve(process.cwd(), "server/graphql/schema.graphql"),
       "utf-8"
     ),
     resolvers: {

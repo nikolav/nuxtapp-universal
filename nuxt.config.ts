@@ -12,7 +12,7 @@ const DIR = path.dirname(fileURLToPath(import.meta.url));
 
 const PRODUCTION =
   "production" === (process.env.NUXT_SITE_ENV || process.env.NODE_ENV);
-const SSR = parseBoolean(process.env.NUXT_PUBLIC_SSR);
+const SSR = parseBoolean(process.env.NUXT_SSR);
 
 const siteUrl = trimEnd(
   PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
@@ -21,9 +21,7 @@ const siteUrl = trimEnd(
 const siteName = process.env.NUXT_SITE_NAME ?? "";
 
 const apiBase = trimEnd(
-  PRODUCTION
-    ? process.env.NUXT_PUBLIC_API_BASE
-    : process.env.NUXT_PUBLIC_API_BASE_DEV,
+  PRODUCTION ? process.env.NUXT_API_BASE : process.env.NUXT_API_BASE_DEV,
   "/"
 );
 
@@ -78,7 +76,7 @@ export default defineNuxtConfig({
       i18n: {
         // .env extend i18n
       },
-      graphqlEndpoint: process.env.NUXT_PUBLIC_GRAPHQL_ENDPOINT ?? "",
+      graphqlEndpoint: process.env.NUXT_GRAPHQL_ENDPOINT ?? "",
     },
   },
 
