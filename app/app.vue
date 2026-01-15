@@ -42,7 +42,7 @@ const { finalizePendingLocaleChange } = useI18n();
 <template>
   <section class="app-container-reset app--root">
     <!-- Google Tag Manager --noscript -->
-    <Body v-if="analyticsEnabled">
+    <template v-if="analyticsEnabled">
       <noscript
         ><iframe
           :src="`https://www.googletagmanager.com/ns.html?id=${GTMID}`"
@@ -51,7 +51,7 @@ const { finalizePendingLocaleChange } = useI18n();
           style="display: none; visibility: hidden"
         ></iframe
       ></noscript>
-    </Body>
+    </template>
 
     <!-- head seo metadata for locale  -->
     <AppSeoCoreLocale />

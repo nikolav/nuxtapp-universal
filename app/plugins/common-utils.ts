@@ -12,30 +12,33 @@ import parseBoolean from "@eturino/ts-parse-boolean";
 import { onDebug } from "~/utils/on-debug";
 import { coreHasOwn } from "~/utils/core-has-own";
 //
-export default defineNuxtPlugin((_nuxtapp) => {
-  return {
-    provide: {
-      // prepends '$' to export names
-      //   foo => $foo
-      $: {
-        // lodash
-        each,
-        get,
-        isEmpty,
-        transform,
-        set,
-        unset,
-        hasPath,
-        isString,
-        // local
-        onDebug,
-        hasOwn: coreHasOwn,
-        // core, misc.
-        copy: Object.assign.bind(Object),
-        cloned: structuredClone.bind(null),
-        // 3rd party
-        parseBoolean,
+export default defineNuxtPlugin({
+  name: "utils",
+  setup: () => {
+    return {
+      provide: {
+        // prepends '$' to export names
+        //   foo => $foo
+        $: {
+          // lodash
+          each,
+          get,
+          isEmpty,
+          transform,
+          set,
+          unset,
+          hasPath,
+          isString,
+          // local
+          onDebug,
+          hasOwn: coreHasOwn,
+          // core, misc.
+          copy: Object.assign.bind(Object),
+          cloned: structuredClone.bind(null),
+          // 3rd party
+          parseBoolean,
+        },
       },
-    },
-  };
+    };
+  },
 });
