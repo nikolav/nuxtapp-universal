@@ -6,7 +6,6 @@ import { createYoga, createSchema } from "graphql-yoga";
 import { Query, Mutation } from "../graphql/resolvers";
 
 export const yoga = createYoga({
-  // graphqlEndpoint: "/api/graphql",
   schema: createSchema({
     typeDefs: readFileSync(
       path.resolve(useRuntimeConfig().DIR, "server/graphql/schema.graphql"),

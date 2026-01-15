@@ -5,8 +5,8 @@ export const useAsyncGraphqlData = <TData = unknown>(
   options: TGQLOptions<TData>
 ) => {
   const { $$ } = useNuxtApp();
-  const { siteUrl, graphqlEndpoint } = useRuntimeConfig().public;
-  const url = `${siteUrl}/${$$.trim(graphqlEndpoint, "/")}`;
+  const { apiBase, graphqlEndpoint } = useRuntimeConfig().public;
+  const url = `${apiBase}/${$$.trim(graphqlEndpoint, "/")}`;
   const requestHeaders: HeadersInit = {};
   return useAsyncData(
     options.key,

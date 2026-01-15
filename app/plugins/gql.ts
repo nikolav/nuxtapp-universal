@@ -7,8 +7,8 @@ export default defineNuxtPlugin({
   dependsOn: ["utils"],
   setup: () => {
     const { $$ } = useNuxtApp();
-    const { siteUrl, graphqlEndpoint } = useRuntimeConfig().public;
-    const url = `${siteUrl}/${$$.trim(graphqlEndpoint, "/")}`;
+    const { apiBase, graphqlEndpoint } = useRuntimeConfig().public;
+    const url = `${apiBase}/${$$.trim(graphqlEndpoint, "/")}`;
     return {
       provide: {
         gql: <TData = unknown>(config: Partial<RequestExtendedOptions>) =>
