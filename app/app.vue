@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { COLOR_PRIMARY } from "~/assets/themes/colors";
+
 // ## imports, external, internal
 // ## config:const
 // ## nuxt:core
@@ -54,7 +56,7 @@ const { finalizePendingLocaleChange } = useI18n();
     </template>
 
     <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
-    <NuxtLoadingIndicator color="primary" />
+    <NuxtLoadingIndicator :color="COLOR_PRIMARY" />
 
     <!-- head seo metadata for locale  -->
     <AppSeoCoreLocale />
