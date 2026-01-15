@@ -1,34 +1,63 @@
 import type { ThemeDefinition } from "vuetify";
-import chroma from "chroma-js";
-import {
-  COLOR_PRIMARY,
-  THEME_DARK_BG,
-  THEME_DARK_LIGHTNESS_SHIFT,
-  THEME_DARK_SURFACE,
-} from "./colors";
+import { COLOR_PRIMARY_DARK, COLOR_SECONDARY_DARK } from "./colors";
 
-const primary_ = chroma(COLOR_PRIMARY);
-export const primary = primary_
-  .luminance(primary_.luminance() * THEME_DARK_LIGHTNESS_SHIFT)
-  .hex();
-export const secondary = chroma(primary).desaturate(1.4).brighten(0.8).hex();
-
-export const dark: ThemeDefinition = {
+/**
+ * Dark companion for GA4-ish light theme:
+ * deep neutral surfaces, subtle dividers, Google blue accent.
+ * Aim: low-glare, high-contrast, “pro dashboard” feel.
+ */
+export const darkGoogleAnalytics: ThemeDefinition = {
   dark: true,
+
   colors: {
-    background: THEME_DARK_BG,
-    surface: THEME_DARK_SURFACE,
-    primary,
-    secondary,
-    success: "#66BB6A",
-    error: "#EF5350",
-    info: "#42A5F5",
-    warning: "#FFB74D",
-    //
-    primary2: primary,
-    primary3: primary,
-    accent1: primary,
-    accent2: primary,
-    complement: primary,
+    // App surfaces (deep, slightly blue/graphite)
+    background: "#0B1220", // app background (deep navy/graphite)
+    surface: "#111A2E", // cards / panels
+    "surface-bright": "#15203A", // raised cards / dialogs
+    "surface-light": "#0F172A", // hover strips / subtle fills
+    "surface-variant": "#1B2741", // sidebar sections / separators
+    "on-surface-variant": "#B6BFCC", // secondary text
+
+    // Accents (Google blue still reads well on dark)
+    primary: COLOR_PRIMARY_DARK, // brighter blue for dark surfaces
+    secondary: COLOR_SECONDARY_DARK, // cool neutral gray (icons/labels)
+
+    // Feedback (slightly lifted for dark)
+    success: "#34A853", // Google green-ish
+    warning: "#F9AB00",
+    error: "#EA4335",
+    info: "#4C8DFF",
+
+    // Text on surfaces
+    "on-background": "#E8EAED", // GA dark mode-ish text
+    "on-surface": "#E8EAED",
+    "on-primary": "#0B1220", // readable on bright primary
+    "on-secondary": "#0B1220",
+  },
+
+  variables: {
+    // Dividers/borders (subtle, not chalky)
+    "border-color": "#24314B",
+    "border-opacity": 1,
+
+    // Typography emphasis
+    "high-emphasis-opacity": 0.92,
+    "medium-emphasis-opacity": 0.74,
+    "disabled-opacity": 0.42,
+
+    // Interaction states (slightly stronger than light so they show up)
+    "idle-opacity": 0,
+    "hover-opacity": 0.08,
+    "focus-opacity": 0.14,
+    "selected-opacity": 0.12,
+    "activated-opacity": 0.14,
+    "pressed-opacity": 0.16,
+    "dragged-opacity": 0.1,
+
+    // Code / kbd (dark neutrals)
+    "theme-kbd": "#E8EAED",
+    "theme-on-kbd": "#0B1220",
+    "theme-code": "#0F172A",
+    "theme-on-code": "#E8EAED",
   },
 };
