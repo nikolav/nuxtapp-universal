@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { COLOR_PRIMARY } from "~/assets/themes/colors";
+
 // ## imports, external, internal
 // ## config:const
+const {
+  theme: { darkRootClass },
+} = useAppConfig();
 // ## nuxt:core
 const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 // ## props / emits / v-model / v-model helper
@@ -41,6 +46,9 @@ const { finalizePendingLocaleChange } = useI18n();
 
 <template>
   <section class="app-container-reset app--root">
+    <!-- toggle dark class on html -->
+    <Html :class="{ [darkRootClass]: false }" />
+
     <!-- Google Tag Manager --noscript -->
     <template v-if="analyticsEnabled">
       <noscript
@@ -52,6 +60,9 @@ const { finalizePendingLocaleChange } = useI18n();
         ></iframe
       ></noscript>
     </template>
+
+    <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
+    <NuxtLoadingIndicator :color="COLOR_PRIMARY" />
 
     <!-- head seo metadata for locale  -->
     <AppSeoCoreLocale />

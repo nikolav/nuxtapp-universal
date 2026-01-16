@@ -4,8 +4,9 @@ import type { Config } from "tailwindcss";
 // import twTypography from "@tailwindcss/typography";
 // import twAspectRatio from "@tailwindcss/aspect-ratio";
 // import twContainer from "@tailwindcss/container-queries";
+import { COLOR_PRIMARY } from "./app/assets/themes/colors";
 
-const primary = "#184c9f";
+const primary = COLOR_PRIMARY;
 
 export default {
   // Safer default for Vue/Nuxt (SSR friendly + predictable)
