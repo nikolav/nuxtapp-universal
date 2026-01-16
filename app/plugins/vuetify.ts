@@ -3,6 +3,9 @@ import { md3 } from "vuetify/blueprints";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import DayJsAdapter from "@date-io/dayjs";
 
+import en from "dayjs/locale/en";
+import sr from "dayjs/locale/sr";
+
 import {
   light,
   dark,
@@ -18,9 +21,7 @@ import { DatetimeService } from "~/plugins/datetime";
 // import { srLatn } from "vuetify/locale";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  // const {
-  //   app: { TOOLTIPS_OPEN_DELAY, DEFAULT_TRANSITION },
-  // } = useAppConfig();
+  const { locale } = useI18n();
 
   nuxtApp.vueApp.use(
     createVuetify({
@@ -114,18 +115,18 @@ export default defineNuxtPlugin((nuxtApp) => {
       },
 
       locale: {
-        // locale: "srLatn",
+        locale: locale.value,
+        // fallback: "sr",
         // messages: { srLatn },
-        // fallback: "en",
-        // locale: 'zhHans',
-        // messages: { zhHans, pl, sv }
       },
 
       date: {
         adapter: DayJsAdapter,
-        // locale: {
-        //   srLatn: "sr-Latn-RS",
-        // },
+        locale: {
+          sr,
+          en,
+          // srLatn: "sr-Latn-RS",
+        },
         formats: DatetimeService.FORMAT,
       },
     })
