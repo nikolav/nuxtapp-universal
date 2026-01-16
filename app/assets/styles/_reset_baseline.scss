@@ -97,10 +97,26 @@ a:not([class]) {
 /* 7) Text selection styling */
 ::-moz-selection {
   background: #b3d4fc;
+  color: #000;
   text-shadow: none;
 }
 ::selection {
   background: #b3d4fc;
+  color: #000;
+  text-shadow: none;
+}
+/*
+  dark theme text selection color
+  triggered by :root.theme-dark
+*/
+:root.theme-dark ::-moz-selection {
+  background: rgba(59, 130, 246, 0.45);
+  color: #ffffff;
+  text-shadow: none;
+}
+:root.theme-dark ::selection {
+  background: rgba(59, 130, 246, 0.45);
+  color: #ffffff;
   text-shadow: none;
 }
 

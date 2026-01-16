@@ -25,8 +25,7 @@ export default defineAppConfig({
   // Theme (pure UI, no secrets)
   // ---------------------------------------------------------------------------
   theme: {
-    mode: "light", // 'light' | 'dark' | 'system'
-    primaryColor: "#1e3a8a",
+    darkRootClass: "theme-dark",
   },
 
   // ---------------------------------------------------------------------------

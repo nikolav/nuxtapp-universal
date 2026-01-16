@@ -3,6 +3,9 @@ import { COLOR_PRIMARY } from "~/assets/themes/colors";
 
 // ## imports, external, internal
 // ## config:const
+const {
+  theme: { darkRootClass },
+} = useAppConfig();
 // ## nuxt:core
 const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 // ## props / emits / v-model / v-model helper
@@ -43,6 +46,9 @@ const { finalizePendingLocaleChange } = useI18n();
 
 <template>
   <section class="app-container-reset app--root">
+    <!-- toggle dark class on html -->
+    <Html :class="{ [darkRootClass]: false }" />
+
     <!-- Google Tag Manager --noscript -->
     <template v-if="analyticsEnabled">
       <noscript
