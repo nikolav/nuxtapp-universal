@@ -48,9 +48,6 @@ const { finalizePendingLocaleChange } = useI18n();
 
 <template>
   <VApp class="*app-container-reset app--root">
-    <!-- toggle dark class on html -->
-    <Html :class="{ [darkRootClass]: themeIsDark }" />
-
     <!-- Google Tag Manager --noscript -->
     <template v-if="analyticsEnabled">
       <noscript
@@ -62,6 +59,9 @@ const { finalizePendingLocaleChange } = useI18n();
         ></iframe
       ></noscript>
     </template>
+
+    <!-- toggle dark class on html -->
+    <Html :class="{ [darkRootClass]: themeIsDark }" />
 
     <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
     <NuxtLoadingIndicator :color="COLOR_PRIMARY" />

@@ -6,6 +6,9 @@ import DayJsAdapter from "@date-io/dayjs";
 import en from "dayjs/locale/en";
 import sr from "dayjs/locale/sr";
 
+// use aliases
+import { VBtn } from "vuetify/components/VBtn";
+
 import {
   light,
   dark,
@@ -21,8 +24,6 @@ import { DatetimeService } from "~/plugins/datetime";
 // import { srLatn } from "vuetify/locale";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const { locale } = useI18n();
-
   nuxtApp.vueApp.use(
     createVuetify({
       ssr: useRuntimeConfig().public.ssr,
@@ -33,7 +34,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       // sync with tailwindcss.config.screens
       display,
 
-      // https://next.vuetifyjs.com/en/features/theme/
+      // https://vuetifyjs.com/en/features/theme/#custom-themes
       // https://next.vuetifyjs.com/en/features/theme/#theme-object-structure
       theme: {
         defaultTheme: "system",
@@ -63,15 +64,18 @@ export default defineNuxtPlugin((nuxtApp) => {
         // stylesheetId: "122",
       },
 
-      // aliases: {
-      //   MyButton: VBtn,
-      //   MyButtonAlt: VBtn,
-      // },
+      aliases: {
+        AppVBtn: VBtn,
+      },
 
       // component/alias props
       defaults: {
         global: {
           // ripple: true,
+        },
+        AppVBtn: {
+          color: "transparent",
+          rounded: true,
         },
         // MyButton: {
         //   color: 'primary',
@@ -115,7 +119,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       },
 
       locale: {
-        locale: locale.value,
+        // locale: locale.value,
         // fallback: "sr",
         // messages: { srLatn },
       },
