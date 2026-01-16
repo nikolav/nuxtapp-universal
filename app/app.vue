@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { COLOR_PRIMARY } from "~/assets/themes/colors";
-
 // ## imports, external, internal
+import { useTheme } from "vuetify";
+import { COLOR_PRIMARY } from "~/assets/themes/colors";
 // ## config:const
+const {
+  theme: { darkRootClass },
+} = useAppConfig();
 // ## nuxt:core
 const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 // ## props / emits / v-model / v-model helper
@@ -26,9 +29,11 @@ const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 // ## icons
 // ## refs / flags / models
 // ## state, pinia, local
+const theme = useTheme();
 // ## storage / cookies
 // ## async data
 // ## computed
+const themeIsDark = computed(() => theme.global.current.value.dark);
 // ## helpers / utils
 const { finalizePendingLocaleChange } = useI18n();
 // ## handlers
@@ -43,6 +48,9 @@ const { finalizePendingLocaleChange } = useI18n();
 
 <template>
   <VApp class="*app-container-reset app--root">
+    <!-- toggle dark class on html -->
+    <Html :class="{ [darkRootClass]: themeIsDark }" />
+
     <!-- Google Tag Manager --noscript -->
     <template v-if="analyticsEnabled">
       <noscript

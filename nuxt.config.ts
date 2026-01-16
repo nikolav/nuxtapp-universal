@@ -33,6 +33,12 @@ export default defineNuxtConfig({
     strict: true,
   },
 
+  future: {
+    compatibilityVersion: 4,
+    // Keep TS “bundler” resolution mode (better with modern exports).
+    typescriptBundlerResolution: true,
+  },
+
   // ---------------------------------------------------------------------------
   // Modules
   // ---------------------------------------------------------------------------
@@ -65,6 +71,7 @@ export default defineNuxtConfig({
   // Runtime config
   // ---------------------------------------------------------------------------
   runtimeConfig: {
+    apiSecret: process.env.API_SECRET ?? "",
     databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
     databaseUrl: process.env.NUXT_DATABASE_URL,
     databaseCa: process.env.NUXT_DATABASE_CA,
@@ -73,6 +80,7 @@ export default defineNuxtConfig({
     },
     public: {
       ssr: SSR,
+      appEnv: process.env.NODE_ENV ?? "development",
       siteUrl,
       siteName,
       baseUrl: siteUrl,
@@ -91,7 +99,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   app: {
     head: {
-      htmlAttrs: { lang: "en" },
+      htmlAttrs: { lang: defaultLocale },
       charset: "utf-8",
       viewport:
         "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
@@ -266,9 +274,11 @@ export default defineNuxtConfig({
     },
 
     ssr: { noExternal: ["vuetify"] },
+
+    clearScreen: false,
   },
 
-  sourcemap: { client: "hidden" },
+  sourcemap: { server: true, client: "hidden" },
 
   build: {
     transpile: ["vuetify"],
