@@ -1,7 +1,5 @@
 <script setup lang="ts">
 // ## imports, external, internal
-import { TOKEN_appEmitter$ } from "~/keys";
-import type { TOrNoValue } from "~/types";
 // ## config:const
 // ## nuxt:core
 // ## props / emits / v-model / v-model helper
