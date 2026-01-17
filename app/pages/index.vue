@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // ## imports, external, internal
 import { TOKEN_appEmitter$ } from "~/keys";
+import type { TOrNoValue } from "~/types";
 // ## config:const
 // ## nuxt:core
 // ## props / emits / v-model / v-model helper
@@ -32,19 +33,12 @@ definePageMeta({
 // ## provide / expose
 // ## io, events, websockets
 
-const emitter$ = inject(TOKEN_appEmitter$);
-const ok = () => {
-  console.log(Date.now());
-  emitter$?.next({ type: "foo", payload: 122 });
-};
-
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--index">
-    <AppVBtn @click="ok">ok</AppVBtn>
-    <VBtn @click="ok">ok</VBtn>
+    <!--  -->
   </section>
 </template>
 
