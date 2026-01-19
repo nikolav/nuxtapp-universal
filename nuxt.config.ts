@@ -10,13 +10,13 @@ const SSR = parseBoolean(process.env.NUXT_SSR);
 
 const siteUrl = trimEnd(
   PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
-  "/"
+  "/",
 );
 const siteName = process.env.NUXT_SITE_NAME ?? "";
 
 const apiBase = trimEnd(
   PRODUCTION ? process.env.NUXT_API_BASE : process.env.NUXT_API_BASE_DEV,
-  "/"
+  "/",
 );
 
 export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
@@ -61,6 +61,7 @@ export default defineNuxtConfig({
     databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
     databaseUrl: process.env.NUXT_DATABASE_URL,
     databaseCa: process.env.NUXT_DATABASE_CA,
+    databaseConnectionName: process.env.NUXT_DATABASE_CONNECTION_NAME,
     apiKeys: {
       gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
     },
