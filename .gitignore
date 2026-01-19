@@ -92,3 +92,5 @@ temp
 # Sentry Config File
 .env.sentry-build-plugin
 ca_igdnhgauckc.pem
+
+database.sqlite
