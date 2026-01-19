@@ -19,6 +19,9 @@ const apiBase = trimEnd(
   "/",
 );
 
+const databaseInit = parseBoolean(process.env.NUXT_DATABASE_INIT);
+const databaseConnectionName = process.env.NUXT_DATABASE_CONNECTION_NAME;
+
 export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
 
 export default defineNuxtConfig({
@@ -51,6 +54,14 @@ export default defineNuxtConfig({
     "nuxt-security",
     "@nuxtjs/fontaine",
     "@nuxtjs/i18n",
+    [
+      "./modules/on-build-copy-sqlite-db",
+      {
+        PRODUCTION,
+        databaseInit,
+        databaseConnectionName,
+      },
+    ],
   ],
 
   // ---------------------------------------------------------------------------
@@ -58,10 +69,10 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   runtimeConfig: {
     apiSecret: process.env.API_SECRET ?? "",
-    databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
+    databaseInit,
     databaseUrl: process.env.NUXT_DATABASE_URL,
     databaseCa: process.env.NUXT_DATABASE_CA,
-    databaseConnectionName: process.env.NUXT_DATABASE_CONNECTION_NAME,
+    databaseConnectionName,
     apiKeys: {
       gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
     },
