@@ -92,11 +92,11 @@ export default defineNuxtConfig({
 
       broadcasting: {
         reverb: {
-          key: process.env.REVERB_APP_KEY,
-          scheme: process.env.REVERB_SCHEME,
-          host: process.env.REVERB_HOST,
-          port: Number(process.env.REVERB_PORT ?? 443),
-          authEndpoint: process.env.REVERB_AUTH_ENDPOINT,
+          key: process.env.NUXT_PUBLIC_REVERB_KEY,
+          scheme: process.env.NUXT_PUBLIC_REVERB_SCHEME ?? "https",
+          host: process.env.NUXT_PUBLIC_REVERB_HOST,
+          port: Number(process.env.NUXT_PUBLIC_REVERB_PORT ?? 443),
+          authEndpoint: process.env.NUXT_PUBLIC_REVERB_AUTH_ENDPOINT,
         },
       },
     },
