@@ -89,6 +89,16 @@ export default defineNuxtConfig({
       i18n: {
         // .env extend i18n
       },
+
+      broadcasting: {
+        reverb: {
+          key: process.env.REVERB_APP_KEY,
+          scheme: process.env.REVERB_SCHEME,
+          host: process.env.REVERB_HOST,
+          port: Number(process.env.REVERB_PORT ?? 443),
+          authEndpoint: process.env.REVERB_AUTH_ENDPOINT,
+        },
+      },
     },
   },
 
