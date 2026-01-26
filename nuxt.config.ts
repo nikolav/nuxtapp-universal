@@ -297,6 +297,12 @@ export default defineNuxtConfig({
       xDNSPrefetchControl: "off",
       xPermittedCrossDomainPolicies: "none",
 
+      // stop COOP warning on HTTP (only enable when HTTPS)
+      crossOriginOpenerPolicy: isHttps ? "same-origin" : false,
+      crossOriginEmbedderPolicy: isHttps ? "require-corp" : false,
+      crossOriginResourcePolicy: isHttps ? "same-origin" : false,
+
+      // HSTS only when actually on HTTPS
       strictTransportSecurity:
         PRODUCTION && isHttps
           ? { maxAge: 15552000, includeSubdomains: true, preload: false }
