@@ -16,14 +16,20 @@ const SSR = parseBoolean(process.env.NUXT_SSR);
 
 const siteUrl = trimEnd(
   PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
-  "/"
+  "/",
 );
 const siteName = process.env.NUXT_SITE_NAME ?? "";
 
 const apiBase = trimEnd(
   PRODUCTION ? process.env.NUXT_API_BASE : process.env.NUXT_API_BASE_DEV,
-  "/"
+  "/",
 );
+const isHttps = siteUrl.startsWith("https://");
+
+const databaseInit = parseBoolean(process.env.NUXT_DATABASE_INIT);
+const databaseConnectionName = process.env.NUXT_DATABASE_CONNECTION_NAME;
+
+const redisEnabled = parseBoolean(process.env.NUXT_REDIS_INIT);
 
 export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
 
@@ -57,6 +63,14 @@ export default defineNuxtConfig({
     "nuxt-security",
     "@nuxtjs/fontaine",
     "@nuxtjs/i18n",
+    [
+      "./modules/on-build-copy-sqlite-db",
+      {
+        PRODUCTION,
+        databaseInit,
+        databaseConnectionName,
+      },
+    ],
   ],
 
   // ---------------------------------------------------------------------------
@@ -65,9 +79,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     DIR,
     apiSecret: process.env.API_SECRET ?? "",
-    databaseInit: parseBoolean(process.env.NUXT_DATABASE_INIT),
-    databaseUrl: process.env.NUXT_DATABASE_URL,
-    databaseCa: process.env.NUXT_DATABASE_CA,
+    databaseInit,
+    databaseConnectionName,
     apiKeys: {
       gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
     },
@@ -185,11 +198,13 @@ export default defineNuxtConfig({
     preset: "node-server",
     compressPublicAssets: true,
 
-    prerender: {
-      // crawlLinks: true,
-      // failOnError: true,
-      routes: ["/"],
-    },
+    prerender: PRODUCTION
+      ? {
+          // crawlLinks: true,
+          // failOnError: true,
+          routes: ["/"],
+        }
+      : { routes: [] },
 
     routeRules: {
       "/_nuxt/**": {
@@ -198,12 +213,14 @@ export default defineNuxtConfig({
     },
 
     storage: {
-      redis: {
-        driver: "redis",
-        url: parseBoolean(process.env.NUXT_REDIS_INIT)
-          ? process.env.NUXT_REDIS_URL
-          : undefined,
-      },
+      ...(redisEnabled
+        ? {
+            redis: {
+              driver: "redis",
+              url: process.env.NUXT_REDIS_URL,
+            },
+          }
+        : {}),
     },
   },
 
@@ -287,10 +304,20 @@ export default defineNuxtConfig({
       referrerPolicy: "strict-origin-when-cross-origin",
       xDNSPrefetchControl: "off",
       xPermittedCrossDomainPolicies: "none",
-      strictTransportSecurity: PRODUCTION
-        ? { maxAge: 15552000, includeSubdomains: true, preload: false }
-        : false,
-      contentSecurityPolicy: PRODUCTION ? {} : false,
+
+      // stop COOP warning on HTTP (only enable when HTTPS)
+      crossOriginOpenerPolicy: isHttps ? "same-origin" : false,
+      crossOriginEmbedderPolicy: isHttps ? "require-corp" : false,
+      crossOriginResourcePolicy: isHttps ? "same-origin" : false,
+
+      // HSTS only when actually on HTTPS
+      strictTransportSecurity:
+        PRODUCTION && isHttps
+          ? { maxAge: 15552000, includeSubdomains: true, preload: false }
+          : false,
+
+      // disabled unless explicitly configured
+      contentSecurityPolicy: false,
     },
   },
 
