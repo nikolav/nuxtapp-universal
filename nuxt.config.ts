@@ -72,8 +72,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiSecret: process.env.API_SECRET ?? "",
     databaseInit,
-    databaseUrl: process.env.NUXT_DATABASE_URL,
-    databaseCa: process.env.NUXT_DATABASE_CA,
     databaseConnectionName,
     apiKeys: {
       gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
