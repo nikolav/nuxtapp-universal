@@ -88,19 +88,6 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "nuxt-security",
     "@nuxtjs/fontaine",
-    async (_options, nuxt) => {
-      nuxt.hooks.hook("vite:extendConfig", (config) => {
-        // @ts-expect-error
-        config.plugins.push(
-          vitePluginVuetify({
-            autoImport: true,
-            styles: {
-              configFile: "assets/styles/vuetify/settings.scss",
-            },
-          })
-        );
-      });
-    },
     "@nuxtjs/i18n",
 
     // Custom module: build-time SQLite handling
@@ -144,6 +131,7 @@ export default defineNuxtConfig({
     "animate.css",
     // # using mdi-svg svg icons, skip importing fotn defionitions
     // "@mdi/font/css/materialdesignicons.css",
+
     "vuetify/styles",
   ],
 
@@ -268,11 +256,13 @@ export default defineNuxtConfig({
       : { routes: [] },
 
     // Extra server-side route rules (mostly caching headers)
-    routeRules: {
-      "/_nuxt/**": {
-        headers: { "cache-control": "public, max-age=31536000, immutable" },
-      },
-    },
+    routeRules: PRODUCTION
+      ? {
+          "/_nuxt/**": {
+            headers: { "cache-control": "public, max-age=31536000, immutable" },
+          },
+        }
+      : {},
 
     // Optional Nitro storage adapter (Redis)
     storage: {
@@ -329,6 +319,15 @@ export default defineNuxtConfig({
   alias: {},
 
   vite: {
+    plugins: [
+      vitePluginVuetify({
+        autoImport: true,
+        styles: {
+          configFile: "assets/styles/vuetify/settings.scss",
+        },
+      }),
+    ],
+
     esbuild: {
       // Production log stripping
       drop: PRODUCTION ? ["console", "debugger"] : [],

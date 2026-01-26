@@ -133,7 +133,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         },
         formats: DatetimeService.FORMAT,
       },
-    })
+    }),
   );
 });
 
