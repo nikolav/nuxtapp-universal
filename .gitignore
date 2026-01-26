@@ -30,7 +30,6 @@ pnpm-debug.log*
 .env
 .env.*
 
-
 # =============================================================================
 # Editor / IDE Settings
 # =============================================================================
@@ -93,6 +92,7 @@ ca_igdnhgauckc.pem
 
 database.sqlite
 scp-config.sh
+ca-pg.pem
 
 !.env.example
 !.vscode/settings.json
