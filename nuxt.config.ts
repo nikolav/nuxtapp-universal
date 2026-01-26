@@ -2,12 +2,19 @@ import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
-// type TMeta = Record<string, string>[];
-
+/**
+ * ============================================================================
+ * ENV / FLAGS (derived once, reused everywhere)
+ * ============================================================================
+ */
 const PRODUCTION =
   "production" === (process.env.NUXT_SITE_ENV || process.env.NODE_ENV);
+
 const SSR = parseBoolean(process.env.NUXT_SSR);
 
+export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
+
+/** Site + API origins (normalized) */
 const siteUrl = trimEnd(
   PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
   "/",
@@ -18,34 +25,58 @@ const apiBase = trimEnd(
   PRODUCTION ? process.env.NUXT_API_BASE : process.env.NUXT_API_BASE_DEV,
   "/",
 );
-const isHttps = siteUrl.startsWith("https://");
 
+/** Feature flags / infra toggles */
+const isHttps = siteUrl.startsWith("https://");
 const databaseInit = parseBoolean(process.env.NUXT_DATABASE_INIT);
 const databaseConnectionName = process.env.NUXT_DATABASE_CONNECTION_NAME;
-
 const redisEnabled = parseBoolean(process.env.NUXT_REDIS_INIT);
 
-export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
-
+/**
+ * ============================================================================
+ * NUXT CONFIG
+ * ============================================================================
+ */
 export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
-  // Core
+  // 01) Core runtime behavior (SSR, compat, devtools, TS)
   // ---------------------------------------------------------------------------
   compatibilityDate: "2025-07-15",
   ssr: SSR,
+
   devtools: { enabled: !PRODUCTION },
+
   typescript: {
     strict: true,
   },
 
   future: {
+    // Nuxt 4 compatibility mode / forward-leaning defaults
     compatibilityVersion: 4,
-    // Keep TS “bundler” resolution mode (better with modern exports).
+    // Keep TS “bundler” resolution mode (better with modern exports)
     typescriptBundlerResolution: true,
   },
 
   // ---------------------------------------------------------------------------
-  // Modules
+  // 02) Routing strategy (route-level rendering/caching/redirects)
+  // - Keep project-level defaults here. Nitro can add extra routeRules too.
+  // ---------------------------------------------------------------------------
+  routeRules: {
+    // // Static pages at build time
+    // "/": { prerender: true },
+    // "/about": { prerender: true },
+    // // Blog: static pages, CDN cached
+    // "/blog/**": { isr: true },
+    // // Products: revalidate in background every hour
+    // "/products/**": { swr: 3600 },
+    // // Admin: client-side only
+    // "/admin/**": { ssr: false },
+    // // API: add CORS headers
+    // "/api/**": { cors: true },
+  },
+
+  // ---------------------------------------------------------------------------
+  // 03) Modules (capabilities list)
   // ---------------------------------------------------------------------------
   modules: [
     "@nuxtjs/seo",
@@ -57,6 +88,8 @@ export default defineNuxtConfig({
     "nuxt-security",
     "@nuxtjs/fontaine",
     "@nuxtjs/i18n",
+
+    // Custom module: build-time SQLite handling
     [
       "./modules/on-build-copy-sqlite-db",
       {
@@ -68,33 +101,7 @@ export default defineNuxtConfig({
   ],
 
   // ---------------------------------------------------------------------------
-  // Runtime config
-  // ---------------------------------------------------------------------------
-  runtimeConfig: {
-    apiSecret: process.env.API_SECRET ?? "",
-    databaseInit,
-    databaseConnectionName,
-    apiKeys: {
-      gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
-    },
-    public: {
-      ssr: SSR,
-      appEnv: process.env.NODE_ENV ?? "development",
-      siteUrl,
-      siteName,
-      baseUrl: siteUrl,
-      apiBase,
-      defaultLocale,
-      gtmId: process.env.NUXT_PUBLIC_GTM_ID,
-      analyticsEnabled: parseBoolean(process.env.NUXT_PUBLIC_ANALYTICS_ENABLED),
-      i18n: {
-        // .env extend i18n
-      },
-    },
-  },
-
-  // ---------------------------------------------------------------------------
-  // App / head
+  // 04) App defaults (document head, transitions)
   // ---------------------------------------------------------------------------
   app: {
     head: {
@@ -116,12 +123,55 @@ export default defineNuxtConfig({
   },
 
   // ---------------------------------------------------------------------------
-  // Styling
+  // 05) Styling (global CSS entrypoints)
   // ---------------------------------------------------------------------------
   css: ["~/assets/styles/styles.scss", "animate.css"],
 
   // ---------------------------------------------------------------------------
-  // SEO Kit (single source of truth)
+  // 06) Runtime config (server secrets + public client config)
+  // - Everything here can be overridden by env at runtime.
+  // - Only `public` is exposed to the browser.
+  // ---------------------------------------------------------------------------
+  runtimeConfig: {
+    // Server-only secrets
+    apiSecret: process.env.API_SECRET ?? "",
+
+    // Server-side infra flags (also useful on server)
+    databaseInit,
+    databaseConnectionName,
+
+    apiKeys: {
+      gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
+    },
+
+    // Client-exposed settings
+    public: {
+      ssr: SSR,
+      appEnv: process.env.NODE_ENV ?? "development",
+
+      // Site / API
+      siteUrl,
+      siteName,
+      baseUrl: siteUrl,
+      apiBase,
+
+      // Locale
+      defaultLocale,
+
+      // Analytics
+      gtmId: process.env.NUXT_PUBLIC_GTM_ID,
+      analyticsEnabled: parseBoolean(process.env.NUXT_PUBLIC_ANALYTICS_ENABLED),
+
+      // Reserved for env-driven i18n extensions
+      i18n: {
+        // .env extend i18n
+      },
+    },
+  },
+
+  // ---------------------------------------------------------------------------
+  // 07) SEO Kit "single source of truth"
+  // - `site` is used by SEO modules (sitemap/robots/schema/og-image).
   // ---------------------------------------------------------------------------
   site: {
     url: siteUrl,
@@ -171,8 +221,6 @@ export default defineNuxtConfig({
   ogImage: {
     enabled: PRODUCTION,
     // defaults: {
-    //   // built-in default component exists; replace with your template
-    //   // if you have one :contentReference[oaicite:12]{index=12}
     //   component: "NuxtSeo",
     // },
   },
@@ -184,12 +232,13 @@ export default defineNuxtConfig({
   },
 
   // ---------------------------------------------------------------------------
-  // Nitro (SSR server) + caching + storage
+  // 08) Server runtime (Nitro) + caching + storage
   // ---------------------------------------------------------------------------
   nitro: {
     preset: "node-server",
     compressPublicAssets: true,
 
+    // Pre-render only what you truly want baked at build-time
     prerender: PRODUCTION
       ? {
           // crawlLinks: true,
@@ -198,12 +247,14 @@ export default defineNuxtConfig({
         }
       : { routes: [] },
 
+    // Extra server-side route rules (mostly caching headers)
     routeRules: {
       "/_nuxt/**": {
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
     },
 
+    // Optional Nitro storage adapter (Redis)
     storage: {
       ...(redisEnabled
         ? {
@@ -216,51 +267,63 @@ export default defineNuxtConfig({
     },
   },
 
+  // ---------------------------------------------------------------------------
+  // 09) Experiments / flags (Nuxt internal experimental switches)
+  // ---------------------------------------------------------------------------
   experimental: {
     payloadExtraction: true,
 
-    // # enable typed routes
-    // #⚠ disables custom route names for locales
+    // enable typed routes (⚠ disables custom route names for locales)
     // typedPages: true,
 
-    // keep generated route values
+    // keep generated route values / metadata
     scanPageMeta: true,
   },
 
+  // ---------------------------------------------------------------------------
+  // 10) Hooks (build/runtime lifecycle taps)
+  // ---------------------------------------------------------------------------
   hooks: {
     "prerender:routes": async ({ routes }) => {
+      // Example:
       // const res = await fetch(API_URL);
       // const d = await res.json();
-      // for (const pid of d.prerender.pids) {
-      //   routes.add(`/products/${pid}`);
-      // }
+      // for (const pid of d.prerender.pids) routes.add(`/products/${pid}`);
+
       routes.add("/");
     },
-    // "pages:extend"
-    // "render:html"
-    // # append dirs, extending default path
-    // "components:dirs": (dirs) => {
-    //   dirs.push({
-    //     path: "/path",
-    //     prefix: "App",
-    //   });
+
+    // Other useful hooks:
+    // "pages:extend": () => {},
+    // "render:html": () => {},
+    // "components:dirs": (dirs) => { dirs.push({ path: "/path", prefix: "App" }) },
   },
 
   // ---------------------------------------------------------------------------
-  // Tooling
+  // 11) Build tooling (Vite, sourcemaps, builder/alias)
   // ---------------------------------------------------------------------------
+  // Choose bundler: 'vite' (default), 'webpack', or 'rspack'
+  builder: {},
+
+  // Create custom path shortcuts (e.g., '@components': '/components')
+  alias: {},
+
   vite: {
     esbuild: {
+      // Production log stripping
       drop: PRODUCTION ? ["console", "debugger"] : [],
     },
     clearScreen: false,
   },
 
+  // Source maps strategy (server always useful; client hidden for prod)
   sourcemap: { server: true, client: "hidden" },
 
   // ---------------------------------------------------------------------------
-  // Modules config
+  // 12) Module configuration blocks
   // ---------------------------------------------------------------------------
+
+  // @nuxt/image
   image: {
     quality: 81,
     domains: [],
@@ -275,20 +338,24 @@ export default defineNuxtConfig({
     presets: {},
   },
 
+  // @nuxtjs/tailwindcss
   tailwindcss: {
     cssPath: "~/assets/styles/tailwind.scss",
     viewer: false,
   },
 
+  // Auto-imports config
   imports: {
     presets: FROM_PACKAGES_IMPORT,
     scan: false,
   },
 
+  // Router config (Vue Router options)
   router: {
     options: { scrollBehaviorType: "smooth" },
   },
 
+  // nuxt-security (headers + security policies)
   security: {
     headers: {
       xContentTypeOptions: "nosniff",
@@ -297,7 +364,7 @@ export default defineNuxtConfig({
       xDNSPrefetchControl: "off",
       xPermittedCrossDomainPolicies: "none",
 
-      // stop COOP warning on HTTP (only enable when HTTPS)
+      // Stop COOP warning on HTTP (only enable when HTTPS)
       crossOriginOpenerPolicy: isHttps ? "same-origin" : false,
       crossOriginEmbedderPolicy: isHttps ? "require-corp" : false,
       crossOriginResourcePolicy: isHttps ? "same-origin" : false,
@@ -308,16 +375,18 @@ export default defineNuxtConfig({
           ? { maxAge: 15552000, includeSubdomains: true, preload: false }
           : false,
 
-      // disabled unless explicitly configured
+      // Disabled unless explicitly configured (set CSP later when ready)
       contentSecurityPolicy: false,
     },
   },
 
+  // @nuxt/icon
   icon: {
     provider: "none",
     componentName: "NuxtIcon",
     size: "1em",
     class: "inline-block align-middle",
+
     customCollections: [
       {
         prefix: "local",
@@ -325,6 +394,7 @@ export default defineNuxtConfig({
         normalizeIconName: false,
       },
     ],
+
     clientBundle: {
       scan: true,
       includeCustomCollections: true,
@@ -333,21 +403,26 @@ export default defineNuxtConfig({
     },
   },
 
-  // #https://i18n.nuxtjs.org/docs/api/options
+  // @nuxtjs/i18n
+  // https://i18n.nuxtjs.org/docs/api/options
   i18n: {
     strategy: "prefix",
     baseUrl: siteUrl,
     customRoutes: "meta",
+
     detectBrowserLanguage: {
       redirectOn: "root",
       cookieCrossOrigin: true,
       fallbackLocale: "sr",
     },
-    // #https://i18n.nuxtjs.org/docs/api/options#skipsettinglocaleonnavigate
+
+    // https://i18n.nuxtjs.org/docs/api/options#skipsettinglocaleonnavigate
     skipSettingLocaleOnNavigate: true,
+
     // langDir: "locales",
     // vueI18n: "i18n.config.ts",
     defaultLocale,
+
     locales: [
       // example RTL:
       // { code: 'ar', language: 'ar-EG', file: 'ar.json', dir: 'rtl', name: 'العربية' },
