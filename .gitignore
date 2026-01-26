@@ -29,14 +29,11 @@ pnpm-debug.log*
 # =============================================================================
 .env
 .env.*
-!.env.example
 
 # =============================================================================
 # Editor / IDE Settings
 # =============================================================================
 .vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
 
 .idea/
 .fleet/
@@ -94,3 +91,8 @@ temp
 ca_igdnhgauckc.pem
 
 database.sqlite
+scp-config.sh
+
+!.env.example
+!.vscode/settings.json
+!.vscode/extensions.json
