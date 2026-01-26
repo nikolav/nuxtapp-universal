@@ -18,6 +18,7 @@ const apiBase = trimEnd(
   PRODUCTION ? process.env.NUXT_API_BASE : process.env.NUXT_API_BASE_DEV,
   "/",
 );
+const isHttps = siteUrl.startsWith("https://");
 
 const databaseInit = parseBoolean(process.env.NUXT_DATABASE_INIT);
 const databaseConnectionName = process.env.NUXT_DATABASE_CONNECTION_NAME;
@@ -295,10 +296,14 @@ export default defineNuxtConfig({
       referrerPolicy: "strict-origin-when-cross-origin",
       xDNSPrefetchControl: "off",
       xPermittedCrossDomainPolicies: "none",
-      strictTransportSecurity: PRODUCTION
-        ? { maxAge: 15552000, includeSubdomains: true, preload: false }
-        : false,
-      contentSecurityPolicy: PRODUCTION ? {} : false,
+
+      strictTransportSecurity:
+        PRODUCTION && isHttps
+          ? { maxAge: 15552000, includeSubdomains: true, preload: false }
+          : false,
+
+      // disabled unless explicitly configured
+      contentSecurityPolicy: false,
     },
   },
 
