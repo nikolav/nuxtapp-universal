@@ -22,6 +22,8 @@ const apiBase = trimEnd(
 const databaseInit = parseBoolean(process.env.NUXT_DATABASE_INIT);
 const databaseConnectionName = process.env.NUXT_DATABASE_CONNECTION_NAME;
 
+const redisEnabled = parseBoolean(process.env.NUXT_REDIS_INIT);
+
 export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
 
 export default defineNuxtConfig({
@@ -189,11 +191,13 @@ export default defineNuxtConfig({
     preset: "node-server",
     compressPublicAssets: true,
 
-    prerender: {
-      // crawlLinks: true,
-      // failOnError: true,
-      routes: ["/"],
-    },
+    prerender: PRODUCTION
+      ? {
+          // crawlLinks: true,
+          // failOnError: true,
+          routes: ["/"],
+        }
+      : { routes: [] },
 
     routeRules: {
       "/_nuxt/**": {
@@ -202,12 +206,14 @@ export default defineNuxtConfig({
     },
 
     storage: {
-      redis: {
-        driver: "redis",
-        url: parseBoolean(process.env.NUXT_REDIS_INIT)
-          ? process.env.NUXT_REDIS_URL
-          : undefined,
-      },
+      ...(redisEnabled
+        ? {
+            redis: {
+              driver: "redis",
+              url: process.env.NUXT_REDIS_URL,
+            },
+          }
+        : {}),
     },
   },
 
