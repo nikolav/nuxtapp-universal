@@ -1,26 +1,14 @@
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
-  // Enable UUID generator (safe if already enabled)
-  await knex.raw('CREATE EXTENSION IF NOT EXISTS "pgcrypto"');
-
   await knex.schema.createTable("main", (table) => {
-    table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
-
+    table.increments("id").primary();
     table.string("key").unique();
+    table.json("data").notNullable();
+    // created_at, updated_at with defaults
+    table.timestamps(true, true);
 
-    table.jsonb("data").notNullable();
-
-    // Explicit UTC timestamps
-    table
-      .timestamp("created_at", { useTz: true })
-      .notNullable()
-      .defaultTo(knex.raw("timezone('utc', now())"));
-
-    table
-      .timestamp("updated_at", { useTz: true })
-      .notNullable()
-      .defaultTo(knex.raw("timezone('utc', now())"));
+    table.index(["key"]);
   });
 }
 
