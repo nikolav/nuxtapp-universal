@@ -134,7 +134,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   runtimeConfig: {
     // Server-only secrets
-    apiSecret: process.env.API_SECRET ?? "",
+    apiSecret: process.env.NUXT_API_SECRET ?? "",
 
     // Server-side infra flags (also useful on server)
     databaseInit,
@@ -303,10 +303,10 @@ export default defineNuxtConfig({
   // 11) Build tooling (Vite, sourcemaps, builder/alias)
   // ---------------------------------------------------------------------------
   // Choose bundler: 'vite' (default), 'webpack', or 'rspack'
-  builder: {},
+  // builder: {},
 
   // Create custom path shortcuts (e.g., '@components': '/components')
-  alias: {},
+  // alias: {},
 
   vite: {
     esbuild: {
