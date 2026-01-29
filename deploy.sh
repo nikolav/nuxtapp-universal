@@ -24,8 +24,8 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   --health-start-period 10s \
   "$IMAGE"
 
-docker ps -a --filter "name=$NAME"
-docker logs --tail=122 "$NAME"
+# docker ps -a --filter "name=$NAME"
+# docker logs --tail=122 "$NAME"
 
 # docker rm -f nuxt-app
 # docker system prune --all --volumes --force
