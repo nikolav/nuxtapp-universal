@@ -7,6 +7,8 @@ export default defineNuxtPlugin({
   dependsOn: ["use-platform"],
   setup: (_nuxtApp) => {
     let echo = shallowRef<TOrNoValue<Echo<"reverb">>>(null);
+    // const idToken = computed(() => auth.getIdToken());
+    // const echo = computed(() => getEcho(idToken()));
     useNuxtApp().$window$.subscribe((window) => {
       const { reverb } = useRuntimeConfig().public.broadcasting;
       (<any>window).Pusher = Pusher;
