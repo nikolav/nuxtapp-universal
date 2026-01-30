@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMAGE="0imbn7v6rkw/nuxtapp:latest"
+IMAGE="0imbn7v6rkw/nuxtapp"
 NAME="nuxtapp"
 
 # drop old container if exists before deploy
@@ -24,8 +24,8 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   --health-start-period 10s \
   "$IMAGE"
 
-docker ps -a --filter "name=$NAME"
-docker logs --tail=122 "$NAME"
+# docker ps -a --filter "name=$NAME"
+# docker logs --tail=122 "$NAME"
 
 # docker rm -f nuxt-app
 # docker system prune --all --volumes --force
