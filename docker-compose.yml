@@ -23,10 +23,6 @@ services:
       NITRO_HOST: 0.0.0.0
       NITRO_PORT: 3000
 
-      NUXT_SITE_URL: http://209.250.232.242
-      NUXT_API_BASE: http://209.250.232.242
-      NUXT_PUBLIC_REVERB_AUTH_ENDPOINT: http://209.250.232.242/api/broadcasting/auth
-
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/healthz >/dev/null || exit 1"]
