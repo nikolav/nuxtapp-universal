@@ -13,7 +13,7 @@ export default defineI18nConfig(() => ({
   //   default: ['en', 'da']
   // }
   // default locale
-  locale: <any>process.env.NUXT_PUBLIC_DEFAULT_LOCALE,
+  locale: <any>process.env.NUXT_DEFAULT_LOCALE,
   // escapeParameter: true,
   missingWarn: false,
   fallbackWarn: false,

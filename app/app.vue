@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { COLOR_PRIMARY } from "~/assets/themes/colors";
-
 // ## imports, external, internal
+import { COLOR_PRIMARY } from "~/assets/themes/colors";
 // ## config:const
 const {
   theme: { darkRootClass },
@@ -10,6 +9,8 @@ const {
 const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 // ## props / emits / v-model / v-model helper
 // ## page-meta, macros
+const route = useRoute();
+const seoLocaleHead = useLocaleHead();
 // defineOptions({
 //   name: "COMPONENT_NAME",
 //   inheritAttrs: false,
@@ -33,11 +34,18 @@ const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 // ## async data
 // ## computed
 // ## helpers / utils
-const { finalizePendingLocaleChange } = useI18n();
+const { finalizePendingLocaleChange, t } = useI18n();
 // ## handlers
 // ## watch
 // ## hooks / lifecycle
 // ## head / meta
+const title = computed(() => t(String(route.meta.title ?? "#TBD")));
+const description = computed(() => t(String(route.meta.description ?? "#TBD")));
+useSeoMeta({
+  title,
+  description,
+});
+
 // ## provide / expose
 // ## io, events, websockets
 
@@ -47,7 +55,27 @@ const { finalizePendingLocaleChange } = useI18n();
 <template>
   <section class="app-container-reset app--root">
     <!-- toggle dark class on html -->
-    <Html :class="{ [darkRootClass]: false }" />
+    <Html
+      :class="{ [darkRootClass]: false }"
+      :lang="seoLocaleHead.htmlAttrs.lang"
+      :dir="seoLocaleHead.htmlAttrs.dir"
+    />
+    <Title>{{ title }}</Title>
+    <Link
+      v-for="link in seoLocaleHead.link"
+      :key="link.key"
+      :id="link.key"
+      :rel="link.rel"
+      :href="link.href"
+      :hreflang="link.hreflang"
+    />
+    <Meta
+      v-for="meta in seoLocaleHead.meta"
+      :key="meta.key"
+      :id="meta.key"
+      :property="meta.property"
+      :content="meta.content"
+    />
 
     <!-- Google Tag Manager --noscript -->
     <template v-if="analyticsEnabled">
@@ -63,9 +91,6 @@ const { finalizePendingLocaleChange } = useI18n();
 
     <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
     <NuxtLoadingIndicator :color="COLOR_PRIMARY" />
-
-    <!-- head seo metadata for locale  -->
-    <AppSeoCoreLocale />
 
     <!-- routes -->
     <NuxtLayout>
