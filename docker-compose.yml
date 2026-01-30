@@ -1,0 +1,32 @@
+services:
+  nuxtapp:
+    #build>        docker compose build nuxtapp
+    #build:fresh>  docker compose build --pull nuxtapp
+    #build:clean>  docker compose build --pull --no-cache nuxtapp
+    #push>         docker compose push nuxtapp
+    image: 0imbn7v6rkw/nuxtapp
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - "127.0.0.1:3000:3000"
+
+    env_file:
+      - ./.env
+    environment:
+      ENV: production
+      NODE_ENV: production
+      NUXT_SITE_ENV: production
+
+      NITRO_HOST: 0.0.0.0
+      NITRO_PORT: 3000
+
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/healthz >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
