@@ -1,7 +1,8 @@
 import { gql } from "graphql-request";
 
-export const M_status = gql`
-  mutation m_status {
-    status
+// demo(data: JsonData): JsonData!
+export const M_demo = gql`
+  mutation m_demo($data: JsonData) {
+    demo(data: $data)
   }
 `;
