@@ -273,7 +273,7 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: true,
 
-    // enable typed routes (⚠ disables custom route names for locales)
+    // # enable typed routes (⚠ disables custom route names for locales)
     // typedPages: true,
 
     // keep generated route values / metadata
