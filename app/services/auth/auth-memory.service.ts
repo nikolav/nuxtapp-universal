@@ -20,13 +20,13 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
   constructor() {
     super();
     watch(this.token, (token) => {
-      async () => {
+      (async () => {
         try {
           this.account$.next(null != token ? await this.account(token) : null);
         } catch (error) {
           // pass
         }
-      };
+      })();
     });
   }
 
