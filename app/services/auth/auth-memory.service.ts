@@ -9,9 +9,8 @@ import { Hash } from "~/services/hash";
 import { JWT } from "~/services/jwt";
 import { cloned } from "~/utils/cloned";
 import { schemaAuthCredentials, schemaJWT } from "~/schemas";
-import type { ICredentials, IUser, TOrNoValue } from "~/types";
+import type { ICredentials, TOrNoValue, TUser } from "~/types";
 
-type TUser = IUser<string> & { key: string };
 export class AuthMemoryService extends AuthService<TUser, ICredentials> {
   // users cache, { [id:uuid] => user:TUser }
   private static users = <Record<string, TUser>>{};

@@ -18,9 +18,10 @@ export interface IEventApp<TEventAppPayload = unknown> {
 export interface IUser<ID = unknown> {
   id: ID;
   email: string;
-  key?: string;
+  key?: unknown;
   password?: string;
 }
+export type TUser = IUser<string> & { key: string };
 
 export interface ICredentials {
   email: string;
