@@ -8,6 +8,6 @@ export abstract class AuthService<User = unknown, TCredentials = unknown> {
   abstract token: Ref<TOrNoValue<string>>;
   abstract account(token?: string): TMaybeAsync<User>;
   abstract authenticate(payload?: TCredentials): TMaybeAsync<string>;
-  abstract register(payload?: TCredentials): TMaybeAsync<string>;
+  abstract register(payload?: TCredentials): TMaybeAsync<unknown>;
   abstract logout(user?: User): TMaybeAsync<void>;
 }

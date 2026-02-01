@@ -72,7 +72,7 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
     };
     AuthMemoryService.users[id] = user;
 
-    return String(id);
+    return id;
   }
 
   async logout() {
