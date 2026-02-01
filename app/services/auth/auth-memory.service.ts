@@ -21,8 +21,8 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
 
   constructor() {
     super();
-    watch(this.idToken, (idToken_) => {
-      this.access_token.value = idToken_;
+    watchEffect(() => {
+      this.access_token.value = this.idToken.value;
     });
     watch(this.idToken, (idToken_) => {
       (async () => {
