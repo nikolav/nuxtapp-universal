@@ -68,6 +68,8 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
           }
           // no user with that credentials; create
           const id = uuid();
+          const idToken = await JWT.sign({ id });
+
           user = <IUser>{
             id,
             email: payload.email,
@@ -75,7 +77,6 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
           };
           AuthMemoryService.users[id] = user;
 
-          const idToken = await JWT.sign({ id });
           AuthMemoryService.tokens[id] ??= new Set<string>();
           AuthMemoryService.tokens[id].add(idToken);
 
