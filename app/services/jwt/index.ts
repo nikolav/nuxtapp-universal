@@ -2,10 +2,6 @@ import * as jose from "jose";
 
 import { JWT_SECRET } from "~/config";
 
-// const token = await JWT.sign({ userId: "122333" }, JWT_SECRET, {
-//   expiresIn: "10d",
-// });
-
 export class JWT {
   private static JWT_SECRET = new TextEncoder().encode(JWT_SECRET);
   private static defaultExpiresIn = "10d";
