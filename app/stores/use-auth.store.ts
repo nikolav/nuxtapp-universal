@@ -13,8 +13,8 @@ export const useAuth = defineStore("store:auth", () => {
   const account = ref<TOrNoValue<IUser>>(null);
   const isAuth = computed(() => Boolean($$.get(account.value, "id")));
 
-  const account_s = authService.account$.subscribe((user) => {
-    account.value = user;
+  const account_s = authService.account$.subscribe((account_) => {
+    account.value = account_;
   });
 
   const destroy = () => {
