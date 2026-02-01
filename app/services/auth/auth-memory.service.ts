@@ -1,5 +1,6 @@
 import find from "lodash/find";
 import get from "lodash/get";
+import omit from "lodash/omit";
 import { v4 as uuid } from "uuid";
 import { Subject } from "rxjs";
 
@@ -37,7 +38,7 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
       throw "User not found.";
     }
 
-    return cloned(user);
+    return cloned(omit(user, ["password"]));
   }
 
   async authenticate(payload: ICredentials) {

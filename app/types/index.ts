@@ -18,7 +18,7 @@ export interface IEventApp<TEventAppPayload = unknown> {
 export interface IUser {
   id: string;
   email: string;
-  password: string;
+  password?: string;
 }
 
 export interface ICredentials {
