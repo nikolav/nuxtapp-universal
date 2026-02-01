@@ -57,6 +57,18 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
     return idToken;
   };
 
+  check = async (idToken: string) => {
+    try {
+      return (
+        null !=
+        AuthMemoryService.users[<any>get(await JWT.verify(idToken), "id")]
+      );
+    } catch (error) {
+      // pass
+    }
+    return false;
+  };
+
   register = async (payload: ICredentials) => {
     const credentials = schemaAuthCredentials.parse(payload);
     let user = AuthMemoryService.byEmail(credentials.email);

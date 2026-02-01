@@ -26,8 +26,9 @@ export const useAuth = defineStore("store:auth", () => {
     account,
     isAuth,
     authenticate: authService.authenticate,
-    register: authService.register,
+    check: authService.check,
     logout: authService.logout,
+    register: authService.register,
     destroy,
   };
 });
