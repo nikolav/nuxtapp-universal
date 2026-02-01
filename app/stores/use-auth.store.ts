@@ -1,4 +1,4 @@
-export const useStoreAuth = defineStore("store:auth", () => {
+export const useAuth = defineStore("store:auth", () => {
   const account = ref<any>();
   const token = ref<string>("");
   const isAuthenticated = () => {};
