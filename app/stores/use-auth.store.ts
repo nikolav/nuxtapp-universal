@@ -1,14 +1,14 @@
-import * as authStrategies from "~/services/auth";
-import type { AuthService } from "~/services/auth/base";
-import type { ICredentials, IUser, TOrNoValue } from "~/types";
+import { AuthMemoryService } from "~/services/auth";
+import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
 
 export const useAuth = defineStore("store:auth", () => {
   const { $$ } = useNuxtApp();
-  const strategy = useRuntimeConfig().public.authDriver ?? "memory";
-  const authService: AuthService<IUser, ICredentials> = $$.get(
-    authStrategies,
-    strategy,
-  );
+  const authService: TAuthService<IUser, ICredentials> = $$.get(
+    {
+      memory: () => new AuthMemoryService(),
+    },
+    useRuntimeConfig().public.authDriver,
+  )();
 
   const account = ref<TOrNoValue<IUser>>(null);
   const isAuth = computed(() => Boolean($$.get(account.value, "id")));

@@ -1,1 +1,1 @@
-export { AuthMemoryService as memory } from "./auth-memory.service";
+export { AuthMemoryService } from "./auth-memory.service";

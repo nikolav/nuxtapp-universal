@@ -31,7 +31,7 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
     });
   }
 
-  async account(idToken: string) {
+  account = async (idToken: string) => {
     const id = get(await JWT.verify(idToken), "id");
     const user = AuthMemoryService.users[<any>id];
     if (!user) {
@@ -39,9 +39,9 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
     }
 
     return cloned(omit(user, ["password"]));
-  }
+  };
 
-  async authenticate(payload: ICredentials) {
+  authenticate = async (payload: ICredentials) => {
     const credentials = schemaAuthCredentials.parse(payload);
     const user = AuthMemoryService.byEmail(credentials.email);
     if (!(await Hash.check(credentials.password, user?.password ?? ""))) {
@@ -55,9 +55,9 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
     this.token.value = idToken;
 
     return idToken;
-  }
+  };
 
-  async register(payload: ICredentials) {
+  register = async (payload: ICredentials) => {
     const credentials = schemaAuthCredentials.parse(payload);
     let user = AuthMemoryService.byEmail(credentials.email);
     if (user) {
@@ -74,11 +74,11 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
     AuthMemoryService.users[id] = user;
 
     return id;
-  }
+  };
 
-  async logout() {
+  logout = async () => {
     this.token.value = null;
-  }
+  };
 
   private static byEmail(email: string) {
     return find(AuthMemoryService.users, (node) => email === node.email);
