@@ -12,3 +12,11 @@ export abstract class AuthService<User = unknown, TCredentials = unknown> {
   abstract logout(user?: User): TMaybeAsync<void>;
   abstract register(payload?: TCredentials): TMaybeAsync<unknown>;
 }
+
+export abstract class OAuthAuthService<
+  User = unknown,
+  TCredentials = unknown,
+> extends AuthService<User, TCredentials> {
+  // popup sign-in, resolve id-token
+  abstract signInWithProvider(provider: string): TMaybeAsync<string>;
+}
