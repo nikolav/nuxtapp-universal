@@ -11,11 +11,12 @@ import { cloned } from "~/utils/cloned";
 import { schemaAuthCredentials, schemaJWT } from "~/schemas";
 import type { ICredentials, IUser, TOrNoValue } from "~/types";
 
-export class AuthMemoryService extends AuthService<IUser, ICredentials> {
-  // users cache, { [id:uuid] => user:IUser }
-  private static users = <Record<string, IUser>>{};
+type TUser = IUser<string> & { key: string };
+export class AuthMemoryService extends AuthService<TUser, ICredentials> {
+  // users cache, { [id:uuid] => user:TUser }
+  private static users = <Record<string, TUser>>{};
 
-  account$ = new Subject<TOrNoValue<IUser>>();
+  account$ = new Subject<TOrNoValue<TUser>>();
   idToken = ref<TOrNoValue<string>>(null);
   access_token = ref<TOrNoValue<string>>(null);
 
@@ -72,8 +73,9 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
 
     // no user with that credentials; create
     const id = uuid();
-    user = <IUser>{
+    user = <TUser>{
       id,
+      key: uuid(),
       email: credentials.email,
       password: await Hash.make(credentials.password),
     };
