@@ -92,6 +92,7 @@ ca_igdnhgauckc.pem
 
 database.sqlite
 scp-config.sh
+vars.env.ts
 
 !.env.example
 !.vscode/settings.json

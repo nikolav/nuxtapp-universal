@@ -15,6 +15,16 @@ export interface IEventApp<TEventAppPayload = unknown> {
   type: string;
   payload: TEventAppPayload;
 }
+export interface IUser {
+  id: string;
+  email: string;
+  password: string;
+}
+
+export interface ICredentials {
+  email: string;
+  password: string;
+}
 
 //
 export type { TRecordJson, TJson, TJsonLiteral };
