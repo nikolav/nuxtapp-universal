@@ -16,14 +16,20 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
   private static users = <Record<string, IUser>>{};
 
   account$ = new Subject<TOrNoValue<IUser>>();
-  token = ref<TOrNoValue<string>>(null);
+  idToken = ref<TOrNoValue<string>>(null);
+  access_token = ref<TOrNoValue<string>>(null);
 
   constructor() {
     super();
-    watch(this.token, (token) => {
+    watch(this.idToken, (idToken_) => {
+      this.access_token.value = idToken_;
+    });
+    watch(this.idToken, (idToken_) => {
       (async () => {
         try {
-          this.account$.next(null != token ? await this.account(token) : null);
+          this.account$.next(
+            null != idToken_ ? await this.account(idToken_) : null,
+          );
         } catch (error) {
           // pass
         }
@@ -52,21 +58,9 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
     const id = user!.id;
     const idToken = schemaJWT.parse(await JWT.sign({ id }));
 
-    this.token.value = idToken;
+    this.idToken.value = idToken;
 
     return idToken;
-  };
-
-  check = async (idToken: string) => {
-    try {
-      return (
-        null !=
-        AuthMemoryService.users[<any>get(await JWT.verify(idToken), "id")]
-      );
-    } catch (error) {
-      // pass
-    }
-    return false;
   };
 
   register = async (payload: ICredentials) => {
@@ -89,7 +83,7 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
   };
 
   logout = async () => {
-    this.token.value = null;
+    this.idToken.value = null;
   };
 
   private static byEmail(email: string) {

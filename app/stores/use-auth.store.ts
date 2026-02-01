@@ -22,11 +22,11 @@ export const useAuth = defineStore("store:auth", () => {
   };
 
   return {
-    token: authService.token,
+    idToken: authService.idToken,
+    access_token: authService.access_token,
     account,
     isAuth,
     authenticate: authService.authenticate,
-    check: authService.check,
     logout: authService.logout,
     register: authService.register,
     destroy,
