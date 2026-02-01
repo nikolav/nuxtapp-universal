@@ -1,98 +1,80 @@
 import find from "lodash/find";
 import get from "lodash/get";
-import isEmpty from "lodash/isEmpty";
 import { v4 as uuid } from "uuid";
+import { Subject } from "rxjs";
 
 import { AuthService } from "./base";
 import { Hash } from "~/services/hash";
 import { JWT } from "~/services/jwt";
 import { cloned } from "~/utils/cloned";
-import type { ICredentials, IUser } from "~/types";
+import { schemaJWT } from "~/schemas";
+import type { ICredentials, IUser, TOrNoValue } from "~/types";
 
 export class AuthMemoryService extends AuthService<IUser, ICredentials> {
   // users cache, { [id:uuid] => user:IUser }
   private static users = <Record<string, IUser>>{};
-  // tokens cache, { [id:uuid] => tokens:Set }
-  private static tokens = <Record<string, Set<string>>>{};
 
-  account(idToken: string) {
-    return new Promise<IUser>((resolve, reject) => {
-      (async () => {
+  account$ = new Subject<TOrNoValue<IUser>>();
+  token = ref<TOrNoValue<string>>(null);
+
+  constructor() {
+    super();
+    watch(this.token, (token) => {
+      async () => {
         try {
-          const id = get(await JWT.verify(idToken), "id");
-          const user = AuthMemoryService.users[<any>id];
-          if (!user) {
-            throw "User not found.";
-          }
-
-          return resolve(cloned(user));
+          this.account$.next(null != token ? await this.account(token) : null);
         } catch (error) {
           // pass
         }
-        reject(null);
-      })();
+      };
     });
   }
 
-  authenticate(payload: ICredentials) {
-    return new Promise<string>((resolve, reject) => {
-      (async () => {
-        try {
-          const user = AuthMemoryService.byEmail(payload.email);
-          if (!Hash.check(payload.password, user?.password ?? "")) {
-            throw "Bad credentials.";
-          }
-          // user valid, login
-          const id = user!.id;
-          const idToken = await JWT.sign({ id });
-          AuthMemoryService.tokens[id]!.add(idToken);
+  async account(idToken: string) {
+    const id = get(await JWT.verify(idToken), "id");
+    const user = AuthMemoryService.users[<any>id];
+    if (!user) {
+      throw "User not found.";
+    }
 
-          return resolve(idToken);
-        } catch (error) {
-          // pass
-        }
-        reject(null);
-      })();
-    });
+    return cloned(user);
   }
 
-  register(payload: ICredentials) {
-    return new Promise<string>((resolve, reject) => {
-      (async () => {
-        try {
-          let user = AuthMemoryService.byEmail(payload.email);
-          if (user) {
-            throw "Bad credentials.";
-          }
-          // no user with that credentials; create
-          const id = uuid();
-          const idToken = await JWT.sign({ id });
+  async authenticate(payload: ICredentials) {
+    const user = AuthMemoryService.byEmail(payload.email);
+    if (!(await Hash.check(payload.password, user?.password ?? ""))) {
+      throw "Bad credentials.";
+    }
 
-          user = <IUser>{
-            id,
-            email: payload.email,
-            password: Hash.make(payload.password),
-          };
-          AuthMemoryService.users[id] = user;
+    // user valid, login
+    const id = user!.id;
+    const idToken = schemaJWT.parse(await JWT.sign({ id }));
 
-          AuthMemoryService.tokens[id] ??= new Set<string>();
-          AuthMemoryService.tokens[id].add(idToken);
+    this.token.value = idToken;
 
-          return resolve(idToken);
-        } catch (error) {
-          // pass
-        }
-        reject(null);
-      })();
-    });
+    return idToken;
   }
 
-  logout(user: IUser) {
-    AuthMemoryService.tokens[user.id]?.clear();
+  async register(payload: ICredentials) {
+    let user = AuthMemoryService.byEmail(payload.email);
+    if (user) {
+      throw "Bad credentials.";
+    }
+
+    // no user with that credentials; create
+    const id = uuid();
+    user = <IUser>{
+      id,
+      email: payload.email,
+      password: await Hash.make(payload.password),
+    };
+    AuthMemoryService.users[id] = user;
+
+    return String(id);
   }
 
-  isAuthenticated(user: IUser) {
-    return !isEmpty(AuthMemoryService.tokens[user.id]);
+  logout() {
+    this.token.value = null;
   }
 
   private static byEmail(email: string) {
