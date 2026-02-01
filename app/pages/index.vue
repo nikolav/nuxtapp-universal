@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // ## imports, external, internal
-import { AuthMemoryService } from "~/services/auth";
+import { memory as AuthMemoryService } from "~/services/auth";
 // ## config:const
 // ## nuxt:core
 // ## props / emits / v-model / v-model helper
@@ -68,7 +68,7 @@ const getAccount = async () => {
       <button @click="ok">ok</button>
       <button @click="authLogin">auth:login</button>
       <button @click="authRegister">auth:register</button>
-      <button @click="getAccount">auth:account</button>
+      <button @click="getAccount">auth:register</button>
     </div>
     <div>
       <small>
