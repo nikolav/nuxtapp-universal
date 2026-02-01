@@ -1,16 +1,16 @@
 import { AuthMemoryService } from "~/services/auth";
-import type { ICredentials, TAuthService, TOrNoValue, TUser } from "~/types";
+import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
 
 export const useAuth = defineStore("store:auth", () => {
   const { $$ } = useNuxtApp();
-  const authService: TAuthService<TUser, ICredentials> = $$.get(
+  const authService: TAuthService<IUser, ICredentials> = $$.get(
     {
       memory: () => new AuthMemoryService(),
     },
     useRuntimeConfig().public.authDriver,
   )();
 
-  const account = ref<TOrNoValue<TUser>>(null);
+  const account = ref<TOrNoValue<IUser>>(null);
   const isAuth = computed(() => Boolean($$.get(account.value, "id")));
 
   const account_s = authService.account$.subscribe((account_) => {
