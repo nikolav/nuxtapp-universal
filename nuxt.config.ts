@@ -166,6 +166,9 @@ export default defineNuxtConfig({
       i18n: {
         // .env extend i18n
       },
+
+      // auth
+      authDriver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
     },
   },
 
