@@ -35,11 +35,10 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
   }
 
   authenticate(payload: ICredentials) {
-    const auth = this;
     return new Promise<string>((resolve, reject) => {
       (async () => {
         try {
-          const user = auth.byEmail(payload.email);
+          const user = AuthMemoryService.byEmail(payload.email);
           if (!Hash.check(payload.password, user?.password ?? "")) {
             throw "Bad credentials.";
           }
@@ -58,11 +57,10 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
   }
 
   register(payload: ICredentials) {
-    const auth = this;
     return new Promise<string>((resolve, reject) => {
       (async () => {
         try {
-          let user = auth.byEmail(payload.email);
+          let user = AuthMemoryService.byEmail(payload.email);
           if (user) {
             throw "Bad credentials.";
           }
@@ -97,7 +95,7 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
     return !isEmpty(AuthMemoryService.tokens[user.id]);
   }
 
-  private byEmail(email: string) {
+  private static byEmail(email: string) {
     return find(AuthMemoryService.users, (node) => email === node.email);
   }
 }
