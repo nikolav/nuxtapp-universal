@@ -7,7 +7,7 @@ import { AuthService } from "./base";
 import { Hash } from "~/services/hash";
 import { JWT } from "~/services/jwt";
 import { cloned } from "~/utils/cloned";
-import { schemaJWT } from "~/schemas";
+import { schemaAuthCredentials, schemaJWT } from "~/schemas";
 import type { ICredentials, IUser, TOrNoValue } from "~/types";
 
 export class AuthMemoryService extends AuthService<IUser, ICredentials> {
@@ -41,8 +41,9 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
   }
 
   async authenticate(payload: ICredentials) {
-    const user = AuthMemoryService.byEmail(payload.email);
-    if (!(await Hash.check(payload.password, user?.password ?? ""))) {
+    const credentials = schemaAuthCredentials.parse(payload);
+    const user = AuthMemoryService.byEmail(credentials.email);
+    if (!(await Hash.check(credentials.password, user?.password ?? ""))) {
       throw "Bad credentials.";
     }
 
@@ -56,7 +57,8 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
   }
 
   async register(payload: ICredentials) {
-    let user = AuthMemoryService.byEmail(payload.email);
+    const credentials = schemaAuthCredentials.parse(payload);
+    let user = AuthMemoryService.byEmail(credentials.email);
     if (user) {
       throw "Bad credentials.";
     }
@@ -65,15 +67,15 @@ export class AuthMemoryService extends AuthService<IUser, ICredentials> {
     const id = uuid();
     user = <IUser>{
       id,
-      email: payload.email,
-      password: await Hash.make(payload.password),
+      email: credentials.email,
+      password: await Hash.make(credentials.password),
     };
     AuthMemoryService.users[id] = user;
 
     return String(id);
   }
 
-  logout() {
+  async logout() {
     this.token.value = null;
   }
 
