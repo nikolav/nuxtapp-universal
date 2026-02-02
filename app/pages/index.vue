@@ -1,10 +1,5 @@
 <script setup lang="ts">
-// ## imports, external, internal
 import { useAuth } from "~/stores";
-// ## config:const
-// ## nuxt:core
-// ## props / emits / v-model / v-model helper
-// ## page-meta, macros
 definePageMeta({
   title: "pages.index.title",
   description: "pages.index.description",
@@ -16,21 +11,6 @@ definePageMeta({
     },
   },
 });
-// ## attrs / slots
-// ## schemas / validation
-// ## icons
-// ## refs / flags / models
-// ## state, pinia, local
-// ## storage / cookies
-// ## async data
-// ## computed
-// ## helpers / utils
-// ## handlers
-// ## watch
-// ## hooks / lifecycle
-// ## head / meta
-// ## provide / expose
-// ## io, events, websockets
 
 const auth = useAuth();
 const register = async () => {

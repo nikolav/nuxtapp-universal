@@ -11,7 +11,7 @@ const PRODUCTION = [
   process.env.ENV,
   process.env.NODE_ENV,
   process.env.NUXT_SITE_ENV,
-].every((val) => "production" === val);
+].some((e) => "production" === e);
 
 const SSR = parseBoolean(process.env.NUXT_SSR);
 
