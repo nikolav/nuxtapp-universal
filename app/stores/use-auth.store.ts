@@ -17,8 +17,8 @@ export const useAuth = defineStore("store:auth", () => {
   const { signInWithProvider: signInWithProviderBase_ } = usePopupOAuth();
   const signInWithProvider = (provider: string) =>
     signInWithProviderBase_(provider).pipe(
-      tap((value) => {
-        authService.idToken.value = value;
+      tap((token) => {
+        authService.idToken.value = token;
       }),
     );
 
