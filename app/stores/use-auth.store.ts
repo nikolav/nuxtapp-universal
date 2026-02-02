@@ -1,4 +1,7 @@
-import { AuthMemoryService } from "~/services/auth";
+import { tap } from "rxjs/operators";
+
+import { usePopupOAuth } from "~/composables";
+import { AuthApiService, AuthMemoryService } from "~/services/auth";
 import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
 
 export const useAuth = defineStore("store:auth", () => {
@@ -6,9 +9,18 @@ export const useAuth = defineStore("store:auth", () => {
   const authService: TAuthService<IUser, ICredentials> = $$.get(
     {
       memory: () => new AuthMemoryService(),
+      api: () => new AuthApiService(),
     },
     useRuntimeConfig().public.authDriver,
   )();
+
+  const { signInWithProvider: signInWithProviderBase_ } = usePopupOAuth();
+  const signInWithProvider = (provider: string) =>
+    signInWithProviderBase_(provider).pipe(
+      tap((value) => {
+        authService.idToken.value = value;
+      }),
+    );
 
   const account = ref<TOrNoValue<IUser>>(null);
   const isAuth = computed(() => Boolean($$.get(account.value, "id")));
@@ -29,6 +41,7 @@ export const useAuth = defineStore("store:auth", () => {
     authenticate: authService.authenticate,
     logout: authService.logout,
     register: authService.register,
+    signInWithProvider,
     destroy,
   };
 });
