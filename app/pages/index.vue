@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { usePopupOAuth } from "~/composables";
+
 // ## imports, external, internal
 // ## config:const
 // ## nuxt:core
@@ -31,11 +33,22 @@ definePageMeta({
 // ## provide / expose
 // ## io, events, websockets
 
+const { signInWithProvider } = usePopupOAuth();
+const sigInG = () => {
+  signInWithProvider("google").subscribe((res) => {
+    console.log({ res });
+  });
+};
+
 // @@eos
 </script>
 
 <template>
-  <section class="app-container-reset page--index"></section>
+  <section class="app-container-reset page--index">
+    <div class="flex justify-center gap-4">
+      <button @click="sigInG">auth:G</button>
+    </div>
+  </section>
 </template>
 
 <!-- scoped component styles, default -->

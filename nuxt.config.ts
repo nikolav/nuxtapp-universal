@@ -255,6 +255,11 @@ export default defineNuxtConfig({
       "/_nuxt/**": {
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
+      "/**": {
+        headers: {
+          "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+        },
+      },
     },
 
     // Optional Nitro storage adapter (Redis)

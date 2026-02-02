@@ -32,29 +32,26 @@ export const usePopupOAuth = () => {
                   window.addEventListener("message", onMessage);
 
                   function onMessage(event: MessageEvent) {
-                    try {
-                      const expectedOrigin = new URL(apiBase).origin;
+                    // // ignore anything not shaped like oauth message
+                    // const d: any = event.data;
+                    // if (!d || typeof d !== "object") return;
+                    // if (d.type !== "oauth:token" && d.type !== "oauth:error")
+                    //   return;
 
-                      // origin must match and message must come from that popup window
-                      if (
-                        event.origin !== expectedOrigin ||
-                        event.source !== popup
-                      ) {
-                        cleanup();
-                        reject(
-                          new Error(
-                            "Access denied. Invalid message source/origin.",
-                          ),
-                        );
-                        return;
-                      }
+                    // validate origin + source
+                    const expectedOrigin = new URL(apiBase).origin;
+                    if (event.origin !== expectedOrigin) return;
+                    if (event.source !== popup) return;
 
-                      const data = schemaOAuthPayload.parse(event.data);
-                      cleanup();
-                      resolve(data.token);
-                    } catch (error) {
-                      cleanup();
-                      reject(error);
+                    const parsed = schemaOAuthPayload.safeParse(event.data);
+                    if (!parsed.success) return;
+
+                    cleanup();
+
+                    if (parsed.data.type === "oauth:error") {
+                      reject(new Error(parsed.data.error ?? "OAuth error"));
+                    } else {
+                      resolve(parsed.data.token);
                     }
                   }
 
@@ -68,9 +65,6 @@ export const usePopupOAuth = () => {
                     window.clearTimeout(timeout);
                     if (timer) window.clearInterval(timer);
                     window.removeEventListener("message", onMessage);
-                    try {
-                      popup?.close();
-                    } catch {}
                   }
 
                   // timeout 2min to complete auth form
@@ -79,18 +73,23 @@ export const usePopupOAuth = () => {
                       cleanup();
                       reject(new Error("Login timed out."));
                     },
-                    2 * 60 * 1000,
+                    12 * 60 * 1000,
                   );
 
                   // close watcher; if user closes popup early
                   timer = window.setInterval(() => {
-                    if (popup.closed) {
-                      cleanup();
-                      reject(
-                        new Error("Popup closed before completing login."),
-                      );
+                    try {
+                      if (popup.closed) {
+                        cleanup();
+                        reject(
+                          new Error("Popup closed before completing login."),
+                        );
+                      }
+                    } catch {
+                      // COOP/isolation: can't read .closed; stop polling and rely on timeout
+                      if (timer) window.clearInterval(timer);
                     }
-                  }, 412);
+                  }, 555);
                 }),
               ),
             ),
