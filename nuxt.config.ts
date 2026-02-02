@@ -7,8 +7,11 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
  * ENV / FLAGS (derived once, reused everywhere)
  * ============================================================================
  */
-const PRODUCTION =
-  "production" === (process.env.NUXT_SITE_ENV || process.env.NODE_ENV);
+const PRODUCTION = [
+  process.env.ENV,
+  process.env.NODE_ENV,
+  process.env.NUXT_SITE_ENV,
+].some((e) => "production" === e);
 
 const SSR = parseBoolean(process.env.NUXT_SSR);
 
