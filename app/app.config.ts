@@ -7,6 +7,10 @@ export default defineAppConfig({
   appShortName: "Nuxt",
   locale: "sr",
 
+  keys: {
+    TOKEN_API_AUTH: "4a4f038d-dc42-5419-8579-64681eb922b6",
+  },
+
   events: {
     EVENT_notifications_granted:
       "EVENT_notifications_granted:6a69b910-b0a5-5616-b628-77a800ff1386",

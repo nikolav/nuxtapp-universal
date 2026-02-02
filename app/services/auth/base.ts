@@ -1,10 +1,10 @@
 import type { Ref } from "vue";
-import type { Observable } from "rxjs";
+import type { Subject } from "rxjs";
 
 import type { TMaybeAsync, TOrNoValue } from "~/types";
 
 export abstract class AuthService<User = unknown, TCredentials = unknown> {
-  abstract account$: Observable<TOrNoValue<User>>;
+  abstract account$: Subject<TOrNoValue<User>>;
   abstract idToken: Ref<TOrNoValue<string>>;
   abstract access_token: Ref<TOrNoValue<string>>;
   abstract account(idToken?: string): TMaybeAsync<User>;

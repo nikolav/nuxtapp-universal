@@ -24,12 +24,10 @@ export class AuthMemoryService extends AuthService<TUser, ICredentials> {
     watchEffect(() => {
       this.access_token.value = this.idToken.value;
     });
-    watch(this.idToken, (idToken_) => {
+    watch(this.idToken, (token) => {
       (async () => {
         try {
-          this.account$.next(
-            null != idToken_ ? await this.account(idToken_) : null,
-          );
+          this.account$.next(token ? await this.account(token) : null);
         } catch (error) {
           // pass
         }

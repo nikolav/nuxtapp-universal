@@ -7,8 +7,11 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
  * ENV / FLAGS (derived once, reused everywhere)
  * ============================================================================
  */
-const PRODUCTION =
-  "production" === (process.env.NUXT_SITE_ENV || process.env.NODE_ENV);
+const PRODUCTION = [
+  process.env.ENV,
+  process.env.NODE_ENV,
+  process.env.NUXT_SITE_ENV,
+].every((val) => "production" === val);
 
 const SSR = parseBoolean(process.env.NUXT_SSR);
 
@@ -146,6 +149,7 @@ export default defineNuxtConfig({
 
     // Client-exposed settings
     public: {
+      PRODUCTION,
       ssr: SSR,
       appEnv: process.env.NODE_ENV ?? "development",
 
@@ -168,7 +172,10 @@ export default defineNuxtConfig({
       },
 
       // auth
-      authDriver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
+      auth: {
+        driver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
+        endpoint: process.env.NUXT_PUBLIC_AUTH_ENDPOINT,
+      },
     },
   },
 

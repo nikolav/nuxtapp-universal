@@ -27,6 +27,10 @@ export interface ICredentials {
   email: string;
   password: string;
 }
+export interface IAuthenticateOptions {
+  timeoutMs: number;
+  controller?: globalThis.AbortController;
+}
 
 //
 export type { TRecordJson, TJson, TJsonLiteral };
