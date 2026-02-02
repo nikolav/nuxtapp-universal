@@ -2,7 +2,7 @@ import find from "lodash/find";
 import get from "lodash/get";
 import omit from "lodash/omit";
 import { v4 as uuid } from "uuid";
-import { Subject } from "rxjs";
+import { ReplaySubject } from "rxjs";
 
 import { AuthService } from "./base";
 import { Hash } from "~/services/hash";
@@ -15,7 +15,7 @@ export class AuthMemoryService extends AuthService<TUser, ICredentials> {
   // users cache, { [id:uuid] => user:TUser }
   private static users = <Record<string, TUser>>{};
 
-  account$ = new Subject<TOrNoValue<TUser>>();
+  account$ = new ReplaySubject<TOrNoValue<TUser>>(1);
   idToken = ref<TOrNoValue<string>>(null);
   access_token = ref<TOrNoValue<string>>(null);
 

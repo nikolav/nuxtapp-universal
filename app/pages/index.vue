@@ -55,6 +55,7 @@ const authenticate = async () => {
     <div class="flex justify-center gap-4">
       <button @click="register">auth:register</button>
       <button @click="authenticate">auth:authenticate</button>
+      <button @click="auth.signInWithProvider('google')">auth:google</button>
       <button @click="auth.logout()">auth:logout</button>
     </div>
     <div>

@@ -1,11 +1,11 @@
-import { Subject } from "rxjs";
+import { ReplaySubject } from "rxjs";
 import trim from "lodash/trim";
 import get from "lodash/get";
 import omit from "lodash/omit";
 import type { PublicRuntimeConfig } from "nuxt/schema";
 
 import { AuthService } from "~/services/auth/base";
-import { schemaAuthCredentials } from "~/schemas";
+import { schemaAuthCredentials, schemaAuthToken } from "~/schemas";
 import { INTERNAL_AUTH_TOKEN } from "~/config";
 import type {
   TOrNoValue,
@@ -20,6 +20,11 @@ const defaultsAuthenticate: IAuthenticateOptions = {
 
 export class AuthApiService extends AuthService<TUser, ICredentials> {
   private authEndpoint: Record<string, string> = {};
+
+  account$ = new ReplaySubject<TOrNoValue<TUser>>();
+  idToken = ref<TOrNoValue<string>>(null);
+  access_token = ref<TOrNoValue<string>>(null);
+
   constructor(private config: PublicRuntimeConfig) {
     super();
 
@@ -48,122 +53,76 @@ export class AuthApiService extends AuthService<TUser, ICredentials> {
     });
   }
 
-  account$ = new Subject<TOrNoValue<TUser>>();
-  idToken = ref<TOrNoValue<string>>(null);
-  access_token = ref<TOrNoValue<string>>(null);
-
-  account = async (token: string) => {
-    const controller = new AbortController();
-    const tid = setTimeout(
-      () => controller.abort(),
-      defaultsAuthenticate.timeoutMs,
-    );
-
-    try {
-      const auth = get(
+  account = async (token: string) =>
+    omit(
+      get(
         await $fetch<{ auth: TUser }>(this.authEndpoint.who!, {
           method: "GET",
           headers: {
-            Accept: "application/json",
             Authorization: `Bearer ${token}`,
-            ...(this.config.PRODUCTION
-              ? {}
-              : { "Internal-Auth": INTERNAL_AUTH_TOKEN }),
+            ...this.headersBase(),
           },
-          signal: controller.signal,
-          // GET is idempotent, 1retry is okay, only for transient failures
+          timeout: defaultsAuthenticate.timeoutMs,
           retry: 1,
           retryStatusCodes: [429, 503],
-          retryDelay: 722,
+          retryDelay: 812,
         }),
         "auth",
-      );
-      if (!auth) throw new Error("Unauthenticated.");
-
-      return omit(auth, ["password"]);
-    } catch (err: any) {
-      // rethrow normalized
-      if (err?.name === "AbortError") throw new Error("Request timed out.");
-      // normalize if server unauthorized
-      if (err?.status === 401) throw new Error("Unauthenticated.");
-      throw err;
-    } finally {
-      clearTimeout(tid);
-    }
-  };
+      ),
+      ["password"],
+    );
 
   authenticate = async (
     payload: ICredentials,
     options?: IAuthenticateOptions,
   ) => {
-    const _ = Object.assign(
-      {},
-      defaultsAuthenticate,
-      { controller: new AbortController() },
-      options,
-    );
-    const tid = setTimeout(() => _.controller.abort(), _.timeoutMs);
-    try {
-      const token = get(
+    const token = schemaAuthToken.parse(
+      get(
         await $fetch<{ access_token?: string }>(
           this.authEndpoint.authenticate!,
           {
             method: "POST",
             headers: {
-              Accept: "application/json",
               "Content-Type": "application/json",
-              ...(this.config.PRODUCTION
-                ? {}
-                : { "Internal-Auth": INTERNAL_AUTH_TOKEN }),
+              ...this.headersBase(),
             },
             body: schemaAuthCredentials.parse(payload),
-            signal: _.controller.signal,
+            signal: options?.controller?.signal,
+            timeout: options?.timeoutMs ?? defaultsAuthenticate.timeoutMs,
             retry: 0,
           },
         ),
         "access_token",
-      );
-      if (!token) throw "Auth failed. No token.";
+      ),
+    );
+    this.idToken.value = token;
 
-      this.idToken.value = token;
-      return token;
-    } catch (error) {
-      // rethrow
-      throw error;
-    } finally {
-      clearTimeout(tid);
-    }
+    return token;
   };
 
   logout = async () => {
     const token = this.idToken.value;
     if (!token) return;
 
-    const controller = new AbortController();
-    const tid = setTimeout(
-      () => controller.abort(),
-      defaultsAuthenticate.timeoutMs,
-    );
-
     try {
-      const res = get(
-        await $fetch<{ status: string }>(this.authEndpoint.logout!, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            ...(this.config.PRODUCTION
-              ? {}
-              : { "Internal-Auth": INTERNAL_AUTH_TOKEN }),
-          },
-          body: {},
-          signal: controller.signal,
-          retry: 0,
-        }),
-        "status",
-      );
-      if ("ok" !== res) throw new Error("Logout failed.");
+      if (
+        "ok" !==
+        get(
+          await $fetch<{ status: string }>(this.authEndpoint.logout!, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+              ...this.headersBase(),
+            },
+            body: {},
+            timeout: defaultsAuthenticate.timeoutMs,
+            retry: 0,
+          }),
+          "status",
+        )
+      )
+        throw new Error("Logout failed.");
     } catch (err: any) {
       if (err?.name === "AbortError") {
         // network timeout: still treat as "logged out" locally
@@ -177,34 +136,36 @@ export class AuthApiService extends AuthService<TUser, ICredentials> {
 
       throw err;
     } finally {
-      clearTimeout(tid);
-      // clear local auth state
+      // clear auth state
       this.idToken.value = null;
     }
   };
 
-  register = async (payload: ICredentials) =>
+  register = async (payload: ICredentials, options?: IAuthenticateOptions) =>
     get(
       await $fetch<{ access_token: string; auth: TUser }>(
         this.authEndpoint.register!,
         {
           method: "POST",
           headers: {
-            Accept: "application/json",
             "Content-Type": "application/json",
-            ...(this.config.PRODUCTION
-              ? {}
-              : { "Internal-Auth": INTERNAL_AUTH_TOKEN }),
+            ...this.headersBase(),
           },
-          body: {
-            ...schemaAuthCredentials.parse(payload),
-          },
-          // abort [s]
-          timeout: defaultsAuthenticate.timeoutMs,
-          // no retry user create
+          body: schemaAuthCredentials.parse(payload),
+          signal: options?.controller?.signal,
+          timeout: options?.timeoutMs ?? defaultsAuthenticate.timeoutMs,
           retry: 0,
         },
       ),
       "auth.id",
     );
+
+  private headersBase() {
+    return {
+      Accept: "application/json",
+      ...(this.config.PRODUCTION
+        ? {}
+        : { "Internal-Auth": INTERNAL_AUTH_TOKEN }),
+    };
+  }
 }

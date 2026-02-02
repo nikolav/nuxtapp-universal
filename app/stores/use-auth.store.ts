@@ -1,3 +1,4 @@
+import { firstValueFrom } from "rxjs";
 import { tap } from "rxjs/operators";
 
 import { usePopupOAuth } from "~/composables";
@@ -17,11 +18,14 @@ export const useAuth = defineStore("store:auth", () => {
   )();
 
   const { signInWithProvider: signInWithProviderBase_ } = usePopupOAuth();
+  // cast observable to promise
   const signInWithProvider = (provider: string) =>
-    signInWithProviderBase_(provider).pipe(
-      tap((token) => {
-        authService.idToken.value = token;
-      }),
+    firstValueFrom(
+      signInWithProviderBase_(provider).pipe(
+        tap((token) => {
+          authService.idToken.value = schemaAuthToken.parse(token);
+        }),
+      ),
     );
 
   const account = ref<TOrNoValue<IUser>>(null);
