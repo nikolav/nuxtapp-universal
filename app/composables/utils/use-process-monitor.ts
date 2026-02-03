@@ -36,8 +36,8 @@ export const useProcessMonitor = () => {
     } catch (e) {
       setError(e);
     } finally {
-      if (!error.value) successful();
       done();
+      if (!error.value) successful();
     }
   };
 
