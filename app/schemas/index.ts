@@ -1,5 +1,6 @@
 import { z } from "zod";
 import isJWT from "validator/es/lib/isJWT";
+import { coreHasOwn } from "~/utils/core-has-own";
 
 export { schemaJsonData, schemaJsonDataRecord } from "./json.schema";
 export * from "./transforms";
@@ -37,3 +38,5 @@ export const schemaOAuthPayload = z.discriminatedUnion("type", [
     error: z.string().optional(),
   }),
 ]);
+
+export const schemaAuthDriver = z.enum(["memory", "api"]);

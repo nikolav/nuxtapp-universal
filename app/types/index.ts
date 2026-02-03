@@ -16,7 +16,7 @@ export interface IEventApp<TEventAppPayload = unknown> {
   type: string;
   payload: TEventAppPayload;
 }
-export interface IUser<ID = unknown> {
+export interface IUser<ID = any> {
   id: ID;
   email: string;
   key?: unknown;

@@ -9,13 +9,16 @@ import { Hash } from "~/services/hash";
 import { JWT } from "~/services/jwt";
 import { cloned } from "~/utils/cloned";
 import { schemaAuthCredentials, schemaJWT } from "~/schemas";
-import type { ICredentials, TOrNoValue, TUser } from "~/types";
+import type { ICredentials, IUser, TOrNoValue } from "~/types";
 
-export class AuthMemoryService extends AuthService<TUser, ICredentials> {
-  // users cache, { [id:uuid] => user:TUser }
-  private static users = <Record<string, TUser>>{};
+export class AuthMemoryService extends AuthService<
+  IUser<string>,
+  ICredentials
+> {
+  // users cache, { [id:uuid] => user:IUser<string> }
+  private static users = <Record<string, IUser<string>>>{};
 
-  account$ = new ReplaySubject<TOrNoValue<TUser>>(1);
+  account$ = new ReplaySubject<TOrNoValue<IUser<string>>>();
   token = ref<TOrNoValue<string>>(null);
 
   account = async (token: string) => {
@@ -53,9 +56,8 @@ export class AuthMemoryService extends AuthService<TUser, ICredentials> {
 
     // no user with that credentials; create
     const id = uuid();
-    user = <TUser>{
+    user = <IUser<string>>{
       id,
-      key: uuid(),
       email: credentials.email,
       password: await Hash.make(credentials.password),
     };

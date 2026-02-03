@@ -10,18 +10,18 @@ import { INTERNAL_AUTH_TOKEN } from "~/config";
 import type {
   TOrNoValue,
   ICredentials,
-  TUser,
   IAuthenticateOptions,
+  IUser,
 } from "~/types";
 
 const defaultsAuthenticate: IAuthenticateOptions = {
   timeoutMs: 8122,
 };
 
-export class AuthApiService extends AuthService<TUser, ICredentials> {
+export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
   private authEndpoint: Record<string, string> = {};
 
-  account$ = new ReplaySubject<TOrNoValue<TUser>>();
+  account$ = new ReplaySubject<TOrNoValue<IUser<number>>>();
   token = ref<TOrNoValue<string>>(null);
 
   constructor(private config: PublicRuntimeConfig) {
@@ -41,7 +41,7 @@ export class AuthApiService extends AuthService<TUser, ICredentials> {
   account = async (token: string) =>
     omit(
       get(
-        await $fetch<{ auth: TUser }>(this.authEndpoint.who!, {
+        await $fetch<{ auth: IUser<number> }>(this.authEndpoint.who!, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -127,7 +127,7 @@ export class AuthApiService extends AuthService<TUser, ICredentials> {
 
   register = async (payload: ICredentials, options?: IAuthenticateOptions) =>
     get(
-      await $fetch<{ access_token: string; auth: TUser }>(
+      await $fetch<{ access_token: string; auth: IUser<string> }>(
         this.authEndpoint.register!,
         {
           method: "POST",

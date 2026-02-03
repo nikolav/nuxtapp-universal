@@ -2,7 +2,7 @@ import { onScopeDispose } from "vue";
 import { tap } from "rxjs/operators";
 
 import { usePopupOAuth, useProcessMonitor } from "~/composables";
-import { schemaAuthToken } from "~/schemas";
+import { schemaAuthDriver, schemaAuthToken } from "~/schemas";
 import { AuthApiService, AuthMemoryService } from "~/services/auth";
 import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
 
@@ -16,7 +16,7 @@ export const useAuth = defineStore("store:auth", () => {
       memory: () => new AuthMemoryService(),
       api: () => new AuthApiService(config),
     },
-    config.auth.driver,
+    schemaAuthDriver.parse(config.auth.driver),
   )();
 
   const account = ref<TOrNoValue<IUser>>(null);
@@ -56,27 +56,23 @@ export const useAuth = defineStore("store:auth", () => {
 
   const authenticate = async (credenitals: ICredentials) =>
     !isAuth.value
-      ? ps.exec(() => $$.resolved(authService.authenticate(credenitals)))
+      ? ps.exec(() => authService.authenticate(credenitals))
       : undefined;
 
   const logout = async () =>
-    isAuth.value
-      ? ps.exec<void>(() => $$.resolved(authService.logout()))
-      : undefined;
+    isAuth.value ? ps.exec<void>(() => authService.logout()) : undefined;
 
   const register = (credentials: ICredentials) =>
-    ps.exec(() => $$.resolved(authService.register(credentials)));
+    ps.exec(() => authService.register(credentials));
 
   const { signInWithProvider: signInWithProviderBase_ } = usePopupOAuth();
   const signInWithProvider = async (provider: string) =>
     !isAuth.value
       ? ps.exec(() =>
-          $$.resolved(
-            signInWithProviderBase_(provider).pipe(
-              tap((token) => {
-                authService.token.value = token;
-              }),
-            ),
+          signInWithProviderBase_(provider).pipe(
+            tap((token) => {
+              authService.token.value = token;
+            }),
           ),
         )
       : undefined;
