@@ -129,7 +129,6 @@ export const useAuth = defineStore("store-auth", () => {
     register,
     signInWithProvider,
     reload: auth.refresh,
-    clear: auth.clear,
     destroy,
   };
 });
