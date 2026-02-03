@@ -85,6 +85,7 @@ coverage/
 tinker.ts
 tinker.js
 temp
+temp.*
 
 # Sentry Config File
 .env.sentry-build-plugin
