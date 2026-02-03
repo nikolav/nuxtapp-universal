@@ -22,8 +22,7 @@ export class AuthApiService extends AuthService<TUser, ICredentials> {
   private authEndpoint: Record<string, string> = {};
 
   account$ = new ReplaySubject<TOrNoValue<TUser>>();
-  idToken = ref<TOrNoValue<string>>(null);
-  access_token = ref<TOrNoValue<string>>(null);
+  token = ref<TOrNoValue<string>>(null);
 
   constructor(private config: PublicRuntimeConfig) {
     super();
@@ -37,20 +36,6 @@ export class AuthApiService extends AuthService<TUser, ICredentials> {
     this.authEndpoint.who = `${base}/who`;
     this.authEndpoint.logout = `${base}/logout`;
     this.authEndpoint.register = `${base}/register`;
-
-    // @token, sync
-    watchEffect(() => {
-      this.access_token.value = this.idToken.value;
-    });
-    watch(this.idToken, (token) => {
-      (async () => {
-        try {
-          this.account$.next(token ? await this.account(token) : null);
-        } catch (error) {
-          // pass
-        }
-      })();
-    });
   }
 
   account = async (token: string) =>
@@ -95,13 +80,13 @@ export class AuthApiService extends AuthService<TUser, ICredentials> {
         "access_token",
       ),
     );
-    this.idToken.value = token;
+    this.token.value = token;
 
     return token;
   };
 
   logout = async () => {
-    const token = this.idToken.value;
+    const token = this.token.value;
     if (!token) return;
 
     try {
@@ -137,7 +122,7 @@ export class AuthApiService extends AuthService<TUser, ICredentials> {
       throw err;
     } finally {
       // clear auth state
-      this.idToken.value = null;
+      this.token.value = null;
     }
   };
 

@@ -16,27 +16,10 @@ export class AuthMemoryService extends AuthService<TUser, ICredentials> {
   private static users = <Record<string, TUser>>{};
 
   account$ = new ReplaySubject<TOrNoValue<TUser>>(1);
-  idToken = ref<TOrNoValue<string>>(null);
-  access_token = ref<TOrNoValue<string>>(null);
+  token = ref<TOrNoValue<string>>(null);
 
-  constructor() {
-    super();
-    watchEffect(() => {
-      this.access_token.value = this.idToken.value;
-    });
-    watch(this.idToken, (token) => {
-      (async () => {
-        try {
-          this.account$.next(token ? await this.account(token) : null);
-        } catch (error) {
-          // pass
-        }
-      })();
-    });
-  }
-
-  account = async (idToken: string) => {
-    const id = get(await JWT.verify(idToken), "id");
+  account = async (token: string) => {
+    const id = get(await JWT.verify(token), "id");
     const user = AuthMemoryService.users[<any>id];
     if (!user) {
       throw "User not found.";
@@ -56,7 +39,7 @@ export class AuthMemoryService extends AuthService<TUser, ICredentials> {
     const id = user!.id;
     const idToken = schemaJWT.parse(await JWT.sign({ id }));
 
-    this.idToken.value = idToken;
+    this.token.value = idToken;
 
     return idToken;
   };
@@ -82,7 +65,7 @@ export class AuthMemoryService extends AuthService<TUser, ICredentials> {
   };
 
   logout = async () => {
-    this.idToken.value = null;
+    this.token.value = null;
   };
 
   private static byEmail(email: string) {

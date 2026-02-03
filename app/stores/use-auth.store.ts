@@ -1,5 +1,5 @@
 import { firstValueFrom } from "rxjs";
-import { tap } from "rxjs/operators";
+import { filter, tap } from "rxjs/operators";
 
 import { usePopupOAuth } from "~/composables";
 import { schemaAuthToken } from "~/schemas";
@@ -23,7 +23,7 @@ export const useAuth = defineStore("store:auth", () => {
     firstValueFrom(
       signInWithProviderBase_(provider).pipe(
         tap((token) => {
-          authService.idToken.value = schemaAuthToken.parse(token);
+          authService.token.value = schemaAuthToken.parse(token);
         }),
       ),
     );
@@ -50,9 +50,7 @@ export const useAuth = defineStore("store:auth", () => {
       (async () => {
         try {
           if (storageAuth.value)
-            authService.idToken.value = schemaAuthToken.parse(
-              storageAuth.value,
-            );
+            authService.token.value = schemaAuthToken.parse(storageAuth.value);
         } catch (error) {
           // pass
         }
@@ -62,12 +60,27 @@ export const useAuth = defineStore("store:auth", () => {
 
   // @auth; sync storage auth token
   watch(isAuth, (isAuth) => {
-    storageAuth.value = isAuth ? authService.idToken.value : "";
+    storageAuth.value = isAuth ? authService.token.value : "";
+  });
+
+  watch(authService.token, (token) => {
+    (async () => {
+      try {
+        authService.account$.next(
+          token
+            ? await firstValueFrom(
+                $$.to$<IUser>(authService.account(token)).pipe(filter(Boolean)),
+              )
+            : null,
+        );
+      } catch (error) {
+        // pass
+      }
+    })();
   });
 
   return {
-    idToken: authService.idToken,
-    access_token: authService.access_token,
+    token: authService.token,
     account,
     isAuth,
     authenticate: authService.authenticate,

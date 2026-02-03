@@ -11,6 +11,7 @@ import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { onDebug } from "~/utils/on-debug";
 import { coreHasOwn } from "~/utils/core-has-own";
+import { to$ } from "~/utils/to-obs";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -32,6 +33,7 @@ export default defineNuxtPlugin({
           // local
           onDebug,
           hasOwn: coreHasOwn,
+          to$,
           // core, misc.
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),

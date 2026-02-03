@@ -13,28 +13,32 @@ definePageMeta({
 });
 
 const auth = useAuth();
-const register = async () => {
-  const res = await auth.register({
-    email: "u1@user.com",
-    password: "u1@user.com",
-  });
-  console.log({ res });
-};
-const authenticate = async () => {
-  const res = await auth.authenticate({
-    email: "u1@user.com",
-    password: "u1@user.com",
-  });
-  console.log({ res });
-};
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--index">
     <div class="flex justify-center gap-4">
-      <button @click="register">auth:register</button>
-      <button @click="authenticate">auth:authenticate</button>
+      <button
+        @click="
+          auth.register({
+            email: 'u1@user.com',
+            password: 'u1@user.com',
+          })
+        "
+      >
+        auth:register
+      </button>
+      <button
+        @click="
+          auth.authenticate({
+            email: 'u1@user.com',
+            password: 'u1@user.com',
+          })
+        "
+      >
+        auth:authenticate
+      </button>
       <button @click="auth.signInWithProvider('google')">auth:google</button>
       <button @click="auth.logout()">auth:logout</button>
     </div>
