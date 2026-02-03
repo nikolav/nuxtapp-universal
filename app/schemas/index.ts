@@ -1,6 +1,5 @@
 import { z } from "zod";
 import isJWT from "validator/es/lib/isJWT";
-import { coreHasOwn } from "~/utils/core-has-own";
 
 export { schemaJsonData, schemaJsonDataRecord } from "./json.schema";
 export * from "./transforms";
