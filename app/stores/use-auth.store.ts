@@ -27,11 +27,12 @@ export const useAuth = defineStore("store-auth", () => {
   // account data, auth
   const auth = useAsyncData<TOrNoValue<IUser>>(
     "auth-account-data",
-    async (_1, { signal }) => {
-      const token = authService.token.value;
-      if (!token) return null;
-      return await $$.resolved<IUser>(authService.authData(token, signal));
-    },
+    async (_1, { signal }) =>
+      authService.token.value
+        ? await $$.resolved<IUser>(
+            authService.authData(authService.token.value, signal),
+          )
+        : null,
     {
       server: false,
       immediate: true,
