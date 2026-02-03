@@ -28,6 +28,18 @@ export const useProcessMonitor = () => {
     callback();
   };
 
+  const exec = async <T>(fn: () => Promise<T>) => {
+    begin();
+    try {
+      return await fn();
+    } catch (e) {
+      setError(e);
+    } finally {
+      done();
+    }
+    if (!error.value) successful();
+  };
+
   return {
     // flags
     error,
@@ -39,5 +51,8 @@ export const useProcessMonitor = () => {
     setError,
     successful,
     done,
+
+    // monitor
+    exec,
   };
 };
