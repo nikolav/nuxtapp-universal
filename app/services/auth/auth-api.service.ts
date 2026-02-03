@@ -109,13 +109,12 @@ export class AuthApiService extends AuthService<TUser, ICredentials> {
       )
         throw new Error("Logout failed.");
     } catch (err: any) {
-      if (err?.name === "AbortError") {
+      if ("AbortError" === err?.name) {
         // network timeout: still treat as "logged out" locally
         return;
       }
-
       // if server says token invalid/expired, user is effectively logged out
-      if (err?.status === 401) {
+      if (401 == err?.status) {
         return;
       }
 

@@ -44,7 +44,13 @@ const auth = useAuth();
     </div>
     <div>
       <small>
-        <pre>{{ auth.isAuth }}</pre>
+        <pre>
+          isAuth      [{{ auth.isAuth }}]
+          processing  [{{ auth.status.processing }}]
+          success     [{{ auth.status.success }}]
+          error       [{{ auth.status.error }}]
+         </pre
+        >
       </small>
     </div>
     <div>
