@@ -1,3 +1,5 @@
+import type { IAuthenticateOptions } from "~/types";
+
 // app.config.ts
 export default defineAppConfig({
   // ---------------------------------------------------------------------------
@@ -6,6 +8,14 @@ export default defineAppConfig({
   appName: "Nuxt App",
   appShortName: "Nuxt",
   locale: "sr",
+
+  services: {
+    auth: {
+      defaultsAuthenticate: <IAuthenticateOptions>{
+        timeoutMs: 8122,
+      },
+    },
+  },
 
   keys: {
     TOKEN_API_AUTH: "4a4f038d-dc42-5419-8579-64681eb922b6",

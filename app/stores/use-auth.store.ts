@@ -6,53 +6,63 @@ import { schemaAuthDriver, schemaAuthToken } from "~/schemas";
 import { AuthApiService, AuthMemoryService } from "~/services/auth";
 import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
 
-export const useAuth = defineStore("store:auth", () => {
+export const useAuth = defineStore("store-auth", () => {
   const { $$ } = useNuxtApp();
   const config = useRuntimeConfig().public;
+  const {
+    services: {
+      auth: { defaultsAuthenticate },
+    },
+  } = useAppConfig();
   const ps = useProcessMonitor();
 
   const authService: TAuthService<IUser, ICredentials> = $$.get(
     {
       memory: () => new AuthMemoryService(),
-      api: () => new AuthApiService(config),
+      api: () => new AuthApiService(config, defaultsAuthenticate),
     },
     schemaAuthDriver.parse(config.auth.driver),
   )();
 
-  const account = ref<TOrNoValue<IUser>>(null);
-  const isAuth = computed(() => null != $$.get(account.value, "id"));
+  // account data, auth
+  const auth = useAsyncData<TOrNoValue<IUser>>(
+    "auth-account-data",
+    async (_1, { signal }) => {
+      const token = authService.token.value;
+      if (!token) return null;
+      return await $$.resolved<IUser>(authService.authData(token, signal));
+    },
+    {
+      server: false,
+      immediate: true,
+      lazy: true,
+      watch: [authService.token],
+      default: () => null,
+      dedupe: "cancel",
+      timeout: defaultsAuthenticate.timeoutMs,
+    },
+  );
 
-  const account_s = authService.account$.subscribe((account_) => {
-    account.value = account_;
-  });
-
-  // @token; sync account, latest only
+  // map auth to ps
   watch(
-    authService.token,
-    async (token, _prev, cleanup) => {
-      ps.begin();
-      let cancelled = false;
-      cleanup(() => {
-        cancelled = true;
-      });
+    () => [auth.pending.value, auth.error.value] as const,
+    ([pending, error]) => {
+      ps.setError(error);
 
-      try {
-        const nextAccount = token
-          ? await $$.resolved<IUser>(authService.account(token))
-          : null;
-
-        if (!cancelled) authService.account$.next(nextAccount);
-      } catch (e) {
-        if (!cancelled) ps.setError(e);
-      } finally {
-        if (!cancelled) {
-          ps.done();
-          if (!ps.error.value) ps.successful();
-        }
+      if (pending) {
+        if (!ps.processing.value) ps.begin();
+        return;
       }
+
+      ps.done();
+
+      if (!ps.processing.value && !ps.error.value) ps.successful();
     },
     { immediate: true },
   );
+
+  const account = computed(() => auth.data.value);
+  const isAuth = computed(() => null != $$.get(account.value, "id"));
 
   const authenticate = async (credenitals: ICredentials) =>
     !isAuth.value
@@ -103,7 +113,7 @@ export const useAuth = defineStore("store:auth", () => {
   });
 
   const destroy = () => {
-    account_s.unsubscribe();
+    // misc. cleanup
   };
 
   onScopeDispose(destroy);

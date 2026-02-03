@@ -1,4 +1,3 @@
-import { ReplaySubject } from "rxjs";
 import trim from "lodash/trim";
 import get from "lodash/get";
 import omit from "lodash/omit";
@@ -14,17 +13,15 @@ import type {
   IUser,
 } from "~/types";
 
-const defaultsAuthenticate: IAuthenticateOptions = {
-  timeoutMs: 8122,
-};
-
 export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
   private authEndpoint: Record<string, string> = {};
 
-  account$ = new ReplaySubject<TOrNoValue<IUser<number>>>();
   token = ref<TOrNoValue<string>>(null);
 
-  constructor(private config: PublicRuntimeConfig) {
+  constructor(
+    private config: PublicRuntimeConfig,
+    private defaultsAuthenticate: IAuthenticateOptions,
+  ) {
     super();
 
     // point auth paths
@@ -38,7 +35,7 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
     this.authEndpoint.register = `${base}/register`;
   }
 
-  account = async (token: string) =>
+  authData = async (token: string, signal?: globalThis.AbortSignal) =>
     omit(
       get(
         await $fetch<{ auth: IUser<number> }>(this.authEndpoint.who!, {
@@ -47,10 +44,11 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
             Authorization: `Bearer ${token}`,
             ...this.headersBase(),
           },
-          timeout: defaultsAuthenticate.timeoutMs,
+          timeout: this.defaultsAuthenticate.timeoutMs,
           retry: 1,
           retryStatusCodes: [429, 503],
           retryDelay: 812,
+          signal,
         }),
         "auth",
       ),
@@ -73,15 +71,15 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
             },
             body: schemaAuthCredentials.parse(payload),
             signal: options?.controller?.signal,
-            timeout: options?.timeoutMs ?? defaultsAuthenticate.timeoutMs,
+            timeout: options?.timeoutMs ?? this.defaultsAuthenticate.timeoutMs,
             retry: 0,
           },
         ),
         "access_token",
       ),
     );
-    this.token.value = token;
 
+    this.token.value = token;
     return token;
   };
 
@@ -101,7 +99,7 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
               ...this.headersBase(),
             },
             body: {},
-            timeout: defaultsAuthenticate.timeoutMs,
+            timeout: this.defaultsAuthenticate.timeoutMs,
             retry: 0,
           }),
           "status",
@@ -120,7 +118,7 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
 
       throw err;
     } finally {
-      // clear auth state
+      // clear token
       this.token.value = null;
     }
   };
@@ -137,7 +135,7 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
           },
           body: schemaAuthCredentials.parse(payload),
           signal: options?.controller?.signal,
-          timeout: options?.timeoutMs ?? defaultsAuthenticate.timeoutMs,
+          timeout: options?.timeoutMs ?? this.defaultsAuthenticate.timeoutMs,
           retry: 0,
         },
       ),

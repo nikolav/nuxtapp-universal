@@ -18,10 +18,9 @@ export class AuthMemoryService extends AuthService<
   // users cache, { [id:uuid] => user:IUser<string> }
   private static users = <Record<string, IUser<string>>>{};
 
-  account$ = new ReplaySubject<TOrNoValue<IUser<string>>>();
   token = ref<TOrNoValue<string>>(null);
 
-  account = async (token: string) => {
+  authData = async (token: string) => {
     const id = get(await JWT.verify(token), "id");
     const user = AuthMemoryService.users[<any>id];
     if (!user) {
