@@ -1,3 +1,4 @@
+import { onScopeDispose } from "vue";
 import { tap } from "rxjs/operators";
 
 import { usePopupOAuth, useProcessMonitor } from "~/composables";
@@ -25,81 +26,60 @@ export const useAuth = defineStore("store:auth", () => {
     account.value = account_;
   });
 
-  // @token; sync account
-  watch(authService.token, (token) => {
-    ps.begin();
-    (async () => {
+  // @token; sync account, latest only
+  watch(
+    authService.token,
+    async (token, _prev, cleanup) => {
+      ps.begin();
+      let cancelled = false;
+      cleanup(() => {
+        cancelled = true;
+      });
+
       try {
-        authService.account$.next(
-          token ? await $$.resolved<IUser>(authService.account(token)) : null,
-        );
-      } catch (error) {
-        ps.setError(error);
+        const nextAccount = token
+          ? await $$.resolved<IUser>(authService.account(token))
+          : null;
+
+        if (!cancelled) authService.account$.next(nextAccount);
+      } catch (e) {
+        if (!cancelled) ps.setError(e);
       } finally {
-        ps.done();
+        if (!cancelled) {
+          ps.done();
+          if (!ps.error.value) ps.successful();
+        }
       }
-      if (!ps.error.value) ps.successful();
-    })();
-  });
+    },
+    { immediate: true },
+  );
 
-  const authenticate = async (credenitals: ICredentials) => {
-    if (isAuth.value) return;
-    try {
-      ps.begin();
-      return await $$.resolved(authService.authenticate(credenitals));
-    } catch (error) {
-      ps.setError(error);
-    } finally {
-      ps.done();
-    }
-    if (!ps.error.value) ps.successful();
-  };
+  const authenticate = async (credenitals: ICredentials) =>
+    !isAuth.value
+      ? ps.exec(() => $$.resolved(authService.authenticate(credenitals)))
+      : undefined;
 
-  const logout = async () => {
-    if (!isAuth.value) return;
-    try {
-      ps.begin();
-      await $$.resolved<void>(authService.logout());
-    } catch (error) {
-      ps.setError(error);
-    } finally {
-      ps.done();
-    }
-    if (!ps.error.value) ps.successful();
-  };
+  const logout = async () =>
+    isAuth.value
+      ? ps.exec<void>(() => $$.resolved(authService.logout()))
+      : undefined;
 
-  const register = async (credentials: ICredentials) => {
-    try {
-      ps.begin();
-      return await $$.resolved(authService.register(credentials));
-    } catch (error) {
-      ps.setError(error);
-    } finally {
-      ps.done();
-    }
-    if (!ps.error.value) ps.successful();
-  };
+  const register = (credentials: ICredentials) =>
+    ps.exec(() => $$.resolved(authService.register(credentials)));
 
   const { signInWithProvider: signInWithProviderBase_ } = usePopupOAuth();
-  // cast observable to promise
-  const signInWithProvider = async (provider: string) => {
-    if (isAuth.value) return;
-    try {
-      ps.begin();
-      return await $$.resolved(
-        signInWithProviderBase_(provider).pipe(
-          tap((token) => {
-            authService.token.value = schemaAuthToken.parse(token);
-          }),
-        ),
-      );
-    } catch (error) {
-      ps.setError(error);
-    } finally {
-      ps.done();
-    }
-    if (!ps.error.value) ps.successful();
-  };
+  const signInWithProvider = async (provider: string) =>
+    !isAuth.value
+      ? ps.exec(() =>
+          $$.resolved(
+            signInWithProviderBase_(provider).pipe(
+              tap((token) => {
+                authService.token.value = token;
+              }),
+            ),
+          ),
+        )
+      : undefined;
 
   // cache token to autoload auth
   const storageAuth = useLocalStorage(
@@ -122,13 +102,15 @@ export const useAuth = defineStore("store:auth", () => {
   });
 
   // @auth; sync storage auth token
-  watch(isAuth, (isAuth) => {
-    storageAuth.value = isAuth ? authService.token.value : "";
+  watch(authService.token, (token) => {
+    storageAuth.value = token ?? "";
   });
 
   const destroy = () => {
     account_s.unsubscribe();
   };
+
+  onScopeDispose(destroy);
 
   return {
     status: ps,
