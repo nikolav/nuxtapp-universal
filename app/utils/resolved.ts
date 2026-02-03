@@ -6,9 +6,8 @@ import type { TMaybeAsync } from "~/types";
 
 export const resolved = async <T = unknown>(
   val: TMaybeAsync<T>,
-  truethy = true,
-) => {
-  return await firstValueFrom(
-    to$(val).pipe(filter((val) => (truethy ? Boolean(val) : true))),
+  truthy = true,
+) =>
+  await firstValueFrom(
+    to$(val).pipe(filter((val) => (truthy ? Boolean(val) : true))),
   );
-};

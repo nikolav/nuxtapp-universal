@@ -34,10 +34,10 @@ export default defineNuxtPlugin({
           hasPath,
           isString,
           // local
+          to$,
           resolved,
           onDebug,
           hasOwn: coreHasOwn,
-          to$,
           // core, misc.
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),

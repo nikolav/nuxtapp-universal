@@ -1,4 +1,4 @@
-import type { TOrNoValue } from "~/types";
+import type { TMaybeAsync, TOrNoValue } from "~/types";
 
 export const useProcessMonitor = () => {
   const { $$ } = useNuxtApp();
@@ -28,16 +28,17 @@ export const useProcessMonitor = () => {
     callback();
   };
 
-  const exec = async <T>(fn: () => Promise<T>) => {
+  // handle status flags for fn that resolves a value, or throws
+  const exec = async <T>(fn: () => TMaybeAsync<T>, truthy = true) => {
     begin();
     try {
-      return await fn();
+      return await $$.resolved<T>(fn(), truthy);
     } catch (e) {
       setError(e);
     } finally {
+      if (!error.value) successful();
       done();
     }
-    if (!error.value) successful();
   };
 
   return {
