@@ -461,6 +461,13 @@ export default defineNuxtConfig({
         file: "sr.json",
       },
       {
+        code: "sr-Cyrl",
+        iso: "sr-Cyrl-RS",
+        name: "Српски",
+        language: "sr-Cyrl-RS",
+        file: "sr-Cyrl.json",
+      },
+      {
         isCatchallLocale: true,
         code: "en",
         iso: "en-US",
