@@ -15,7 +15,20 @@ export interface IEventApp<TEventAppPayload = unknown> {
   type: string;
   payload: TEventAppPayload;
 }
+export interface IUser<ID = unknown> {
+  id: ID;
+  email: string;
+  key?: unknown;
+  password?: string;
+}
+export type TUser = IUser<string> & { key: string };
+
+export interface ICredentials {
+  email: string;
+  password: string;
+}
 
 //
 export type { TRecordJson, TJson, TJsonLiteral };
 export type TCashDomClient = typeof import("cash-dom").default;
+export { AuthService as TAuthService } from "~/services/auth/base";

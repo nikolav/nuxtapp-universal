@@ -6,11 +6,14 @@ import each from "lodash/each";
 import transform from "lodash/transform";
 import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
+import noop from "lodash/noop";
 
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { onDebug } from "~/utils/on-debug";
 import { coreHasOwn } from "~/utils/core-has-own";
+import { to$ } from "~/utils/to-obs";
+import { resolved } from "~/utils/resolved";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -21,6 +24,7 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          noop,
           each,
           get,
           isEmpty,
@@ -30,6 +34,8 @@ export default defineNuxtPlugin({
           hasPath,
           isString,
           // local
+          resolved,
+          to$,
           onDebug,
           hasOwn: coreHasOwn,
           // core, misc.

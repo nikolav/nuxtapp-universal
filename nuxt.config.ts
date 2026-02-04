@@ -7,8 +7,11 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
  * ENV / FLAGS (derived once, reused everywhere)
  * ============================================================================
  */
-const PRODUCTION =
-  "production" === (process.env.NUXT_SITE_ENV || process.env.NODE_ENV);
+const PRODUCTION = [
+  process.env.ENV,
+  process.env.NODE_ENV,
+  process.env.NUXT_SITE_ENV,
+].some((e) => "production" === e);
 
 const SSR = parseBoolean(process.env.NUXT_SSR);
 
@@ -134,7 +137,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   runtimeConfig: {
     // Server-only secrets
-    apiSecret: process.env.API_SECRET ?? "",
+    apiSecret: process.env.NUXT_API_SECRET ?? "",
 
     // Server-side infra flags (also useful on server)
     databaseInit,
@@ -176,6 +179,9 @@ export default defineNuxtConfig({
           authEndpoint: process.env.NUXT_PUBLIC_REVERB_AUTH_ENDPOINT,
         },
       },
+
+      // auth
+      authDriver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
     },
   },
 
@@ -283,7 +289,7 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: true,
 
-    // enable typed routes (⚠ disables custom route names for locales)
+    // # enable typed routes (⚠ disables custom route names for locales)
     // typedPages: true,
 
     // keep generated route values / metadata
@@ -313,10 +319,10 @@ export default defineNuxtConfig({
   // 11) Build tooling (Vite, sourcemaps, builder/alias)
   // ---------------------------------------------------------------------------
   // Choose bundler: 'vite' (default), 'webpack', or 'rspack'
-  builder: {},
+  // builder: {},
 
   // Create custom path shortcuts (e.g., '@components': '/components')
-  alias: {},
+  // alias: {},
 
   vite: {
     esbuild: {

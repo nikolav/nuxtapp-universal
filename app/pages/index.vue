@@ -1,35 +1,15 @@
 <script setup lang="ts">
-// ## imports, external, internal
-// ## config:const
-// ## nuxt:core
-// ## props / emits / v-model / v-model helper
-// ## page-meta, macros
 definePageMeta({
   title: "pages.index.title",
   description: "pages.index.description",
   layout: "default",
   i18n: {
     paths: {
-      sr: "/dobrodosli",
+      sr: "/",
       en: "/welcome",
     },
   },
 });
-// ## attrs / slots
-// ## schemas / validation
-// ## icons
-// ## refs / flags / models
-// ## state, pinia, local
-// ## storage / cookies
-// ## async data
-// ## computed
-// ## helpers / utils
-// ## handlers
-// ## watch
-// ## hooks / lifecycle
-// ## head / meta
-// ## provide / expose
-// ## io, events, websockets
 
 // @@eos
 </script>
