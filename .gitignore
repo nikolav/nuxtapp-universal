@@ -85,6 +85,7 @@ coverage/
 tinker.ts
 tinker.js
 temp
+temp.*
 
 # Sentry Config File
 .env.sentry-build-plugin
@@ -92,6 +93,7 @@ ca_igdnhgauckc.pem
 
 database.sqlite
 scp-config.sh
+vars.env.ts
 
 !.env.example
 !.vscode/settings.json

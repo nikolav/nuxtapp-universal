@@ -11,8 +11,11 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
  * ENV / FLAGS (derived once, reused everywhere)
  * ============================================================================
  */
-const PRODUCTION =
-  "production" === (process.env.NUXT_SITE_ENV || process.env.NODE_ENV);
+const PRODUCTION = [
+  process.env.ENV,
+  process.env.NODE_ENV,
+  process.env.NUXT_SITE_ENV,
+].some((e) => "production" === e);
 
 const SSR = parseBoolean(process.env.NUXT_SSR);
 
@@ -150,6 +153,7 @@ export default defineNuxtConfig({
 
     // Client-exposed settings
     public: {
+      PRODUCTION,
       ssr: SSR,
       appEnv: process.env.NODE_ENV ?? "development",
 
@@ -172,6 +176,11 @@ export default defineNuxtConfig({
       },
 
       graphqlEndpoint: process.env.NUXT_GRAPHQL_ENDPOINT ?? "",
+      // auth
+      auth: {
+        driver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
+        endpoint: process.env.NUXT_PUBLIC_AUTH_ENDPOINT,
+      },
     },
   },
 
@@ -258,6 +267,11 @@ export default defineNuxtConfig({
       "/_nuxt/**": {
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
+      "/**": {
+        headers: {
+          "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+        },
+      },
     },
 
     // Optional Nitro storage adapter (Redis)
@@ -279,7 +293,7 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: true,
 
-    // enable typed routes (⚠ disables custom route names for locales)
+    // # enable typed routes (⚠ disables custom route names for locales)
     // typedPages: true,
 
     // keep generated route values / metadata
