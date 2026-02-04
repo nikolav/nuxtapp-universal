@@ -1,9 +1,7 @@
 <script setup lang="ts">
-// ## imports, external, internal
-// ## config:const
-// ## nuxt:core
-// ## props / emits / v-model / v-model helper
-// ## page-meta, macros
+import { useAsyncGraphqlData } from "~/composables/request";
+import { Q_status } from "~/graphql";
+
 definePageMeta({
   title: "pages.index.title",
   description: "pages.index.description",
@@ -15,27 +13,23 @@ definePageMeta({
     },
   },
 });
-// ## attrs / slots
-// ## schemas / validation
-// ## icons
-// ## refs / flags / models
-// ## state, pinia, local
-// ## storage / cookies
-// ## async data
-// ## computed
-// ## helpers / utils
-// ## handlers
-// ## watch
-// ## hooks / lifecycle
-// ## head / meta
-// ## provide / expose
-// ## io, events, websockets
+
+const { data } = await useAsyncGraphqlData({
+  key: "Q_status",
+  document: Q_status,
+});
 
 // @@eos
 </script>
 
 <template>
-  <section class="app-container-reset page--index"></section>
+  <section class="app-container-reset page--index">
+    <div>
+      <small>
+        <pre>{{ data }}</pre>
+      </small>
+    </div>
+  </section>
 </template>
 
 <!-- scoped component styles, default -->

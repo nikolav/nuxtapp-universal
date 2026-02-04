@@ -1,6 +1,7 @@
 import vitePluginVuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
+
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 /**
@@ -8,8 +9,11 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
  * ENV / FLAGS (derived once, reused everywhere)
  * ============================================================================
  */
-const PRODUCTION =
-  "production" === (process.env.NUXT_SITE_ENV || process.env.NODE_ENV);
+const PRODUCTION = [
+  process.env.ENV,
+  process.env.NODE_ENV,
+  process.env.NUXT_SITE_ENV,
+].some((e) => "production" === e);
 
 const SSR = parseBoolean(process.env.NUXT_SSR);
 
@@ -154,6 +158,7 @@ export default defineNuxtConfig({
 
     // Client-exposed settings
     public: {
+      PRODUCTION,
       ssr: SSR,
       appEnv: process.env.NODE_ENV ?? "development",
 
@@ -173,6 +178,23 @@ export default defineNuxtConfig({
       // Reserved for env-driven i18n extensions
       i18n: {
         // .env extend i18n
+      },
+
+      broadcasting: {
+        reverb: {
+          key: process.env.NUXT_PUBLIC_REVERB_KEY,
+          scheme: process.env.NUXT_PUBLIC_REVERB_SCHEME ?? "https",
+          host: process.env.NUXT_PUBLIC_REVERB_HOST,
+          port: Number(process.env.NUXT_PUBLIC_REVERB_PORT ?? 443),
+          authEndpoint: process.env.NUXT_PUBLIC_REVERB_AUTH_ENDPOINT,
+        },
+      },
+
+      graphqlEndpoint: process.env.NUXT_GRAPHQL_ENDPOINT ?? "",
+      // auth
+      auth: {
+        driver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
+        endpoint: process.env.NUXT_PUBLIC_AUTH_ENDPOINT,
       },
     },
   },
@@ -256,13 +278,16 @@ export default defineNuxtConfig({
       : { routes: [] },
 
     // Extra server-side route rules (mostly caching headers)
-    routeRules: PRODUCTION
-      ? {
-          "/_nuxt/**": {
-            headers: { "cache-control": "public, max-age=31536000, immutable" },
-          },
-        }
-      : {},
+    routeRules: {
+      "/_nuxt/**": {
+        headers: { "cache-control": "public, max-age=31536000, immutable" },
+      },
+      "/**": {
+        headers: {
+          "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+        },
+      },
+    },
 
     // Optional Nitro storage adapter (Redis)
     storage: {
@@ -283,7 +308,7 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: true,
 
-    // enable typed routes (⚠ disables custom route names for locales)
+    // # enable typed routes (⚠ disables custom route names for locales)
     // typedPages: true,
 
     // keep generated route values / metadata
