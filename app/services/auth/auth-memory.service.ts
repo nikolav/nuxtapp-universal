@@ -2,43 +2,26 @@ import find from "lodash/find";
 import get from "lodash/get";
 import omit from "lodash/omit";
 import { v4 as uuid } from "uuid";
-import { Subject } from "rxjs";
+import { ReplaySubject } from "rxjs";
 
 import { AuthService } from "./base";
 import { Hash } from "~/services/hash";
 import { JWT } from "~/services/jwt";
 import { cloned } from "~/utils/cloned";
 import { schemaAuthCredentials, schemaJWT } from "~/schemas";
-import type { ICredentials, TOrNoValue, TUser } from "~/types";
+import type { ICredentials, IUser, TOrNoValue } from "~/types";
 
-export class AuthMemoryService extends AuthService<TUser, ICredentials> {
-  // users cache, { [id:uuid] => user:TUser }
-  private static users = <Record<string, TUser>>{};
+export class AuthMemoryService extends AuthService<
+  IUser<string>,
+  ICredentials
+> {
+  // users cache, { [id:uuid] => user:IUser<string> }
+  private static users = <Record<string, IUser<string>>>{};
 
-  account$ = new Subject<TOrNoValue<TUser>>();
-  idToken = ref<TOrNoValue<string>>(null);
-  access_token = ref<TOrNoValue<string>>(null);
+  token = ref<TOrNoValue<string>>(null);
 
-  constructor() {
-    super();
-    watchEffect(() => {
-      this.access_token.value = this.idToken.value;
-    });
-    watch(this.idToken, (idToken_) => {
-      (async () => {
-        try {
-          this.account$.next(
-            null != idToken_ ? await this.account(idToken_) : null,
-          );
-        } catch (error) {
-          // pass
-        }
-      })();
-    });
-  }
-
-  account = async (idToken: string) => {
-    const id = get(await JWT.verify(idToken), "id");
+  authData = async (token: string) => {
+    const id = get(await JWT.verify(token), "id");
     const user = AuthMemoryService.users[<any>id];
     if (!user) {
       throw "User not found.";
@@ -58,7 +41,7 @@ export class AuthMemoryService extends AuthService<TUser, ICredentials> {
     const id = user!.id;
     const idToken = schemaJWT.parse(await JWT.sign({ id }));
 
-    this.idToken.value = idToken;
+    this.token.value = idToken;
 
     return idToken;
   };
@@ -72,9 +55,8 @@ export class AuthMemoryService extends AuthService<TUser, ICredentials> {
 
     // no user with that credentials; create
     const id = uuid();
-    user = <TUser>{
+    user = <IUser<string>>{
       id,
-      key: uuid(),
       email: credentials.email,
       password: await Hash.make(credentials.password),
     };
@@ -84,7 +66,7 @@ export class AuthMemoryService extends AuthService<TUser, ICredentials> {
   };
 
   logout = async () => {
-    this.idToken.value = null;
+    this.token.value = null;
   };
 
   private static byEmail(email: string) {

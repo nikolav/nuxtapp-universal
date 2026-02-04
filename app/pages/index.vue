@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useAsyncGraphqlData } from "~/composables/request";
+import { Q_status } from "~/graphql";
+
 definePageMeta({
   title: "pages.index.title",
   description: "pages.index.description",
@@ -11,11 +14,22 @@ definePageMeta({
   },
 });
 
+const { data } = await useAsyncGraphqlData({
+  key: "Q_status",
+  document: Q_status,
+});
+
 // @@eos
 </script>
 
 <template>
-  <section class="app-container-reset page--index"></section>
+  <section class="app-container-reset page--index">
+    <div>
+      <small>
+        <pre>{{ data }}</pre>
+      </small>
+    </div>
+  </section>
 </template>
 
 <!-- scoped component styles, default -->

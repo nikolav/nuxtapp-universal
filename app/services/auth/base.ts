@@ -1,14 +1,22 @@
 import type { Ref } from "vue";
-import type { Observable } from "rxjs";
 
 import type { TMaybeAsync, TOrNoValue } from "~/types";
 
 export abstract class AuthService<User = unknown, TCredentials = unknown> {
-  abstract account$: Observable<TOrNoValue<User>>;
-  abstract idToken: Ref<TOrNoValue<string>>;
-  abstract access_token: Ref<TOrNoValue<string>>;
-  abstract account(idToken?: string): TMaybeAsync<User>;
+  abstract token: Ref<TOrNoValue<string>>;
+  abstract authData(
+    token?: string,
+    signal?: globalThis.AbortSignal,
+  ): TMaybeAsync<User>;
   abstract authenticate(payload?: TCredentials): TMaybeAsync<string>;
   abstract logout(user?: User): TMaybeAsync<void>;
   abstract register(payload?: TCredentials): TMaybeAsync<unknown>;
+}
+
+export abstract class OAuthAuthService<
+  User = unknown,
+  TCredentials = unknown,
+> extends AuthService<User, TCredentials> {
+  // popup sign-in, resolve id-token
+  abstract signInWithProvider(provider: string): TMaybeAsync<string>;
 }

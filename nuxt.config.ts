@@ -1,5 +1,6 @@
 import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
+
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 /**
@@ -149,6 +150,7 @@ export default defineNuxtConfig({
 
     // Client-exposed settings
     public: {
+      PRODUCTION,
       ssr: SSR,
       appEnv: process.env.NODE_ENV ?? "development",
 
@@ -180,8 +182,12 @@ export default defineNuxtConfig({
         },
       },
 
+      graphqlEndpoint: process.env.NUXT_GRAPHQL_ENDPOINT ?? "",
       // auth
-      authDriver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
+      auth: {
+        driver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
+        endpoint: process.env.NUXT_PUBLIC_AUTH_ENDPOINT,
+      },
     },
   },
 
@@ -267,6 +273,11 @@ export default defineNuxtConfig({
     routeRules: {
       "/_nuxt/**": {
         headers: { "cache-control": "public, max-age=31536000, immutable" },
+      },
+      "/**": {
+        headers: {
+          "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+        },
       },
     },
 
