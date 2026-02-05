@@ -18,6 +18,7 @@ import {
   schemaOAuthProviders,
   transformFirebaseUser,
 } from "~/schemas";
+import { onDebug } from "~/utils/on-debug";
 import type { ICredentials, IUser, TOrNoValue } from "~/types";
 
 export class AuthFirebaseService extends AuthService<
@@ -68,6 +69,8 @@ export class AuthFirebaseService extends AuthService<
   // @ready init
   override async init() {
     this._onAuthStateChanged_s = onAuthStateChanged(firebaseAuth, (user) => {
+      onDebug({ "firebase:auth": user });
+
       if (user) {
         this._user.value = transformFirebaseUser.parse(user);
         return user.getIdToken().then((token) => {
