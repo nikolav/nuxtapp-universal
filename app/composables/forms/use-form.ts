@@ -14,19 +14,24 @@ export const useForm = (
   options?: IUseFormOptions,
 ) => {
   const { $$ } = useNuxtApp();
-  const storeMain = useStoreMain();
+  const cache = useStoreMain();
   const FORM = `${useAppConfig().keys.KEY_FORMS}:${schemaNonSpecialChars.parse(key)}`;
+
   const _ = $$.copy(<IUseFormOptions>{}, { onSubmit: $$.noop }, options);
+
+  const path = (fieldName: string) => `${FORM}.${fieldName}`;
+  const isValid = (schema: ZodType, fieldName: string) =>
+    schema.safeParse(cache.item(path(fieldName))).success;
 
   // getter/setter for each field
   const field = $$.reduce(
     rules,
     (accum, _s, fieldName) => {
-      const path = `${FORM}.${fieldName}`;
+      const path_ = path(fieldName);
       accum[fieldName] = computed({
-        get: () => storeMain.item(path),
+        get: () => cache.item(path_),
         set: (value) => {
-          storeMain.push({ [path]: value });
+          cache.push({ [path_]: value });
         },
       });
       return accum;
@@ -38,32 +43,22 @@ export const useForm = (
     $$.reduce(
       rules,
       (d, _s, fieldName) => {
-        d[fieldName] = storeMain.item(`${FORM}.${fieldName}`);
+        d[fieldName] = cache.item(path(fieldName));
         return d;
       },
       <TRecordJson>{},
     ),
   );
 
-  const valid = computed(() =>
-    $$.every(
-      rules,
-      (schema, fieldName) =>
-        schema.safeParse(storeMain.item(`${FORM}.${fieldName}`)).success,
-    ),
-  );
+  const valid = computed(() => $$.every(rules, isValid));
 
-  const error = computed(() =>
-    $$.reduce(
-      rules,
-      (res, schema, fieldName) => {
-        res[fieldName] = schema.safeParse(
-          storeMain.item(`${FORM}.${fieldName}`),
-        ).success;
-        return res;
-      },
-      <Record<string, boolean>>{},
-    ),
+  const error = $$.reduce(
+    rules,
+    (res, schema, fieldName) => {
+      res[fieldName] = computed(() => isValid(schema, fieldName));
+      return res;
+    },
+    <Record<string, Ref<boolean>>>{},
   );
 
   const handle = () => {
