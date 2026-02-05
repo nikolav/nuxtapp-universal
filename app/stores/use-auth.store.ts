@@ -103,6 +103,7 @@ export const useAuth = defineStore("store-auth", () => {
   onNuxtReady(() => {
     callOnce(() => {
       (async () => {
+        if (!authService.storesAuthToken()) return;
         try {
           if (storageAuth.value)
             authService.token.value = schemaAuthToken.parse(storageAuth.value);

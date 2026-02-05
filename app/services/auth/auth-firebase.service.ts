@@ -73,4 +73,9 @@ export class AuthFirebaseService extends AuthService<
   override destroy(): void {
     this._onAuthStateChanged_s?.();
   }
+
+  // let firebase handle auth @reloads
+  override storesAuthToken() {
+    return false;
+  }
 }
