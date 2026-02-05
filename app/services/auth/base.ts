@@ -13,6 +13,11 @@ export abstract class AuthService<User = unknown, TCredentials = unknown> {
   abstract register(payload?: TCredentials): TMaybeAsync<unknown>;
   // override to do cleanup @service:destroyed
   destroy() {}
+  // false @overrides for custom auth token handling for app hard reloads
+  //   firebase auto reloads auth state @reloads
+  storesAuthToken() {
+    return true;
+  }
 }
 
 export abstract class OAuthAuthService<
