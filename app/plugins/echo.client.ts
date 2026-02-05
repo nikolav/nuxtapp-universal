@@ -1,18 +1,28 @@
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
+
+import { useAuth } from "~/stores";
 import type { TOrNoValue } from "~/types";
 
-export default defineNuxtPlugin({
-  name: "echo",
-  dependsOn: ["use-platform"],
-  setup: (_nuxtApp) => {
-    let echo = shallowRef<TOrNoValue<Echo<"reverb">>>(null);
-    // const idToken = computed(() => auth.getIdToken());
-    // const echo = computed(() => getEcho(idToken()));
-    useNuxtApp().$window$.subscribe((window) => {
-      const { reverb } = useRuntimeConfig().public.broadcasting;
-      (<any>window).Pusher = Pusher;
+export default defineNuxtPlugin(() => {
+  const { reverb } = useRuntimeConfig().public.broadcasting;
+  const auth = useAuth();
+
+  const echo = shallowRef<TOrNoValue<Echo<"reverb">>>();
+
+  watch(
+    () => auth.token,
+    (token) => {
+      // teardown previous connection
+      if (echo.value) {
+        echo.value.disconnect();
+        echo.value = null;
+      }
+
+      if (!token) return;
+
       echo.value = new Echo({
+        client: Pusher,
         broadcaster: "reverb",
         key: reverb.key,
         scheme: reverb.scheme,
@@ -21,22 +31,20 @@ export default defineNuxtPlugin({
         wssPort: reverb.port,
         forceTLS: true,
         enabledTransports: ["ws", "wss"],
-        // private/presence auth
         authEndpoint: reverb.authEndpoint,
         auth: {
           headers: {
-            // @@TODO
-            Authorization: `Bearer ${"TOKEN"}`,
+            Authorization: `Bearer ${token}`,
           },
         },
-        // withCredentials: false,
       });
-    });
+    },
+    { immediate: true },
+  );
 
-    return {
-      provide: {
-        echo,
-      },
-    };
-  },
+  return {
+    provide: {
+      echo,
+    },
+  };
 });

@@ -50,7 +50,4 @@ export interface IAuthenticateOptions {
 export type { TRecordJson, TJson, TJsonLiteral };
 export type { TVueComponent, TVueFunctionalComponent };
 export type TCashDomClient = typeof import("cash-dom").default;
-export {
-  AuthService as TAuthService,
-  OAuthAuthService as TOAuthAuthService,
-} from "~/services/auth/base";
+export { AuthService as TAuthService } from "~/services/auth/base";

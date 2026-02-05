@@ -1,3 +1,5 @@
+import { pluralizationRuleSlavic } from "./plural-rules";
+
 export default defineI18nConfig(() => ({
   // required for Composition API
   legacy: false,
@@ -18,7 +20,10 @@ export default defineI18nConfig(() => ({
   missingWarn: false,
   fallbackWarn: false,
   // modifiers: {},
-  // pluralRules: {},
+  pluralRules: {
+    sr: pluralizationRuleSlavic,
+    "sr-cyrl": pluralizationRuleSlavic,
+  },
   formatFallbackMessages: true,
   datetimeFormats: {
     sr: {
