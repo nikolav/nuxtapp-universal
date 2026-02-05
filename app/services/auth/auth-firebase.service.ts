@@ -70,7 +70,7 @@ export class AuthFirebaseService extends AuthService<
   };
 
   // cleanup subscription
-  override destroy(): void {
+  override destroy() {
     this._onAuthStateChanged_s?.();
   }
 

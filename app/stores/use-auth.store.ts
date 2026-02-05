@@ -116,6 +116,7 @@ export const useAuth = defineStore("store-auth", () => {
 
   // @auth; sync storage auth token
   watch(authService.token, (token) => {
+    if (!authService.storesAuthToken()) return;
     storageAuth.value = token ?? "";
   });
 
