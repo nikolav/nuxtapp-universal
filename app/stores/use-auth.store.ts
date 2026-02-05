@@ -84,13 +84,19 @@ export const useAuth = defineStore("store-auth", () => {
   const { signInWithProvider: signInWithProviderBase_ } = usePopupOAuth();
   const signInWithProvider = async (provider: string) =>
     !isAuth.value
-      ? ps.exec(() =>
-          signInWithProviderBase_(provider).pipe(
-            tap((token) => {
-              authService.token.value = token;
-            }),
-          ),
-        )
+      ? ps.exec(() => {
+          switch (true) {
+            case authService instanceof AuthFirebaseService:
+              return authService.signInWithProvider(provider);
+
+            default:
+              return signInWithProviderBase_(provider).pipe(
+                tap((token) => {
+                  authService.token.value = token;
+                }),
+              );
+          }
+        })
       : undefined;
 
   // cache token to autoload auth
