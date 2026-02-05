@@ -12,6 +12,8 @@ export abstract class AuthService<User = unknown, TCredentials = unknown> {
   abstract logout(user?: User): TMaybeAsync<void>;
   abstract register(payload?: TCredentials): TMaybeAsync<unknown>;
 
+  // start/setup service
+  async init() {}
   // override to do cleanup @service:destroyed
   destroy() {}
   // false @overrides for custom auth token handling for app hard reloads
