@@ -22,26 +22,30 @@ export class AuthFirebaseService extends AuthService<
   // keep subscriptions to cleanup
   _onAuthStateChanged_s: TOrNoValue<Unsubscribe>;
 
-  constructor() {
+  constructor(private isMounted: Ref) {
     super();
 
-    this._onAuthStateChanged_s = onAuthStateChanged(
-      firebaseAuth,
-      async (user) => {
-        if (user) {
-          this._user.value = {
-            ...user,
-            id: user.uid,
-            email: user?.email ?? "",
-          };
-          this.token.value = await user.getIdToken();
-          return;
-        }
+    watch(isMounted, (isMounted, _2, cleanup) => {
+      cleanup(() => this.destroy());
+      if (!isMounted) return;
+      this._onAuthStateChanged_s = onAuthStateChanged(
+        firebaseAuth,
+        async (user) => {
+          if (user) {
+            this._user.value = {
+              ...user,
+              id: user.uid,
+              email: user?.email ?? "",
+            };
+            this.token.value = await user.getIdToken();
+            return;
+          }
 
-        this._user.value = null;
-        this.token.value = null;
-      },
-    );
+          this._user.value = null;
+          this.token.value = null;
+        },
+      );
+    });
   }
 
   authData() {
