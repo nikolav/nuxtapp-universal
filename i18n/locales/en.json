@@ -1,5 +1,4 @@
 {
-  "HelloWorld": "@:message.hello World!",
   "message": {
     "welcome": "Welcome",
     "hello": "Hello"
@@ -18,5 +17,6 @@
       "description": "page:blogs-tech:description"
     }
   },
+  "Zdravo Svete!": "@:message.hello World!",
   "Danas je lepo vreme.": "The weather is nice today."
 }

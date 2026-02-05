@@ -5,7 +5,7 @@ definePageMeta({
   layout: "default",
   i18n: {
     paths: {
-      sr: "/",
+      sr: "/dobrodosli",
       en: "/welcome",
     },
   },

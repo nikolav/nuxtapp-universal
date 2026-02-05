@@ -1,5 +1,4 @@
 {
-  "HelloWorld": "@:message.hello Svete!",
   "message": {
     "welcome": "Dobrodošli",
     "hello": "Zdravo"
