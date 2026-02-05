@@ -115,6 +115,7 @@ export const useAuth = defineStore("store-auth", () => {
 
   const destroy = () => {
     // misc. cleanup
+    authService.destroy();
   };
 
   onScopeDispose(destroy);
