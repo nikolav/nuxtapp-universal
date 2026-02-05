@@ -20,7 +20,7 @@ export const onDebug = (messages: IDebugMessages) => {
     console.groupCollapsed(
       `%c${DEBUG_PREFIX}%c ${message}`,
       styles.prefix,
-      styles.message
+      styles.message,
     );
 
     console.log("%cData:", styles.meta, data);
