@@ -10,12 +10,6 @@ const { finalizePendingLocaleChange } = useI18n();
 
 <template>
   <section class="app-container-reset app--root">
-    <!-- seo:core -->
-    <AppConfigurationSeoBase />
-
-    <!-- theme config -->
-    <AppConfigurationTheme />
-
     <template v-if="analyticsEnabled">
       <noscript
         ><iframe
@@ -27,8 +21,14 @@ const { finalizePendingLocaleChange } = useI18n();
       ></noscript>
     </template>
 
-    <!-- no render, setup/init component -->
-    <AppConfigsClient />
+    <!-- setup/init misc. -->
+    <AppConfigurationBase />
+
+    <!-- seo:core -->
+    <AppConfigurationSeoBase />
+
+    <!-- theme config -->
+    <AppConfigurationTheme />
 
     <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
     <NuxtLoadingIndicator :color="COLOR_PRIMARY" />
