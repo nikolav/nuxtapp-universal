@@ -1,7 +1,7 @@
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
-import { useAuth } from "~/stores";
+import { useAuth } from "~/stores/use-auth.store";
 import type { TOrNoValue } from "~/types";
 
 export default defineNuxtPlugin(() => {

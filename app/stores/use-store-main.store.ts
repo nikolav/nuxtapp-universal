@@ -1,10 +1,12 @@
+import type { TJson, TRecordJson } from "~/types";
+
 export const useStoreMain = defineStore("store:main", () => {
   const { $$ } = useNuxtApp();
 
   // @store
-  const cache = ref(<any>{});
+  const cache = ref(<TRecordJson>{});
   const item = (path: string) => $$.get(cache.value, path);
-  const push = (patch: Record<string, any>) => {
+  const push = (patch: Record<string, TJson>) => {
     $$.each(patch, (value, path) => {
       $$.set(cache.value, path, value);
     });

@@ -1,12 +1,13 @@
 import { from, switchMap } from "rxjs";
 
-import { usePopupWindow } from "~/composables";
+import { usePopupWindow } from "~/composables/ui/use-popup-window";
 import { schemaOAuthPayload, schemaOAuthProviders } from "~/schemas";
 
 export const usePopupOAuth = () => {
   const { $window$ } = useNuxtApp();
   const { apiBase } = useRuntimeConfig().public;
   const popupWindow = usePopupWindow();
+  const expectedOrigin = new URL(apiBase).origin;
 
   const signInWithProvider = (provider: string) =>
     $window$.pipe(
@@ -39,7 +40,6 @@ export const usePopupOAuth = () => {
                     //   return;
 
                     // validate origin + source
-                    const expectedOrigin = new URL(apiBase).origin;
                     if (event.origin !== expectedOrigin) return;
                     if (event.source !== popup) return;
 
@@ -63,7 +63,7 @@ export const usePopupOAuth = () => {
                     done = true;
 
                     window.clearTimeout(timeout);
-                    if (timer) window.clearInterval(timer);
+                    if (null != timer) window.clearInterval(timer);
                     window.removeEventListener("message", onMessage);
                   }
 
@@ -87,7 +87,7 @@ export const usePopupOAuth = () => {
                       }
                     } catch {
                       // COOP/isolation: can't read .closed; stop polling and rely on timeout
-                      if (timer) window.clearInterval(timer);
+                      if (null != timer) window.clearInterval(timer);
                     }
                   }, 555);
                 }),
