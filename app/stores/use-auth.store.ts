@@ -24,7 +24,7 @@ export const useAuth = defineStore("store-auth", () => {
     {
       memory: () => new AuthMemoryService(),
       api: () => new AuthApiService(config, defaultsAuthenticate),
-      firebase: () => new AuthFirebaseService(useMounted()),
+      firebase: () => new AuthFirebaseService(),
     },
     schemaAuthDriver.parse(config.auth.driver),
   )();
