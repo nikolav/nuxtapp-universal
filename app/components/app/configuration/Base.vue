@@ -1,25 +1,4 @@
 <script setup lang="ts">
-import { useTheme } from "vuetify";
-
-const themeStored = useLocalStorage(useAppConfig().theme.THEME_ACTIVE, "");
-const theme = useTheme();
-
-// @theme store
-watch(
-  () => theme.global.name.value,
-  (theme_) => {
-    themeStored.value = theme_;
-  },
-);
-
-// @boot;
-onNuxtReady(() => {
-  callOnce(() => {
-    // use cached theme
-    theme.change(themeStored.value);
-  });
-});
-
 // @@eos
 </script>
 

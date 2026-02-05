@@ -1,12 +1,29 @@
 <script setup lang="ts">
 import { useTheme } from "vuetify";
 
+const theme = useTheme();
+
+const themeStored = useLocalStorage(useAppConfig().theme.THEME_ACTIVE, "");
+// @theme store
+watch(
+  () => theme.global.name.value,
+  (theme_) => {
+    themeStored.value = theme_;
+  },
+);
+
 const {
   theme: { darkRootClass },
 } = useAppConfig();
-const theme = useTheme();
-
 const themeIsDark = computed(() => theme.global.current.value.dark);
+
+// @boot;
+onNuxtReady(() => {
+  callOnce(() => {
+    // use cached theme
+    theme.change(themeStored.value);
+  });
+});
 
 // @@eos
 </script>
