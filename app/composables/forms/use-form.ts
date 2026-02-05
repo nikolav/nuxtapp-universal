@@ -1,6 +1,6 @@
 import type { ZodType } from "zod";
 
-import { useStoreMain } from "~/stores";
+import { useStoreMain } from "~/stores/use-store-main.store";
 import { schemaNonSpecialChars } from "~/schemas";
 import type { TJson, TRecordJson } from "~/types";
 
