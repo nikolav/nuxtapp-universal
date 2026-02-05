@@ -67,7 +67,6 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   routeRules: {
     // // Static pages at build time
-    // "/": { prerender: true },
     // "/about": { prerender: true },
     // // Blog: static pages, CDN cached
     // "/blog/**": { isr: true },
@@ -316,8 +315,6 @@ export default defineNuxtConfig({
       // const res = await fetch(API_URL);
       // const d = await res.json();
       // for (const pid of d.prerender.pids) routes.add(`/products/${pid}`);
-
-      routes.add("/");
     },
 
     // Other useful hooks:
@@ -439,8 +436,8 @@ export default defineNuxtConfig({
 
     detectBrowserLanguage: {
       redirectOn: "root",
-      cookieCrossOrigin: true,
       fallbackLocale: "sr",
+      cookieCrossOrigin: true,
     },
 
     // https://i18n.nuxtjs.org/docs/api/options#skipsettinglocaleonnavigate
@@ -461,11 +458,11 @@ export default defineNuxtConfig({
         file: "sr.json",
       },
       {
-        code: "sr-Cyrl",
+        code: "sr-cyrl",
         iso: "sr-Cyrl-RS",
         name: "Српски",
         language: "sr-Cyrl-RS",
-        file: "sr-Cyrl.json",
+        file: "sr-cyrl.json",
       },
       {
         isCatchallLocale: true,
