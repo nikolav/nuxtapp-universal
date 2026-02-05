@@ -3,7 +3,11 @@ import { tap } from "rxjs/operators";
 
 import { usePopupOAuth, useProcessMonitor } from "~/composables";
 import { schemaAuthDriver, schemaAuthToken } from "~/schemas";
-import { AuthApiService, AuthMemoryService } from "~/services/auth";
+import {
+  AuthApiService,
+  AuthMemoryService,
+  AuthFirebaseService,
+} from "~/services/auth";
 import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
 
 export const useAuth = defineStore("store-auth", () => {
@@ -20,6 +24,7 @@ export const useAuth = defineStore("store-auth", () => {
     {
       memory: () => new AuthMemoryService(),
       api: () => new AuthApiService(config, defaultsAuthenticate),
+      firebase: () => new AuthFirebaseService(),
     },
     schemaAuthDriver.parse(config.auth.driver),
   )();

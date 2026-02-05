@@ -38,4 +38,4 @@ export const schemaOAuthPayload = z.discriminatedUnion("type", [
   }),
 ]);
 
-export const schemaAuthDriver = z.enum(["memory", "api"]);
+export const schemaAuthDriver = z.enum(["memory", "api", "firebase"]);

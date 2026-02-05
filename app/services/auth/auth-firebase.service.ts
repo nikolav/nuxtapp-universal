@@ -19,6 +19,7 @@ export class AuthFirebaseService extends AuthService<
   token: Ref<TOrNoValue<string>> = ref();
 
   _user = ref<TOrNoValue<IUser<string>>>();
+  // keep subscriptions to cleanup
   _onAuthStateChanged_s: TOrNoValue<Unsubscribe>;
 
   constructor() {
@@ -36,6 +37,7 @@ export class AuthFirebaseService extends AuthService<
           this.token.value = await user.getIdToken();
           return;
         }
+
         this._user.value = null;
         this.token.value = null;
       },
@@ -43,20 +45,15 @@ export class AuthFirebaseService extends AuthService<
   }
 
   authData() {
-    return this._user.value;
+    return this._user.value!;
   }
 
   authenticate = async (payload: ICredentials) => {
     const creds = schemaAuthCredentials.parse(payload);
-    const token = await (
-      await signInWithEmailAndPassword(
-        firebaseAuth,
-        creds.email,
-        creds.password,
-      )
-    ).user.getIdToken();
-    this.token.value = token;
-    return token;
+    await signInWithEmailAndPassword(firebaseAuth, creds.email, creds.password);
+    // skip @token auth
+    // delegate to onAuthStateChanged
+    return "";
   };
 
   logout = async () => {
@@ -72,6 +69,7 @@ export class AuthFirebaseService extends AuthService<
     );
   };
 
+  // cleanup subscription
   override destroy(): void {
     this._onAuthStateChanged_s?.();
   }
