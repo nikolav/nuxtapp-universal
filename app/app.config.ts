@@ -40,6 +40,7 @@ export default defineAppConfig({
   // Theme (pure UI, no secrets)
   // ---------------------------------------------------------------------------
   theme: {
+    THEME_ACTIVE: "ad321d7c-401d-546d-99b0-01b39a134e18",
     darkRootClass: "theme-dark",
   },
 
