@@ -105,7 +105,7 @@ export const useAuth = defineStore("store-auth", () => {
     () => "",
   );
 
-  // @boot; load auth token from storage
+  // @boot
   onNuxtReady(() => {
     callOnce(() => {
       (async () => {

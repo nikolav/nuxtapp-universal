@@ -30,24 +30,6 @@ export class AuthFirebaseService extends AuthService<
   // keep subscriptions to cleanup
   _onAuthStateChanged_s: TOrNoValue<Unsubscribe>;
 
-  constructor() {
-    super();
-
-    this._onAuthStateChanged_s = onAuthStateChanged(
-      firebaseAuth,
-      async (user) => {
-        void user;
-        if (user) {
-          this._user.value = transformFirebaseUser.parse(user);
-          this.token.value = await user.getIdToken();
-          return;
-        }
-
-        this.token.value = null;
-      },
-    );
-  }
-
   authData() {
     return this._user.value!;
   }
@@ -81,6 +63,20 @@ export class AuthFirebaseService extends AuthService<
   // let firebase handle auth @reloads
   override storesAuthToken() {
     return false;
+  }
+
+  // @ready init
+  override async init() {
+    this._onAuthStateChanged_s = onAuthStateChanged(firebaseAuth, (user) => {
+      if (user) {
+        this._user.value = transformFirebaseUser.parse(user);
+        return user.getIdToken().then((token) => {
+          this.token.value = token;
+        });
+      }
+
+      this.token.value = null;
+    });
   }
 
   signInWithProvider = async (provider: string) => {
