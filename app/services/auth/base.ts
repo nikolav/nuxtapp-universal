@@ -12,7 +12,7 @@ export abstract class AuthService<User = unknown, TCredentials = unknown> {
   abstract logout(user?: User): TMaybeAsync<void>;
   abstract register(payload?: TCredentials): TMaybeAsync<unknown>;
   // override to do cleanup @service:destroyed
-  destroy = () => {};
+  destroy() {}
 }
 
 export abstract class OAuthAuthService<
