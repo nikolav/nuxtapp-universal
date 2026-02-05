@@ -19,6 +19,7 @@ export default defineAppConfig({
   },
 
   keys: {
+    KEY_FORMS: "52c061eb-9612-5d95-99ca-e8965679cb56",
     TOKEN_API_AUTH: "4a4f038d-dc42-5419-8579-64681eb922b6",
   },
 
