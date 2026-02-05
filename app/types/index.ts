@@ -41,6 +41,17 @@ export interface IAuthenticateOptions {
   timeoutMs: number;
   controller?: globalThis.AbortController;
 }
+export interface IPickFileOptions {
+  // accept attribute: e.g. "image/*,.pdf,.csv"
+  accept?: string;
+  // allow multiple selection
+  multiple?: boolean;
+  // mobile camera/mic hint: "user" | "environment"
+  capture?: "user" | "environment";
+  // chrome-only directory pick (non-standard)
+  // uses webkitdirectory under the hood
+  directory?: boolean;
+}
 
 //
 export type { TRecordJson, TJson, TJsonLiteral };

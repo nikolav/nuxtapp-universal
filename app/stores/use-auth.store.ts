@@ -1,13 +1,12 @@
 import { onScopeDispose } from "vue";
 import { tap } from "rxjs/operators";
 
-import { usePopupOAuth, useProcessMonitor } from "~/composables";
+import { usePopupOAuth } from "~/composables/auth/use-popup-oauth";
+import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import { schemaAuthDriver, schemaAuthToken } from "~/schemas";
-import {
-  AuthApiService,
-  AuthMemoryService,
-  AuthFirebaseService,
-} from "~/services/auth";
+import { AuthFirebaseService } from "~/services/auth/auth-firebase.service";
+import { AuthApiService } from "~/services/auth/auth-api.service";
+import { AuthMemoryService } from "~/services/auth/auth-memory.service";
 import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
 
 export const useAuth = defineStore("store-auth", () => {

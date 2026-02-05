@@ -1,4 +1,4 @@
-import { useAuth } from "~/stores";
+import { useAuth } from "~/stores/use-auth.store";
 
 export default defineNuxtRouteMiddleware(() => {
   console.info("mw:authenticated");

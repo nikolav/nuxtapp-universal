@@ -1,6 +1,8 @@
 import { z } from "zod";
 import isJWT from "validator/es/lib/isJWT";
+import matches from "validator/es/lib/matches";
 
+import { rRegexSafeCharacters } from "~/utils/re";
 export { schemaJsonData, schemaJsonDataRecord } from "./json.schema";
 export * from "./transforms";
 
@@ -37,3 +39,7 @@ export const schemaOAuthPayload = z.discriminatedUnion("type", [
 ]);
 
 export const schemaAuthDriver = z.enum(["memory", "api", "firebase"]);
+
+export const schemaNonSpecialChars = z
+  .string()
+  .refine((s) => matches(s, rRegexSafeCharacters));
