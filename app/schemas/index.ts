@@ -11,9 +11,7 @@ export const schemaAuthCredentials = z.object({
   password: z.string().nonempty(),
 });
 
-export const schemaOAuthProviders = z
-  .string()
-  .refine((val) => Boolean({ google: true }[val.toLocaleLowerCase()]));
+export const schemaOAuthProviders = z.enum(["google"]);
 
 export const schemaAuthToken = z
   .string()

@@ -3,13 +3,21 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 import type { Unsubscribe } from "firebase/auth";
 
-import { auth as firebaseAuth } from "~/config/firebase";
+import {
+  auth as firebaseAuth,
+  firebaseOAuthProviders,
+} from "~/config/firebase";
 import { AuthService } from "./base";
-import { schemaAuthCredentials } from "~/schemas";
+import {
+  schemaAuthCredentials,
+  schemaOAuthProviders,
+  transformFirebaseUser,
+} from "~/schemas";
 import type { ICredentials, IUser, TOrNoValue } from "~/types";
 
 export class AuthFirebaseService extends AuthService<
@@ -30,11 +38,7 @@ export class AuthFirebaseService extends AuthService<
       async (user) => {
         void user;
         if (user) {
-          this._user.value = {
-            ...user,
-            id: user.uid,
-            email: user?.email ?? "",
-          };
+          this._user.value = transformFirebaseUser.parse(user);
           this.token.value = await user.getIdToken();
           return;
         }
@@ -78,4 +82,12 @@ export class AuthFirebaseService extends AuthService<
   override storesAuthToken() {
     return false;
   }
+
+  signInWithProvider = async (provider: string) => {
+    const { user } = await signInWithPopup(
+      firebaseAuth,
+      firebaseOAuthProviders[schemaOAuthProviders.parse(provider)],
+    );
+    return await user.getIdToken();
+  };
 }
