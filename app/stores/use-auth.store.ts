@@ -98,6 +98,8 @@ export const useAuth = defineStore("store-auth", () => {
   onNuxtReady(() => {
     callOnce(() => {
       (async () => {
+        await authService.init();
+        if (!authService.storesAuthToken()) return;
         try {
           if (storageAuth.value)
             authService.token.value = schemaAuthToken.parse(storageAuth.value);
@@ -110,6 +112,7 @@ export const useAuth = defineStore("store-auth", () => {
 
   // @auth; sync storage auth token
   watch(authService.token, (token) => {
+    if (!authService.storesAuthToken()) return;
     storageAuth.value = token ?? "";
   });
 
