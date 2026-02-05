@@ -11,6 +11,7 @@ export default defineAppConfig({
 
   services: {
     auth: {
+      DEFAULT_UNAUTHENTICATED_ROUTE_NAME: "auth",
       defaultsAuthenticate: <IAuthenticateOptions>{
         timeoutMs: 8122,
       },
