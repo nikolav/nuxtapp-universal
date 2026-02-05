@@ -62,6 +62,9 @@ useSeoMeta({
       ></noscript>
     </template>
 
+    <!-- no render, setup/init component -->
+    <AppConfigsClient />
+
     <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
     <NuxtLoadingIndicator :color="COLOR_PRIMARY" />
 

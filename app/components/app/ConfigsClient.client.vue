@@ -1,10 +1,15 @@
 <script setup lang="ts">
+onNuxtReady(() => {
+  callOnce(() => {
+    // @boot;
+  });
+});
 
 // @@eos
 </script>
 
 <template>
-  <slot></slot>
+  <slot />
 </template>
 
 <!-- scoped component styles, default -->
