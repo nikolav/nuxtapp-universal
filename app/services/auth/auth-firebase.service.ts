@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import type { Unsubscribe } from "firebase/auth";
 
 import { auth as firebaseAuth } from "~/config/firebase";
 import { AuthService } from "./base";
@@ -16,20 +17,29 @@ export class AuthFirebaseService extends AuthService<
   ICredentials
 > {
   token: Ref<TOrNoValue<string>> = ref();
+
   _user = ref<TOrNoValue<IUser<string>>>();
+  _onAuthStateChanged_s: TOrNoValue<Unsubscribe>;
 
   constructor() {
     super();
 
-    onAuthStateChanged(firebaseAuth, async (user) => {
-      if (user) {
-        this._user.value = { ...user, id: user.uid, email: user?.email ?? "" };
-        this.token.value = await user.getIdToken();
-        return;
-      }
-      this._user.value = null;
-      this.token.value = null;
-    });
+    this._onAuthStateChanged_s = onAuthStateChanged(
+      firebaseAuth,
+      async (user) => {
+        if (user) {
+          this._user.value = {
+            ...user,
+            id: user.uid,
+            email: user?.email ?? "",
+          };
+          this.token.value = await user.getIdToken();
+          return;
+        }
+        this._user.value = null;
+        this.token.value = null;
+      },
+    );
   }
 
   authData() {
@@ -61,4 +71,8 @@ export class AuthFirebaseService extends AuthService<
       creds.password,
     );
   };
+
+  override destroy(): void {
+    this._onAuthStateChanged_s?.();
+  }
 }
