@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { useTheme } from "vuetify";
 
-const themeStored = useLocalStorage(
-  useAppConfig().theme.THEME_ACTIVE,
-  () => "",
-);
+const themeStored = useLocalStorage(useAppConfig().theme.THEME_ACTIVE, "");
 const theme = useTheme();
 
 // @theme store
@@ -18,8 +15,8 @@ watch(
 // @boot;
 onNuxtReady(() => {
   callOnce(() => {
-    // get cached theme
-    theme.global.name.value = themeStored.value;
+    // use cached theme
+    theme.change(themeStored.value);
   });
 });
 
