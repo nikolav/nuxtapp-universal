@@ -15,7 +15,11 @@ export default defineNuxtPlugin(() => {
     (token) => {
       // teardown previous connection
       if (echo.value) {
-        echo.value.disconnect();
+        try {
+          echo.value.disconnect();
+        } catch (error) {
+          // pass
+        }
         echo.value = null;
       }
 
