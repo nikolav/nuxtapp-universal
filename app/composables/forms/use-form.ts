@@ -8,9 +8,9 @@ interface IUseFormOptions {
   onSubmit?: (data: TRecordJson) => void;
 }
 
-export const useForm = (
+export const useForm = <TRules extends Record<string, ZodType>>(
   key: string,
-  rules: Record<string, ZodType>,
+  rules: TRules,
   options?: IUseFormOptions,
 ) => {
   const { $$ } = useNuxtApp();
@@ -26,13 +26,11 @@ export const useForm = (
   // getter/setter for each field
   const field = $$.reduce(
     rules,
-    (accum, _s, fieldName) => {
+    (accum, _schema, fieldName) => {
       const path_ = path(fieldName);
-      accum[fieldName] = computed({
+      accum[fieldName] = computed<TJson>({
         get: () => cache.item(path_),
-        set: (value) => {
-          cache.push({ [path_]: value });
-        },
+        set: (value) => cache.push({ [path_]: value }),
       });
       return accum;
     },
@@ -42,7 +40,7 @@ export const useForm = (
   const data = computed(() =>
     $$.reduce(
       rules,
-      (d, _s, fieldName) => {
+      (d, _schema, fieldName) => {
         d[fieldName] = cache.item(path(fieldName));
         return d;
       },
@@ -55,7 +53,7 @@ export const useForm = (
   const error = $$.reduce(
     rules,
     (res, schema, fieldName) => {
-      res[fieldName] = computed(() => isValid(schema, fieldName));
+      res[fieldName] = computed(() => !isValid(schema, fieldName));
       return res;
     },
     <Record<string, Ref<boolean>>>{},
@@ -63,7 +61,7 @@ export const useForm = (
 
   const handle = () => {
     if (!valid.value) return;
-    _.onSubmit(data.value);
+    _.onSubmit?.(data.value);
   };
 
   return {
@@ -75,8 +73,3 @@ export const useForm = (
     handle,
   };
 };
-// const form = useForm('f1', { email: schemaEmail }, { onSubmit: (data) => { access(data); } })
-//   <form @submit.prevent="form.handle">
-//   <input v-model="form.field.email.value" />
-//   <button type="submit" :disabled="!form.valid.value">Launch instance. 🚀</button>
-//   <span v-if="form.error.email.value">Invalid email. Try again.</span>

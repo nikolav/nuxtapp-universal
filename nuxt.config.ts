@@ -35,6 +35,9 @@ const isHttps = siteUrl.startsWith("https://");
 const databaseInit = parseBoolean(process.env.NUXT_DATABASE_INIT);
 const databaseConnectionName = process.env.NUXT_DATABASE_CONNECTION_NAME;
 const redisEnabled = parseBoolean(process.env.NUXT_REDIS_INIT);
+const broadcastingEnabled = parseBoolean(
+  process.env.NUXT_PUBLIC_BROADCASTING_ENABLED,
+);
 
 /**
  * ============================================================================
@@ -112,7 +115,7 @@ export default defineNuxtConfig({
       charset: "utf-8",
       viewport:
         "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
-      title: "nikolav.rs",
+      title: "nuxtapp | nikolav.rs",
       titleTemplate: "%s | nikolav.rs",
       meta: [
         { name: "description", content: "NuxtApp --starter" },
@@ -173,6 +176,9 @@ export default defineNuxtConfig({
 
       broadcasting: {
         reverb: {
+          enabled:
+            broadcastingEnabled &&
+            parseBoolean(process.env.NUXT_PUBLIC_REVERB_ENABLED),
           key: process.env.NUXT_PUBLIC_REVERB_KEY,
           scheme: process.env.NUXT_PUBLIC_REVERB_SCHEME ?? "https",
           host: process.env.NUXT_PUBLIC_REVERB_HOST,
@@ -182,7 +188,7 @@ export default defineNuxtConfig({
       },
 
       graphqlEndpoint: process.env.NUXT_GRAPHQL_ENDPOINT ?? "",
-      // auth
+
       auth: {
         driver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
         endpoint: process.env.NUXT_PUBLIC_AUTH_ENDPOINT,
