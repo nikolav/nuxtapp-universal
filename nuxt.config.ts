@@ -169,6 +169,7 @@ export default defineNuxtConfig({
       siteName,
       baseUrl: siteUrl,
       apiBase,
+      siteSeoImage: process.env.NUXT_SITE_SEO_IMAGE,
 
       // Locale
       defaultLocale,

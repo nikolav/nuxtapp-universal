@@ -9,6 +9,8 @@ const description = computed(() => t(String(route.meta.description ?? "#TBD")));
 useSeoMeta({
   title,
   description,
+  ogImage: useRuntimeConfig().public.siteSeoImage,
+  twitterCard: "summary_large_image",
 });
 
 // @@eos
