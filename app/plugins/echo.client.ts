@@ -6,10 +6,10 @@ import type { TOrNoValue } from "~/types";
 
 export default defineNuxtPlugin(() => {
   const { reverb } = useRuntimeConfig().public.broadcasting;
-  const auth = useAuth();
+  if (!reverb.enabled) return;
 
   const echo = shallowRef<TOrNoValue<Echo<"reverb">>>();
-
+  const auth = useAuth();
   watch(
     () => auth.token,
     (token) => {
