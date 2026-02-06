@@ -14,6 +14,14 @@ const PRODUCTION = [
   process.env.NUXT_SITE_ENV,
 ].some((e) => "production" === e);
 
+const ENV = [
+  process.env.ENV,
+  process.env.NODE_ENV,
+  process.env.NUXT_SITE_ENV,
+].every((e) => "development" === e)
+  ? "development"
+  : "production";
+
 const SSR = parseBoolean(process.env.NUXT_SSR);
 
 export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
@@ -153,8 +161,8 @@ export default defineNuxtConfig({
     // Client-exposed settings
     public: {
       PRODUCTION,
+      appEnv: ENV,
       ssr: SSR,
-      appEnv: process.env.NODE_ENV ?? "development",
 
       // Site / API
       siteUrl,
