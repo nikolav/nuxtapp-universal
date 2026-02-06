@@ -44,6 +44,7 @@ export default defineNuxtPlugin({
           hasPath,
           isString,
           // local
+          value$$,
           error$$,
           to$,
           resolved,
