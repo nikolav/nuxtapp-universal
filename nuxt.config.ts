@@ -171,7 +171,7 @@ export default defineNuxtConfig({
       ttlMs: Number(process.env.NUXT_CACHE_DEFAULT_TTL_MS ?? 60000),
       // setup cache connections
       connections: {
-        memory: undefined,
+        // memory: undefined,
         redis: {
           url: process.env.NUXT_CACHE_REDIS_URL ?? "http://127.0.0.1:6379",
         },

@@ -8,5 +8,6 @@ export default defineEventHandler(async (event) => {
     status: "ok",
     connection: knex?.client.config.connection,
     res: knex ? await Main.query() : [],
+    cache: (await event.context.cache?.get("keyv")) ?? null,
   };
 });

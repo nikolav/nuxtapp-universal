@@ -7,14 +7,19 @@ import type { TCacheConnection } from "#server/types";
 export default defineNitroPlugin(async (nitroApp) => {
   const { cache: config } = useRuntimeConfig();
 
+  const memoryStore = ((<any>globalThis).__keyvMemoryStore ??= new Map<
+    string,
+    any
+  >());
+
   const cache = new Keyv({
     namespace: config.namespace,
     store: config.enabled
       ? {
-          memory: () => config.connections.memory,
-          redis: () => new KeyvRedis(config.connections.redis),
+          memory: () => memoryStore,
+          redis: () => new KeyvRedis(config.connections.redis.url),
         }[<TCacheConnection>config.connection]()
-      : config.connections.memory,
+      : memoryStore,
     compression: new KeyvCompressLZ4(),
   });
 
@@ -29,7 +34,12 @@ export default defineNitroPlugin(async (nitroApp) => {
     event.context.cacheDefaultTtlMs = config.ttlMs;
   });
 
-  console.log({ [`cache.${config.connection}@keyv.initialized`]: cache });
+  try {
+    if (await cache.set("keyv", "keyv"))
+      console.log({ [`cache.${config.connection}@keyv.initialized`]: cache });
+  } catch (error) {
+    // pass
+  }
 });
 
 declare module "h3" {
