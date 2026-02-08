@@ -9,10 +9,12 @@ export default defineNitroPlugin((nitroApp) => {
 
   const cache = new Keyv({
     namespace: config.namespace,
-    store: {
-      memory: () => config.connections.memory,
-      redis: () => new KeyvRedis(config.connections.redis),
-    }[<TCacheConnection>config.connection](),
+    store: config.enabled
+      ? {
+          memory: () => config.connections.memory,
+          redis: () => new KeyvRedis(config.connections.redis),
+        }[<TCacheConnection>config.connection]()
+      : config.connections.memory,
     compression: new KeyvCompressLZ4(),
   });
 
