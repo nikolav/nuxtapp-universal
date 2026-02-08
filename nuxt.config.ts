@@ -1,7 +1,11 @@
+import { z } from "zod";
 import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
+
+// schemas:config
+const schemaCacheConnection = z.enum(["memory", "redis"] as const);
 
 /**
  * ============================================================================
@@ -156,6 +160,22 @@ export default defineNuxtConfig({
 
     apiKeys: {
       gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
+    },
+
+    cache: {
+      enabled: parseBoolean(process.env.NUXT_CACHE_ENABLED),
+      connection: schemaCacheConnection.parse(
+        process.env.NUXT_CACHE_CONNECTION ?? "memory",
+      ),
+      namespace: process.env.NUXT_CACHE_NAMESPACE ?? "app",
+      ttlMs: Number(process.env.NUXT_CACHE_DEFAULT_TTL_MS ?? 60000),
+      // setup cache connections
+      connections: {
+        memory: new Map(),
+        redis: {
+          url: process.env.NUXT_CACHE_REDIS_URL ?? "http://127.0.0.1:6379",
+        },
+      },
     },
 
     // Client-exposed settings
