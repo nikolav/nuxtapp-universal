@@ -52,6 +52,9 @@ export interface IPickFileOptions {
   // uses webkitdirectory under the hood
   directory?: boolean;
 }
+export interface IStoreFlags {
+  [name: string]: boolean;
+}
 
 //
 export type { TRecordJson, TJson, TJsonLiteral };
