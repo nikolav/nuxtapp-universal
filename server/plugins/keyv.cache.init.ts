@@ -18,20 +18,20 @@ export default defineNitroPlugin((nitroApp) => {
     compression: new KeyvCompressLZ4(),
   });
 
-  cache?.on("error", (errorCache) => {
+  cache.on("error", (errorCache) => {
     console.error({
       [`error.cache.${config.connection}@${config.namespace}`]: errorCache,
     });
   });
 
-  nitroApp.hooks.addHooks({
-    request: (event) => {
-      Object.assign(event.context, {
-        cache,
-        cacheDefaultTtlMs: config.ttlMs,
-      });
-    },
+  nitroApp.hooks.hook("request", (event) => {
+    Object.assign(event.context, {
+      cache,
+      cacheDefaultTtlMs: config.ttlMs,
+    });
   });
+
+  console.log({ [`cache.${config.connection}@keyv.initialized`]: cache });
 });
 
 declare module "h3" {
