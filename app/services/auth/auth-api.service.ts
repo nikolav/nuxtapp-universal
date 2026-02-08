@@ -85,9 +85,8 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
 
   logout = async () => {
     const token = this.token.value;
-    if (!token) return;
-
     try {
+      if (!token) return;
       if (
         "ok" !==
         get(
