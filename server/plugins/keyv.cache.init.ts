@@ -4,7 +4,7 @@ import KeyvCompressLZ4 from "@keyv/compress-lz4";
 
 import type { TCacheConnection } from "#server/types";
 
-export default defineNitroPlugin((nitroApp) => {
+export default defineNitroPlugin(async (nitroApp) => {
   const { cache: config } = useRuntimeConfig();
 
   const cache = new Keyv({
@@ -24,10 +24,10 @@ export default defineNitroPlugin((nitroApp) => {
     });
   });
 
-  // nitroApp.hooks.hook("request", (event) => {
-  //   event.context.cache = cache;
-  //   event.context.cacheDefaultTtlMs = config.ttlMs;
-  // });
+  nitroApp.hooks.hook("request", (event) => {
+    event.context.cache = cache;
+    event.context.cacheDefaultTtlMs = config.ttlMs;
+  });
 
   console.log({ [`cache.${config.connection}@keyv.initialized`]: cache });
 });
