@@ -24,10 +24,10 @@ export default defineNitroPlugin((nitroApp) => {
     });
   });
 
-  nitroApp.hooks.hook("request", (event) => {
-    event.context.cache = cache;
-    event.context.cacheDefaultTtlMs = config.ttlMs;
-  });
+  // nitroApp.hooks.hook("request", (event) => {
+  //   event.context.cache = cache;
+  //   event.context.cacheDefaultTtlMs = config.ttlMs;
+  // });
 
   console.log({ [`cache.${config.connection}@keyv.initialized`]: cache });
 });
