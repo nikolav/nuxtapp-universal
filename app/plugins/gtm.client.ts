@@ -10,7 +10,7 @@ export default defineNuxtPlugin({
     if (import.meta.server || !analyticsEnabled || !GTMID) return;
 
     const { $dom } = useNuxtApp();
-    $dom.subscribe(($) => {
+    $dom.pipe(take(1)).subscribe(($) => {
       if ($(`#${scriptId}`).length) return;
 
       $("head").append(
