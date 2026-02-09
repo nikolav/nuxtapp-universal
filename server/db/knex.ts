@@ -1,4 +1,6 @@
 import Knex from "knex";
-import { connection } from "./knexfile";
+import * as connections from "#server/db/knexfile";
 
-export const knex = useRuntimeConfig().databaseInit ? Knex(connection) : null;
+export const knex = useRuntimeConfig().databaseInit
+  ? Knex((<any>connections)[useRuntimeConfig().databaseConnectionName])
+  : null;

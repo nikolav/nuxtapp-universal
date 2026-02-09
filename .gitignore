@@ -96,6 +96,10 @@ scp-config.sh
 vars.env.ts
 dist
 
+.tmp/
+test-results/
+playwright-report/
+
 !.env.example
 !.vscode/settings.json
 !.vscode/extensions.json

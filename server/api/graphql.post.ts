@@ -1,7 +1,7 @@
 import { sendWebResponse } from "h3";
 import { toWebRequest } from "h3";
 
-import { yoga } from "../services/yoga";
+import { yoga } from "#server/services/yoga";
 
 export default defineEventHandler(async (event) => {
   const req = toWebRequest(event);
