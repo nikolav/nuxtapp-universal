@@ -1,0 +1,26 @@
+# syntax=docker/dockerfile:1.7
+FROM node:20-bookworm-slim
+
+WORKDIR /app
+
+# Faster + consistent logs
+ENV CI=1 \
+  NUXT_TELEMETRY_DISABLED=1 \
+  NPM_CONFIG_FUND=false \
+  NPM_CONFIG_AUDIT=false \
+  NPM_CONFIG_LOGLEVEL=warn \
+  NPM_CONFIG_UPDATE_NOTIFIER=false
+
+# Install deps (cached by layer when lockfile unchanged)
+COPY package.json package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm \
+  npm ci
+
+# Copy app sources
+COPY . .
+
+# Generate Nuxt types/.nuxt for tests
+RUN npx --no-install nuxt prepare
+
+# Default: run all vitest projects in one-shot mode
+CMD ["npm", "run", "test:run"]

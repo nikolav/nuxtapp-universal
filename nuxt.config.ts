@@ -116,6 +116,9 @@ export default defineNuxtConfig({
         databaseConnectionName,
       },
     ],
+
+    //testing
+    "@nuxt/test-utils/module",
   ],
 
   // ---------------------------------------------------------------------------
