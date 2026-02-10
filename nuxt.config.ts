@@ -357,6 +357,17 @@ export default defineNuxtConfig({
   // 10) Hooks (build/runtime lifecycle taps)
   // ---------------------------------------------------------------------------
   hooks: {
+    "vite:extendConfig"(config: any) {
+      config.plugins ||= [];
+      config.plugins.push(
+        ...vitePluginVuetify({
+          autoImport: true,
+          styles: {
+            configFile: "assets/styles/vuetify/settings.scss",
+          },
+        }),
+      );
+    },
     "prerender:routes": async ({ routes }) => {
       // Example:
       // const res = await fetch(API_URL);
@@ -380,14 +391,7 @@ export default defineNuxtConfig({
   // alias: {},
 
   vite: {
-    plugins: [
-      vitePluginVuetify({
-        autoImport: true,
-        styles: {
-          configFile: "assets/styles/vuetify/settings.scss",
-        },
-      }),
-    ],
+    plugins: [],
 
     esbuild: {
       // Production log stripping

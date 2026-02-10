@@ -1,3 +1,5 @@
+import resizeObserverPolyfill from "resize-observer-polyfill";
+
 (() => {
   if ("navigator" in globalThis) return;
   Object.defineProperty(globalThis, "navigator", {
@@ -10,3 +12,6 @@
     configurable: true,
   });
 })();
+
+// --- ResizeObserver (Vuetify layouts/overlays) ---
+(globalThis as any).ResizeObserver ??= resizeObserverPolyfill;
