@@ -18,7 +18,6 @@ type TI18n = (key: string, ...args: any[]) => string;
 export default defineNuxtPlugin((nuxtApp) => {
   const { defaultLocale } = useRuntimeConfig().public;
   const i18n = nuxtApp.vueApp.$nuxt.$i18n;
-
   const vuetify = createVuetify({
     ssr: useRuntimeConfig().public.ssr,
     blueprint: md3,
