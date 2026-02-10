@@ -13,5 +13,9 @@ import resizeObserverPolyfill from "resize-observer-polyfill";
   });
 })();
 
+// Some libs touch these too (safe stubs)
+globalThis.window ||= globalThis as any;
+globalThis.document ||= (globalThis as any).document;
+
 // --- ResizeObserver (Vuetify layouts/overlays) ---
 (globalThis as any).ResizeObserver ??= resizeObserverPolyfill;
