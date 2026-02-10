@@ -132,6 +132,18 @@ export default defineNuxtPlugin((nuxtApp) => {
   // patch translator to use '$vuetify' ui messages
   (<any>vuetify.locale).t = (key: string, ...args: any[]) =>
     (<TI18n>i18n.t)(`$vuetify.${key}`, ...args);
+
+  // sync on both SSR/client (runs on plugin init; reactive on client)
+  watch(
+    () => i18n.locale.value,
+    (loc) => {
+      vuetify.locale.current.value = loc ?? defaultLocale;
+      // // sync vuetify date adapter: locale
+      // vuetify.date?.locale &&
+      //   (vuetify.date.locale.value = loc ?? defaultLocale);
+    },
+    { immediate: true },
+  );
 });
 
 declare module "vuetify" {
