@@ -27,6 +27,9 @@ const { finalizePendingLocaleChange } = useI18n();
     <!-- seo:core -->
     <AppConfigurationSeoBase />
 
+    <!-- vuetify config:client -->
+    <AppConfigurationVuetify />
+
     <!-- theme config -->
     <AppConfigurationTheme />
 
