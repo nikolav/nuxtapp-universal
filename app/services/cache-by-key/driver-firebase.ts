@@ -1,34 +1,32 @@
-import { BehaviorSubject, EMPTY, Observable, switchMap, tap } from "rxjs";
+import { BehaviorSubject, EMPTY, Observable, of } from "rxjs";
+import { catchError, mergeMap } from "rxjs/operators";
 import isEmpty from "lodash/isEmpty";
 import reduce_ from "lodash/reduce";
-
 import {
   deleteField,
   doc,
-  getDoc,
+  DocumentSnapshot,
   onSnapshot,
   serverTimestamp,
   setDoc,
   updateDoc,
-  type DocumentReference,
 } from "firebase/firestore";
+import type { DocumentReference, Unsubscribe } from "firebase/firestore";
 
-import { firestore } from "~/config/firebase";
 import { CacheByKeyBase } from "./base";
-import type { TMaybeAsync, TRecordJson } from "~/types";
+import { firestore } from "~/config/firebase";
 import { resolved } from "~/utils/resolved";
-import { snapshot } from "node:test";
+import { ManageSubscriptionsService } from "~/services/manage-subscriptions";
+import { onDebug } from "~/utils/on-debug";
+import type { TOrNoValue, TRecordJson } from "~/types";
 
-export interface ICacheByKeyOptions {
-  /** time-to-live in milliseconds */
-  ttlMs?: number;
-}
-
+const CONCURENCY = 10;
 export class CacheByKeyDriverFirebase extends CacheByKeyBase {
-  // data stream for key
   data$ = new BehaviorSubject(<TRecordJson>{});
 
   private doc: DocumentReference;
+  private subs = new ManageSubscriptionsService();
+  private data_s: TOrNoValue<Unsubscribe>;
 
   constructor(private key: string) {
     super();
@@ -80,13 +78,52 @@ export class CacheByKeyDriverFirebase extends CacheByKeyBase {
   }
 
   override init() {
-    new Observable((obs) => {
-      (async () => {
-        //
-      })();
+    this.subs.push({
+      data: new Observable<DocumentSnapshot>((obs) => {
+        this.data_s = onSnapshot(
+          this.doc,
+          (snapshot) => {
+            obs.next(snapshot);
+          },
+          (error) => {
+            obs.error(error);
+          },
+        );
+      })
+        .pipe(
+          mergeMap(
+            (snapshot) =>
+              snapshot.exists()
+                ? of(<TRecordJson>{ ...snapshot.data(), id: snapshot.id })
+                : new Observable<TRecordJson>((obs) => {
+                    (async (newd) => {
+                      try {
+                        await setDoc(this.doc, newd);
+                        obs.next({ ...newd, id: this.key });
+                      } catch (error) {
+                        obs.error(error);
+                      }
+                    })(withTimestamp(<TRecordJson>{}));
+                  }),
+            CONCURENCY,
+          ),
+          catchError((error) => {
+            onDebug({ "cache-by-key:init:firebase": error });
+            return EMPTY;
+          }),
+        )
+        .subscribe((d) => {
+          this.data$.next(d);
+        }),
     });
   }
-  // destroy() {}
+
+  override destroy() {
+    // close onSnapshot
+    this.data_s?.();
+    // unsubscribe data
+    this.subs.destroy();
+  }
 }
 
 // --utils
