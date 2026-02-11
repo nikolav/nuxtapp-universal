@@ -6,3 +6,10 @@ export const Q_status = gql`
     status
   }
 `;
+
+// docCacheByKey(key: String!): JsonData!
+export const Q_docCacheByKey = gql`
+  query q_docCacheByKey($key: String!) {
+    docCacheByKey(key: $key)
+  }
+`;

@@ -5,7 +5,7 @@ import unset from "lodash/unset";
 import { CacheByKeyBase } from "./base";
 import { deepmerge } from "~/utils/deepmerge";
 import { cloned } from "~/utils/cloned";
-import type { TRecordJson } from "~/types";
+import type { TMaybeAsync, TRecordJson } from "~/types";
 
 const merge = deepmerge();
 
@@ -35,6 +35,8 @@ export class CacheByKeyDriverLocal extends CacheByKeyBase {
       ),
     );
   }
+
+  override pull() {}
 
   static single(key: string) {
     return CacheByKeyDriverLocal.caches[key] ?? new CacheByKeyDriverLocal(key);

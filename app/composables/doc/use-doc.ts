@@ -2,11 +2,15 @@ import { CacheByKeyDriverLocal } from "~/services/doc/local";
 import { useProcessMonitor } from "../utils/use-process-monitor";
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
 import type { CacheByKeyBase } from "~/services/doc/base";
+import { CacheByKeyDriverApi } from "~/services/doc/driver-api";
+import { useAuth } from "~/stores/use-auth.store";
 
 export const useDoc = (key: string) => {
   const client: CacheByKeyBase = {
     // cached at client, testing, local, etc.
     local: (key: string) => CacheByKeyDriverLocal.single(key),
+    api: (key: string) =>
+      new CacheByKeyDriverApi(key, useNuxtApp().$gql, () => useAuth().token),
   }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](key);
 
   const ps = useProcessMonitor();

@@ -1,0 +1,78 @@
+import { BehaviorSubject, EMPTY, Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import type { RequestExtendedOptions } from "graphql-request";
+import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
+
+import { CacheByKeyBase } from "~/services/doc/base";
+import { resolved } from "~/utils/resolved";
+import {
+  M_docCacheByKeyPatch,
+  M_docCacheByKeyPathsDrop,
+  Q_docCacheByKey,
+} from "~/graphql";
+import type { TOrNoValue, TRecordJson } from "~/types";
+
+export class CacheByKeyDriverApi extends CacheByKeyBase {
+  data$ = new BehaviorSubject(<TRecordJson>{});
+
+  constructor(
+    private key: string,
+    private gql: (
+      options: Partial<RequestExtendedOptions>,
+    ) => Observable<TRecordJson>,
+    private getToken: () => TOrNoValue<string>,
+  ) {
+    super();
+  }
+
+  // batch set keys,
+  push(patch: TRecordJson) {
+    resolved(
+      isEmpty(patch)
+        ? EMPTY
+        : this.gql({
+            document: M_docCacheByKeyPatch,
+            variables: { key: this.key, patch },
+            requestHeaders: {
+              Authorization: `Bearer ${this.getToken()}`,
+            },
+          }),
+    );
+  }
+
+  // drop keys
+  drop(...paths: string[]) {
+    resolved(
+      isEmpty(paths)
+        ? EMPTY
+        : this.gql({
+            document: M_docCacheByKeyPathsDrop,
+            variables: { key: this.key, paths },
+            requestHeaders: {
+              Authorization: `Bearer ${this.getToken()}`,
+            },
+          }),
+    );
+  }
+
+  override async init() {
+    this.pull();
+  }
+
+  override async pull() {
+    this.data$.next(
+      await resolved(
+        this.gql({
+          document: Q_docCacheByKey,
+          variables: { key: this.key },
+          requestHeaders: {
+            Authorization: `Bearer ${this.getToken()}`,
+          },
+        }).pipe(
+          map((res) => <TRecordJson>get(res, "data.docCacheByKey.result", {})),
+        ),
+      ),
+    );
+  }
+}
