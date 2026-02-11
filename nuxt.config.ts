@@ -1,7 +1,12 @@
+import { z } from "zod";
 import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
+import { schemaCacheKeyDriver } from "./app/schemas";
+
+// schemas:config
+const schemaCacheConnection = z.enum(["memory", "redis"] as const);
 
 /**
  * ============================================================================
@@ -13,6 +18,14 @@ const PRODUCTION = [
   process.env.NODE_ENV,
   process.env.NUXT_SITE_ENV,
 ].some((e) => "production" === e);
+
+const ENV = [
+  process.env.ENV,
+  process.env.NODE_ENV,
+  process.env.NUXT_SITE_ENV,
+].every((e) => "development" === e)
+  ? "development"
+  : "production";
 
 const SSR = parseBoolean(process.env.NUXT_SSR);
 
@@ -104,6 +117,9 @@ export default defineNuxtConfig({
         databaseConnectionName,
       },
     ],
+
+    //testing
+    "@nuxt/test-utils/module",
   ],
 
   // ---------------------------------------------------------------------------
@@ -131,7 +147,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   // 05) Styling (global CSS entrypoints)
   // ---------------------------------------------------------------------------
-  css: ["~/assets/styles/styles.scss", "animate.css"],
+  css: ["~/assets/styles/styles.scss"],
 
   // ---------------------------------------------------------------------------
   // 06) Runtime config (server secrets + public client config)
@@ -150,17 +166,34 @@ export default defineNuxtConfig({
       gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
     },
 
+    cache: {
+      enabled: parseBoolean(process.env.NUXT_CACHE_ENABLED),
+      connection: schemaCacheConnection.parse(
+        process.env.NUXT_CACHE_CONNECTION ?? "memory",
+      ),
+      namespace: process.env.NUXT_CACHE_NAMESPACE ?? "app",
+      ttlMs: Number(process.env.NUXT_CACHE_DEFAULT_TTL_MS ?? 60000),
+      // setup cache connections
+      connections: {
+        // memory: undefined,
+        redis: {
+          url: process.env.NUXT_CACHE_REDIS_URL ?? "http://127.0.0.1:6379",
+        },
+      },
+    },
+
     // Client-exposed settings
     public: {
       PRODUCTION,
+      appEnv: ENV,
       ssr: SSR,
-      appEnv: process.env.NODE_ENV ?? "development",
 
       // Site / API
       siteUrl,
       siteName,
       baseUrl: siteUrl,
       apiBase,
+      siteSeoImage: process.env.NUXT_SITE_SEO_IMAGE,
 
       // Locale
       defaultLocale,
@@ -193,6 +226,10 @@ export default defineNuxtConfig({
         driver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
         endpoint: process.env.NUXT_PUBLIC_AUTH_ENDPOINT,
       },
+
+      cacheKeyDriver: schemaCacheKeyDriver.parse(
+        process.env.NUXT_PUBLIC_CACHE_KEY_DRIVER ?? "local",
+      ),
     },
   },
 

@@ -1,0 +1,23 @@
+services:
+  test:
+
+    image: nuxtapp-test-ci:f41f87da-d7fb-5699-af87-45e84926176a
+
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+
+    environment:
+      CI: "1"
+      NUXT_TELEMETRY_DISABLED: "1"
+      NPM_CONFIG_FUND: "false"
+      NPM_CONFIG_AUDIT: "false"
+
+    # keep npm cache between runs
+    volumes:
+      - nuxt_npm_cache:/root/.npm
+
+    init: true
+
+volumes:
+  nuxt_npm_cache:

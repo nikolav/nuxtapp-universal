@@ -19,6 +19,8 @@ import { coreHasOwn } from "~/utils/core-has-own";
 import { to$ } from "~/utils/to-obs";
 import { resolved } from "~/utils/resolved";
 import { error$$ } from "~/utils/error-obs";
+import { value$$ } from "~/utils/to-value-obs";
+import { deepmerge } from "~/utils/deepmerge";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -43,6 +45,8 @@ export default defineNuxtPlugin({
           hasPath,
           isString,
           // local
+          deepmerge,
+          value$$,
           error$$,
           to$,
           resolved,

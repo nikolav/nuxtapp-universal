@@ -31,14 +31,10 @@ __tests__
 coverage
 data
 dist
-docker-compose*.yml
-Dockerfile
-Dockerfile*
 docs
 logs
 node_modules
 npm-debug.log*
-package-lock.json
 pnpm-debug.log*
 pnpm-lock.yaml
 storage
@@ -49,5 +45,18 @@ yarn-debug.log*
 yarn-error.log*
 yarn.lock
 
+# package-lock.json
+# docker-compose*.yml
+# Dockerfile
+# Dockerfile*
+
 !.env.example
 !server/db/*.sqlite
+
+!package.json
+!package-lock.json
+!vitest.config.ts
+!nuxt.config.ts
+!test
+!test/**
+!Dockerfile.test

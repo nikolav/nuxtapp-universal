@@ -1,3 +1,4 @@
+import { z } from "zod";
 import type { Observable, Subject } from "rxjs";
 import type { RequestExtendedOptions } from "graphql-request";
 import type { AsyncDataOptions } from "#app";
@@ -6,6 +7,7 @@ import type {
   TJson,
   TJsonLiteral,
 } from "../schemas/json.schema";
+import { schemaCacheKeyDriver } from "../schemas";
 
 export type ElementOf<T extends readonly unknown[]> = T[number];
 export type TFunctionVoid = (...args: unknown[]) => void;
@@ -52,7 +54,10 @@ export interface IPickFileOptions {
   // uses webkitdirectory under the hood
   directory?: boolean;
 }
-
+export interface IStoreFlags {
+  [name: string]: boolean;
+}
+export type TUseCacheKeyDriver = z.infer<typeof schemaCacheKeyDriver>;
 //
 export type { TRecordJson, TJson, TJsonLiteral };
 export type TCashDomClient = typeof import("cash-dom").default;
