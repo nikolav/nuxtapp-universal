@@ -5,7 +5,7 @@ import unset from "lodash/unset";
 import { CacheByKeyBase } from "./base";
 import { deepmerge } from "~/utils/deepmerge";
 import { cloned } from "~/utils/cloned";
-import type { TMaybeAsync, TRecordJson } from "~/types";
+import type { TRecordJson } from "~/types";
 
 const merge = deepmerge();
 

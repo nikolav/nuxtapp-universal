@@ -7,14 +7,15 @@ import { useAuth } from "~/stores/use-auth.store";
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
 
 export const useDoc = (key: string) => {
+  const { CACHE_BY_KEY: CACHE } = useAppConfig().keys;
   const service: CacheByKeyBase = {
     // cached at client, testing, local, etc.
-    local: (key: string) => CacheByKeyDriverLocal.single(key),
-    firebase: (key: string) => new CacheByKeyDriverFirebase(key),
+    local: (key: string) => CacheByKeyDriverLocal.single(`${CACHE}:${key}`),
+    firebase: (key: string) => new CacheByKeyDriverFirebase(key, CACHE),
     api: (key: string) =>
       new CacheByKeyDriverApi(
         // composed key
-        `${useAppConfig().keys.CACHE_BY_KEY}:${key}`,
+        `${CACHE}:${key}`,
         // api client --gql
         useNuxtApp().$gql,
         // access token getter

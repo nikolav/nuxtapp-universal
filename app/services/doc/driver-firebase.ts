@@ -1,5 +1,5 @@
 import { BehaviorSubject, EMPTY, Observable, of } from "rxjs";
-import { catchError, mergeMap } from "rxjs/operators";
+import { catchError, switchMap } from "rxjs/operators";
 import isEmpty from "lodash/isEmpty";
 import reduce_ from "lodash/reduce";
 import {
@@ -20,7 +20,6 @@ import { ManageSubscriptionsService } from "~/services/manage-subscriptions";
 import { onDebug } from "~/utils/on-debug";
 import type { TOrNoValue, TRecordJson } from "~/types";
 
-const CONCURENCY = 10;
 export class CacheByKeyDriverFirebase extends CacheByKeyBase {
   data$ = new BehaviorSubject(<TRecordJson>{});
 
@@ -28,9 +27,12 @@ export class CacheByKeyDriverFirebase extends CacheByKeyBase {
   private subs = new ManageSubscriptionsService();
   private data_s: TOrNoValue<Unsubscribe>;
 
-  constructor(private key: string) {
+  constructor(
+    private key: string,
+    private cacheName: string,
+  ) {
     super();
-    this.doc = doc(firestore, "cache", this.key);
+    this.doc = doc(firestore, this.cacheName, this.key);
   }
 
   // batch set keys,
@@ -91,21 +93,19 @@ export class CacheByKeyDriverFirebase extends CacheByKeyBase {
         );
       })
         .pipe(
-          mergeMap(
-            (snapshot) =>
-              snapshot.exists()
-                ? of(<TRecordJson>{ ...snapshot.data(), id: snapshot.id })
-                : new Observable<TRecordJson>((obs) => {
-                    (async (newd) => {
-                      try {
-                        await setDoc(this.doc, newd);
-                        obs.next({ ...newd, id: this.key });
-                      } catch (error) {
-                        obs.error(error);
-                      }
-                    })(withTimestamp(<TRecordJson>{}));
-                  }),
-            CONCURENCY,
+          switchMap((snapshot) =>
+            snapshot.exists()
+              ? of(<TRecordJson>{ ...snapshot.data(), id: snapshot.id })
+              : new Observable<TRecordJson>((obs) => {
+                  (async (newd) => {
+                    try {
+                      await setDoc(this.doc, newd);
+                      obs.next({ ...newd, id: this.key });
+                    } catch (error) {
+                      obs.error(error);
+                    }
+                  })(withTimestamp(<TRecordJson>{}));
+                }),
           ),
           catchError((error) => {
             onDebug({ "cache-by-key:init:firebase": error });
@@ -117,6 +117,8 @@ export class CacheByKeyDriverFirebase extends CacheByKeyBase {
         }),
     });
   }
+
+  override async pull() {}
 
   override destroy() {
     // close onSnapshot
