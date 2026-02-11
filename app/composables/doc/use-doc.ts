@@ -1,10 +1,10 @@
-import { CacheByKeyDriverLocal } from "~/services/cache-by-key/local";
+import { CacheByKeyDriverLocal } from "~/services/doc/local";
 import { useProcessMonitor } from "../utils/use-process-monitor";
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
-import type { CacheByKeyBase } from "~/services/cache-by-key/base";
-import { CacheByKeyDriverFirebase } from "~/services/cache-by-key/driver-firebase";
+import type { CacheByKeyBase } from "~/services/doc/base";
+import { CacheByKeyDriverFirebase } from "~/services/doc/driver-firebase";
 
-export const useCacheKey = (key: string) => {
+export const useDoc = (key: string) => {
   const client: CacheByKeyBase = {
     // client cached
     local: (key: string) => CacheByKeyDriverLocal.single(key),

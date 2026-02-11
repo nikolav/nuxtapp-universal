@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCacheKey } from "~/composables/cache/use-cache-key";
+import { useDoc } from "~/composables/doc/use-doc";
 
 definePageMeta({
   title: "pages.index.title",
@@ -13,7 +13,7 @@ definePageMeta({
   },
 });
 
-const client = useCacheKey("foo:1");
+const client = useDoc("foo:1");
 const push = () => {
   client.push({ foo: Math.random(), bar: Math.random(), x: { a: 1 } });
 };
