@@ -31,13 +31,12 @@ export class CacheByKeyDriverApi extends CacheByKeyBase {
     resolved(
       isEmpty(patch)
         ? EMPTY
-        : this.gql({
-            document: M_docCacheByKeyPatch,
-            variables: { key: this.key, patch },
-            requestHeaders: {
-              Authorization: `Bearer ${this.getToken()}`,
-            },
-          }),
+        : this.gql(
+            this.withHeaders({
+              document: M_docCacheByKeyPatch,
+              variables: { key: this.key, patch },
+            }),
+          ),
     );
   }
 
@@ -46,13 +45,12 @@ export class CacheByKeyDriverApi extends CacheByKeyBase {
     resolved(
       isEmpty(paths)
         ? EMPTY
-        : this.gql({
-            document: M_docCacheByKeyPathsDrop,
-            variables: { key: this.key, paths },
-            requestHeaders: {
-              Authorization: `Bearer ${this.getToken()}`,
-            },
-          }),
+        : this.gql(
+            this.withHeaders({
+              document: M_docCacheByKeyPathsDrop,
+              variables: { key: this.key, paths },
+            }),
+          ),
     );
   }
 
@@ -63,16 +61,26 @@ export class CacheByKeyDriverApi extends CacheByKeyBase {
   override async pull() {
     this.data$.next(
       await resolved(
-        this.gql({
-          document: Q_docCacheByKey,
-          variables: { key: this.key },
-          requestHeaders: {
-            Authorization: `Bearer ${this.getToken()}`,
-          },
-        }).pipe(
+        this.gql(
+          this.withHeaders({
+            document: Q_docCacheByKey,
+            variables: { key: this.key },
+          }),
+        ).pipe(
           map((res) => <TRecordJson>get(res, "data.docCacheByKey.result", {})),
         ),
       ),
     );
+  }
+
+  withHeaders(
+    opts: Partial<RequestExtendedOptions>,
+  ): Partial<RequestExtendedOptions> {
+    return {
+      ...opts,
+      requestHeaders: {
+        Authorization: `Bearer ${this.getToken()}`,
+      },
+    };
   }
 }
