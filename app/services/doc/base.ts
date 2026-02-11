@@ -2,15 +2,15 @@ import type { BehaviorSubject, Observable } from "rxjs";
 import type { TMaybeAsync, TRecordJson } from "~/types";
 
 export interface ICacheByKeyOptions {
-  /** time-to-live in milliseconds */
+  // time-to-live in milliseconds
   ttlMs?: number;
 }
 
 export abstract class CacheByKeyBase {
-  // data stream for key
+  // stream cached data for key
   abstract data$: BehaviorSubject<TRecordJson>;
 
-  // batch set keys,
+  // batch commit keys
   abstract push(
     patch: TRecordJson,
     opts?: ICacheByKeyOptions,
@@ -18,6 +18,9 @@ export abstract class CacheByKeyBase {
 
   // drop keys
   abstract drop(...paths: string[]): TMaybeAsync<void>;
+
+  // load cached data
+  abstract pull(): TMaybeAsync<void>;
 
   init() {}
   destroy() {}

@@ -1,8 +1,8 @@
-import { from, of, isObservable } from "rxjs";
+import { defer, from, isObservable, of } from "rxjs";
 import type { TMaybeAsync } from "~/types";
 
-export const to$ = <T = unknown>(v: TMaybeAsync<T>) => {
-  if (isObservable(v)) return v;
-  if (v instanceof Promise) return from(v);
-  return of(v);
-};
+const isPromiseLike = (x: any): x is Promise<unknown> =>
+  !!x && typeof x.then === "function";
+
+export const to$ = <T = unknown>(v: TMaybeAsync<T>) =>
+  defer(() => (isObservable(v) ? v : isPromiseLike(v) ? from(v) : of(v)));

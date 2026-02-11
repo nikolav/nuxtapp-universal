@@ -44,4 +44,8 @@ export const schemaNonSpecialChars = z
   .string()
   .refine((s) => matches(s, rRegexSafeCharacters));
 
-export const schemaCacheKeyDriver = z.enum(["local", "firebase"] as const);
+export const schemaCacheKeyDriver = z.enum([
+  "local",
+  "api",
+  "firebase",
+] as const);

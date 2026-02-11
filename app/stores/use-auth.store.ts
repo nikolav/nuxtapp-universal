@@ -49,54 +49,34 @@ export const useAuth = defineStore("store-auth", () => {
   );
 
   // map auth to ps
-  watch(
-    () => [auth.pending.value, auth.error.value] as const,
-    ([pending, error]) => {
-      ps.setError(error);
-
-      if (pending) {
-        if (!ps.processing.value) ps.begin();
-        return;
-      }
-
-      ps.done();
-
-      if (!ps.processing.value && !ps.error.value) ps.successful();
-    },
-    { immediate: true },
-  );
+  ps.sync(auth.pending, auth.error);
 
   const account = computed(() => auth.data.value);
   const isAuth = computed(() => null != $$.get(account.value, "id"));
 
-  const authenticate = async (credenitals: ICredentials) =>
-    !isAuth.value
-      ? ps.exec(() => authService.authenticate(credenitals))
-      : undefined;
+  const authenticate = (credenitals: ICredentials) =>
+    ps.monitor(() => authService.authenticate(credenitals));
 
-  const logout = async () =>
-    isAuth.value ? ps.exec<void>(() => authService.logout()) : undefined;
+  const logout = () => ps.monitor<void>(() => authService.logout());
 
   const register = (credentials: ICredentials) =>
-    ps.exec(() => authService.register(credentials));
+    ps.monitor(() => authService.register(credentials));
 
   const { signInWithProvider: signInWithProviderBase_ } = usePopupOAuth();
   const signInWithProvider = async (provider: string) =>
-    !isAuth.value
-      ? ps.exec(() => {
-          switch (true) {
-            case authService instanceof AuthFirebaseService:
-              return authService.signInWithProvider(provider);
+    ps.monitor(() => {
+      switch (true) {
+        case authService instanceof AuthFirebaseService:
+          return authService.signInWithProvider(provider);
 
-            default:
-              return signInWithProviderBase_(provider).pipe(
-                tap((token) => {
-                  authService.token.value = token;
-                }),
-              );
-          }
-        })
-      : undefined;
+        default:
+          return signInWithProviderBase_(provider).pipe(
+            tap((token) => {
+              authService.token.value = token;
+            }),
+          );
+      }
+    });
 
   // cache token to autoload auth
   const storageAuth = useLocalStorage(
