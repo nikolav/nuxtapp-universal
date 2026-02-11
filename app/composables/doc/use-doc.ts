@@ -6,7 +6,7 @@ import { CacheByKeyDriverApi } from "~/services/doc/driver-api";
 import { useAuth } from "~/stores/use-auth.store";
 
 export const useDoc = (key: string) => {
-  const client: CacheByKeyBase = {
+  const service: CacheByKeyBase = {
     // cached at client, testing, local, etc.
     local: (key: string) => CacheByKeyDriverLocal.single(key),
     api: (key: string) =>
@@ -16,7 +16,7 @@ export const useDoc = (key: string) => {
   const ps = useProcessMonitor();
   const cache = useAsyncData(
     key,
-    () => ps.monitor(() => client.data$.getValue()),
+    () => ps.monitor(() => service.data$.getValue()),
     {
       immediate: true,
       lazy: true,
@@ -28,22 +28,23 @@ export const useDoc = (key: string) => {
   // map cache to ps
   ps.sync(cache.pending, cache.error);
 
-  const data_s = client.data$.subscribe(() => {
+  const data_s = service.data$.subscribe(() => {
     cache.refresh();
   });
 
   const destroy = () => {
     data_s.unsubscribe();
-    client.destroy();
+    service.destroy();
   };
   onScopeDispose(destroy);
 
   return {
     ps,
     cache,
-    start: client.init.bind(client),
-    push: client.push.bind(client),
-    drop: client.drop.bind(client),
+    start: service.init.bind(service),
+    push: service.push.bind(service),
+    drop: service.drop.bind(service),
+    pull: service.pull.bind(service),
     destroy,
   };
 };
