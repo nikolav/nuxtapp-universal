@@ -55,7 +55,7 @@ export interface IPickFileOptions {
 export interface IStoreFlags {
   [name: string]: boolean;
 }
-
+export type TUseCacheKeyDriver = "local";
 //
 export type { TRecordJson, TJson, TJsonLiteral };
 export type TCashDomClient = typeof import("cash-dom").default;
