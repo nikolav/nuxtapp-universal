@@ -10,7 +10,14 @@ export const useDoc = (key: string) => {
     // cached at client, testing, local, etc.
     local: (key: string) => CacheByKeyDriverLocal.single(key),
     api: (key: string) =>
-      new CacheByKeyDriverApi(key, useNuxtApp().$gql, () => useAuth().token),
+      new CacheByKeyDriverApi(
+        // composed key
+        `${useAppConfig().keys.CACHE_BY_KEY}:${key}`,
+        // api client --gql
+        useNuxtApp().$gql,
+        // access token getter
+        () => useAuth().token,
+      ),
   }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](key);
 
   const ps = useProcessMonitor();
