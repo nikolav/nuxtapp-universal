@@ -1,9 +1,9 @@
-import { CacheByKeyDriverLocal } from "~/services/cache-by-key/local";
+import { CacheByKeyDriverLocal } from "~/services/doc/local";
 import { useProcessMonitor } from "../utils/use-process-monitor";
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
-import type { CacheByKeyBase } from "~/services/cache-by-key/base";
+import type { CacheByKeyBase } from "~/services/doc/base";
 
-export const useCacheKey = (key: string) => {
+export const useDoc = (key: string) => {
   const client: CacheByKeyBase = {
     // cached at client, testing, local, etc.
     local: (key: string) => CacheByKeyDriverLocal.single(key),
@@ -35,8 +35,9 @@ export const useCacheKey = (key: string) => {
   onScopeDispose(destroy);
 
   return {
-    cache,
     ps,
+    cache,
+    start: client.init.bind(client),
     push: client.push.bind(client),
     drop: client.drop.bind(client),
     destroy,

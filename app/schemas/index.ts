@@ -2,7 +2,7 @@ import { z } from "zod";
 import isJWT from "validator/es/lib/isJWT";
 import matches from "validator/es/lib/matches";
 
-import { rRegexSafeCharacters } from "~/utils/re";
+import { rRegexSafeCharacters } from "../utils/re";
 export { schemaJsonData, schemaJsonDataRecord } from "./json.schema";
 export * from "./transforms";
 
