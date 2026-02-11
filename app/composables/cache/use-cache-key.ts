@@ -2,11 +2,13 @@ import { CacheByKeyDriverLocal } from "~/services/cache-by-key/local";
 import { useProcessMonitor } from "../utils/use-process-monitor";
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
 import type { CacheByKeyBase } from "~/services/cache-by-key/base";
+import { CacheByKeyDriverFirebase } from "~/services/cache-by-key/driver-firebase";
 
 export const useCacheKey = (key: string) => {
   const client: CacheByKeyBase = {
-    // cached at client, testing, local, etc.
+    // client cached
     local: (key: string) => CacheByKeyDriverLocal.single(key),
+    firebase: (key: string) => new CacheByKeyDriverFirebase(key),
   }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](key);
 
   const ps = useProcessMonitor();
@@ -35,8 +37,9 @@ export const useCacheKey = (key: string) => {
   onScopeDispose(destroy);
 
   return {
-    cache,
     ps,
+    cache,
+    start: client.init.bind(client),
     push: client.push.bind(client),
     drop: client.drop.bind(client),
     destroy,

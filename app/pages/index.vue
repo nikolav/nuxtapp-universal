@@ -21,6 +21,10 @@ const drop = () => {
   client.drop("foo", "x.a");
 };
 
+onMounted(() => {
+  client.start();
+});
+
 // @@eos
 </script>
 
