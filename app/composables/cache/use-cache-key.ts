@@ -3,14 +3,11 @@ import { useProcessMonitor } from "../utils/use-process-monitor";
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
 import type { CacheByKeyBase } from "~/services/cache-by-key/base";
 
-export const useCacheKey = (
-  key: string,
-  driver: TUseCacheKeyDriver = "local",
-) => {
+export const useCacheKey = (key: string) => {
   const client: CacheByKeyBase = {
     // cached at client, testing, local, etc.
     local: (key: string) => CacheByKeyDriverLocal.single(key),
-  }[driver](key);
+  }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](key);
 
   const ps = useProcessMonitor();
   const cache = useAsyncData(

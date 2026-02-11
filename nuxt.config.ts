@@ -6,6 +6,7 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 
 // schemas:config
 const schemaCacheConnection = z.enum(["memory", "redis"] as const);
+const schemaCacheKeyDriver = z.enum(["local"] as const);
 
 /**
  * ============================================================================
@@ -225,6 +226,10 @@ export default defineNuxtConfig({
         driver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
         endpoint: process.env.NUXT_PUBLIC_AUTH_ENDPOINT,
       },
+
+      cacheKeyDriver: schemaCacheKeyDriver.parse(
+        process.env.NUXT_PUBLIC_CACHE_KEY_DRIVER ?? "local",
+      ),
     },
   },
 
