@@ -3,10 +3,10 @@ import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
+import { schemaCacheKeyDriver } from "./app/schemas";
 
 // schemas:config
 const schemaCacheConnection = z.enum(["memory", "redis"] as const);
-const schemaCacheKeyDriver = z.enum(["local"] as const);
 
 /**
  * ============================================================================
