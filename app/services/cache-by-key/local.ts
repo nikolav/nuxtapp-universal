@@ -14,9 +14,9 @@ export class CacheByKeyDriverLocal extends CacheByKeyBase {
 
   data$ = new BehaviorSubject(<TRecordJson>{});
 
-  private constructor(key: string) {
+  private constructor(private key: string) {
     super();
-    CacheByKeyDriverLocal.caches[key] = this;
+    CacheByKeyDriverLocal.caches[this.key] = this;
   }
 
   push(patch: TRecordJson) {
@@ -38,5 +38,10 @@ export class CacheByKeyDriverLocal extends CacheByKeyBase {
 
   static single(key: string) {
     return CacheByKeyDriverLocal.caches[key] ?? new CacheByKeyDriverLocal(key);
+  }
+
+  override destroy() {
+    this.data$.complete();
+    delete CacheByKeyDriverLocal.caches[this.key];
   }
 }

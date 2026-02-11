@@ -33,6 +33,7 @@ export const useCacheKey = (
 
   const destroy = () => {
     data_s.unsubscribe();
+    client.destroy();
   };
   onScopeDispose(destroy);
 

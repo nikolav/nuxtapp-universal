@@ -18,4 +18,6 @@ export abstract class CacheByKeyBase {
 
   // drop keys
   abstract drop(...paths: string[]): TMaybeAsync<void>;
+
+  destroy() {}
 }
