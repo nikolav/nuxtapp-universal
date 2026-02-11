@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Observable, Subject } from "rxjs";
+import type { Observable, Subject, Subscription } from "rxjs";
 import type { RequestExtendedOptions } from "graphql-request";
 import type { AsyncDataOptions } from "#app";
 import type {
@@ -58,6 +58,10 @@ export interface IStoreFlags {
   [name: string]: boolean;
 }
 export type TUseCacheKeyDriver = z.infer<typeof schemaCacheKeyDriver>;
+export type TManageSubscriptionsCache = Record<
+  string,
+  TOrNoValue<Subscription>
+>;
 //
 export type { TRecordJson, TJson, TJsonLiteral };
 export type TCashDomClient = typeof import("cash-dom").default;
