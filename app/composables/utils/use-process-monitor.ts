@@ -54,8 +54,8 @@ export const useProcessMonitor = () => {
   // map to ps
   watch(
     () => [external.value.pending, external.value.error] as const,
-    ([pending, error]) => {
-      setError(error);
+    ([pending, error_]) => {
+      setError(error_);
 
       if (pending) {
         if (!processing.value) begin();
@@ -66,7 +66,6 @@ export const useProcessMonitor = () => {
 
       if (!processing.value && !error.value) successful();
     },
-    { immediate: true },
   );
 
   return {

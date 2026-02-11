@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDoc } from "~/composables/doc/use-doc";
+import { useAuth } from "~/stores/use-auth.store";
 
 definePageMeta({
   title: "pages.index.title",
@@ -13,30 +13,43 @@ definePageMeta({
   },
 });
 
-const client = useDoc("foo:1");
-const push = () => {
-  client.push({ foo: Math.random(), bar: Math.random(), x: { a: 1 } });
-};
-const drop = () => {
-  client.drop("foo", "x.a");
-};
-
+const auth = useAuth();
 
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--index">
-    <div class="space-x-4 px-2">
-      <button @click="push">cache:add</button>
-      <button @click="drop">cache:drop</button>
+    <div class="space-x-2 ps-2">
+      <button
+        @click="
+          auth.authenticate({
+            email: 'admin@nikolav.rs',
+            password: 'admin@nikolav.rs',
+          })
+        "
+      >
+        auth:login
+      </button>
+      <button
+        @click="
+          auth.register({
+            email: 'admin@nikolav.rs',
+            password: 'admin@nikolav.rs',
+          })
+        "
+      >
+        auth:register
+      </button>
+      <button @click="auth.logout()">auth:logout</button>
     </div>
     <div>
       <small>
-        <pre>processing: [{{ client.ps.processing }}]</pre>
-        <pre>success:    [{{ client.ps.success }}]</pre>
-        <pre>error:      [{{ client.ps.error }}]</pre>
-        <pre>data: [{{ client.cache.data.value }}]</pre>
+        <pre>isAuth:     [{{ auth.isAuth }}]</pre>
+        <pre>processing: [{{ auth.status.processing }}]</pre>
+        <pre>success:    [{{ auth.status.success }}]</pre>
+        <pre>error:      [{{ auth.status.error }}]</pre>
+        <pre>account: [{{ auth.account }}]</pre>
       </small>
     </div>
   </section>
