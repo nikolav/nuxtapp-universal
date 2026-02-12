@@ -1,4 +1,4 @@
-import { BehaviorSubject, EMPTY, Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import type { RequestExtendedOptions } from "graphql-request";
 import isEmpty from "lodash/isEmpty";
@@ -32,29 +32,27 @@ export class CacheByKeyDriverApi extends CacheByKeyBase {
 
   // batch set keys,
   async push(patch: TRecordJson) {
+    if (isEmpty(patch)) return;
     await this.ps.monitor(() =>
-      isEmpty(patch)
-        ? EMPTY
-        : this.gql(
-            this.withHeaders({
-              document: M_docCacheByKeyPatch,
-              variables: { key: this.key, patch },
-            }),
-          ),
+      this.gql(
+        this.withHeaders({
+          document: M_docCacheByKeyPatch,
+          variables: { key: this.key, patch },
+        }),
+      ),
     );
   }
 
   // drop keys
   async drop(...paths: string[]) {
+    if (isEmpty(paths)) return;
     await this.ps.monitor(() =>
-      isEmpty(paths)
-        ? EMPTY
-        : this.gql(
-            this.withHeaders({
-              document: M_docCacheByKeyPathsDrop,
-              variables: { key: this.key, paths },
-            }),
-          ),
+      this.gql(
+        this.withHeaders({
+          document: M_docCacheByKeyPathsDrop,
+          variables: { key: this.key, paths },
+        }),
+      ),
     );
   }
 
