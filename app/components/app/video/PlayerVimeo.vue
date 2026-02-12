@@ -15,7 +15,7 @@ const props = defineProps<{
 <template>
   <div class="plyr__video-embed">
     <iframe
-      :src="`https://player.vimeo.com/video/${props.sources[0]?.src}??byline=0&portrait=0&title=0&loop=0&transparent=0&dnt=1`"
+      :src="`https://player.vimeo.com/video/${props.sources[0]?.src}??byline=0&portrait=0&title=0&loop=0&transparent=0&dnt=1&speed=1&gesture=media&origin=${encodeURIComponent(useRuntimeConfig().public.siteUrl)}`"
       :title="props.title"
       loading="lazy"
       referrerpolicy="strict-origin-when-cross-origin"

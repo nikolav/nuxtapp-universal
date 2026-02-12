@@ -1,17 +1,16 @@
 import { defer } from "rxjs";
-import { filter, map, shareReplay, switchMap, take } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 
 import type { TPlayer } from "~/types";
-import { isPresent } from "~/utils/is-present";
+import { single$ } from "~/utils/to-value-obs";
 
 export const usePlayer = () =>
-  useNuxtApp().$onPlatformBrowser$.pipe(
-    switchMap(() =>
-      defer(() => import("plyr")).pipe(
-        map((val) => <TPlayer>(<any>val).default),
-        filter(isPresent),
-        take(1),
-        shareReplay({ bufferSize: 1, refCount: false }),
+  single$(
+    useNuxtApp().$platformBrowser$.pipe(
+      switchMap(() =>
+        defer(() => import("plyr")).pipe(
+          map((val) => <TPlayer>(<any>val).default),
+        ),
       ),
     ),
   );

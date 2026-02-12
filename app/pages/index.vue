@@ -17,7 +17,10 @@ definePageMeta({
 
 <template>
   <section class="app-container-reset page--index">
-    <AppVideoPlayer provider="youtube" :sources="[{ src: 'DyXl4c2XN-o' }]" />
+    <AppVideoPlayer
+      provider="html5"
+      :sources="[{ src: '/vid.mp4', type: 'video/mp4' }]"
+    />
   </section>
 </template>
 

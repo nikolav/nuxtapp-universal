@@ -74,3 +74,4 @@ export type TUseProcessMonitorReturnType = ReturnType<
 // plyr
 export type TPlayer = typeof import("plyr").default;
 export type TPlayerInstance = InstanceType<TPlayer>;
+export type { Options as TPlayerOptions } from "plyr";

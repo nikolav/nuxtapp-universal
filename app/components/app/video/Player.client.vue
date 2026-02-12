@@ -6,7 +6,7 @@ import PlayerHtml5 from "./PlayerHtml5.vue";
 import PlayerYoutube from "./PlayerYoutube.vue";
 import PlayerVimeo from "./PlayerVimeo.vue";
 
-import type { TOrNoValue, TPlayerInstance } from "~/types";
+import type { TOrNoValue, TPlayerInstance, TPlayerOptions } from "~/types";
 import { useOnceMountedOn } from "~/composables/utils/use-once-mounted-on";
 import { usePlayer } from "~/composables/media/use-player";
 
@@ -26,6 +26,56 @@ const props = withDefaults(
   },
 );
 
+const DEFAULTS_PLYR_OPTIONS: TPlayerOptions = {
+  // ux + perf sanity
+  autoplay: false,
+  autopause: true,
+  clickToPlay: true,
+  resetOnEnd: false,
+
+  // clean minimal ui
+  hideControls: true,
+  tooltips: {
+    controls: false,
+    seek: false,
+  },
+
+  // keyboard scoped, no global shortcuts
+  keyboard: {
+    focused: true,
+    global: false,
+  },
+
+  // fullscreen behavior
+  fullscreen: {
+    enabled: true,
+    fallback: true,
+    iosNative: false,
+  },
+
+  // privacy/security defaults
+  disableContextMenu: true,
+  storage: {
+    enabled: false,
+    key: "plyr",
+  },
+
+  // embed providers
+  youtube: {
+    noCookie: true,
+    rel: 0,
+    modestbranding: 1,
+    iv_load_policy: 3,
+  },
+  vimeo: {
+    byline: false,
+    portrait: false,
+    title: false,
+    speed: true,
+    transparent: false,
+  },
+};
+
 const { $$ } = useNuxtApp();
 const ID = `PLAYER-${$$.uuid()}`;
 
@@ -43,7 +93,7 @@ useOnceMountedOn([], async () => {
   usePlayer()
     .pipe(take(1))
     .subscribe((Plyr) => {
-      exposed.player.value = new Plyr(`#${ID}`);
+      exposed.player.value = new Plyr(`#${ID}`, DEFAULTS_PLYR_OPTIONS);
     });
 });
 
