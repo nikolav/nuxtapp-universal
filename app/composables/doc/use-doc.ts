@@ -12,7 +12,7 @@ export const useDoc = (key: string) => {
   const { CACHE_BY_KEY: CACHE } = useAppConfig().keys;
   const service: CacheByKeyBase = {
     local: (key: string) => CacheByKeyDriverLocal.single(ps, `${CACHE}:${key}`),
-    firebase: (key: string) => new CacheByKeyDriverFirebase(key, CACHE),
+    firebase: (key: string) => new CacheByKeyDriverFirebase(ps, CACHE, key),
     api: (key: string) =>
       new CacheByKeyDriverApi(
         // track request state

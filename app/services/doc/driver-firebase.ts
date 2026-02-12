@@ -15,10 +15,13 @@ import type { DocumentReference, Unsubscribe } from "firebase/firestore";
 
 import { CacheByKeyBase } from "./base";
 import { firestore } from "~/config/firebase";
-import { resolved } from "~/utils/resolved";
 import { ManageSubscriptionsService } from "~/services/manage-subscriptions";
 import { onDebug } from "~/utils/on-debug";
-import type { TOrNoValue, TRecordJson } from "~/types";
+import type {
+  TOrNoValue,
+  TRecordJson,
+  TUseProcessMonitorReturnType,
+} from "~/types";
 
 export class CacheByKeyDriverFirebase extends CacheByKeyBase {
   data$ = new BehaviorSubject(<TRecordJson>{});
@@ -28,54 +31,39 @@ export class CacheByKeyDriverFirebase extends CacheByKeyBase {
   private data_s: TOrNoValue<Unsubscribe>;
 
   constructor(
-    private key: string,
+    private ps: TUseProcessMonitorReturnType,
     private cacheName: string,
+    private key: string,
   ) {
     super();
     this.doc = doc(firestore, this.cacheName, this.key);
   }
 
   // batch set keys,
-  push(patch: TRecordJson) {
-    return resolved(
-      isEmpty(patch)
-        ? EMPTY
-        : new Observable<void>((obs) => {
-            (async () => {
-              await setDoc(this.doc, withTimestamp(patch), {
-                merge: true,
-              });
-              obs.next();
-              obs.complete();
-            })();
-          }),
-      false,
+  async push(patch: TRecordJson) {
+    if (isEmpty(patch)) return;
+    await this.ps.monitor(() =>
+      setDoc(this.doc, withTimestamp(patch), {
+        merge: true,
+      }),
     );
   }
 
   // drop keys
-  drop(...paths: string[]) {
-    return resolved(
-      isEmpty(paths)
-        ? EMPTY
-        : new Observable<void>((obs) => {
-            (async () => {
-              await updateDoc(
-                this.doc,
-                reduce_(
-                  paths,
-                  (res, path) => {
-                    res[path] = deleteField();
-                    return res;
-                  },
-                  withTimestamp(<any>{}),
-                ),
-              );
-              obs.next();
-              obs.complete();
-            })();
-          }),
-      false,
+  async drop(...paths: string[]) {
+    if (isEmpty(paths)) return;
+    await this.ps.monitor(() =>
+      updateDoc(
+        this.doc,
+        reduce_(
+          paths,
+          (res, path) => {
+            res[path] = deleteField();
+            return res;
+          },
+          withTimestamp(<any>{}),
+        ),
+      ),
     );
   }
 
