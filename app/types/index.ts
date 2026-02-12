@@ -8,7 +8,6 @@ import type {
   TJsonLiteral,
 } from "../schemas/json.schema";
 import { schemaCacheKeyDriver } from "../schemas";
-import type { PhotoSwipeOptions as TPhotoSwipeOptions } from "photoswipe";
 
 export type ElementOf<T extends readonly unknown[]> = T[number];
 export type TFunctionVoid = (...args: unknown[]) => void;
@@ -71,9 +70,12 @@ export type TCashDomClient = typeof import("cash-dom").default;
 export type TUseProcessMonitorReturnType = ReturnType<
   typeof import("../composables/utils/use-process-monitor").useProcessMonitor
 >;
-export type { TPhotoSwipeOptions };
+
+// photoswipe
+import type { PhotoSwipeOptions as TPhotoSwipeOptions } from "photoswipe";
+import type { default as TPhotoSwipeLightbox } from "photoswipe/lightbox";
+export type { TPhotoSwipeOptions, TPhotoSwipeLightbox };
 export type { DataSource as TPhotoSwipeDataSource } from "photoswipe";
-export type { default as TPhotoSwipeLightbox } from "photoswipe/lightbox";
 export type TPhotoSwipeMediaItem = {
   src?: string;
   srcset?: string;
@@ -93,4 +95,5 @@ export type TPhotoSwipeMedia = {
   slides: TPhotoSwipeMediaItem[];
   options?: TPhotoSwipeOptions;
   index?: number;
+  setup?: (instance: TPhotoSwipeLightbox) => TMaybeAsync<void>;
 };

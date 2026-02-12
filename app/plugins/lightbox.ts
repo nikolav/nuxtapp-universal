@@ -19,7 +19,7 @@ import { isPresent } from "~/utils/is-present";
 import { onDebug } from "~/utils/on-debug";
 import { resolved } from "~/utils/resolved";
 
-export const DEFAULTS_PHOTO_SWIPE_OPTIONS = <TPhotoSwipeOptions>{
+const DEFAULTS_PHOTO_SWIPE_OPTIONS = <TPhotoSwipeOptions>{
   initialZoomLevel: "fit",
   secondaryZoomLevel: 1,
   maxZoomLevel: 5,
@@ -47,6 +47,12 @@ export const DEFAULTS_PHOTO_SWIPE_OPTIONS = <TPhotoSwipeOptions>{
   hideAnimationDuration: 120,
   zoomAnimationDuration: 240,
   easing: "ease-out",
+};
+
+const DEFAULTS_MEDIA = <Partial<TPhotoSwipeMedia>>{
+  options: {},
+  index: 0,
+  setup: () => {},
 };
 
 export default defineNuxtPlugin({
@@ -93,21 +99,20 @@ export default defineNuxtPlugin({
 
               // create new instance with merged options
               const instance = new PhotoSwipeLightbox({
-                ...$$.copy(
-                  {},
-                  DEFAULTS_PHOTO_SWIPE_OPTIONS,
-                  media.options ?? {},
-                ),
+                ...$$.copy({}, DEFAULTS_PHOTO_SWIPE_OPTIONS, media.options),
                 pswpModule: PhotoSwipe,
                 dataSource: media.slides,
               });
+
+              // pre .init setup, events, config, etc.
+              await resolved(media.setup!(instance), false);
 
               // init before opening
               await resolved(instance.init(), false);
               current = instance;
 
               // open (await so caller gets 'opened' instance)
-              await resolved(instance.loadAndOpen(media.index ?? 0), false);
+              await resolved(instance.loadAndOpen(media.index!), false);
 
               return <TPhotoSwipeLightbox>instance;
             }),
@@ -122,7 +127,7 @@ export default defineNuxtPlugin({
     );
 
     const lightbox = (media: TPhotoSwipeMedia) => {
-      media$.next(media);
+      media$.next($$.copy({}, DEFAULTS_MEDIA, media));
 
       // $lightbox(media)((psw) => ...)
       return (handle?: (psw: TPhotoSwipeLightbox) => void) => {
