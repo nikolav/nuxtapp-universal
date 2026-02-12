@@ -18,9 +18,7 @@ const pswOpen1 = () => {
       { src: "/01.jpg", width: 400, height: 400 },
       { src: "/02.jpg", width: 769, height: 464 },
     ],
-  })((instance) => {
-    console.log({ instance });
-  });
+  })();
 };
 
 const pswOpen2 = () => {
@@ -29,9 +27,7 @@ const pswOpen2 = () => {
       { src: "/03.jpg", width: 4128, height: 3096 },
       { src: "/04.jpg", width: 1884, height: 4080 },
     ],
-  })((instance) => {
-    console.log({ instance });
-  });
+  })();
 };
 
 // @@eos
