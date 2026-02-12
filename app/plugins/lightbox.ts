@@ -21,8 +21,8 @@ import { resolved } from "~/utils/resolved";
 
 export const DEFAULTS_PHOTO_SWIPE_OPTIONS = <TPhotoSwipeOptions>{
   initialZoomLevel: "fit",
-  secondaryZoomLevel: "fill",
-  maxZoomLevel: 2,
+  secondaryZoomLevel: 1,
+  maxZoomLevel: 5,
   bgOpacity: 0.86,
   spacing: 0.08,
   allowPanToNext: true,
@@ -46,7 +46,7 @@ export const DEFAULTS_PHOTO_SWIPE_OPTIONS = <TPhotoSwipeOptions>{
   showAnimationDuration: 240,
   hideAnimationDuration: 120,
   zoomAnimationDuration: 240,
-  easing: "ease-in-out",
+  easing: "ease-out",
 };
 
 export default defineNuxtPlugin({
