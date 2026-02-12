@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useOnceMountedOn } from "~/composables/utils/use-once-mounted-on";
-
 definePageMeta({
   title: "pages.index.title",
   description: "pages.index.description",
@@ -19,10 +17,7 @@ definePageMeta({
 
 <template>
   <section class="app-container-reset page--index">
-    <AppVideoPlayer
-      provider="vimeo"
-      :sources="[{ src: '76979871' }]"
-    />
+    <AppVideoPlayer provider="youtube" :sources="[{ src: 'DyXl4c2XN-o' }]" />
   </section>
 </template>
 
