@@ -11,6 +11,8 @@ import noop from "lodash/noop";
 import reduce from "lodash/reduce";
 import some from "lodash/some";
 import every from "lodash/every";
+import once from "lodash/once";
+import isFunction from "lodash/isFunction";
 
 import parseBoolean from "@eturino/ts-parse-boolean";
 
@@ -31,6 +33,8 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          once,
+          isFunction,
           some,
           every,
           reduce,

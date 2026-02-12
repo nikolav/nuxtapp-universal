@@ -10,6 +10,7 @@ definePageMeta({
     },
   },
 });
+
 // @@eos
 </script>
 

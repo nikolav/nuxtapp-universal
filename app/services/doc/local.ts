@@ -1,11 +1,14 @@
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, filter, tap } from "rxjs";
 import reduce from "lodash/reduce";
 import unset from "lodash/unset";
 
 import { CacheByKeyBase } from "./base";
 import { deepmerge } from "~/utils/deepmerge";
 import { cloned } from "~/utils/cloned";
-import type { TRecordJson } from "~/types";
+import { to$ } from "~/utils/to-obs";
+import { isPresent } from "~/utils/is-present";
+import { resolved } from "~/utils/resolved";
+import type { TRecordJson, TUseProcessMonitorReturnType } from "~/types";
 
 const merge = deepmerge();
 
@@ -14,32 +17,48 @@ export class CacheByKeyDriverLocal extends CacheByKeyBase {
 
   data$ = new BehaviorSubject(<TRecordJson>{});
 
-  private constructor(private key: string) {
+  private constructor(
+    private ps: TUseProcessMonitorReturnType,
+    private key: string,
+  ) {
     super();
     CacheByKeyDriverLocal.caches[this.key] = this;
   }
 
-  push(patch: TRecordJson) {
-    this.data$.next(merge(this.data$.getValue(), patch));
+  async push(patch: TRecordJson) {
+    this.data$.next(
+      await this.ps.monitor(() => merge(this.data$.getValue(), patch)),
+    );
   }
 
-  drop(...paths: string[]) {
-    this.data$.next(
-      reduce(
-        paths,
-        (res, path) => {
-          unset(res, path);
-          return res;
-        },
-        cloned(this.data$.getValue()),
+  async drop(...paths: string[]) {
+    await resolved(
+      to$(
+        this.ps.monitor(() =>
+          reduce(
+            paths,
+            (res, path) => {
+              unset(res, path);
+              return res;
+            },
+            cloned(this.data$.getValue()),
+          ),
+        ),
+      ).pipe(
+        filter(isPresent),
+        tap((d) => {
+          this.data$.next(d);
+        }),
       ),
     );
   }
 
   override pull() {}
 
-  static single(key: string) {
-    return CacheByKeyDriverLocal.caches[key] ?? new CacheByKeyDriverLocal(key);
+  static single(ps: TUseProcessMonitorReturnType, key: string) {
+    return (
+      CacheByKeyDriverLocal.caches[key] ?? new CacheByKeyDriverLocal(ps, key)
+    );
   }
 
   override destroy() {

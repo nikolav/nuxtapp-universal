@@ -1,19 +1,22 @@
 import { CacheByKeyDriverLocal } from "~/services/doc/local";
 import { CacheByKeyDriverFirebase } from "~/services/doc/driver-firebase";
 import { CacheByKeyDriverApi } from "~/services/doc/driver-api";
-import type { CacheByKeyBase } from "~/services/doc/base";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
+import { useComputed$ } from "~/composables/utils/use-computed-obs";
 import { useAuth } from "~/stores/use-auth.store";
+import type { CacheByKeyBase } from "~/services/doc/base";
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
 
 export const useDoc = (key: string) => {
+  const ps = useProcessMonitor();
   const { CACHE_BY_KEY: CACHE } = useAppConfig().keys;
   const service: CacheByKeyBase = {
-    // cached at client, testing, local, etc.
-    local: (key: string) => CacheByKeyDriverLocal.single(`${CACHE}:${key}`),
+    local: (key: string) => CacheByKeyDriverLocal.single(ps, `${CACHE}:${key}`),
     firebase: (key: string) => new CacheByKeyDriverFirebase(key, CACHE),
     api: (key: string) =>
       new CacheByKeyDriverApi(
+        // track request state
+        ps,
         // composed key
         `${CACHE}:${key}`,
         // api client --gql
@@ -23,37 +26,19 @@ export const useDoc = (key: string) => {
       ),
   }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](key);
 
-  const ps = useProcessMonitor();
-  const cache = useAsyncData(
-    key,
-    () => ps.monitor(() => service.data$.getValue()),
-    {
-      immediate: true,
-      lazy: true,
-      default: () => {
-        return <TRecordJson>{};
-      },
-    },
-  );
-  // map cache to ps
-  ps.sync(cache.pending, cache.error);
-
-  const data_s = service.data$.subscribe(() => {
-    cache.refresh();
-  });
+  const data = useComputed$<TRecordJson>(service.data$, {});
 
   const destroy = () => {
-    data_s.unsubscribe();
     service.destroy();
   };
   onScopeDispose(destroy);
 
   return {
     ps,
-    cache,
+    data,
     start: service.init.bind(service),
-    push: service.push.bind(service),
-    drop: service.drop.bind(service),
+    commit: service.push.bind(service),
+    rm: service.drop.bind(service),
     pull: service.pull.bind(service),
     destroy,
   };
