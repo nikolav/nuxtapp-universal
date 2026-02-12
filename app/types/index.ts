@@ -8,6 +8,7 @@ import type {
   TJsonLiteral,
 } from "../schemas/json.schema";
 import { schemaCacheKeyDriver } from "../schemas";
+import type { PhotoSwipeOptions as TPhotoSwipeOptions } from "photoswipe";
 
 export type ElementOf<T extends readonly unknown[]> = T[number];
 export type TFunctionVoid = (...args: unknown[]) => void;
@@ -62,11 +63,34 @@ export type TManageSubscriptionsCache = Record<
   string,
   TOrNoValue<Subscription>
 >;
+export type TFnMaybeAsync<T = unknown> = () => TMaybeAsync<T>;
 //
 export { AuthService as TAuthService } from "~/services/auth/base";
 export type { TRecordJson, TJson, TJsonLiteral };
-
 export type TCashDomClient = typeof import("cash-dom").default;
 export type TUseProcessMonitorReturnType = ReturnType<
   typeof import("../composables/utils/use-process-monitor").useProcessMonitor
 >;
+export type { TPhotoSwipeOptions };
+export type { DataSource as TPhotoSwipeDataSource } from "photoswipe";
+export type { default as TPhotoSwipeLightbox } from "photoswipe/lightbox";
+export type TPhotoSwipeMediaItem = {
+  src?: string;
+  srcset?: string;
+  width?: number;
+  height?: number;
+  // placeholder image URL that's displayed before large image is loaded
+  msrc?: string;
+  alt?: string;
+  // whether thumbnail is cropped client-side or not
+  thumbCropped?: boolean;
+  // html content of a slide
+  html?: string;
+  // slide type
+  type?: string;
+};
+export type TPhotoSwipeMedia = {
+  slides: TPhotoSwipeMediaItem[];
+  options?: TPhotoSwipeOptions;
+  index?: number;
+};

@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { useDoc } from "~/composables/doc/use-doc";
-import { useOnceMountedOn } from "~/composables/utils/use-once-mounted-on";
-import { useAuth } from "~/stores/use-auth.store";
-
 definePageMeta({
   title: "pages.index.title",
   description: "pages.index.description",
@@ -15,67 +11,36 @@ definePageMeta({
   },
 });
 
-const auth = useAuth();
-const cached = useDoc("foo:1");
-
-const cacheCommit = () => {
-  cached.commit({ x1: Math.random(), x2: { foo: 1, bar: 2 } });
+const { $lightbox } = useNuxtApp();
+const pswOpen1 = () => {
+  $lightbox({
+    slides: [
+      { src: "/01.jpg", width: 400, height: 400 },
+      { src: "/02.jpg", width: 769, height: 464 },
+    ],
+  })((instance) => {
+    console.log({ instance });
+  });
 };
-const cacheDrop = () => {
-  cached.rm("x", "y", "z", "x2.bar");
-};
 
-useOnceMountedOn([() => auth.isAuth], () => {
-  cached.start();
-});
+const pswOpen2 = () => {
+  $lightbox({
+    slides: [
+      { src: "/03.jpg", width: 4128, height: 3096 },
+      { src: "/04.jpg", width: 1884, height: 4080 },
+    ],
+  })((instance) => {
+    console.log({ instance });
+  });
+};
 
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--index">
-    <div class="space-x-2 ps-2">
-      <button @click="cacheCommit">cache:commit</button>
-      <button @click="cacheDrop">cache:drop</button>
-      <button @click="cached.pull()">cache:pull</button>
-    </div>
-    <div>
-      <small>
-        <pre>cached: [{{ cached.data.value }}]</pre>
-      </small>
-    </div>
-    <div class="space-x-2 ps-2">
-      <button
-        @click="
-          auth.authenticate({
-            email: 'admin@nikolav.rs',
-            password: 'admin@nikolav.rs',
-          })
-        "
-      >
-        auth:login
-      </button>
-      <button
-        @click="
-          auth.register({
-            email: 'admin@nikolav.rs',
-            password: 'admin@nikolav.rs',
-          })
-        "
-      >
-        auth:register
-      </button>
-      <button @click="auth.logout()">auth:logout</button>
-    </div>
-    <div>
-      <small>
-        <pre>isAuth:     [{{ auth.isAuth }}]</pre>
-        <pre>processing: [{{ auth.status.processing }}]</pre>
-        <pre>success:    [{{ auth.status.success }}]</pre>
-        <pre>error:      [{{ auth.status.error }}]</pre>
-        <pre>account: [{{ auth.account }}]</pre>
-      </small>
-    </div>
+    <button @click="pswOpen1">lightbox:open</button>
+    <button @click="pswOpen2">lightbox:open</button>
   </section>
 </template>
 

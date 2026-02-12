@@ -47,3 +47,8 @@ export const schemaNonSpecialChars = z
   .refine((s) => matches(s, rRegexSafeCharacters));
 
 export const schemaCacheKeyDriver = z.enum(["local", "api"] as const);
+
+export const schemaStatusResultDump = z.object({
+  error: z.unknown(),
+  result: z.unknown(),
+});
