@@ -35,8 +35,8 @@ export const useDoc = (key: string) => {
     ps,
     data,
     start: service.init.bind(service),
-    push: service.push.bind(service),
-    drop: service.drop.bind(service),
+    commit: service.push.bind(service),
+    rm: service.drop.bind(service),
     pull: service.pull.bind(service),
     destroy,
   };

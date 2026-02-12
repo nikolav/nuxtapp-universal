@@ -1,5 +1,5 @@
 import { BehaviorSubject, EMPTY, Observable } from "rxjs";
-import { filter, map, tap } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
 import type { RequestExtendedOptions } from "graphql-request";
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
@@ -10,9 +10,6 @@ import {
   Q_docCacheByKey,
 } from "~/graphql";
 import { CacheByKeyBase } from "~/services/doc/base";
-import { resolved } from "~/utils/resolved";
-import { to$ } from "~/utils/to-obs";
-import { isPresent } from "~/utils/is-present";
 import type {
   TOrNoValue,
   TRecordJson,
@@ -74,9 +71,10 @@ export class CacheByKeyDriverApi extends CacheByKeyBase {
             variables: { key: this.key },
           }),
         ).pipe(
-          map((res) => <TRecordJson>get(res, "data.docCacheByKey.result", {})),
+          filter((res) => true === get(res, "docCacheByKey.ok")),
+          map((res) => <TRecordJson>get(res, "docCacheByKey.result")),
         ),
-      )) ?? {},
+      ))!,
     );
   }
 

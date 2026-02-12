@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useDoc } from "~/composables/doc/use-doc";
+import { useOnceMountedOn } from "~/composables/utils/use-once-mounted-on";
 import { useAuth } from "~/stores/use-auth.store";
 
 definePageMeta({
@@ -14,12 +16,34 @@ definePageMeta({
 });
 
 const auth = useAuth();
+const cached = useDoc("foo:1");
+
+const cacheCommit = () => {
+  cached.commit({ x1: Math.random(), x2: { foo: 1, bar: 2 } });
+};
+const cacheDrop = () => {
+  cached.rm("x", "y", "z", "x2.bar");
+};
+
+useOnceMountedOn([() => auth.isAuth], () => {
+  cached.start();
+});
 
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--index">
+    <div class="space-x-2 ps-2">
+      <button @click="cacheCommit">cache:commit</button>
+      <button @click="cacheDrop">cache:drop</button>
+      <button @click="cached.pull()">cache:pull</button>
+    </div>
+    <div>
+      <small>
+        <pre>cached: [{{ cached.data.value }}]</pre>
+      </small>
+    </div>
     <div class="space-x-2 ps-2">
       <button
         @click="
