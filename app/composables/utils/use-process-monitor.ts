@@ -35,10 +35,10 @@ export const useProcessMonitor = () => {
   };
 
   // handle status flags for fn that resolves a value, or throws
-  const monitor = async <T>(fn: () => TMaybeAsync<T>, truthy = true) => {
+  const monitor = async <T = unknown>(fn: () => TMaybeAsync<T>, present = true) => {
     begin();
     try {
-      return await $$.resolved<T>(fn(), truthy);
+      return await $$.resolved<T>(fn(), present);
     } catch (e) {
       setError(e);
     } finally {

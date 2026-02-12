@@ -4,15 +4,19 @@ import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
 import type { CacheByKeyBase } from "~/services/doc/base";
 import { CacheByKeyDriverApi } from "~/services/doc/driver-api";
 import { useAuth } from "~/stores/use-auth.store";
+import { useComputed$ } from "~/composables/utils/use-computed-obs";
 
 export const useDoc = (key: string) => {
+  const ps = useProcessMonitor();
+  const { CACHE_BY_KEY: CACHE } = useAppConfig().keys;
   const service: CacheByKeyBase = {
-    // cached at client, testing, local, etc.
-    local: (key: string) => CacheByKeyDriverLocal.single(key),
+    local: (key: string) => CacheByKeyDriverLocal.single(ps, `${CACHE}:${key}`),
     api: (key: string) =>
       new CacheByKeyDriverApi(
+        // track request state
+        ps,
         // composed key
-        `${useAppConfig().keys.CACHE_BY_KEY}:${key}`,
+        `${CACHE}:${key}`,
         // api client --gql
         useNuxtApp().$gql,
         // access token getter
@@ -20,34 +24,16 @@ export const useDoc = (key: string) => {
       ),
   }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](key);
 
-  const ps = useProcessMonitor();
-  const cache = useAsyncData(
-    key,
-    () => ps.monitor(() => service.data$.getValue()),
-    {
-      immediate: true,
-      lazy: true,
-      default: () => {
-        return <TRecordJson>{};
-      },
-    },
-  );
-  // map cache to ps
-  ps.sync(cache.pending, cache.error);
-
-  const data_s = service.data$.subscribe(() => {
-    cache.refresh();
-  });
+  const data = useComputed$<TRecordJson>(service.data$, {});
 
   const destroy = () => {
-    data_s.unsubscribe();
     service.destroy();
   };
   onScopeDispose(destroy);
 
   return {
     ps,
-    cache,
+    data,
     start: service.init.bind(service),
     push: service.push.bind(service),
     drop: service.drop.bind(service),

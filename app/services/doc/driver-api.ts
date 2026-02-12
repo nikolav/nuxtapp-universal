@@ -1,22 +1,29 @@
 import { BehaviorSubject, EMPTY, Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { filter, map, tap } from "rxjs/operators";
 import type { RequestExtendedOptions } from "graphql-request";
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 
-import { CacheByKeyBase } from "~/services/doc/base";
-import { resolved } from "~/utils/resolved";
 import {
   M_docCacheByKeyPatch,
   M_docCacheByKeyPathsDrop,
   Q_docCacheByKey,
 } from "~/graphql";
-import type { TOrNoValue, TRecordJson } from "~/types";
+import { CacheByKeyBase } from "~/services/doc/base";
+import { resolved } from "~/utils/resolved";
+import { to$ } from "~/utils/to-obs";
+import { isPresent } from "~/utils/is-present";
+import type {
+  TOrNoValue,
+  TRecordJson,
+  TUseProcessMonitorReturnType,
+} from "~/types";
 
 export class CacheByKeyDriverApi extends CacheByKeyBase {
   data$ = new BehaviorSubject(<TRecordJson>{});
 
   constructor(
+    private ps: TUseProcessMonitorReturnType,
     private key: string,
     private gql: (
       options: Partial<RequestExtendedOptions>,
@@ -27,8 +34,8 @@ export class CacheByKeyDriverApi extends CacheByKeyBase {
   }
 
   // batch set keys,
-  push(patch: TRecordJson) {
-    resolved(
+  async push(patch: TRecordJson) {
+    await this.ps.monitor(() =>
       isEmpty(patch)
         ? EMPTY
         : this.gql(
@@ -41,8 +48,8 @@ export class CacheByKeyDriverApi extends CacheByKeyBase {
   }
 
   // drop keys
-  drop(...paths: string[]) {
-    resolved(
+  async drop(...paths: string[]) {
+    await this.ps.monitor(() =>
       isEmpty(paths)
         ? EMPTY
         : this.gql(
@@ -60,7 +67,7 @@ export class CacheByKeyDriverApi extends CacheByKeyBase {
 
   override async pull() {
     this.data$.next(
-      await resolved(
+      (await this.ps.monitor(() =>
         this.gql(
           this.withHeaders({
             document: Q_docCacheByKey,
@@ -69,7 +76,7 @@ export class CacheByKeyDriverApi extends CacheByKeyBase {
         ).pipe(
           map((res) => <TRecordJson>get(res, "data.docCacheByKey.result", {})),
         ),
-      ),
+      )) ?? {},
     );
   }
 

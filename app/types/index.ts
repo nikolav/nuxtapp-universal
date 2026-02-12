@@ -63,6 +63,10 @@ export type TManageSubscriptionsCache = Record<
   TOrNoValue<Subscription>
 >;
 //
-export type { TRecordJson, TJson, TJsonLiteral };
-export type TCashDomClient = typeof import("cash-dom").default;
 export { AuthService as TAuthService } from "~/services/auth/base";
+export type { TRecordJson, TJson, TJsonLiteral };
+
+export type TCashDomClient = typeof import("cash-dom").default;
+export type TUseProcessMonitorReturnType = ReturnType<
+  typeof import("../composables/utils/use-process-monitor").useProcessMonitor
+>;
