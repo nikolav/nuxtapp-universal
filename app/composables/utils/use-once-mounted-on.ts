@@ -5,8 +5,8 @@ import type { TMaybeAsync } from "~/types";
 
 type TWatchDep<T = unknown> = T | (() => T);
 
-export const useOnceMountedOn = (
-  deps: TWatchDep[],
+export const useOnceMountedOn = <T = unknown>(
+  deps: TWatchDep<T>[],
   callback: () => TMaybeAsync<void>,
   flush?: "pre" | "post" | "sync",
 ) => {
