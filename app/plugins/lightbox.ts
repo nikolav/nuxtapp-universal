@@ -60,10 +60,10 @@ export default defineNuxtPlugin({
     // load deps once
     const deps$ = $window$.pipe(
       combineLatestWith(
-        defer(() => from(import("photoswipe"))),
-        defer(() => from(import("photoswipe/lightbox"))),
+        defer(() => import("photoswipe")),
+        defer(() => import("photoswipe/lightbox")),
       ),
-      filter((deps) => deps.every(isPresent)),
+      filter(([w, mp, mpsw]) => [w, mp.default, mpsw.default].every(isPresent)),
       map(([_w, { default: PhotoSwipe }, { default: PhotoSwipeLightbox }]) => ({
         PhotoSwipe,
         PhotoSwipeLightbox,
