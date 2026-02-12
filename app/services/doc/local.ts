@@ -1,13 +1,10 @@
-import { BehaviorSubject, filter, tap } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import reduce from "lodash/reduce";
 import unset from "lodash/unset";
 
 import { CacheByKeyBase } from "./base";
 import { deepmerge } from "~/utils/deepmerge";
 import { cloned } from "~/utils/cloned";
-import { to$ } from "~/utils/to-obs";
-import { isPresent } from "~/utils/is-present";
-import { resolved } from "~/utils/resolved";
 import type { TRecordJson, TUseProcessMonitorReturnType } from "~/types";
 
 const merge = deepmerge();
@@ -32,24 +29,17 @@ export class CacheByKeyDriverLocal extends CacheByKeyBase {
   }
 
   async drop(...paths: string[]) {
-    await resolved(
-      to$(
-        this.ps.monitor(() =>
-          reduce(
-            paths,
-            (res, path) => {
-              unset(res, path);
-              return res;
-            },
-            cloned(this.data$.getValue()),
-          ),
+    this.data$.next(
+      (await this.ps.monitor(() =>
+        reduce(
+          paths,
+          (res, path) => {
+            unset(res, path);
+            return res;
+          },
+          cloned(this.data$.getValue()),
         ),
-      ).pipe(
-        filter(isPresent),
-        tap((d) => {
-          this.data$.next(d);
-        }),
-      ),
+      ))!,
     );
   }
 
