@@ -70,3 +70,7 @@ export type TCashDomClient = typeof import("cash-dom").default;
 export type TUseProcessMonitorReturnType = ReturnType<
   typeof import("../composables/utils/use-process-monitor").useProcessMonitor
 >;
+
+// plyr
+export type TPlayer = typeof import("plyr").default;
+export type TPlayerInstance = InstanceType<TPlayer>;

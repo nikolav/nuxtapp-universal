@@ -11,4 +11,6 @@
 @use "./tailwind";
 
 @use "animate.css";
-// @use "@fancyapps/ui/dist/fancybox/fancybox.css";
+
+@use "./plyr_custom";
+@use "plyr/dist/plyr.css";
