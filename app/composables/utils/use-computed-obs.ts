@@ -1,8 +1,8 @@
 import { onScopeDispose } from "vue";
-import type { Subscription } from "rxjs";
 
+import type { TMaybeAsync } from "~/types";
 import { to$ } from "~/utils/to-obs";
-import type { TOrNoValue, TMaybeAsync } from "~/types";
+import { ManageSubscriptionsService } from "~/services/manage-subscriptions";
 
 export const useComputed$ = <T = unknown>(
   source: TMaybeAsync<T>,
@@ -10,16 +10,18 @@ export const useComputed$ = <T = unknown>(
 ) => {
   const current = ref(initial);
 
-  let sub: TOrNoValue<Subscription>;
+  const subs = new ManageSubscriptionsService();
 
   if (import.meta.client) {
-    sub = to$(source).subscribe((val) => {
-      current.value = val;
+    subs.push({
+      current: to$(source).subscribe((val) => {
+        current.value = val;
+      }),
     });
   }
 
   const destroy = () => {
-    sub?.unsubscribe();
+    subs.destroy();
   };
   onScopeDispose(destroy);
 
