@@ -42,7 +42,7 @@ export class CollectionsDriverMemory extends CollectionsBase {
           patch.id ??= nanoid();
           if (hasOwn(tbl, patch.id)) {
             // node existis, patch
-            merge(find(patched, (node) => patch.id === node.id)!, patch);
+            merge(find(patched, { id: patch.id })!, patch);
           } else {
             // node not found, add
             patched.push(patch);
