@@ -107,6 +107,7 @@ export default defineNuxtConfig({
     "nuxt-security",
     "@nuxtjs/fontaine",
     "@nuxtjs/i18n",
+    "@nuxt/fonts",
 
     // Custom module: build-time SQLite handling
     [
@@ -516,5 +517,35 @@ export default defineNuxtConfig({
         file: "en.json",
       },
     ],
+  },
+
+  // #https://fonts.nuxt.com/get-started/configuration
+  fonts: {
+    provider: "google",
+    // .name
+    // .global   # inject @font-face regardless of usage
+    // .provider # none, google, bunny, fontshare, fontsource, adobe, local
+    // .src      # if defined, no other providers will be used given family
+    families: [
+      { name: "Inter" },
+      { name: "Open Sans" },
+      // # do not resolve this font with any provider from `@nuxt/fonts`
+      // { name: 'Custom Font', provider: 'none' },
+      // # only resolve this font with the `google` provider
+      // { name: 'My Font Family', provider: 'google' },
+      // # specify specific font data - this will bypass any providers
+      // { name: 'Other Font', src: 'https://example.com/font.woff2', weight: 'bold' },
+    ],
+    defaults: {
+      weights: [400, 500, 600, 700],
+      subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
+      styles: ["normal", "italic"],
+      preload: true,
+    },
+    processCSSVariables: "font-prefixed-only",
+    priority: ["local", "google"],
+    assets: { prefix: "/_fonts/" },
+    // google provider settings
+    google: {},
   },
 });
