@@ -65,10 +65,6 @@ export class CollectionsDriverMemory extends CollectionsBase {
   // load upstream
   async pull() {}
 
-  override async destroy() {
-    delete CollectionsDriverMemory.cached[this.collectionName];
-  }
-
   static single(collectionName: string) {
     return (
       CollectionsDriverMemory.cached[collectionName] ??
