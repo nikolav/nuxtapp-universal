@@ -58,7 +58,7 @@ export class CollectionsDriverMemory extends CollectionsBase {
     this.data$.next(
       this.data$
         .getValue()
-        .filter((node) => ids.some((id_) => id_ === node.id)),
+        .filter((node) => ids.every((id_) => id_ !== node.id)),
     );
   }
 

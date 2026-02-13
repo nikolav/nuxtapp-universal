@@ -1,15 +1,34 @@
 <script setup lang="ts">
+import { useDocs } from "~/composables/docs/use-docs";
+
 definePageMeta({
   layout: "default",
-  context: {},
 });
 
+const ls = useDocs("foo:1");
+const commit = () => {
+  ls.commit([{ id: "ID1", x: Math.random() }, { x2: Math.random() }]);
+};
+const rm = () => {
+  ls.rm("ID1");
+};
+
+// 76979871
+// DyXl4c2XN-o
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--demo">
-    <h1>page:demo</h1>
+    <div class="space-x-2 ms-2">
+      <button @click="commit">ls:push</button>
+      <button @click="rm">ls:rm</button>
+    </div>
+    <div>
+      <small>
+        <pre>data: [{{ ls.data.value }}]</pre>
+      </small>
+    </div>
   </section>
 </template>
 
