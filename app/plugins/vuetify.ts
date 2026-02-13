@@ -1,10 +1,12 @@
 import { createVuetify } from "vuetify";
 import { md3 } from "vuetify/blueprints";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
-import DayJsAdapter from "@date-io/dayjs";
+import { srLatn, en, srCyrl } from "vuetify/locale";
 
+import DayJsAdapter from "@date-io/dayjs";
 import enDayjs from "dayjs/locale/en";
 import srDayjs from "dayjs/locale/sr";
+import srCyrlDayjs from "dayjs/locale/sr-cyrl";
 
 // use aliases
 import { VBtn } from "vuetify/components/VBtn";
@@ -12,8 +14,6 @@ import { VBtn } from "vuetify/components/VBtn";
 import { light, dark } from "~/assets/themes";
 import { displayDefaults as display } from "~/assets/breakpoints";
 import { DatetimeService } from "~/plugins/datetime";
-
-type TI18n = (key: string, ...args: any[]) => string;
 
 export default defineNuxtPlugin((nuxtApp) => {
   const { defaultLocale } = useRuntimeConfig().public;
@@ -49,8 +49,8 @@ export default defineNuxtPlugin((nuxtApp) => {
           // "accent2",
           // "complement",
         ],
-        lighten: 2,
-        darken: 2,
+        lighten: 1,
+        darken: 1,
       },
       layers: true,
       // cspNonce: "foo",
@@ -114,12 +114,14 @@ export default defineNuxtPlugin((nuxtApp) => {
     locale: {
       locale: i18n.locale.value ?? defaultLocale,
       fallback: defaultLocale,
+      messages: { sr: srLatn, "sr-cyrl": srCyrl, en },
     },
 
     date: {
       adapter: DayJsAdapter,
       locale: {
         sr: srDayjs,
+        "sr-cyrl": srCyrlDayjs,
         en: enDayjs,
       },
       formats: DatetimeService.FORMAT,
@@ -128,18 +130,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.vueApp.use(vuetify);
 
-  // patch translator to use '$vuetify' ui messages
-  (<any>vuetify.locale).t = (key: string, ...args: any[]) =>
-    (<TI18n>i18n.t)(`$vuetify.${key}`, ...args);
-
-  // sync on both SSR/client (runs on plugin init; reactive on client)
+  // sync vuetify locale with i18n
   watch(
     () => i18n.locale.value,
     (loc) => {
       vuetify.locale.current.value = loc ?? defaultLocale;
-      // // sync vuetify date adapter: locale
-      // vuetify.date?.locale &&
-      //   (vuetify.date.locale.value = loc ?? defaultLocale);
     },
     { immediate: true },
   );

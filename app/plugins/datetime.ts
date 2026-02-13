@@ -1,9 +1,5 @@
 import dayjs from "dayjs";
 
-// import "dayjs/locale/sr";
-// import "dayjs/locale/sr-cyrl";
-// dayjs.locale("sr");
-
 // Core, high-value plugins
 import plugin_advancedFormat from "dayjs/plugin/advancedFormat";
 import plugin_customParseFormat from "dayjs/plugin/customParseFormat";
@@ -77,10 +73,22 @@ export class DatetimeService {
   }
 }
 
-export default defineNuxtPlugin((_nuxtapp) => {
-  return {
-    provide: {
-      d: new DatetimeService(),
-    },
-  };
+export default defineNuxtPlugin({
+  name: "datetime",
+  setup: (nuxtApp) => {
+    // sync dayjs locale with i18n
+    watch(
+      () => nuxtApp.vueApp.$nuxt.$i18n.locale.value,
+      (loc) => {
+        dayjs.locale(loc);
+      },
+      { immediate: true },
+    );
+
+    return {
+      provide: {
+        dt: new DatetimeService(),
+      },
+    };
+  },
 });

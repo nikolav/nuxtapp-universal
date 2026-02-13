@@ -1,7 +1,3 @@
-import sr from "./messages/sr";
-import sr_cyrl from "./messages/sr-cyrl";
-import en from "./messages/en";
-
 import { pluralizationRuleSlavic } from "./plural-rules";
 
 export default defineI18nConfig(() => ({
@@ -29,7 +25,6 @@ export default defineI18nConfig(() => ({
     "sr-cyrl": pluralizationRuleSlavic,
   },
   formatFallbackMessages: true,
-  messages: { sr, "sr-cyrl": sr_cyrl, en },
   datetimeFormats: {
     sr: {
       short: {
