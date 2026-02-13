@@ -21,7 +21,7 @@ export class CollectionsDriverMemory extends CollectionsBase {
   }
 
   // batch commit keys records
-  commit(patches: TRecordJson[]) {
+  commit(...patches: TRecordJson[]) {
     const ls = cloned(this.data$.getValue());
 
     // stored keys for lookup

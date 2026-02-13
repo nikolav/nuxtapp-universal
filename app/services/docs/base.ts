@@ -6,7 +6,7 @@ export abstract class CollectionsBase<TNode extends TRecordJson = TRecordJson> {
   abstract data$: BehaviorSubject<TNode[]>;
 
   // batch commit keys records
-  abstract commit(patches: TRecordJson[]): TMaybeAsync<void>;
+  abstract commit(...patches: TRecordJson[]): TMaybeAsync<void>;
 
   // drop records by key
   abstract rm(...keys: string[]): TMaybeAsync<void>;

@@ -7,7 +7,7 @@ definePageMeta({
 
 const ls = useDocs("foo:1");
 const commit = () => {
-  ls.commit([{ id: "ID1", x: Math.random() }, { x2: Math.random() }]);
+  ls.commit({ id: "ID1", x: Math.random() }, { x2: Math.random() });
 };
 const rm = () => {
   ls.rm("ID1");
