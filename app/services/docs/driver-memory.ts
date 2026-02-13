@@ -1,0 +1,62 @@
+import { BehaviorSubject } from "rxjs";
+import transform from "lodash/transform";
+import find from "lodash/find";
+import { nanoid } from "nanoid";
+
+import type { TRecordJson } from "~/types";
+import { cloned } from "~/utils/cloned";
+import { coreHasOwn as hasOwn } from "~/utils/core-has-own";
+import { deepmerge } from "~/utils/deepmerge";
+import { CollectionsBase } from "~/services/docs/base";
+
+type TCollectionsDriverMemoryNode = TRecordJson & { id: string };
+
+const merge = deepmerge({ overwrite1st: true });
+export class CollectionsDriverMemory extends CollectionsBase<TCollectionsDriverMemoryNode> {
+  data$ = new BehaviorSubject<TCollectionsDriverMemoryNode[]>([]);
+
+  // batch commit keys records
+  commit(patches: TRecordJson[]) {
+    const ls = cloned(this.data$.getValue());
+
+    // stored keys for lookup
+    const tbl = ls.reduce(
+      (res, node) => {
+        res[node.id] = 1;
+        return res;
+      },
+      <any>{},
+    );
+
+    // batch upsert nodes
+    this.data$.next(
+      transform(
+        patches,
+        (patched, patch) => {
+          patch.id ??= nanoid();
+          if (hasOwn(tbl, patch.id)) {
+            // node existis, patch
+            merge(find(patched, (node) => patch.id === node.id)!, patch);
+          } else {
+            // node not found, add
+            patched.push(<TCollectionsDriverMemoryNode>patch);
+          }
+          return patched;
+        },
+        ls,
+      ),
+    );
+  }
+
+  // drop records by key
+  rm(...ids: string[]) {
+    this.data$.next(
+      this.data$
+        .getValue()
+        .filter((node) => ids.some((id_) => id_ === node.id)),
+    );
+  }
+
+  // load upstream
+  async pull() {}
+}
