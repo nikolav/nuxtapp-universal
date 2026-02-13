@@ -22,6 +22,7 @@ export class CollectionsDriverMemory extends CollectionsBase {
 
   // batch commit keys records
   commit(...patches: TRecordJson[]) {
+    if (0 === patches.length) return;
     const ls = cloned(this.data$.getValue());
 
     // stored keys for lookup
@@ -55,6 +56,7 @@ export class CollectionsDriverMemory extends CollectionsBase {
 
   // drop records by key
   rm(...ids: string[]) {
+    if (0 === ids.length) return;
     this.data$.next(
       this.data$
         .getValue()
