@@ -533,8 +533,8 @@ export default defineNuxtConfig({
     // .provider # none, google, bunny, fontshare, fontsource, adobe, local
     // .src      # if defined, no other providers will be used given family
     families: [
-      { name: "Inter" },
-      // { name: "Open Sans" },
+      // { name: "Inter" },
+      { name: "Open Sans" },
       // { name: "Roboto" },
       // # do not resolve this font with any provider from `@nuxt/fonts`
       // { name: 'Custom Font', provider: 'none' },
