@@ -10,18 +10,14 @@ definePageMeta({
     },
   },
 });
+
 // 76979871
 // DyXl4c2XN-o
 // @@eos
 </script>
 
 <template>
-  <section class="app-container-reset page--index">
-    <AppVideoPlayer
-      provider="html5"
-      :sources="[{ src: '/vid.mp4', type: 'video/mp4' }]"
-    />
-  </section>
+  <section class="app-container-reset page--index"></section>
 </template>
 
 <!-- scoped component styles, default -->
