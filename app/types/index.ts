@@ -19,6 +19,7 @@ export type TOrNoValue<T = any> = T | undefined | null;
 export type TMaybeEmptySubject = TOrNoValue<Subject<void>>;
 export type TMaybePromise<T> = T | Promise<T>;
 export type TMaybeAsync<T> = T | Observable<T> | Promise<T>;
+export type TFnMaybeAsync<T = unknown> = () => TMaybeAsync<T>;
 export interface IEventApp<TEventAppPayload = unknown> {
   type: string;
   payload: TEventAppPayload;
