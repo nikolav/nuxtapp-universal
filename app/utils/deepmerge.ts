@@ -1,6 +1,7 @@
 import mergeWith from "lodash/mergeWith";
 import isArray from "lodash/isArray";
-import type { TRecordJson, TOrNoValue } from "../types";
+
+import type { TRecordJson } from "../types";
 
 interface IArrayMergeStrategy {
   arrayMergeStrategyConcat?: boolean;
