@@ -32,6 +32,8 @@ const { t, setLocale } = useI18n();
 </script>
 <template>
   <section class="app-container-reset latout--default">
+    <NuxtLinkLocale :to="{ name: 'demo' }">demo</NuxtLinkLocale>
+    <span> | </span>
     <NuxtLinkLocale :to="{ name: 'index' }">home</NuxtLinkLocale>
     <span> | </span>
     <NuxtLinkLocale :to="{ name: 'about' }">about</NuxtLinkLocale>
