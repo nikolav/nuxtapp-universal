@@ -1,23 +1,29 @@
 import { onScopeDispose } from "vue";
-import type { Subscription } from "rxjs";
 
-import type { TOrNoValue, TMaybeAsync } from "~/types";
+import type { TMaybeAsync } from "~/types";
+import { to$ } from "~/utils/to-obs";
+import { ManageSubscriptionsService } from "~/services/manage-subscriptions";
 
-export const useComputed$ = <T = unknown>(source: TMaybeAsync<T>) => {
-  const { $$ } = useNuxtApp();
-  const state = ref<TOrNoValue<T>>();
+export const useComputed$ = <T = unknown>(
+  source: TMaybeAsync<T>,
+  initial: T,
+) => {
+  const current = ref(initial);
 
-  let sub: TOrNoValue<Subscription>;
+  const subs = new ManageSubscriptionsService();
 
   if (import.meta.client) {
-    sub = $$.to$(source).subscribe((val) => {
-      state.value = val;
+    subs.push({
+      current: to$(source).subscribe((val) => {
+        current.value = val;
+      }),
     });
   }
 
-  onScopeDispose(() => {
-    sub?.unsubscribe();
-  });
+  const destroy = () => {
+    subs.destroy();
+  };
+  onScopeDispose(destroy);
 
-  return computed(() => state.value);
+  return computed<T>(() => current.value);
 };

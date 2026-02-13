@@ -25,11 +25,17 @@ onNuxtReady(() => {
   });
 });
 
+useHead({
+  htmlAttrs: {
+    class: { [darkRootClass]: themeIsDark },
+  },
+});
+
 // @@eos
 </script>
 
 <template>
-  <Html :class="{ [darkRootClass]: themeIsDark }" />
+  <slot />
 </template>
 
 <!-- scoped component styles, default -->

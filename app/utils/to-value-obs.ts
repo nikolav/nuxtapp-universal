@@ -1,9 +1,8 @@
 import { filter, shareReplay, take } from "rxjs/operators";
 
 import { to$ } from "~/utils/to-obs";
-import type { TMaybeAsync, TOrNoValue } from "~/types";
-
-const isPresent = <T>(v: TOrNoValue<T>): v is T => v != null;
+import { isPresent } from "~/utils/is-present";
+import type { TMaybeAsync } from "~/types";
 
 export const value$$ = <T = unknown>(value: TMaybeAsync<T>) =>
   to$(value).pipe(
@@ -11,3 +10,4 @@ export const value$$ = <T = unknown>(value: TMaybeAsync<T>) =>
     take(1),
     shareReplay({ bufferSize: 1, refCount: false }),
   );
+export const single$ = value$$;

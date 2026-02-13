@@ -5,6 +5,7 @@ import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
+import { schemaCacheKeyDriver } from "./app/schemas";
 
 // schemas:config
 const schemaCacheConnection = z.enum(["memory", "redis"] as const);
@@ -108,6 +109,7 @@ export default defineNuxtConfig({
     "nuxt-security",
     "@nuxtjs/fontaine",
     "@nuxtjs/i18n",
+    "@nuxt/fonts",
 
     // Custom module: build-time SQLite handling
     [
@@ -231,6 +233,10 @@ export default defineNuxtConfig({
         driver: process.env.NUXT_PUBLIC_AUTH_DRIVER ?? "memory",
         endpoint: process.env.NUXT_PUBLIC_AUTH_ENDPOINT,
       },
+
+      cacheKeyDriver: schemaCacheKeyDriver.parse(
+        process.env.NUXT_PUBLIC_CACHE_KEY_DRIVER ?? "local",
+      ),
     },
   },
 
@@ -553,5 +559,36 @@ export default defineNuxtConfig({
         file: "en.json",
       },
     ],
+  },
+
+  // #https://fonts.nuxt.com/get-started/configuration
+  fonts: {
+    provider: "google",
+    // .name
+    // .global   # inject @font-face regardless of usage
+    // .provider # none, google, bunny, fontshare, fontsource, adobe, local
+    // .src      # if defined, no other providers will be used given family
+    families: [
+      { name: "Inter" },
+      // { name: "Open Sans" },
+      // { name: "Roboto" },
+      // # do not resolve this font with any provider from `@nuxt/fonts`
+      // { name: 'Custom Font', provider: 'none' },
+      // # only resolve this font with the `google` provider
+      // { name: 'My Font Family', provider: 'google' },
+      // # specify specific font data - this will bypass any providers
+      // { name: 'Other Font', src: 'https://example.com/font.woff2', weight: 'bold' },
+    ],
+    defaults: {
+      weights: [400, 500, 600, 700],
+      subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
+      styles: ["normal", "italic"],
+      preload: true,
+    },
+    processCSSVariables: "font-prefixed-only",
+    priority: ["local", "google"],
+    assets: { prefix: "/_fonts/" },
+    // google provider settings
+    google: {},
   },
 });

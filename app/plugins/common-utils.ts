@@ -11,7 +11,12 @@ import noop from "lodash/noop";
 import reduce from "lodash/reduce";
 import some from "lodash/some";
 import every from "lodash/every";
+import once from "lodash/once";
+import isFunction from "lodash/isFunction";
+import omit from "lodash/omit";
+import pick from "lodash/pick";
 
+import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { onDebug } from "~/utils/on-debug";
@@ -20,6 +25,8 @@ import { to$ } from "~/utils/to-obs";
 import { resolved } from "~/utils/resolved";
 import { error$$ } from "~/utils/error-obs";
 import { value$$ } from "~/utils/to-value-obs";
+import { deepmerge } from "~/utils/deepmerge";
+import { StatusResult } from "~/utils/status-result";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -30,6 +37,10 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          omit,
+          pick,
+          once,
+          isFunction,
           some,
           every,
           reduce,
@@ -44,6 +55,8 @@ export default defineNuxtPlugin({
           hasPath,
           isString,
           // local
+          res: StatusResult.init.bind(StatusResult),
+          deepmerge,
           value$$,
           error$$,
           to$,
@@ -54,6 +67,7 @@ export default defineNuxtPlugin({
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),
           // 3rd party
+          uuid,
           parseBoolean,
         },
       },

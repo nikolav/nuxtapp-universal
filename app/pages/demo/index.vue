@@ -1,23 +1,16 @@
 <script setup lang="ts">
 definePageMeta({
-  title: "pages.index.title",
-  description: "pages.index.description",
   layout: "default",
-  i18n: {
-    paths: {
-      sr: "/dobrodosli",
-      en: "/welcome",
-    },
-  },
+  context: {},
 });
 
-// 76979871
-// DyXl4c2XN-o
 // @@eos
 </script>
 
 <template>
-  <section class="app-container-reset page--index"></section>
+  <section class="app-container-reset page--demo">
+    <h1>page:demo</h1>
+  </section>
 </template>
 
 <!-- scoped component styles, default -->

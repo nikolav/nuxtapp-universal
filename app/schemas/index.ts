@@ -2,7 +2,7 @@ import { z } from "zod";
 import isJWT from "validator/es/lib/isJWT";
 import matches from "validator/es/lib/matches";
 
-import { rRegexSafeCharacters } from "~/utils/re";
+import { rRegexSafeCharacters } from "../utils/re";
 export { schemaJsonData, schemaJsonDataRecord } from "./json.schema";
 export * from "./transforms";
 
@@ -45,3 +45,10 @@ export const schemaAuthDriver = z.enum(["memory", "api"]);
 export const schemaNonSpecialChars = z
   .string()
   .refine((s) => matches(s, rRegexSafeCharacters));
+
+export const schemaCacheKeyDriver = z.enum(["local", "api"] as const);
+
+export const schemaStatusResultDump = z.object({
+  error: z.unknown(),
+  result: z.unknown(),
+});
