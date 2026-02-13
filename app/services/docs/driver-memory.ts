@@ -17,7 +17,7 @@ export class CollectionsDriverMemory extends CollectionsBase {
 
   private constructor(private collectionName: string) {
     super();
-    CollectionsDriverMemory.cached[collectionName] = this;
+    CollectionsDriverMemory.cached[this.collectionName] = this;
   }
 
   // batch commit keys records
