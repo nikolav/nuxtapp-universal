@@ -3,7 +3,10 @@ import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
-import { schemaCacheKeyDriver } from "./app/schemas";
+import {
+  schemaCacheKeyDriver,
+  schemaCollectionsKeyDriver,
+} from "./app/schemas";
 
 // schemas:config
 const schemaCacheConnection = z.enum(["memory", "redis"] as const);
@@ -230,6 +233,9 @@ export default defineNuxtConfig({
 
       cacheKeyDriver: schemaCacheKeyDriver.parse(
         process.env.NUXT_PUBLIC_CACHE_KEY_DRIVER ?? "local",
+      ),
+      collectionsKeyDriver: schemaCollectionsKeyDriver.parse(
+        process.env.NUXT_PUBLIC_COLLECTIONS_KEY_DRIVER ?? "local",
       ),
     },
   },

@@ -9,11 +9,16 @@ import { coreHasOwn as hasOwn } from "~/utils/core-has-own";
 import { deepmerge } from "~/utils/deepmerge";
 import { CollectionsBase } from "~/services/docs/base";
 
-type TCollectionsDriverMemoryNode = TRecordJson & { id: string };
-
 const merge = deepmerge({ overwrite1st: true });
-export class CollectionsDriverMemory extends CollectionsBase<TCollectionsDriverMemoryNode> {
-  data$ = new BehaviorSubject<TCollectionsDriverMemoryNode[]>([]);
+export class CollectionsDriverMemory extends CollectionsBase {
+  data$ = new BehaviorSubject<TRecordJson[]>([]);
+
+  private static cached: { [key: string]: CollectionsDriverMemory } = {};
+
+  private constructor(private collectionName: string) {
+    super();
+    CollectionsDriverMemory.cached[collectionName] = this;
+  }
 
   // batch commit keys records
   commit(patches: TRecordJson[]) {
@@ -22,7 +27,7 @@ export class CollectionsDriverMemory extends CollectionsBase<TCollectionsDriverM
     // stored keys for lookup
     const tbl = ls.reduce(
       (res, node) => {
-        res[node.id] = 1;
+        res[(<any>node).id] = 1;
         return res;
       },
       <any>{},
@@ -39,7 +44,7 @@ export class CollectionsDriverMemory extends CollectionsBase<TCollectionsDriverM
             merge(find(patched, (node) => patch.id === node.id)!, patch);
           } else {
             // node not found, add
-            patched.push(<TCollectionsDriverMemoryNode>patch);
+            patched.push(patch);
           }
           return patched;
         },
@@ -59,4 +64,15 @@ export class CollectionsDriverMemory extends CollectionsBase<TCollectionsDriverM
 
   // load upstream
   async pull() {}
+
+  override async destroy() {
+    delete CollectionsDriverMemory.cached[this.collectionName];
+  }
+
+  static single(collectionName: string) {
+    return (
+      CollectionsDriverMemory.cached[collectionName] ??
+      new CollectionsDriverMemory(collectionName)
+    );
+  }
 }

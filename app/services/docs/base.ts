@@ -2,11 +2,11 @@ import type { BehaviorSubject } from "rxjs";
 
 import type { TMaybeAsync, TRecordJson } from "~/types";
 
-export abstract class CollectionsBase<TNode = TRecordJson> {
+export abstract class CollectionsBase<TNode extends TRecordJson = TRecordJson> {
   abstract data$: BehaviorSubject<TNode[]>;
 
   // batch commit keys records
-  abstract commit(patches: TNode[]): TMaybeAsync<void>;
+  abstract commit(patches: TRecordJson[]): TMaybeAsync<void>;
 
   // drop records by key
   abstract rm(...keys: string[]): TMaybeAsync<void>;
