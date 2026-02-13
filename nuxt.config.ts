@@ -529,6 +529,7 @@ export default defineNuxtConfig({
     families: [
       { name: "Inter" },
       { name: "Open Sans" },
+      { name: "Roboto" },
       // # do not resolve this font with any provider from `@nuxt/fonts`
       // { name: 'Custom Font', provider: 'none' },
       // # only resolve this font with the `google` provider
