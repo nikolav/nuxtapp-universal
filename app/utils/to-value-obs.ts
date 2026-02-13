@@ -10,3 +10,4 @@ export const value$$ = <T = unknown>(value: TMaybeAsync<T>) =>
     take(1),
     shareReplay({ bufferSize: 1, refCount: false }),
   );
+export const single$ = value$$;

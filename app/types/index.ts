@@ -19,6 +19,7 @@ export type TOrNoValue<T = any> = T | undefined | null;
 export type TMaybeEmptySubject = TOrNoValue<Subject<void>>;
 export type TMaybePromise<T> = T | Promise<T>;
 export type TMaybeAsync<T> = T | Observable<T> | Promise<T>;
+export type TFnMaybeAsync<T = unknown> = () => TMaybeAsync<T>;
 export interface IEventApp<TEventAppPayload = unknown> {
   type: string;
   payload: TEventAppPayload;
@@ -62,8 +63,6 @@ export type TManageSubscriptionsCache = Record<
   string,
   TOrNoValue<Subscription>
 >;
-export type TFnMaybeAsync<T = unknown> = () => TMaybeAsync<T>;
-//
 export { AuthService as TAuthService } from "~/services/auth/base";
 export type { TRecordJson, TJson, TJsonLiteral };
 export type TCashDomClient = typeof import("cash-dom").default;
@@ -97,3 +96,7 @@ export type TPhotoSwipeMedia = {
   index?: number;
   setup?: (instance: TPhotoSwipeLightbox) => TMaybeAsync<void>;
 };
+// plyr
+export type TPlayer = typeof import("plyr").default;
+export type TPlayerInstance = InstanceType<TPlayer>;
+export type { Options as TPlayerOptions } from "plyr";

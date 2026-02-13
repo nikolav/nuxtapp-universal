@@ -13,7 +13,10 @@ import some from "lodash/some";
 import every from "lodash/every";
 import once from "lodash/once";
 import isFunction from "lodash/isFunction";
+import omit from "lodash/omit";
+import pick from "lodash/pick";
 
+import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { onDebug } from "~/utils/on-debug";
@@ -34,6 +37,8 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          omit,
+          pick,
           once,
           isFunction,
           some,
@@ -62,6 +67,7 @@ export default defineNuxtPlugin({
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),
           // 3rd party
+          uuid,
           parseBoolean,
         },
       },
