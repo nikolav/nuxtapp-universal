@@ -5,7 +5,7 @@ import type { TRecordJson, IDeepMergeOptions } from "../types";
 
 export const deepmerge = Object.assign(
   <T extends TRecordJson = TRecordJson>(
-    options: IDeepMergeOptions = { arrayMergeStrategy: deepmerge.replace },
+    options: IDeepMergeOptions<T> = { arrayMergeStrategy: deepmerge.replace },
   ) =>
     (target: T, ...sources: T[]): T =>
       mergeWith(target, ...sources, (value: T, srcValue: T) =>
@@ -14,10 +14,9 @@ export const deepmerge = Object.assign(
           : undefined,
       ),
   {
-    concat: <T = unknown>(a1: T[], a2: T[]) => a1.concat(a2),
-    replace: <T = unknown>(_a1: T[], a2: T[]) => a2,
-    replaceNonempty: <T = unknown>(a1: T[], a2: T[]) =>
-      !(0 < a2.length) ? a1 : a2,
-    unique: <T = unknown>(a1: T[], a2: T[]) => [...new Set([...a1, ...a2])],
+    concat: <T>(a1: T[], a2: T[]) => a1.concat(a2),
+    replace: <T>(_a1: T[], a2: T[]) => a2,
+    replaceNonempty: <T>(a1: T[], a2: T[]) => (!(0 < a2.length) ? a1 : a2),
+    unique: <T>(a1: T[], a2: T[]) => [...new Set([...a1, ...a2])],
   },
 );

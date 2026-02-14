@@ -81,6 +81,6 @@ export type TDeepmergeArrayMergeStrategy<T = unknown> = (
   targetArray: T[],
   sourceArray: T[],
 ) => T[];
-export interface IDeepMergeOptions {
-  arrayMergeStrategy: TDeepmergeArrayMergeStrategy;
+export interface IDeepMergeOptions<T = unknown> {
+  arrayMergeStrategy: TDeepmergeArrayMergeStrategy<T>;
 }
