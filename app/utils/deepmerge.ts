@@ -13,10 +13,9 @@ export const deepmerge = Object.assign(
     (target: T, ...sources: T[]): T =>
       mergeWith(target, ...sources, (value: T, srcValue: T) =>
         isArray(value) && isArray(srcValue)
-          ? (
-              options?.arrayMergeStrategy ??
-              <TDeepmergeArrayMergeStrategy<T>>deepmerge.replace
-            )(value, srcValue)
+          ? (<TDeepmergeArrayMergeStrategy<T>>(
+              (options?.arrayMergeStrategy ?? deepmerge.replace)
+            ))(value, srcValue)
           : undefined,
       ),
   {
