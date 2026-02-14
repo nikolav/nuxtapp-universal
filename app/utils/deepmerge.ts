@@ -18,7 +18,7 @@ export const deepmerge = Object.assign(
     concat: <T>(a1: T[], a2: T[]) => a1.concat(a2),
     concatDifference: <T>(a1: T[], a2: T[]) => a1.concat(difference(a2, a1)),
     replace: <T>(_a1: T[], a2: T[]) => a2,
-    replaceNonempty: <T>(a1: T[], a2: T[]) => (!(0 < a2.length) ? a1 : a2),
+    replaceNonempty: <T>(a1: T[], a2: T[]) => (0 < a2.length ? a2 : a1),
     unique: <T>(a1: T[], a2: T[]) => [...new Set([...a1, ...a2])],
   },
 );
