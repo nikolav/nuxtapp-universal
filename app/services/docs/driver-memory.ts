@@ -9,7 +9,7 @@ import { coreHasOwn as hasOwn } from "~/utils/core-has-own";
 import { deepmerge } from "~/utils/deepmerge";
 import { CollectionsBase } from "~/services/docs/base";
 
-const merge = deepmerge({ overwrite1st: true });
+const merge = deepmerge();
 export class CollectionsDriverMemory extends CollectionsBase {
   data$ = new BehaviorSubject<TRecordJson[]>([]);
 

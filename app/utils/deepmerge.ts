@@ -5,23 +5,20 @@ import type { TRecordJson } from "../types";
 
 interface IArrayMergeStrategy {
   arrayMergeStrategyConcat?: boolean;
-  overwrite1st?: boolean;
 }
 
+// overwrite 1st, default
 export const deepmerge =
   <T = TRecordJson>(
     config: IArrayMergeStrategy = {
       arrayMergeStrategyConcat: false,
     },
   ) =>
-  (node: T, ...sources: T[]) => {
-    const target = config.overwrite1st ? node : <T>{};
-    const other = config.overwrite1st ? sources : [node, ...sources];
-    return mergeWith(target, ...other, (obj: T, src: T) =>
+  (target: T, ...sources: T[]) =>
+    mergeWith(target, ...sources, (obj: T, src: T) =>
       !config.arrayMergeStrategyConcat
         ? undefined
         : isArray(obj)
           ? obj.concat(src)
           : undefined,
     );
-  };

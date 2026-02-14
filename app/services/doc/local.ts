@@ -24,7 +24,9 @@ export class CacheByKeyDriverLocal extends CacheByKeyBase {
 
   async push(patch: TRecordJson) {
     this.data$.next(
-      await this.ps.monitor(() => merge(this.data$.getValue(), patch)),
+      await this.ps.monitor(() =>
+        merge(<TRecordJson>{}, this.data$.getValue(), patch),
+      ),
     );
   }
 
