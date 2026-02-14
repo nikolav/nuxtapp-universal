@@ -25,6 +25,9 @@ export default defineAppConfig({
   },
 
   events: {
+    EVENT_COLOR_MODE: "001904e0-b43c-50f4-8edc-bb2a4b47e751",
+    EVENT_LOCALE_CHANGE:
+      "EVENT_LOCALE_CHANGE:4886a0a7-6261-580c-b17d-99ba5908389b",
     EVENT_notifications_granted:
       "EVENT_notifications_granted:6a69b910-b0a5-5616-b628-77a800ff1386",
   },
