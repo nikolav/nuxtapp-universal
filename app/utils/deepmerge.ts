@@ -2,20 +2,16 @@ import mergeWith from "lodash/mergeWith";
 import isArray from "lodash/isArray";
 import isEmpty from "lodash/isEmpty";
 
-import type {
-  TRecordJson,
-  IDeepMergeOptions,
-  TDeepmergeArrayMergeStrategy,
-} from "../types";
+import type { TRecordJson, IDeepMergeOptions } from "../types";
 
 export const deepmerge = Object.assign(
-  <T extends TRecordJson = TRecordJson>(options?: IDeepMergeOptions) =>
+  <T extends TRecordJson = TRecordJson>(
+    options: IDeepMergeOptions = { arrayMergeStrategy: deepmerge.replace },
+  ) =>
     (target: T, ...sources: T[]): T =>
       mergeWith(target, ...sources, (value: T, srcValue: T) =>
         isArray(value) && isArray(srcValue)
-          ? (<TDeepmergeArrayMergeStrategy<T>>(
-              (options?.arrayMergeStrategy ?? deepmerge.replace)
-            ))(value, srcValue)
+          ? options.arrayMergeStrategy(value, srcValue)
           : undefined,
       ),
   {
