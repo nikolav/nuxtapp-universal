@@ -35,14 +35,14 @@ export const usePopupWindow = () => {
         const top = Math.max(0, (height - h) / 2 + dualScreenTop);
 
         destroy();
-        const wPopup = window.open(
+        const popup = window.open(
           url,
           name,
           `scrollbars=yes,width=${w},height=${h},top=${top},left=${left}`,
         );
 
-        target.value = wPopup;
-        return of(wPopup);
+        target.value = popup;
+        return of(popup);
       }),
     );
 
