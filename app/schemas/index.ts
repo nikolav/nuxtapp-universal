@@ -53,4 +53,4 @@ export const schemaStatusResultDump = z.object({
   result: z.unknown(),
 });
 
-export const schemaCollectionsKeyDriver = z.enum(["local"] as const);
+export const schemaCollectionsKeyDriver = z.enum(["local", "api"] as const);

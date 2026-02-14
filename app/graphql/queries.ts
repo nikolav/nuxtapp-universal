@@ -13,3 +13,10 @@ export const Q_docCacheByKey = gql`
     docCacheByKey(key: $key)
   }
 `;
+
+// collectionByTag(tag: String!): JsonData!
+export const Q_collectionByTag = gql`
+  query q_collectionByTag($tag: String!) {
+    collectionByTag(tag: $tag)
+  }
+`;
