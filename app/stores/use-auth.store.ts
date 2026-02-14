@@ -33,7 +33,6 @@ export const useAuth = defineStore("store-auth", () => {
       authService.token.value
         ? await $$.resolved<IUser>(
             authService.authData(authService.token.value, signal),
-            false,
           )
         : null,
     {
