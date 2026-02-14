@@ -9,7 +9,9 @@ export default defineNuxtRouteMiddleware(() => {
       auth: { DEFAULT_UNAUTHENTICATED_ROUTE_NAME },
     },
   } = useAppConfig();
+  const localePath = useLocalePath();
+
   if (!auth.isAuth) {
-    return navigateTo({ name: DEFAULT_UNAUTHENTICATED_ROUTE_NAME });
+    return navigateTo(localePath({ name: DEFAULT_UNAUTHENTICATED_ROUTE_NAME }));
   }
 });
