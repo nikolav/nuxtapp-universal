@@ -21,12 +21,6 @@ watchEffect(() => {
   });
 });
 
-onNuxtReady(() => {
-  callOnce(() => {
-    // @boot;
-  });
-});
-
 // @@eos
 </script>
 
