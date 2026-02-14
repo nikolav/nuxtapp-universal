@@ -77,3 +77,10 @@ export type TUseProcessMonitorReturnType = ReturnType<
 export type TPlayer = typeof import("plyr").default;
 export type TPlayerInstance = InstanceType<TPlayer>;
 export type { Options as TPlayerOptions } from "plyr";
+export type TDeepmergeArrayMergeStrategy<T = unknown> = (
+  targetArray: T[],
+  sourceArray: T[],
+) => T[];
+export interface IDeepMergeOptions {
+  arrayMergeStrategy: TDeepmergeArrayMergeStrategy;
+}
