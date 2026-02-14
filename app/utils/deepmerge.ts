@@ -1,6 +1,5 @@
 import mergeWith from "lodash/mergeWith";
 import isArray from "lodash/isArray";
-import isEmpty from "lodash/isEmpty";
 
 import type { TRecordJson, IDeepMergeOptions } from "../types";
 
@@ -17,7 +16,8 @@ export const deepmerge = Object.assign(
   {
     concat: <T = unknown>(a1: T[], a2: T[]) => a1.concat(a2),
     replace: <T = unknown>(_a1: T[], a2: T[]) => a2,
-    replaceNonempty: <T = unknown>(a1: T[], a2: T[]) => (isEmpty(a2) ? a1 : a2),
+    replaceNonempty: <T = unknown>(a1: T[], a2: T[]) =>
+      !(0 < a2.length) ? a1 : a2,
     unique: <T = unknown>(a1: T[], a2: T[]) => [...new Set([...a1, ...a2])],
   },
 );
