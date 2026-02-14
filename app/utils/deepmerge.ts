@@ -15,7 +15,7 @@ export const deepmerge = Object.assign(
         isArray(value) && isArray(srcValue)
           ? (
               options?.arrayMergeStrategy ??
-              <TDeepmergeArrayMergeStrategy<T>>deepmerge.replaceNonempty
+              <TDeepmergeArrayMergeStrategy<T>>deepmerge.replace
             )(value, srcValue)
           : undefined,
       ),
