@@ -1,15 +1,22 @@
-import type { RequestExtendedOptions } from "graphql-request";
 import type { Observable } from "rxjs";
 import { BehaviorSubject } from "rxjs";
+import { filter, map } from "rxjs/operators";
+import type { RequestExtendedOptions } from "graphql-request";
+import get from "lodash/get";
+import isEmpty from "lodash/isEmpty";
 
 import type {
-  TMaybeAsync,
   TOrNoValue,
   TRecordJson,
   TUseProcessMonitorReturnType,
 } from "~/types";
 
 import { CollectionsBase } from "~/services/docs/base";
+import {
+  M_collectionBatchUpsert,
+  M_collectionDropIds,
+  Q_collectionByTag,
+} from "~/graphql";
 
 export class CollectionsDriverApi extends CollectionsBase {
   data$ = new BehaviorSubject<TRecordJson[]>([]);
@@ -26,14 +33,61 @@ export class CollectionsDriverApi extends CollectionsBase {
   }
 
   // batch commit keys records
-  commit(...patches: TRecordJson[]) {}
+  async commit(...patches: TRecordJson[]) {
+    if (isEmpty(patches)) return;
+    await this.ps.monitor(() =>
+      this.gql(
+        this.withHeaders({
+          document: M_collectionBatchUpsert,
+          variables: { tag: this.collectionName, patches },
+        }),
+      ),
+    );
+  }
 
   // drop records by key
-  rm(...ids: string[]) {}
+  async rm(...ids: string[]) {
+    if (isEmpty(ids)) return;
+    await this.ps.monitor(() =>
+      this.gql(
+        this.withHeaders({
+          document: M_collectionDropIds,
+          variables: { tag: this.collectionName, ids },
+        }),
+      ),
+    );
+  }
 
   // load from upstream
-  pull() {}
+  async pull() {
+    this.data$.next(
+      (await this.ps.monitor(() =>
+        this.gql(
+          this.withHeaders({
+            document: Q_collectionByTag,
+            variables: { tag: this.collectionName },
+          }),
+        ).pipe(
+          filter((res) => true === get(res, "collectionByTag.ok")),
+          map((res) => <TRecordJson[]>get(res, "collectionByTag.result", [])),
+        ),
+      ))!,
+    );
+  }
 
-  // init() {}
+  override async init() {
+    await this.pull();
+  }
+
   // destroy() {}
+  withHeaders(
+    opts: Partial<RequestExtendedOptions>,
+  ): Partial<RequestExtendedOptions> {
+    return {
+      ...opts,
+      requestHeaders: {
+        Authorization: `Bearer ${this.getToken()}`,
+      },
+    };
+  }
 }
