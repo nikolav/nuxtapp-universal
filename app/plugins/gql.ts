@@ -1,14 +1,14 @@
 import { request } from "graphql-request";
 import { from } from "rxjs";
 import type { RequestExtendedOptions } from "graphql-request";
+import trim from "lodash/trim";
 
 export default defineNuxtPlugin({
   name: "gql",
-  dependsOn: ["utils"],
+  enforce: "pre",
   setup: () => {
-    const { $$ } = useNuxtApp();
     const { apiBase, graphqlEndpoint } = useRuntimeConfig().public;
-    const url = `${apiBase}/${$$.trim(graphqlEndpoint, "/")}`;
+    const url = `${apiBase}/${trim(graphqlEndpoint, "/")}`;
     return {
       provide: {
         gql: <TData = unknown>(config: Partial<RequestExtendedOptions>) =>
@@ -16,7 +16,7 @@ export default defineNuxtPlugin({
             request<TData>({
               url,
               ...(<any>config),
-            })
+            }),
           ),
       },
     };
