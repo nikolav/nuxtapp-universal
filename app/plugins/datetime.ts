@@ -6,6 +6,7 @@ import "dayjs/locale/en";
 import { filter, map } from "rxjs/operators";
 
 import { TOKEN_appEmitter$ } from "~/keys";
+import { onDebug } from "~/utils/on-debug";
 
 // core plugins
 import plugin_advancedFormat from "dayjs/plugin/advancedFormat";
@@ -91,6 +92,7 @@ export default defineNuxtPlugin({
         map((e) => <string>e.payload),
       )
       .subscribe((loc) => {
+        onDebug({ "locale:switch:dayjs": loc });
         dayjs.locale(loc);
       });
 
