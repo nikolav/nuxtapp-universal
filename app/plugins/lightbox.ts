@@ -147,6 +147,8 @@ export default defineNuxtPlugin({
             return true;
           } catch (e) {
             onDebug({ "lightbox:photoswipe:close": e });
+          } finally {
+            current = null;
           }
           return false;
         },
