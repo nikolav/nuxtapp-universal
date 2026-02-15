@@ -46,7 +46,7 @@ export class CollectionsDriverApi extends CollectionsBase {
   }
 
   // drop records by key
-  async rm(...ids: string[]) {
+  async rm(...ids: number[]) {
     if (isEmpty(ids)) return;
     await this.ps.monitor(() =>
       this.gql(

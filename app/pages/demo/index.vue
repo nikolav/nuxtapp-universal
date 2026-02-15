@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useDocs } from "~/composables/docs/use-docs";
+import { useOnceMountedOn } from "~/composables/utils/use-once-mounted-on";
 import { useAuth } from "~/stores/use-auth.store";
 
 definePageMeta({
@@ -7,15 +8,22 @@ definePageMeta({
 });
 
 const auth = useAuth();
+const { $$ } = useNuxtApp();
 
 const ls = useDocs("foo:1");
-const commit = () => {
-  ls.commit({ id: "ID1", x: Math.random() });
+const push = () => {
+  ls.commit({ id: 18, x: $$.nanoid() }, { x: $$.nanoid() });
+};
+const pull = () => {
+  ls.pull();
 };
 const rm = () => {
-  ls.rm("ID1");
+  ls.rm(19);
 };
 
+useOnceMountedOn([() => auth.isAuth], async () => {
+  await ls.start();
+});
 // 76979871
 // DyXl4c2XN-o
 // @@eos
@@ -45,9 +53,9 @@ const rm = () => {
         register
       </button>
       <button @click="auth.logout()">logout</button>
-      <button @click="commit">ls:push</button>
-      <button @click="commit">ls:push</button>
-      <button @click="rm">ls:rm</button>
+      <button @click="push">ls:commit</button>
+      <button @click="ls.rm(18)">ls:rm</button>
+      <button @click="ls.pull()">ls:pull</button>
     </div>
     <div>
       <small>

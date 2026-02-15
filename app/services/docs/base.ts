@@ -9,7 +9,7 @@ export abstract class CollectionsBase<TNode extends TRecordJson = TRecordJson> {
   abstract commit(...patches: TRecordJson[]): TMaybeAsync<void>;
 
   // drop records by key
-  abstract rm(...keys: string[]): TMaybeAsync<void>;
+  abstract rm(...keys: any[]): TMaybeAsync<void>;
 
   // load from upstream
   abstract pull(): TMaybeAsync<void>;
