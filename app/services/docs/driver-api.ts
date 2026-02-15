@@ -85,7 +85,7 @@ export class CollectionsDriverApi extends CollectionsBase {
         }),
       ).pipe(
         filter((res) => true === get(res, "collectionByTagCount.ok")),
-        map((res) => <number>get(res, "collectionByTagCount.result", 0)),
+        map((res) => Number(get(res, "collectionByTagCount.result", 0))),
       ),
     ))!;
   }
