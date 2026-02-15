@@ -5,15 +5,17 @@ import { CollectionsDriverApi } from "~/services/docs/driver-api";
 import { useComputed$ } from "~/composables/utils/use-computed-obs";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import { useAuth } from "~/stores/use-auth.store";
+import { useTopics } from "~/composables/utils/use-topics";
 
 export const useDocs = (collectionName: string) => {
   const ps = useProcessMonitor();
+  const collectionTag = useTopics().collectionsTag(collectionName);
   const service: CollectionsBase = {
-    local: () => CollectionsDriverMemory.single(collectionName),
+    local: () => CollectionsDriverMemory.single(collectionTag),
     api: () =>
       new CollectionsDriverApi(
         ps,
-        collectionName,
+        collectionTag,
         useNuxtApp().$gql,
         () => useAuth().token,
       ),
