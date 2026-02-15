@@ -3,11 +3,17 @@ const {
   theme: { darkRootClass },
 } = useAppConfig();
 
+useHead({
+  htmlAttrs: {
+    class: { [darkRootClass]: undefined },
+  },
+});
+
 // @@eos
 </script>
 
 <template>
-  <Html :class="{ [darkRootClass]: false }" />
+  <slot />
 </template>
 
 <!-- scoped component styles, default -->

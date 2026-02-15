@@ -1,8 +1,7 @@
 import { Main } from "#server/db/models/Main.model";
 
-import { knex } from "#server/db/knex";
-
 export default defineEventHandler(async (event) => {
+  const knex = event.context.knex;
   return {
     time: new Date().toISOString(),
     status: "ok",

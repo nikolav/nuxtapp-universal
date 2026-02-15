@@ -78,14 +78,14 @@ export default defineNuxtPlugin({
       shareReplay({ bufferSize: 1, refCount: false }),
     );
 
-    // Holds the current live instance so we can destroy it
+    // holds the current live instance so we can destroy it
     let current: TOrNoValue<TPhotoSwipeLightbox>;
 
     const open$ = deps$.pipe(
       switchMap(({ PhotoSwipe, PhotoSwipeLightbox }) =>
         media$.pipe(
-          // each new media replaces previous instance
-          //   (destroy old → init new → open)
+          // new media replaces previous instance
+          // destroy old, init new, open
           switchMap((media) =>
             defer(async () => {
               // destroy previous safely
@@ -126,17 +126,33 @@ export default defineNuxtPlugin({
       }),
     );
 
-    const lightbox = (media: TPhotoSwipeMedia) => {
-      media$.next($$.copy({}, DEFAULTS_MEDIA, media));
+    // $lightbox(media).open((instance) => { use(instance); });
+    const lightbox = Object.assign(
+      (media: TPhotoSwipeMedia) => {
+        media$.next($$.copy({}, DEFAULTS_MEDIA, media));
 
-      // $lightbox(media)((psw) => ...)
-      return (handle?: (psw: TPhotoSwipeLightbox) => void) => {
-        open$.pipe(take(1)).subscribe({
-          next: handle,
-          error: (error) => onDebug({ "lightbox:photoswipe:open": error }),
-        });
-      };
-    };
+        // $lightbox(media)((psw) => ...)
+        return {
+          open: (handle?: (psw: TPhotoSwipeLightbox) => void) =>
+            open$.pipe(take(1)).subscribe({
+              next: handle,
+              error: (error) => onDebug({ "lightbox:photoswipe:open": error }),
+            }),
+        };
+      },
+      {
+        close: async () => {
+          try {
+            await resolved(current?.destroy(), false);
+            return true;
+          } catch (e) {
+            onDebug({ "lightbox:photoswipe:close": e });
+          }
+          return false;
+        },
+        instance: () => current,
+      },
+    );
 
     return {
       provide: {

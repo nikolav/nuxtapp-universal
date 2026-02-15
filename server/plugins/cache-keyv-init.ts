@@ -36,7 +36,7 @@ export default defineNitroPlugin(async (nitroApp) => {
 
   try {
     if (await cache.set("keyv", "keyv"))
-      console.log({ [`cache.${config.connection}@keyv.initialized`]: cache });
+      console.log(`${config.connection}.cache@keyv.initialized`);
   } catch (error) {
     // pass
   }

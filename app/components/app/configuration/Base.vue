@@ -1,10 +1,4 @@
 <script setup lang="ts">
-onNuxtReady(() => {
-  callOnce(() => {
-    // @boot;
-  });
-});
-
 // @@eos
 </script>
 

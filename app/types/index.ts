@@ -7,7 +7,7 @@ import type {
   TJson,
   TJsonLiteral,
 } from "../schemas/json.schema";
-import { schemaCacheKeyDriver } from "../schemas";
+import { schemaCacheKeyDriver, schemaCollectionsKeyDriver } from "../schemas";
 
 export type ElementOf<T extends readonly unknown[]> = T[number];
 export type TFunctionVoid = (...args: unknown[]) => void;
@@ -59,6 +59,7 @@ export interface IStoreFlags {
   [name: string]: boolean;
 }
 export type TUseCacheKeyDriver = z.infer<typeof schemaCacheKeyDriver>;
+export type TUseDocsKeyDriver = z.infer<typeof schemaCollectionsKeyDriver>;
 export type TManageSubscriptionsCache = Record<
   string,
   TOrNoValue<Subscription>
@@ -100,3 +101,10 @@ export type TPhotoSwipeMedia = {
 export type TPlayer = typeof import("plyr").default;
 export type TPlayerInstance = InstanceType<TPlayer>;
 export type { Options as TPlayerOptions } from "plyr";
+export type TDeepmergeArrayMergeStrategy<T = unknown> = (
+  targetArray: T[],
+  sourceArray: T[],
+) => T[];
+export interface IDeepMergeOptions<T = unknown> {
+  arrayMergeStrategy: TDeepmergeArrayMergeStrategy<T>;
+}

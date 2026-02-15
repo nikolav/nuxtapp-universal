@@ -12,8 +12,8 @@ export const useCleanup = <T = void>() => {
   const task = (cleanupTask: TFnMaybeAsync<T>) => {
     gc.add(cleanupTask);
   };
-  const run = () =>
-    $$.resolved(
+  const run = async () => {
+    await $$.resolved(
       !$$.isEmpty(gc)
         ? from(Array.from(gc)).pipe(
             // execut cleanup
@@ -41,8 +41,9 @@ export const useCleanup = <T = void>() => {
             finalize(reset),
           )
         : of($$.res(null, []).dump()),
+      false,
     );
+  };
 
-  //#
   return { task, run, reset };
 };
