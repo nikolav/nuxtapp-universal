@@ -21,7 +21,7 @@ import parseBoolean from "@eturino/ts-parse-boolean";
 import { nanoid } from "nanoid";
 
 import { onDebug } from "~/utils/on-debug";
-import { coreHasOwn } from "~/utils/core-has-own";
+import { hasOwn } from "~/utils/core-has-own";
 import { to$ } from "~/utils/to-obs";
 import { resolved } from "~/utils/resolved";
 import { error$$ } from "~/utils/error-obs";
@@ -64,7 +64,7 @@ export default defineNuxtPlugin({
           to$,
           resolved,
           onDebug,
-          hasOwn: coreHasOwn,
+          hasOwn,
           // core, misc.
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),
