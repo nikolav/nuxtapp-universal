@@ -31,6 +31,7 @@ import { StatusResult } from "~/utils/status-result";
 //
 export default defineNuxtPlugin({
   name: "utils",
+  enforce: "pre",
   setup: () => {
     return {
       provide: {

@@ -5,6 +5,7 @@ import { single$ } from "~/utils/to-value-obs";
 
 export default defineNuxtPlugin({
   name: "use-platform",
+  enforce: "pre",
   setup: () => {
     const isBrowser = import.meta.client;
 

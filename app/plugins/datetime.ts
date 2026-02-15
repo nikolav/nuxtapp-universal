@@ -1,10 +1,13 @@
 import dayjs from "dayjs";
+import "dayjs/locale/sr";
+import "dayjs/locale/sr-cyrl";
+import "dayjs/locale/en";
 
-// import "dayjs/locale/sr";
-// import "dayjs/locale/sr-cyrl";
-// dayjs.locale("sr");
+import { filter, map } from "rxjs/operators";
 
-// Core, high-value plugins
+import { TOKEN_appEmitter$ } from "~/keys";
+
+// core plugins
 import plugin_advancedFormat from "dayjs/plugin/advancedFormat";
 import plugin_customParseFormat from "dayjs/plugin/customParseFormat";
 import plugin_isBetween from "dayjs/plugin/isBetween";
@@ -61,27 +64,40 @@ if (!_extended) {
   _extended = true;
 }
 
-class DatetimeService {
+export class DatetimeService {
   // #ISO-8601 duration strings
   //   'P[n]Y[n]M[n]W[n]DT[n]H[n]M[n]S'
 
-  readonly dayjs = dayjs;
-
-  readonly FORMAT = {
+  static readonly FORMAT = {
     d: "DD-MM-YYYY",
     D: "YYYY-MM-DD",
   };
+  static readonly dayjs = dayjs;
 
   // @@
   utcnow(template?: string) {
-    return this.dayjs.utc().format(template);
+    return DatetimeService.dayjs.utc().format(template);
   }
 }
 
-export default defineNuxtPlugin((_nuxtapp) => {
-  return {
-    provide: {
-      d: new DatetimeService(),
-    },
-  };
+export default defineNuxtPlugin({
+  name: "datetime",
+  dependsOn: ["emitters"],
+  setup: (_nuxtApp) => {
+    // sync dayjs locale with i18n
+    inject(TOKEN_appEmitter$)!
+      .pipe(
+        filter((e) => e.type === useAppConfig().events.EVENT_LOCALE_CHANGE),
+        map((e) => <string>e.payload),
+      )
+      .subscribe((loc) => {
+        dayjs.locale(loc);
+      });
+
+    return {
+      provide: {
+        dt: new DatetimeService(),
+      },
+    };
+  },
 });
