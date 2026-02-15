@@ -12,13 +12,16 @@ const { $$ } = useNuxtApp();
 
 const ls = useDocs("foo:1");
 const push = () => {
-  ls.commit({ id: 18, x: $$.nanoid() }, { x: $$.nanoid() });
+  ls.commit({ id: 20, x: $$.nanoid() });
 };
 const pull = () => {
   ls.pull();
 };
 const rm = () => {
-  ls.rm(19);
+  ls.rm(21);
+};
+const count = async () => {
+  console.log(await ls.count());
 };
 
 useOnceMountedOn([() => auth.isAuth], async () => {
@@ -54,8 +57,9 @@ useOnceMountedOn([() => auth.isAuth], async () => {
       </button>
       <button @click="auth.logout()">logout</button>
       <button @click="push">ls:commit</button>
-      <button @click="ls.rm(18)">ls:rm</button>
+      <button @click="ls.rm(22)">ls:rm</button>
       <button @click="ls.pull()">ls:pull</button>
+      <button @click="count">ls:count</button>
     </div>
     <div>
       <small>
