@@ -80,6 +80,7 @@ export class CollectionsDriverApi extends CollectionsBase {
   }
 
   // destroy() {}
+
   withHeaders(
     opts: Partial<RequestExtendedOptions>,
   ): Partial<RequestExtendedOptions> {
