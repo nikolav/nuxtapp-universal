@@ -1,15 +1,16 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "default",
-  context: {},
 });
 
+// 76979871
+// DyXl4c2XN-o
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--demo">
-    <h1>page:demo</h1>
+    <h2>page:demo</h2>
   </section>
 </template>
 

@@ -11,6 +11,7 @@ export default defineAppConfig({
 
   services: {
     auth: {
+      DEFAULT_AUTHENTICATED_ROUTE_NAME: "index",
       DEFAULT_UNAUTHENTICATED_ROUTE_NAME: "auth",
       defaultsAuthenticate: <IAuthenticateOptions>{
         timeoutMs: 8122,
@@ -19,12 +20,17 @@ export default defineAppConfig({
   },
 
   keys: {
+    COLLECTIONS_NAME_PREFIX:
+      "COLLECTIONS:96f387d7-f82a-5307-be98-831874358ac5:",
     CACHE_BY_KEY: "cache",
     KEY_FORMS: "52c061eb-9612-5d95-99ca-e8965679cb56",
     TOKEN_API_AUTH: "4a4f038d-dc42-5419-8579-64681eb922b6",
   },
 
   events: {
+    EVENT_COLOR_MODE: "001904e0-b43c-50f4-8edc-bb2a4b47e751",
+    EVENT_LOCALE_CHANGE:
+      "EVENT_LOCALE_CHANGE:4886a0a7-6261-580c-b17d-99ba5908389b",
     EVENT_notifications_granted:
       "EVENT_notifications_granted:6a69b910-b0a5-5616-b628-77a800ff1386",
   },

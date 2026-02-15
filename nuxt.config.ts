@@ -5,7 +5,10 @@ import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
-import { schemaCacheKeyDriver } from "./app/schemas";
+import {
+  schemaCacheKeyDriver,
+  schemaCollectionsKeyDriver,
+} from "./app/schemas";
 
 // schemas:config
 const schemaCacheConnection = z.enum(["memory", "redis"] as const);
@@ -236,6 +239,9 @@ export default defineNuxtConfig({
 
       cacheKeyDriver: schemaCacheKeyDriver.parse(
         process.env.NUXT_PUBLIC_CACHE_KEY_DRIVER ?? "local",
+      ),
+      collectionsKeyDriver: schemaCollectionsKeyDriver.parse(
+        process.env.NUXT_PUBLIC_COLLECTIONS_KEY_DRIVER ?? "local",
       ),
     },
   },
@@ -569,8 +575,8 @@ export default defineNuxtConfig({
     // .provider # none, google, bunny, fontshare, fontsource, adobe, local
     // .src      # if defined, no other providers will be used given family
     families: [
-      { name: "Inter" },
-      // { name: "Open Sans" },
+      // { name: "Inter" },
+      { name: "Open Sans" },
       // { name: "Roboto" },
       // # do not resolve this font with any provider from `@nuxt/fonts`
       // { name: 'Custom Font', provider: 'none' },

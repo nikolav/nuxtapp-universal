@@ -21,8 +21,11 @@ const { finalizePendingLocaleChange } = useI18n();
       ></noscript>
     </template>
 
-    <!-- setup/init misc. -->
+    <!-- setup misc. -->
     <AppConfigurationBase />
+
+    <!-- app emitter -->
+    <AppConfigurationEmit />
 
     <!-- seo:core -->
     <AppConfigurationSeoBase />

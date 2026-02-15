@@ -18,6 +18,7 @@ import pick from "lodash/pick";
 
 import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
+import { nanoid } from "nanoid";
 
 import { onDebug } from "~/utils/on-debug";
 import { coreHasOwn } from "~/utils/core-has-own";
@@ -67,6 +68,7 @@ export default defineNuxtPlugin({
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),
           // 3rd party
+          nanoid,
           uuid,
           parseBoolean,
         },
