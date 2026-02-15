@@ -16,6 +16,7 @@ import {
   M_collectionBatchUpsert,
   M_collectionDropIds,
   Q_collectionByTag,
+  Q_collectionByTagCount,
 } from "~/graphql";
 
 export class CollectionsDriverApi extends CollectionsBase {
@@ -73,6 +74,20 @@ export class CollectionsDriverApi extends CollectionsBase {
         ),
       ))!,
     );
+  }
+
+  async count() {
+    return (await this.ps.monitor(() =>
+      this.gql(
+        this.withHeaders({
+          document: Q_collectionByTagCount,
+          variables: { tag: this.collectionName },
+        }),
+      ).pipe(
+        filter((res) => true === get(res, "collectionByTagCount.ok")),
+        map((res) => <number>get(res, "collectionByTagCount.result", 0)),
+      ),
+    ))!;
   }
 
   override async init() {

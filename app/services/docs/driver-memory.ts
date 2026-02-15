@@ -3,7 +3,7 @@ import transform from "lodash/transform";
 import find from "lodash/find";
 import { nanoid } from "nanoid";
 
-import type { TRecordJson } from "~/types";
+import type { TMaybeAsync, TRecordJson } from "~/types";
 import { cloned } from "~/utils/cloned";
 import { coreHasOwn as hasOwn } from "~/utils/core-has-own";
 import { deepmerge } from "~/utils/deepmerge";
@@ -62,6 +62,10 @@ export class CollectionsDriverMemory extends CollectionsBase {
         .getValue()
         .filter((node) => ids.every((id_) => id_ !== node.id)),
     );
+  }
+
+  count() {
+    return this.data$.getValue().length;
   }
 
   // load upstream

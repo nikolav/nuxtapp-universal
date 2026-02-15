@@ -34,6 +34,7 @@ export const useDocs = (collectionName: string) => {
     commit: service.commit.bind(service),
     rm: service.rm.bind(service),
     pull: service.pull.bind(service),
+    count: service.count.bind(service),
     start: service.init.bind(service),
     destroy,
   };

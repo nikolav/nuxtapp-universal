@@ -11,6 +11,9 @@ export abstract class CollectionsBase<TNode extends TRecordJson = TRecordJson> {
   // drop records by key
   abstract rm(...keys: any[]): TMaybeAsync<void>;
 
+  // count upsteam docs
+  abstract count(): TMaybeAsync<number>;
+
   // load from upstream
   abstract pull(): TMaybeAsync<void>;
 

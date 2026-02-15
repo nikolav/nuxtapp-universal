@@ -20,3 +20,10 @@ export const Q_collectionByTag = gql`
     collectionByTag(tag: $tag)
   }
 `;
+
+// collectionByTagCount(tag: String!): JsonData!
+export const Q_collectionByTagCount = gql`
+  query q_collectionByTagCount($tag: String!) {
+    collectionByTagCount(tag: $tag)
+  }
+`;
