@@ -1,9 +1,7 @@
 import once from "lodash/once";
 
 import { resolved } from "~/utils/resolved";
-import type { TMaybeAsync } from "~/types";
-
-type TWatchDep<T = unknown> = T | (() => T);
+import type { TMaybeAsync, TWatchDep } from "~/types";
 
 export const useOnceMountedOn = <T = unknown>(
   deps: TWatchDep<T>[],

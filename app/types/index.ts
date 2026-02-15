@@ -84,3 +84,5 @@ export type TDeepmergeArrayMergeStrategy<T = unknown> = (
 export interface IDeepMergeOptions<T = unknown> {
   arrayMergeStrategy: TDeepmergeArrayMergeStrategy<T>;
 }
+
+export type TWatchDep<T = unknown> = T | (() => T);
