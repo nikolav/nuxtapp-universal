@@ -4,8 +4,8 @@ import { CollectionsDriverMemory } from "~/services/docs/driver-memory";
 import { CollectionsDriverApi } from "~/services/docs/driver-api";
 import { useComputed$ } from "~/composables/utils/use-computed-obs";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
-import { useAuth } from "~/stores/use-auth.store";
 import { useTopics } from "~/composables/utils/use-topics";
+import { useAuth } from "~/stores/use-auth.store";
 
 export const useDocs = (collectionName: string) => {
   const ps = useProcessMonitor();
