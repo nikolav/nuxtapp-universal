@@ -30,6 +30,8 @@ export class CollectionsDriverApi extends CollectionsBase {
     private getToken: () => TOrNoValue<string>,
   ) {
     super();
+    if (isEmpty(this.collectionName))
+      throw new Error("No collection name provided.");
   }
 
   // batch commit keys records
