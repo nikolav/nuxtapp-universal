@@ -92,8 +92,8 @@ export default defineNuxtPlugin({
         map((e) => <string>e.payload),
       )
       .subscribe((loc) => {
-        onDebug({ "locale:switch:dayjs": loc });
         dayjs.locale(loc);
+        onDebug({ "locale:switch:dayjs": loc });
       });
 
     return {
