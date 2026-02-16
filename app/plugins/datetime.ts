@@ -77,7 +77,7 @@ export class DatetimeService {
 
   // @@
   utcnow(template?: string) {
-    return DatetimeService.dayjs.utc().format(template);
+    return dayjs.utc().format(template);
   }
 }
 
