@@ -18,5 +18,9 @@ export const usePending = <T = unknown>() => {
     deps.value = $$.omit(deps.value, keys);
   };
 
-  return { pending, track, ignore };
+  const reset = () => {
+    deps.value = <TUsePendingDeps<T>>{};
+  };
+
+  return { pending, track, ignore, reset };
 };
