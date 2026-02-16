@@ -15,6 +15,8 @@ import once from "lodash/once";
 import isFunction from "lodash/isFunction";
 import omit from "lodash/omit";
 import pick from "lodash/pick";
+import keys from "lodash/keys";
+import values from "lodash/values";
 
 import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
@@ -39,6 +41,8 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          keys,
+          values,
           omit,
           pick,
           once,
