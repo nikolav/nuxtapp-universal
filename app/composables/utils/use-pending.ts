@@ -10,8 +10,8 @@ export const usePending = <T = unknown>() => {
     $$.some(deps.value, (dep) => Boolean(toValue(dep))),
   );
 
-  const track = (newDeps: TUsePendingDeps<T>) => {
-    $$.copy(deps.value, newDeps);
+  const track = (addDeps: TUsePendingDeps<T>) => {
+    $$.copy(deps.value, addDeps);
   };
 
   const ignore = (...keys: string[]) => {
