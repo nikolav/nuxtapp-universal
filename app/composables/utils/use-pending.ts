@@ -15,9 +15,7 @@ export const usePending = <T = unknown>() => {
   };
 
   const ignore = (...keys: string[]) => {
-    $$.each(keys, (key) => {
-      delete deps.value[key];
-    });
+    deps.value = $$.omit(deps.value, keys);
   };
 
   return { pending, track, ignore };
