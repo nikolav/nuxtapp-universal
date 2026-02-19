@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useOnceMountedOn } from "~/composables/utils/use-once-mounted-on";
+import { useOnceMounted } from "~/composables/utils/use-once-mounted-on";
 import { onDebug } from "~/utils/on-debug";
 
 definePageMeta({
   layout: "default",
 });
 
-useOnceMountedOn([], () => {
+useOnceMounted([], () => {
   onDebug({ "page-init:demo": true });
 });
 

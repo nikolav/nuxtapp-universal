@@ -7,7 +7,7 @@ import PlayerYoutube from "./PlayerYoutube.vue";
 import PlayerVimeo from "./PlayerVimeo.vue";
 
 import type { TOrNoValue, TPlayerInstance, TPlayerOptions } from "~/types";
-import { useOnceMountedOn } from "~/composables/utils/use-once-mounted-on";
+import { useOnceMounted } from "~/composables/utils/use-once-mounted-on";
 import { usePlayer } from "~/composables/media/use-player";
 
 defineOptions({
@@ -89,7 +89,7 @@ const COMP = {
   vimeo: PlayerVimeo,
 };
 
-useOnceMountedOn([], async () => {
+useOnceMounted([], async () => {
   usePlayer()
     .pipe(take(1))
     .subscribe((Plyr) => {

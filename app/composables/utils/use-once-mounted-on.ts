@@ -3,7 +3,7 @@ import once from "lodash/once";
 import { resolved } from "~/utils/resolved";
 import type { TMaybeAsync, TWatchDep } from "~/types";
 
-export const useOnceMountedOn = <T = unknown>(
+export const useOnceMounted = <T = unknown>(
   deps: TWatchDep<T>[],
   callback: () => TMaybeAsync<void>,
   flush?: "pre" | "post" | "sync",
