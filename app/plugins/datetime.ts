@@ -1,6 +1,14 @@
 import dayjs from "dayjs";
+import "dayjs/locale/sr";
+import "dayjs/locale/sr-cyrl";
+import "dayjs/locale/en";
 
-// Core, high-value plugins
+import { filter, map } from "rxjs/operators";
+
+import { TOKEN_appEmitter$ } from "~/keys";
+import { onDebug } from "~/utils/on-debug";
+
+// core plugins
 import plugin_advancedFormat from "dayjs/plugin/advancedFormat";
 import plugin_customParseFormat from "dayjs/plugin/customParseFormat";
 import plugin_isBetween from "dayjs/plugin/isBetween";
@@ -69,21 +77,24 @@ export class DatetimeService {
 
   // @@
   utcnow(template?: string) {
-    return DatetimeService.dayjs.utc().format(template);
+    return dayjs.utc().format(template);
   }
 }
 
 export default defineNuxtPlugin({
   name: "datetime",
-  setup: (nuxtApp) => {
+  dependsOn: ["emitters"],
+  setup: (_nuxtApp) => {
     // sync dayjs locale with i18n
-    watch(
-      () => nuxtApp.vueApp.$nuxt.$i18n.locale.value,
-      (loc) => {
+    inject(TOKEN_appEmitter$)!
+      .pipe(
+        filter((e) => e.type === useAppConfig().events.EVENT_LOCALE_CHANGE),
+        map((e) => <string>e.payload),
+      )
+      .subscribe((loc) => {
         dayjs.locale(loc);
-      },
-      { immediate: true },
-    );
+        onDebug({ "locale:switch:dayjs": loc });
+      });
 
     return {
       provide: {

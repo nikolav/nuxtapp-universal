@@ -29,7 +29,7 @@ export default defineNuxtPlugin({
           ),
         ),
         catchError((error) => {
-          onDebug({ error });
+          onDebug({ "cash-dom:init:error": error });
           return EMPTY;
         }),
       ),

@@ -35,7 +35,10 @@ export const useProcessMonitor = () => {
   };
 
   // handle status flags for fn that resolves a value, or throws
-  const monitor = async <T = unknown>(fn: () => TMaybeAsync<T>, present = false) => {
+  const monitor = async <T = unknown>(
+    fn: () => TMaybeAsync<T>,
+    present = false,
+  ) => {
     begin();
     try {
       return await $$.resolved<T>(fn(), present);
@@ -51,7 +54,8 @@ export const useProcessMonitor = () => {
   const sync = (pending: Ref<TOrNoValue<boolean>>, error: Ref<any>) => {
     external.value = { pending, error };
   };
-  // map to ps
+
+  // map external to ps
   watch(
     () => [external.value.pending, external.value.error] as const,
     ([pending, error_]) => {
@@ -69,12 +73,10 @@ export const useProcessMonitor = () => {
   );
 
   return {
-    // flags
     error,
     processing,
     success,
 
-    // markers
     begin,
     setError,
     successful,
