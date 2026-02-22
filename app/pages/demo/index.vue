@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useDoc } from "~/composables/doc/use-doc";
 import { useDocs } from "~/composables/docs/use-docs";
 import { useOnceMounted } from "~/composables/utils/use-once-mounted-on";
-import { onDebug } from "~/utils/on-debug";
 
 definePageMeta({
   layout: "default",
@@ -11,6 +9,9 @@ definePageMeta({
 const ls = useDocs("foos");
 const lsCommit = () => {
   ls.commit({ x: Math.random() });
+};
+const lsrm = () => {
+  ls.rm("1SfOQqKRuEwxZmcHNfwL", "50krA68OSImcWrEZgxCv", "AtoJP2ibN218yDxbyISA");
 };
 
 useOnceMounted([], () => {
@@ -27,6 +28,7 @@ useOnceMounted([], () => {
     <h2>page:demo</h2>
     <div class="space-x-2 ms-2">
       <button @click="lsCommit">ls:commit</button>
+      <button @click="lsrm">ls:rm</button>
     </div>
     <div>
       <small>
