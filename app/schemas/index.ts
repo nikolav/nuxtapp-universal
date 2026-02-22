@@ -42,6 +42,8 @@ export const schemaAuthDriver = z.enum(["memory", "api", "firebase"]);
 
 export const schemaNonSpecialChars = z
   .string()
+  .trim()
+  .nonempty()
   .refine((s) => matches(s, rRegexSafeCharacters));
 
 export const schemaCacheKeyDriver = z.enum([

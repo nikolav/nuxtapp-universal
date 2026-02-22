@@ -6,26 +6,28 @@ import { useComputed$ } from "~/composables/utils/use-computed-obs";
 import { useAuth } from "~/stores/use-auth.store";
 import type { CacheByKeyBase } from "~/services/doc/base";
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
+import { schemaNonSpecialChars } from "~/schemas";
 
 export const useDoc = (key: string) => {
   const ps = useProcessMonitor();
   const { CACHE_BY_KEY: CACHE } = useAppConfig().keys;
-  const KEY = `${CACHE}:${key}`;
   const service: CacheByKeyBase = {
-    local: () => CacheByKeyDriverLocal.single(ps, KEY),
-    firebase: () => new CacheByKeyDriverFirebase(ps, CACHE, key),
-    api: () =>
+    local: (key: string) => CacheByKeyDriverLocal.single(ps, `${CACHE}:${key}`),
+    firebase: (key: string) => new CacheByKeyDriverFirebase(ps, CACHE, key),
+    api: (key: string) =>
       new CacheByKeyDriverApi(
         // track request state
         ps,
         // composed key
-        KEY,
+        `${CACHE}:${key}`,
         // api client --gql
         useNuxtApp().$gql,
         // access token getter
         () => useAuth().token,
       ),
-  }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver]();
+  }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](
+    schemaNonSpecialChars.parse(key),
+  );
 
   const data = useComputed$<TRecordJson>(service.data$, {});
 

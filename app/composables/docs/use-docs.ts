@@ -7,13 +7,16 @@ import { useComputed$ } from "~/composables/utils/use-computed-obs";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import { useTopics } from "~/composables/utils/use-topics";
 import { useAuth } from "~/stores/use-auth.store";
+import { schemaNonSpecialChars } from "~/schemas";
 
 export const useDocs = (
   collectionName: string,
   collectionGroup = "_default",
 ) => {
   const ps = useProcessMonitor();
-  const collectionTag = useTopics().collectionsTag(collectionName);
+  const collectionTag = useTopics().collectionsTag(
+    schemaNonSpecialChars.parse(collectionName),
+  );
   const service: CollectionsBase = {
     local: () => CollectionsDriverMemory.single(collectionTag),
     api: () =>
