@@ -71,7 +71,7 @@ export default defineNuxtPlugin({
           // ripple: true,
         },
         AppVBtn: {
-          color: "transparent",
+          color: "surface-light",
           rounded: true,
         },
         // MyButton: {

@@ -157,6 +157,8 @@ export default defineNuxtConfig({
     "~/assets/styles/styles.scss",
     // # using mdi-svg svg icons, skip importing fotn defionitions
     // "@mdi/font/css/materialdesignicons.css",
+    "animate.css/animate.css",
+    "plyr/dist/plyr.css",
   ],
 
   // ---------------------------------------------------------------------------
@@ -400,6 +402,25 @@ export default defineNuxtConfig({
   // alias: {},
 
   vite: {
+    server: {
+      watch: {
+        ignored: [
+          "**/.git/**",
+          "**/node_modules/**",
+          "**/.nuxt/**",
+          "**/.output/**",
+          "**/dist/**",
+        ],
+        usePolling: true,
+        interval: 100,
+      },
+      hmr: {
+        // helps when localhost/ipv6 gets weird
+        protocol: "ws",
+        host: "localhost",
+      },
+    },
+
     plugins: [],
 
     esbuild: {
