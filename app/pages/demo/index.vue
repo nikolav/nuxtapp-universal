@@ -27,8 +27,10 @@ const pswOpen2 = () => {
 
 <template>
   <section class="app-container-reset page--demo">
-    <button @click="pswOpen1">lightbox:open</button>
-    <button @click="pswOpen2">lightbox:open</button>
+    <div class="space-x-2 ms-2">
+      <button @click="pswOpen1">lightbox:open</button>
+      <button @click="pswOpen2">lightbox:open</button>
+    </div>
   </section>
 </template>
 
