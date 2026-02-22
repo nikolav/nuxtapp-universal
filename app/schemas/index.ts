@@ -49,3 +49,10 @@ export const schemaCacheKeyDriver = z.enum([
   "api",
   "firebase",
 ] as const);
+
+export const schemaStatusResultDump = z.object({
+  error: z.unknown(),
+  result: z.unknown(),
+});
+
+export const schemaCollectionsKeyDriver = z.enum(["local", "api"] as const);

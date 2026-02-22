@@ -13,19 +13,27 @@ import some from "lodash/some";
 import every from "lodash/every";
 import once from "lodash/once";
 import isFunction from "lodash/isFunction";
+import omit from "lodash/omit";
+import pick from "lodash/pick";
+import keys from "lodash/keys";
+import values from "lodash/values";
 
+import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
+import { nanoid } from "nanoid";
 
 import { onDebug } from "~/utils/on-debug";
-import { coreHasOwn } from "~/utils/core-has-own";
+import { hasOwn } from "~/utils/core-has-own";
 import { to$ } from "~/utils/to-obs";
 import { resolved } from "~/utils/resolved";
 import { error$$ } from "~/utils/error-obs";
 import { value$$ } from "~/utils/to-value-obs";
 import { deepmerge } from "~/utils/deepmerge";
+import { StatusResult } from "~/utils/status-result";
 //
 export default defineNuxtPlugin({
   name: "utils",
+  enforce: "pre",
   setup: () => {
     return {
       provide: {
@@ -33,6 +41,10 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          keys,
+          values,
+          omit,
+          pick,
           once,
           isFunction,
           some,
@@ -49,17 +61,20 @@ export default defineNuxtPlugin({
           hasPath,
           isString,
           // local
+          res: StatusResult.init.bind(StatusResult),
           deepmerge,
           value$$,
           error$$,
           to$,
           resolved,
           onDebug,
-          hasOwn: coreHasOwn,
+          hasOwn,
           // core, misc.
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),
           // 3rd party
+          nanoid,
+          uuid,
           parseBoolean,
         },
       },

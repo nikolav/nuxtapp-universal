@@ -1,72 +1,164 @@
+/* =============================================================================
+ * Imports
+ * ========================================================================== */
+
 import { z } from "zod";
 import type { Observable, Subject, Subscription } from "rxjs";
 import type { RequestExtendedOptions } from "graphql-request";
 import type { AsyncDataOptions } from "#app";
+
 import type {
   JsonDataRecord as TRecordJson,
   TJson,
   TJsonLiteral,
 } from "../schemas/json.schema";
-import { schemaCacheKeyDriver } from "../schemas";
+import { schemaCacheKeyDriver, schemaCollectionsKeyDriver } from "../schemas";
+
+/* =============================================================================
+ * Core utility types
+ * ========================================================================== */
 
 export type ElementOf<T extends readonly unknown[]> = T[number];
+
 export type TFunctionVoid = (...args: unknown[]) => void;
-export type TFunction<TRes = void, TArgs = unknown> = (
-  ...args: TArgs[]
-) => TRes;
-export type THasId<T = any> = T & { id: any };
-export type TOrNoValue<T = any> = T | undefined | null;
-export type TMaybeEmptySubject = TOrNoValue<Subject<void>>;
+
+/** Generic function type (variadic args). */
+export type TFunction<TRes = void, TArg = unknown> = (...args: TArg[]) => TRes;
+
+export type THasId<T = unknown> = T & { id: unknown };
+
+export type TOrNoValue<T = unknown> = T | undefined | null;
+
 export type TMaybePromise<T> = T | Promise<T>;
 export type TMaybeAsync<T> = T | Observable<T> | Promise<T>;
-export interface IEventApp<TEventAppPayload = unknown> {
+export type TFnMaybeAsync<T = unknown> = () => TMaybeAsync<T>;
+
+/** watch() dep style: value or getter fn. */
+export type TWatchDep<T = unknown> = T | (() => T);
+
+/* =============================================================================
+ * App events
+ * ========================================================================== */
+
+export interface IEventApp<TPayload = unknown> {
   type: string;
-  payload: TEventAppPayload;
+  payload: TPayload;
 }
-export type TGQLOptions<TData = unknown> = { key: any } & Omit<
+
+/* =============================================================================
+ * GraphQL / AsyncData options
+ * ========================================================================== */
+
+export type TGQLOptions<TData = unknown> = { key: unknown } & Omit<
   RequestExtendedOptions,
   "url"
 > &
   AsyncDataOptions<TData>;
-export interface IUser<ID = any> {
+
+/* =============================================================================
+ * Auth / user models
+ * ========================================================================== */
+
+export interface IUser<ID = unknown> {
   id: ID;
   email: string;
   key?: unknown;
   password?: string;
 }
+
 export type TUser = IUser<string> & { key: string };
+
 export interface ICredentials {
   email: string;
   password: string;
 }
+
 export interface IAuthenticateOptions {
   timeoutMs: number;
   controller?: globalThis.AbortController;
 }
+
+/* =============================================================================
+ * Browser / file picking
+ * ========================================================================== */
+
 export interface IPickFileOptions {
-  // accept attribute: e.g. "image/*,.pdf,.csv"
+  /** accept attribute: e.g. "image/*,.pdf,.csv" */
   accept?: string;
-  // allow multiple selection
+  /** allow multiple selection */
   multiple?: boolean;
-  // mobile camera/mic hint: "user" | "environment"
+  /** mobile camera/mic hint */
   capture?: "user" | "environment";
-  // chrome-only directory pick (non-standard)
-  // uses webkitdirectory under the hood
+  /**
+   * chrome-only directory pick (non-standard)
+   * uses webkitdirectory under the hood
+   */
   directory?: boolean;
 }
+
+/* =============================================================================
+ * Store / flags
+ * ========================================================================== */
+
 export interface IStoreFlags {
   [name: string]: boolean;
 }
+
+/* =============================================================================
+ * Zod-derived driver types
+ * ========================================================================== */
+
 export type TUseCacheKeyDriver = z.infer<typeof schemaCacheKeyDriver>;
+export type TUseDocsKeyDriver = z.infer<typeof schemaCollectionsKeyDriver>;
+
+/* =============================================================================
+ * RxJS helpers
+ * ========================================================================== */
+
+export type TMaybeEmptySubject = TOrNoValue<Subject<void>>;
+
 export type TManageSubscriptionsCache = Record<
   string,
   TOrNoValue<Subscription>
 >;
-//
+
+/* =============================================================================
+ * Re-exports (types/services)
+ * ========================================================================== */
+
+// service type alias (value export -> aliased as a type)
 export { AuthService as TAuthService } from "~/services/auth/base";
+
+// json schema types
 export type { TRecordJson, TJson, TJsonLiteral };
 
+/* =============================================================================
+ * External libs / dynamic imports
+ * ========================================================================== */
+
 export type TCashDomClient = typeof import("cash-dom").default;
+
 export type TUseProcessMonitorReturnType = ReturnType<
   typeof import("../composables/utils/use-process-monitor").useProcessMonitor
 >;
+
+/* =============================================================================
+ * Plyr (video)
+ * ========================================================================== */
+
+export type TPlayer = typeof import("plyr").default;
+export type TPlayerInstance = InstanceType<TPlayer>;
+export type { Options as TPlayerOptions } from "plyr";
+
+/* =============================================================================
+ * Deep-merge options
+ * ========================================================================== */
+
+export type TDeepmergeArrayMergeStrategy<T = unknown> = (
+  targetArray: T[],
+  sourceArray: T[],
+) => T[];
+
+export interface IDeepMergeOptions<T = unknown> {
+  arrayMergeStrategy: TDeepmergeArrayMergeStrategy<T>;
+}
