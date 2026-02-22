@@ -70,6 +70,9 @@ export default defineNuxtPlugin({
         global: {
           // ripple: true,
         },
+        VBtn: {
+          rounded: true,
+        },
         AppVBtn: {
           color: "surface-light",
           rounded: true,
@@ -85,11 +88,11 @@ export default defineNuxtPlugin({
         VCol: {
           cols: 12,
         },
-        VTooltip: {
-          // openDelay: TOOLTIPS_OPEN_DELAY,
-          // location: "bottom",
-          // activator: "parent",
-        },
+        // VTooltip: {
+        //   // openDelay: TOOLTIPS_OPEN_DELAY,
+        //   // location: "bottom",
+        //   // activator: "parent",
+        // },
         // VMenu: {
         //   transition: DEFAULT_TRANSITION,
         // },
