@@ -14,26 +14,29 @@ export const useDocs = (
   collectionGroup = "_default",
 ) => {
   const ps = useProcessMonitor();
-  const collectionTag = useTopics().collectionsTag(
-    schemaNonSpecialChars.parse(collectionName),
-  );
   const service: CollectionsBase = {
-    local: () => CollectionsDriverMemory.single(collectionTag),
-    api: () =>
+    local: (collectionGroup: string, collectionName: string) =>
+      CollectionsDriverMemory.single(
+        useTopics().collectionsTag(`${collectionGroup}:${collectionName}`),
+      ),
+    api: (collectionGroup: string, collectionName: string) =>
       new CollectionsDriverApi(
         ps,
-        collectionTag,
+        useTopics().collectionsTag(`${collectionGroup}:${collectionName}`),
         useNuxtApp().$gql,
         () => useAuth().token,
       ),
-    firebase: () =>
+    firebase: (collectionGroup: string, collectionName: string) =>
       new CollectionsFirebase(
         ps,
         useAppConfig().services.firebase.COLLECTIONS_PATH,
         collectionGroup,
         collectionName,
       ),
-  }[<TUseDocsKeyDriver>useRuntimeConfig().public.collectionsKeyDriver]();
+  }[<TUseDocsKeyDriver>useRuntimeConfig().public.collectionsKeyDriver](
+    schemaNonSpecialChars.parse(collectionGroup),
+    schemaNonSpecialChars.parse(collectionName),
+  );
 
   const data = useComputed$(service.data$, []);
 

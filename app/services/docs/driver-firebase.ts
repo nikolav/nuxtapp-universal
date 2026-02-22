@@ -1,5 +1,11 @@
 import { BehaviorSubject, EMPTY, from, Observable } from "rxjs";
-import { catchError, mergeMap } from "rxjs/operators";
+import {
+  catchError,
+  endWith,
+  ignoreElements,
+  mergeMap,
+  toArray,
+} from "rxjs/operators";
 import {
   doc,
   onSnapshot,
@@ -20,6 +26,7 @@ import type {
 import { CollectionsBase } from "~/services/docs/base";
 import { firestore } from "~/config/firebase";
 import { withTimestamp } from "~/utils/firebase";
+import { onDebug } from "~/utils/on-debug";
 
 const CONCURRENCY = 22;
 export class CollectionsFirebase extends CollectionsBase {
@@ -80,6 +87,19 @@ export class CollectionsFirebase extends CollectionsBase {
                 }),
               CONCURRENCY,
             ),
+
+            // wait, discard all
+            toArray(),
+            ignoreElements(),
+
+            // emit empty
+            endWith(void 0),
+
+            // log errors, pass
+            catchError((error) => {
+              onDebug({ "docs:fireabse:commit": error });
+              return EMPTY;
+            }),
           ),
     );
   }
@@ -113,7 +133,18 @@ export class CollectionsFirebase extends CollectionsBase {
                 }),
               CONCURRENCY,
             ),
-            catchError(() => EMPTY),
+
+            // wait, discard all
+            toArray(),
+            ignoreElements(),
+
+            // emit empty
+            endWith(void 0),
+
+            catchError((error) => {
+              onDebug({ "docs:fireabse:rm": error });
+              return EMPTY;
+            }),
           ),
     );
   }
