@@ -151,11 +151,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   // 05) Styling (global CSS entrypoints)
   // ---------------------------------------------------------------------------
-  css: [
-    "~/assets/styles/styles.scss",
-    "animate.css/animate.css",
-    "plyr/dist/plyr.css",
-  ],
+  css: ["~/assets/styles/styles.scss", "animate.css", "plyr/dist/plyr.css"],
 
   // ---------------------------------------------------------------------------
   // 06) Runtime config (server secrets + public client config)

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:clean": "rm -rf .nuxt .output node_modules/.vite && npm run dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -31,6 +32,7 @@
     "@nuxtjs/seo": "^3.3.0",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@pinia/nuxt": "^0.11.3",
+    "@vueuse/core": "^14.2.1",
     "@vueuse/nuxt": "^14.1.0",
     "@vueuse/rxjs": "^14.2.1",
     "animate.css": "^4.1.1",
