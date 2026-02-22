@@ -15,7 +15,7 @@ export default defineI18nConfig(() => ({
   //   default: ['en', 'da']
   // }
   // default locale
-  locale: <any>process.env.NUXT_DEFAULT_LOCALE,
+  locale: <any>process.env.NUXT_DEFAULT_LOCALE ?? "sr",
   // escapeParameter: true,
   missingWarn: false,
   fallbackWarn: false,
@@ -27,6 +27,23 @@ export default defineI18nConfig(() => ({
   formatFallbackMessages: true,
   datetimeFormats: {
     sr: {
+      short: {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      },
+      long: {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false,
+      },
+      numeric: { year: "numeric", month: "2-digit", day: "2-digit" },
+    },
+    "sr-cyrl": {
       short: {
         year: "numeric",
         month: "short",
@@ -62,10 +79,10 @@ export default defineI18nConfig(() => ({
     },
   },
   numberFormats: {
-    en: {
+    sr: {
       currency: {
         style: "currency",
-        currency: "USD",
+        currency: "RSD",
         currencyDisplay: "symbol",
         notation: "standard",
       },
@@ -81,10 +98,29 @@ export default defineI18nConfig(() => ({
         maximumFractionDigits: 0,
       },
     },
-    sr: {
+    "sr-cyrl": {
       currency: {
         style: "currency",
         currency: "RSD",
+        currencyDisplay: "symbol",
+        notation: "standard",
+      },
+      decimal: {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        useGrouping: true,
+      },
+      percent: {
+        style: "percent",
+        useGrouping: false,
+        maximumFractionDigits: 0,
+      },
+    },
+    en: {
+      currency: {
+        style: "currency",
+        currency: "USD",
         currencyDisplay: "symbol",
         notation: "standard",
       },

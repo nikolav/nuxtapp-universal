@@ -151,7 +151,12 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   // 05) Styling (global CSS entrypoints)
   // ---------------------------------------------------------------------------
-  css: ["~/assets/styles/styles.scss"],
+  css: [
+    "~/assets/styles/styles.scss",
+    "animate.css/animate.css",
+    "photoswipe/style.css",
+    "plyr/dist/plyr.css",
+  ],
 
   // ---------------------------------------------------------------------------
   // 06) Runtime config (server secrets + public client config)
@@ -383,6 +388,25 @@ export default defineNuxtConfig({
   // alias: {},
 
   vite: {
+    server: {
+      watch: {
+        ignored: [
+          "**/.git/**",
+          "**/node_modules/**",
+          "**/.nuxt/**",
+          "**/.output/**",
+          "**/dist/**",
+        ],
+        usePolling: true,
+        interval: 100,
+      },
+      hmr: {
+        // helps when localhost/ipv6 gets weird
+        protocol: "ws",
+        host: "localhost",
+      },
+    },
+
     esbuild: {
       // Production log stripping
       drop: PRODUCTION ? ["console", "debugger"] : [],
