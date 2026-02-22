@@ -5,6 +5,7 @@ import type { CacheByKeyBase } from "~/services/doc/base";
 import { CacheByKeyDriverApi } from "~/services/doc/driver-api";
 import { useAuth } from "~/stores/use-auth.store";
 import { useComputed$ } from "~/composables/utils/use-computed-obs";
+import { schemaNonSpecialChars } from "~/schemas";
 
 export const useDoc = (key: string) => {
   const ps = useProcessMonitor();
@@ -22,7 +23,9 @@ export const useDoc = (key: string) => {
         // access token getter
         () => useAuth().token,
       ),
-  }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](key);
+  }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](
+    schemaNonSpecialChars.parse(key),
+  );
 
   const data = useComputed$<TRecordJson>(service.data$, {});
 
