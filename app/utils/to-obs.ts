@@ -1,8 +1,24 @@
-import { defer, from, isObservable, of } from "rxjs";
+import { toRef } from "vue";
+import type { WatchOptions } from "vue";
+import { defer, from, isObservable } from "rxjs";
+import type { Observable } from "rxjs";
+import { from as vufrom } from "@vueuse/rxjs";
+import isFunction from "lodash/isFunction";
+
 import type { TMaybeAsync } from "~/types";
 
-const isPromiseLike = <T = unknown>(x: any): x is Promise<T> =>
-  !!x && "function" === typeof x.then;
+const isPromiseLike = <T = unknown>(x: any): x is PromiseLike<T> =>
+  isFunction(Object(x).then);
 
-export const to$ = <T = unknown>(v: TMaybeAsync<T>) =>
-  defer(() => (isObservable(v) ? v : isPromiseLike<T>(v) ? from(v) : of(v)));
+export const to$ = <T = unknown>(
+  input: TMaybeAsync<T>,
+  watchOptins: WatchOptions = { immediate: true },
+) =>
+  defer(() => {
+    // Observable
+    if (isObservable(input)) return input;
+    // Promise / PromiseLike
+    if (isPromiseLike<T>(input)) return from(input);
+    // else Vue reactivity|getter
+    return <Observable<T>>vufrom(toRef<T>(input), watchOptins);
+  });
