@@ -17,6 +17,9 @@ export default defineAppConfig({
         timeoutMs: 8122,
       },
     },
+    firebase: {
+      COLLECTIONS_PATH: "docs",
+    },
   },
 
   keys: {

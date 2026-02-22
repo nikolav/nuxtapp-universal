@@ -2,12 +2,16 @@ import type { TUseDocsKeyDriver } from "~/types";
 import type { CollectionsBase } from "~/services/docs/base";
 import { CollectionsDriverMemory } from "~/services/docs/driver-memory";
 import { CollectionsDriverApi } from "~/services/docs/driver-api";
+import { CollectionsFirebase } from "~/services/docs/driver-firebase";
 import { useComputed$ } from "~/composables/utils/use-computed-obs";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import { useTopics } from "~/composables/utils/use-topics";
 import { useAuth } from "~/stores/use-auth.store";
 
-export const useDocs = (collectionName: string) => {
+export const useDocs = (
+  collectionName: string,
+  collectionGroup = "_default",
+) => {
   const ps = useProcessMonitor();
   const collectionTag = useTopics().collectionsTag(collectionName);
   const service: CollectionsBase = {
@@ -18,6 +22,13 @@ export const useDocs = (collectionName: string) => {
         collectionTag,
         useNuxtApp().$gql,
         () => useAuth().token,
+      ),
+    firebase: () =>
+      new CollectionsFirebase(
+        ps,
+        useAppConfig().services.firebase.COLLECTIONS_PATH,
+        collectionGroup,
+        collectionName,
       ),
   }[<TUseDocsKeyDriver>useRuntimeConfig().public.collectionsKeyDriver]();
 
