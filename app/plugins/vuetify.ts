@@ -56,7 +56,7 @@ export default defineNuxtPlugin({
           lighten: 1,
           darken: 1,
         },
-        layers: true,
+        // layers: true,
         // cspNonce: "foo",
         // stylesheetId: "122",
       },

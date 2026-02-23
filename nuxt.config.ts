@@ -153,13 +153,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   // 05) Styling (global CSS entrypoints)
   // ---------------------------------------------------------------------------
-  css: [
-    "~/assets/styles/styles.scss",
-    // # using mdi-svg svg icons, skip importing fotn defionitions
-    // "@mdi/font/css/materialdesignicons.css",
-    "animate.css/animate.css",
-    "plyr/dist/plyr.css",
-  ],
+  css: ["~/assets/styles/styles.scss"],
 
   // ---------------------------------------------------------------------------
   // 06) Runtime config (server secrets + public client config)
