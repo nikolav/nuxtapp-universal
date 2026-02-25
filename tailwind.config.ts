@@ -1,100 +1,126 @@
 import type { Config } from "tailwindcss";
-// import { fontFamily } from "tailwindcss/defaultTheme";
-// import twTypography from "@tailwindcss/typography";
-// import twAspectRatio from "@tailwindcss/aspect-ratio";
-// import twContainer from "@tailwindcss/container-queries";
-import { COLOR_PRIMARY } from "./app/assets/themes/colors";
 
-const primary = COLOR_PRIMARY;
+import { COLOR_PRIMARY as primary } from "./app/assets/themes/colors";
+import { darkRootClass } from "./app/config/vars.env.public";
 
 export default {
   // Safer default for Vue/Nuxt (SSR friendly + predictable)
-  darkMode: "class",
+  darkMode: ["selector", `.${darkRootClass}`],
 
   // Use project-root relative paths (avoid ../ unless this file is inside /config)
-  content: ["./app/**/*.{vue,js,ts,md,mdx,html}", "./nuxt.config.{js,ts}"],
+  content: [
+    "./app/**/*.{vue,js,ts,jsx,tsx,md,mdx,html}",
+    "./components/**/*.{vue,js,ts,jsx,tsx}",
+    "./layouts/**/*.{vue,js,ts,jsx,tsx}",
+    "./pages/**/*.{vue,js,ts,jsx,tsx}",
+    "./plugins/**/*.{js,ts}",
+    "./composables/**/*.{js,ts}",
+    "./utils/**/*.{js,ts}",
+    "./nuxt.config.{js,ts}",
+    "./app.vue",
+    "./error.vue",
+  ],
 
   // Keep empty unless you *need* dynamic class support
-  safelist: [],
+  safelist: [
+    { pattern: /^(bg|text|border|ring|outline)-v-(.+)$/ },
+    { pattern: /^(bg|text|border|ring|outline)-v-(.+)\/\d+$/ },
+  ],
 
   // Keep empty unless you intentionally want to prevent some utilities
   blocklist: [],
 
   theme: {
     extend: {
+      screens: {
+        xs: "0px",
+        sm: "600px",
+        md: "960px",
+        lg: "1280px",
+        xl: "1920px",
+        "2xl": "2560px",
+      },
+
       colors: {
         current: "currentColor",
         transparent: "transparent",
         primary,
-      },
+        // handy when mixing with Vuetify CSS vars in utilities:
+        // text-v-primary
+        // e.g. text-[rgb(var(--v-theme-on-surface))]
+        v: {
+          primary: "rgb(var(--v-theme-primary), <alpha-value>)",
+          "on-primary": "rgb(var(--v-theme-on-primary), <alpha-value>)",
 
-      screens: {
-        /* size tiers */
-        xs: { min: "0px" },
-        sm: { min: "599.98px" }, // mobile landscape / small tablets
-        md: { min: "959.98px" }, // tablets / small laptops
-        lg: { min: "1279.98px" }, // laptops
-        xl: { min: "1919.98px" }, // full HD
-        "2xl": { min: "2559.98px" }, // QHD / large desktop monitors
-        huge: { min: "3199.98px" }, // 4K+ / ultrawide / design & data screens
+          secondary: "rgb(var(--v-theme-secondary), <alpha-value>)",
+          "on-secondary": "rgb(var(--v-theme-on-secondary), <alpha-value>)",
 
-        /* semantic device ranges */
-        handset: {
-          raw: "(max-width: 599.98px) and (orientation: portrait), (max-width: 959.98px) and (orientation: landscape)",
-        },
-        tablet: {
-          raw: "(min-width: 600px) and (max-width: 839.98px) and (orientation: portrait), (min-width: 960px) and (max-width: 1279.98px) and (orientation: landscape)",
-        },
-        web: {
-          raw: "(min-width: 840px) and (orientation: portrait), (min-width: 1280px) and (orientation: landscape)",
-        },
+          success: "rgb(var(--v-theme-success), <alpha-value>)",
+          warning: "rgb(var(--v-theme-warning), <alpha-value>)",
+          error: "rgb(var(--v-theme-error), <alpha-value>)",
+          info: "rgb(var(--v-theme-info), <alpha-value>)",
 
-        /* orientation-aware */
-        "handset-p": {
-          raw: "(max-width: 599.98px) and (orientation: portrait)",
-        },
-        "handset-l": {
-          raw: "(max-width: 959.98px) and (orientation: landscape)",
-        },
+          background: "rgb(var(--v-theme-background), <alpha-value>)",
+          surface: "rgb(var(--v-theme-surface), <alpha-value>)",
+          "surface-variant":
+            "rgb(var(--v-theme-surface-variant), <alpha-value>)",
+          "surface-light": "rgb(var(--v-theme-surface-light), <alpha-value>)",
+          "surface-bright": "rgb(var(--v-theme-surface-bright), <alpha-value>)",
 
-        "tablet-p": {
-          raw: "(min-width: 600px) and (max-width: 839.98px) and (orientation: portrait)",
-        },
-        "tablet-l": {
-          raw: "(min-width: 960px) and (max-width: 1279.98px) and (orientation: landscape)",
-        },
+          "on-background": "rgb(var(--v-theme-on-background), <alpha-value>)",
+          "on-surface": "rgb(var(--v-theme-on-surface), <alpha-value>)",
 
-        "web-p": {
-          raw: "(min-width: 840px) and (orientation: portrait)",
-        },
-        "web-l": {
-          raw: "(min-width: 1280px) and (orientation: landscape)",
+          outline: "rgb(var(--v-theme-outline), <alpha-value>)",
         },
       },
 
-      // Tailwind's container sizing helper (safe default for apps)
-      // container: {
-      //   center: true,
-      //   padding: "1rem",
-      //   screens: {
-      //     desktop: "1280px",
-      //   },
-      // },
+      spacing: {
+        rem: "1rem",
+      },
 
-      // Your custom container queries sizes
-      // containers: {
-      //   "2xs": "16rem",
-      // },
       fontFamily: {
-        // roboto: ["Roboto", "Roboto fallback", ...fontFamily.sans],
+        sans: [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "Arial",
+          "Noto Sans",
+          "sans-serif",
+        ],
+      },
+
+      borderRadius: {
+        // Matches Vuetify default rounding better for utility wrappers/cards you add
+        "v-card": "var(--v-border-radius, 16px)",
       },
     },
   },
 
+  /**
+   * Key Vuetify compatibility:
+   * Tailwind v4+ injects “preflight” via `@import "tailwindcss";`
+   * To avoid subtle CSS baseline conflicts with Vuetify components,
+   * disable Tailwind’s preflight.
+   *
+   * If you rely on preflight (prose pages, markdown), enable it and add a scoped reset
+   * only in those areas instead.
+   */
   corePlugins: {
-    // keep your intent: avoid conflicts with the plugin + native utilities
-    // aspectRatio: false,
+    preflight: false,
   },
 
-  // plugins: [twTypography, twAspectRatio, twContainer],
+  /**
+   * Minimal plugins that play well with Vuetify:
+   * - typography is great for markdown/blog content (wrap with `prose` only)
+   * - container-queries is safe and useful
+   *
+   * Add aspect-ratio only if you need it (Vuetify has its own patterns too).
+   */
+  plugins: [
+    // require("@tailwindcss/typography"),
+    // require("@tailwindcss/container-queries"),
+  ],
 } satisfies Config;
