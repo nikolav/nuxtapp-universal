@@ -136,6 +136,14 @@ export type { TRecordJson, TJson, TJsonLiteral };
  * External libs / dynamic imports
  * ========================================================================== */
 
+export type TElement = HTMLElement & Element & Node;
+
+export type {
+  Selector as TDomSelector,
+  Context as TDomContext,
+  Cash as TCash,
+} from "cash-dom";
+
 export type TCashDomClient = typeof import("cash-dom").default;
 
 export type TUseProcessMonitorReturnType = ReturnType<
