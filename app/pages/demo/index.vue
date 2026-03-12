@@ -17,7 +17,7 @@ useOnceMounted([], () => {
 
 <template>
   <section class="app-container-reset page--demo">
-    <h2>page:demo</h2>
+    <h1>page:demo</h1>
   </section>
 </template>
 

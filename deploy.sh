@@ -15,7 +15,6 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   -e NITRO_HOST=0.0.0.0 \
   -e NITRO_PORT=3000 \
   -p 127.0.0.1:3000:3000 \
-  --pull=always \
   --restart unless-stopped \
   --health-cmd 'wget -qO- http://127.0.0.1:3000/healthz >/dev/null || exit 1' \
   --health-interval 122s \
@@ -23,6 +22,8 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   --health-retries 3 \
   --health-start-period 10s \
   "$IMAGE"
+
+# --pull=always \
 
 # docker ps -a --filter "name=$NAME"
 # docker logs --tail=122 "$NAME"
