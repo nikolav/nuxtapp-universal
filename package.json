@@ -36,6 +36,7 @@
     "@vueuse/nuxt": "^14.1.0",
     "@vueuse/rxjs": "^14.2.1",
     "animate.css": "^4.1.1",
+    "appwrite": "^23.0.0",
     "bcryptjs": "^3.0.3",
     "cash-dom": "^8.1.5",
     "dayjs": "^1.11.19",

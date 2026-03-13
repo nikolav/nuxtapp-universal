@@ -237,6 +237,11 @@ export default defineNuxtConfig({
       collectionsKeyDriver: schemaCollectionsKeyDriver.parse(
         process.env.NUXT_PUBLIC_COLLECTIONS_KEY_DRIVER ?? "local",
       ),
+
+      appwrite: {
+        endpoint: process.env.NUXT_PUBLIC_APPWRITE_ENDPOINT,
+        project: process.env.NUXT_PUBLIC_APPWRITE_PROJECT,
+      },
     },
   },
 
