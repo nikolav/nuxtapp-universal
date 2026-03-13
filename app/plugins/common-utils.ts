@@ -30,6 +30,7 @@ import { error$$ } from "~/utils/error-obs";
 import { value$$ } from "~/utils/to-value-obs";
 import { deepmerge } from "~/utils/deepmerge";
 import { StatusResult } from "~/utils/status-result";
+import { parseShell } from "~/utils/parse-shell";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -61,6 +62,7 @@ export default defineNuxtPlugin({
           hasPath,
           isString,
           // local
+          parseShell,
           res: StatusResult.init.bind(StatusResult),
           deepmerge,
           value$$,
