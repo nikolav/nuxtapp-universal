@@ -1,12 +1,13 @@
 import { onScopeDispose } from "vue";
 import { tap } from "rxjs/operators";
 
+import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
+import { schemaAuthDriver, schemaAuthToken } from "~/schemas";
 import { usePopupOAuth } from "~/composables/auth/use-popup-oauth";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
-import { schemaAuthDriver, schemaAuthToken } from "~/schemas";
 import { AuthApiService } from "~/services/auth/auth-api.service";
 import { AuthMemoryService } from "~/services/auth/auth-memory.service";
-import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
+import { AuthAppWriteService } from "~/services/auth/auth-appwrite.service";
 
 export const useAuth = defineStore("store-auth", () => {
   const { $$ } = useNuxtApp();
@@ -22,6 +23,7 @@ export const useAuth = defineStore("store-auth", () => {
     {
       memory: () => new AuthMemoryService(),
       api: () => new AuthApiService(config, defaultsAuthenticate),
+      appwrite: () => new AuthAppWriteService(useNuxtApp().$appwrite.account),
     },
     schemaAuthDriver.parse(config.auth.driver),
   )();

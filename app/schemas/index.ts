@@ -23,8 +23,12 @@ export const schemaAuthToken = z
   .refine((val) => {
     // jwt
     if (val.includes(".") && isJWT(val)) return true;
+
     // laravel sanctum token format: "123|abcdef..."
     if (/^\d+\|[A-Za-z0-9+/=_-]+$/.test(val)) return true;
+
+    // test appwrite sessionId used as token
+    if (/^[a-z0-9]+$/i.test(val)) return true;
 
     return false;
   }, "Invalid token format");
@@ -40,7 +44,7 @@ export const schemaOAuthPayload = z.discriminatedUnion("type", [
   }),
 ]);
 
-export const schemaAuthDriver = z.enum(["memory", "api"]);
+export const schemaAuthDriver = z.enum(["memory", "api", "appwrite"]);
 
 export const schemaNonSpecialChars = z
   .string()
