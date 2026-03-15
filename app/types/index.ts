@@ -149,6 +149,9 @@ export type TCashDomClient = typeof import("cash-dom").default;
 export type TUseProcessMonitorReturnType = ReturnType<
   typeof import("../composables/utils/use-process-monitor").useProcessMonitor
 >;
+export type TUseCleanup = ReturnType<
+  typeof import("../composables/utils/use-cleanup").useCleanup
+>;
 
 /* =============================================================================
  * Plyr (video)

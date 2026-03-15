@@ -1,11 +1,13 @@
-import { CacheByKeyDriverLocal } from "~/services/doc/local";
-import { useProcessMonitor } from "../utils/use-process-monitor";
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
+import { schemaNonSpecialChars } from "~/schemas";
+import { CacheByKeyDriverLocal } from "~/services/doc/local";
 import type { CacheByKeyBase } from "~/services/doc/base";
 import { CacheByKeyDriverApi } from "~/services/doc/driver-api";
 import { useAuth } from "~/stores/use-auth.store";
+import { CacheByKeyDriverAppwrite } from "~/services/doc/driver-appwrite";
+import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import { useComputed$ } from "~/composables/utils/use-computed-obs";
-import { schemaNonSpecialChars } from "~/schemas";
+import { useCleanup } from "~/composables/utils/use-cleanup";
 
 export const useDoc = (key: string) => {
   const ps = useProcessMonitor();
@@ -22,6 +24,14 @@ export const useDoc = (key: string) => {
         useNuxtApp().$gql,
         // access token getter
         () => useAuth().token,
+      ),
+    appwrite: () =>
+      new CacheByKeyDriverAppwrite(
+        key,
+        ps,
+        useNuxtApp().$appwrite.tables,
+        useNuxtApp().$appwrite.realtime,
+        useCleanup(),
       ),
   }[<TUseCacheKeyDriver>useRuntimeConfig().public.cacheKeyDriver](
     schemaNonSpecialChars.parse(key),

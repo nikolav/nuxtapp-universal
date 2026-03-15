@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDoc } from "~/composables/doc/use-doc";
 import { useOnceMounted } from "~/composables/utils/use-once-mounted-on";
 import { useAuth } from "~/stores/use-auth.store";
 import { onDebug } from "~/utils/on-debug";
@@ -7,18 +8,21 @@ definePageMeta({
   layout: "default",
 });
 
-useOnceMounted([], () => {
-  onDebug({ "page-init:demo": true });
-});
-
+const { $$ } = useNuxtApp();
 const auth = useAuth();
-
-const ok = async () => {
-  console.log(await useNuxtApp().$appwrite.account.get());
+const d = useDoc("foo:x1");
+const docPush = () => {
+  d.commit({ foo: $$.nanoid(), "x:1": Math.random() });
+};
+const docRm = () => {
+  d.rm("foo");
 };
 
-// 76979871
-// DyXl4c2XN-o
+useOnceMounted([], () => {
+  onDebug({ "page-init:demo": true });
+  d.start();
+});
+
 // @@eos
 </script>
 
@@ -36,16 +40,12 @@ const ok = async () => {
       >
         login
       </button>
-      <button @click="auth.logout()">logout</button>
-      <button @click="ok">ok</button>
+      <button @click="docPush">doc:push</button>
+      <button @click="docRm">doc:rm</button>
     </div>
     <div>
       <small>
-        <pre>
-        isAuth:  [{{ auth.isAuth }}]
-        account: [{{ auth.account }}]
-      </pre
-        >
+        <pre>data: [{{ d.data.value }}]</pre>
       </small>
     </div>
   </section>

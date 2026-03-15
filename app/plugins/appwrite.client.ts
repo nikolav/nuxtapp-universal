@@ -1,4 +1,11 @@
-import { Client, Account, Databases, Storage } from "appwrite";
+import {
+  Client,
+  Account,
+  Databases,
+  TablesDB,
+  Storage,
+  Realtime,
+} from "appwrite";
 
 export default defineNuxtPlugin({
   name: "appwrite",
@@ -13,7 +20,9 @@ export default defineNuxtPlugin({
           client,
           account: new Account(client),
           db: new Databases(client),
+          tables: new TablesDB(client),
           storage: new Storage(client),
+          realtime: new Realtime(client),
         },
       },
     };
