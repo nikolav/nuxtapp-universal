@@ -8,7 +8,7 @@ export const transformAppwriteDoc = z.transform(
     d
       ? <TRecordJson>{
           ...d,
-          id: d.$id,
+          id: d["$id"],
           data: JSON.parse(d.data ?? "{}"),
           created_at: d.$createdAt,
           updated_at: d.$updatedAt,
