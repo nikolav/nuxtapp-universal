@@ -26,27 +26,17 @@
 // ##provide
 // ##io
 
-const { t, setLocale } = useI18n();
-
 // @@eos
 </script>
 <template>
-  <section class="app-container-reset latout--default">
+  <VMain>
     <NuxtLinkLocale :to="{ name: 'demo' }">demo</NuxtLinkLocale>
     <span> | </span>
     <NuxtLinkLocale :to="{ name: 'index' }">home</NuxtLinkLocale>
     <span> | </span>
     <NuxtLinkLocale :to="{ name: 'about' }">about</NuxtLinkLocale>
-    <span> | </span>
-    <NuxtLinkLocale
-      :to="{ name: 'blogs-tech-slug', params: { slug: 'foo:333' } }"
-      >blogs:tech</NuxtLinkLocale
-    >
-    <h1>{{ t("Danas je lepo vreme.") }}</h1>
-    <button @click="setLocale('sr')" class="p-2">sr</button>
-    <button @click="setLocale('en')" class="p-2">en</button>
     <slot />
-  </section>
+  </VMain>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

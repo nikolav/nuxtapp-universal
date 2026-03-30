@@ -1,5 +1,7 @@
+import vitePluginVuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import { z } from "zod";
 import trimEnd from "lodash/trimEnd";
+
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
@@ -360,6 +362,17 @@ export default defineNuxtConfig({
   // 10) Hooks (build/runtime lifecycle taps)
   // ---------------------------------------------------------------------------
   hooks: {
+    "vite:extendConfig"(config: any) {
+      config.plugins ||= [];
+      config.plugins.push(
+        ...vitePluginVuetify({
+          autoImport: true,
+          styles: {
+            configFile: "assets/styles/vuetify/settings.scss",
+          },
+        }),
+      );
+    },
     "prerender:routes": async ({ routes }) => {
       // Example:
       // const res = await fetch(API_URL);
@@ -402,15 +415,40 @@ export default defineNuxtConfig({
       },
     },
 
+    plugins: [],
+
     esbuild: {
       // Production log stripping
       drop: PRODUCTION ? ["console", "debugger"] : [],
     },
+
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
+
+    // global scss injection for all preprocessed .scss files
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData:
+            '@use "~/assets/styles/preprocessor-defaults-overrides.scss" as *;',
+        },
+      },
+    },
+
+    ssr: { noExternal: ["vuetify"] },
+
     clearScreen: false,
   },
 
   // Source maps strategy (server always useful; client hidden for prod)
   sourcemap: { server: true, client: "hidden" },
+
+  build: {
+    transpile: ["vuetify"],
+  },
 
   // ---------------------------------------------------------------------------
   // 12) Module configuration blocks

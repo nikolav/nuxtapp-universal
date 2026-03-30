@@ -45,6 +45,7 @@ export default defineConfig({
           hookTimeout: 60000,
           testTimeout: 60000,
 
+          globals: true,
           environmentOptions: {
             nuxt: {
               rootDir: fileURLToPath(new URL(".", import.meta.url)),

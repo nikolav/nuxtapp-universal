@@ -1,20 +1,17 @@
 <script setup lang="ts">
+const props = defineProps<{ icon: any }>();
 const { $$ } = useNuxtApp();
-const props = defineProps<{ icon?: any }>();
-
+//
 const isRenderFN = computed(() => !$$.isString(props.icon));
-
-// # adds vuetify v-icon
-// const isVuetifyIcon = computed(
-//   () => !isRenderFN.value && String(props.icon).startsWith("$")
-// );
-// <VIcon v-else-if="isVuetifyIcon" :icon="icon" v-bind="$attrs" />
-
+const isVuetifyIcon = computed(
+  () => !isRenderFN.value && String(props.icon).startsWith("$")
+);
 // @@eos
 </script>
 <template>
-  <component v-if="isRenderFN" :is="props.icon" v-bind="$attrs" />
-  <NuxtIcon v-else :name="props.icon" v-bind="$attrs" />
+  <component v-if="isRenderFN" :is="icon" v-bind="$attrs" />
+  <VIcon v-else-if="isVuetifyIcon" :icon="icon" v-bind="$attrs" />
+  <NuxtIcon v-else :name="icon" v-bind="$attrs" />
 </template>
 <style lang="scss" scoped></style>
 <style lang="scss"></style>

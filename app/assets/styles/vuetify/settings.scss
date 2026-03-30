@@ -1,0 +1,135 @@
+// @use "vuetify/settings";
+
+// @use "vuetify/settings" with (
+@forward "vuetify/settings" with (
+  // $layers: true,
+  // # VBadge
+  // $badge-font-size: 0.88rem,
+  // // $badge-padding: 10px 10px,
+  // $badge-height: 22px,
+  // $badge-min-width: 22px,
+  // $badge-border-radius: 11px,
+  $rounded:
+    (
+      "2lg": 12px,
+      "3lg": 16px,
+      "4lg": 20px,
+      "2xl": 32px,
+      "3xl": 48px,
+    ),
+  // tailwind first utils set
+  $utilities:
+    (
+      // // =========================================================================
+      // // Keep: Vuetify-specific / still useful even with Tailwind
+      // // =========================================================================
+      // // Commonly used with Vuetify components and not a 1:1 TW mapping
+      // "elevation": true,
+      // // v-elevation-0..24
+      // // Handy when you lean on Vuetify’s motion tokens
+      // "transition": true,
+      // // if available (Vuetify helper transitions)
+      // // A11y helpers (often exposed as utilities in some setups)
+      // "visually-hidden": true,
+      // // if available (sr-only style)
+      // "focus-visible": true,
+      // // if available (nice focus ring defaults)
+      // // Text helper that people often still use in Vuetify-land
+      // "text-truncate": true,
+      // // if available (similar to TW truncate, but used a lot with Vuetify)
+      // // Optional: overlay/stacking helpers (Vuetify overlays use internal z-layers)
+      // "z-index": true,
+      // // =========================================================================
+      // // Disable: covered by Tailwind
+      // // =========================================================================
+      // "align-content": false,
+      // "align-items": false,
+      // "align-self": false,
+      // "border-bottom": false,
+      // "border-current": false,
+      // "border-end": false,
+      // "border-opacity": false,
+      // "border-start": false,
+      // "border-style": false,
+      // "border-top": false,
+      // "border": false,
+      // "bottom": false,
+      // "top": false,
+      // "left": false,
+      // "right": false,
+      // "position": false,
+      // "cursor": false,
+      // "display": false,
+      // "fill-height": false,
+      // "flex-direction": false,
+      // "flex-grow": false,
+      // "flex-shrink": false,
+      // "flex-wrap": false,
+      // "flex": false,
+      // "float:ltr": false,
+      // "float:rtl": false,
+      // "float": false,
+      // "font-italic": false,
+      // "font-weight": false,
+      // "gap-column": false,
+      // "gap-row": false,
+      // "gap": false,
+      // "height-screen": false,
+      // "height": false,
+      // "width": false,
+      // "justify-content": false,
+      // "justify-items": false,
+      // "margin-bottom": false,
+      // "margin-end": false,
+      // "margin-left": false,
+      // "margin-right": false,
+      // "margin-start": false,
+      // "margin-top": false,
+      // "margin-x": false,
+      // "margin-y": false,
+      // "margin": false,
+      // "negative-margin-bottom": false,
+      // "negative-margin-end": false,
+      // "negative-margin-left": false,
+      // "negative-margin-right": false,
+      // "negative-margin-start": false,
+      // "negative-margin-top": false,
+      // "negative-margin-x": false,
+      // "negative-margin-y": false,
+      // "negative-margin": false,
+      // "opacity": false,
+      // "order": false,
+      // "overflow-wrap": false,
+      // "overflow-x": false,
+      // "overflow-y": false,
+      // "overflow": false,
+      // "padding-bottom": false,
+      // "padding-end": false,
+      // "padding-left": false,
+      // "padding-right": false,
+      // "padding-start": false,
+      // "padding-top": false,
+      // "padding-x": false,
+      // "padding-y": false,
+      // "padding": false,
+      // "rounded-bottom-end": false,
+      // "rounded-bottom-start": false,
+      // "rounded-bottom": false,
+      // "rounded-end": false,
+      // "rounded-start": false,
+      // "rounded-top-end": false,
+      // "rounded-top-start": false,
+      // "rounded-top": false,
+      // "rounded": false,
+      // "text-align": false,
+      // "text-decoration": false,
+      // "text-mono": false,
+      // "text-opacity": false,
+      // "text-overflow": false,
+      // "text-transform": false,
+      // "typography": false,
+      // "white-space": false,,
+    ),
+  // mostly unused in production
+  $color-pack: false
+);

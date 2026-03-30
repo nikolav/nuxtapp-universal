@@ -12,6 +12,10 @@ import type {
   TJson,
   TJsonLiteral,
 } from "../schemas/json.schema";
+import type {
+  Component as TVueComponent,
+  FunctionalComponent as TVueFunctionalComponent,
+} from "vue";
 import { schemaCacheKeyDriver, schemaCollectionsKeyDriver } from "../schemas";
 
 /* =============================================================================
@@ -121,6 +125,7 @@ export type TManageSubscriptionsCache = Record<
   string,
   TOrNoValue<Subscription>
 >;
+//
 
 /* =============================================================================
  * Re-exports (types/services)
@@ -131,6 +136,7 @@ export { AuthService as TAuthService } from "~/services/auth/base";
 
 // json schema types
 export type { TRecordJson, TJson, TJsonLiteral };
+export type { TVueComponent, TVueFunctionalComponent };
 
 /* =============================================================================
  * External libs / dynamic imports

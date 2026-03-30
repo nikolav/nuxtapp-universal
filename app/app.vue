@@ -9,7 +9,7 @@ const { finalizePendingLocaleChange } = useI18n();
 </script>
 
 <template>
-  <section class="app-container-reset app--root">
+  <VApp class="*app-container-reset app--root">
     <template v-if="analyticsEnabled">
       <noscript
         ><iframe
@@ -40,7 +40,7 @@ const { finalizePendingLocaleChange } = useI18n();
     <NuxtLayout>
       <NuxtPage :transition="{ onBeforeEnter: finalizePendingLocaleChange }" />
     </NuxtLayout>
-  </section>
+  </VApp>
 </template>
 
 <!-- scoped component styles, default -->

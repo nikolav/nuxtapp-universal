@@ -4,7 +4,7 @@ export default defineI18nConfig(() => ({
   // required for Composition API
   legacy: false,
   // fallback if key is missing
-  fallbackLocale: "sr",
+  fallbackLocale: <any>process.env.NUXT_DEFAULT_LOCALE ?? "sr",
   // fallbackLocale: ["sr", "en"],
   // fallbackLocale: {
   //   'de-CH': ['fr', 'it'],

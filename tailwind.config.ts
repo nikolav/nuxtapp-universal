@@ -21,7 +21,13 @@ export default {
     "./error.vue",
   ],
 
-  safelist: [],
+  // Keep empty unless you *need* dynamic class support
+  safelist: [
+    { pattern: /^(bg|text|border|ring|outline)-v-(.+)$/ },
+    { pattern: /^(bg|text|border|ring|outline)-v-(.+)\/\d+$/ },
+  ],
+
+  // Keep empty unless you intentionally want to prevent some utilities
   blocklist: [],
 
   theme: {
@@ -39,6 +45,33 @@ export default {
         current: "currentColor",
         transparent: "transparent",
         primary,
+        // handy when mixing with Vuetify CSS vars in utilities:
+        // text-v-primary
+        // e.g. text-[rgb(var(--v-theme-on-surface))]
+        v: {
+          primary: "rgb(var(--v-theme-primary), <alpha-value>)",
+          "on-primary": "rgb(var(--v-theme-on-primary), <alpha-value>)",
+
+          secondary: "rgb(var(--v-theme-secondary), <alpha-value>)",
+          "on-secondary": "rgb(var(--v-theme-on-secondary), <alpha-value>)",
+
+          success: "rgb(var(--v-theme-success), <alpha-value>)",
+          warning: "rgb(var(--v-theme-warning), <alpha-value>)",
+          error: "rgb(var(--v-theme-error), <alpha-value>)",
+          info: "rgb(var(--v-theme-info), <alpha-value>)",
+
+          background: "rgb(var(--v-theme-background), <alpha-value>)",
+          surface: "rgb(var(--v-theme-surface), <alpha-value>)",
+          "surface-variant":
+            "rgb(var(--v-theme-surface-variant), <alpha-value>)",
+          "surface-light": "rgb(var(--v-theme-surface-light), <alpha-value>)",
+          "surface-bright": "rgb(var(--v-theme-surface-bright), <alpha-value>)",
+
+          "on-background": "rgb(var(--v-theme-on-background), <alpha-value>)",
+          "on-surface": "rgb(var(--v-theme-on-surface), <alpha-value>)",
+
+          outline: "rgb(var(--v-theme-outline), <alpha-value>)",
+        },
       },
 
       spacing: {
@@ -59,9 +92,9 @@ export default {
         ],
       },
 
-      // .grid-rows-fill-auto
-      gridTemplateRows: {
-        "auto-fill-auto": "auto 1fr auto",
+      borderRadius: {
+        // Matches Vuetify default rounding better for utility wrappers/cards you add
+        "v-card": "var(--v-border-radius, 16px)",
       },
     },
   },
@@ -75,7 +108,9 @@ export default {
    * If you rely on preflight (prose pages, markdown), enable it and add a scoped reset
    * only in those areas instead.
    */
-  corePlugins: {},
+  corePlugins: {
+    preflight: false,
+  },
 
   /**
    * Minimal plugins that play well with Vuetify:
