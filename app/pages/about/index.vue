@@ -9,6 +9,7 @@ definePageMeta({
   i18n: {
     paths: {
       sr: "/o-nama",
+      "sr-cyrl": "/o-nama",
       en: "/about-us",
     },
   },

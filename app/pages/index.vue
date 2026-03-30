@@ -6,6 +6,7 @@ definePageMeta({
   i18n: {
     paths: {
       sr: "/dobrodosli",
+      "sr-cyrl": "/dobrodosli",
       en: "/welcome",
     },
   },
@@ -15,7 +16,9 @@ definePageMeta({
 </script>
 
 <template>
-  <section class="app-container-reset page--index"></section>
+  <section class="app-container-reset page--index">
+    <h2>page:home</h2>
+  </section>
 </template>
 
 <!-- scoped component styles, default -->

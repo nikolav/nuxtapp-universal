@@ -5,10 +5,6 @@
 <template>
   <section class="app-container-reset page--demo">
     <h2>page:demo</h2>
-    <div>
-      <AppVBtn>ok</AppVBtn>
-      <VBtn>ok</VBtn>
-    </div>
   </section>
 </template>
 

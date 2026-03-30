@@ -1,5 +1,6 @@
-import vitePluginVuetify, { transformAssetUrls } from "vite-plugin-vuetify";
-import { z } from "zod";
+import vitePluginVuetify from "vite-plugin-vuetify";
+import { transformAssetUrls } from "vite-plugin-vuetify";
+// import { z } from "zod";
 import trimEnd from "lodash/trimEnd";
 
 import parseBoolean from "@eturino/ts-parse-boolean";
@@ -10,8 +11,20 @@ import {
   schemaCollectionsKeyDriver,
 } from "./app/schemas";
 
+const prerenderRoutes = [
+  "/",
+  // index
+  "/sr/dobrodosli",
+  "/sr-cyrl/dobrodosli",
+  "/en/welcome",
+  // about
+  "/sr/o-nama",
+  "/sr-cyrl/o-nama",
+  "/en/about-us",
+];
+
 // schemas:config
-const schemaCacheConnection = z.enum(["memory", "redis"] as const);
+// const schemaCacheConnection = z.enum(["memory", "redis"] as const);
 
 /**
  * ============================================================================
@@ -32,7 +45,7 @@ const ENV = [
   ? "development"
   : "production";
 
-const SSR = parseBoolean(process.env.NUXT_SSR);
+const SSR = true;
 
 export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
 
@@ -50,9 +63,6 @@ const apiBase = trimEnd(
 
 /** Feature flags / infra toggles */
 const isHttps = siteUrl.startsWith("https://");
-const databaseInit = parseBoolean(process.env.NUXT_DATABASE_INIT);
-const databaseConnectionName = process.env.NUXT_DATABASE_CONNECTION_NAME;
-const redisEnabled = parseBoolean(process.env.NUXT_REDIS_INIT);
 const broadcastingEnabled = parseBoolean(
   process.env.NUXT_PUBLIC_BROADCASTING_ENABLED,
 );
@@ -82,21 +92,37 @@ export default defineNuxtConfig({
     typescriptBundlerResolution: true,
   },
 
-  // ---------------------------------------------------------------------------
-  // 02) Routing strategy (route-level rendering/caching/redirects)
-  // - Keep project-level defaults here. Nitro can add extra routeRules too.
-  // ---------------------------------------------------------------------------
+  // --------------------
+  // Route rules: for SSG
+  // --------------------
+  // routeRules: {
+  //   // Generated at build time for SEO purpose
+  //   "/": { prerender: true },
+  //   // Cached for 1 hour
+  //   "/api/*": { cache: { maxAge: 60 * 60 } },
+  //   // Redirection to avoid 404
+  //   "/old-page": {
+  //     redirect: { to: "/new-page", statusCode: 302 },
+  //   },
+  //   // ...
+  // },
   routeRules: {
-    // // Static pages at build time
-    // "/about": { prerender: true },
-    // // Blog: static pages, CDN cached
-    // "/blog/**": { isr: true },
-    // // Products: revalidate in background every hour
-    // "/products/**": { swr: 3600 },
-    // // Admin: client-side only
-    // "/admin/**": { ssr: false },
-    // // API: add CORS headers
-    // "/api/**": { cors: true },
+    // "/": { redirect: "/sr" },
+
+    "/sr": { redirect: "/sr/dobrodosli" },
+    "/sr-cyrl": { redirect: "/sr-cyrl/dobrodosli" },
+    "/en": { redirect: "/en/welcome" },
+
+    // // If you have a blog that should be exported as HTML too:
+    // "/blog/**": { prerender: true },
+
+    // // spa:auth
+    // "/sr/prijava": { ssr: false },
+    // "/sr-cyrl/prijava": { ssr: false },
+    // "/en/login": { ssr: false },
+
+    // // Never prerender API paths (and they shouldn't exist in a static build anyway)
+    // "/api/**": { ssr: false },
   },
 
   // ---------------------------------------------------------------------------
@@ -113,16 +139,6 @@ export default defineNuxtConfig({
     "@nuxtjs/fontaine",
     "@nuxtjs/i18n",
     "@nuxt/fonts",
-
-    // Custom module: build-time SQLite handling
-    [
-      "./modules/on-build-copy-sqlite-db",
-      {
-        PRODUCTION,
-        databaseInit,
-        databaseConnectionName,
-      },
-    ],
 
     //testing
     "@nuxt/test-utils/module",
@@ -145,6 +161,8 @@ export default defineNuxtConfig({
         { name: "format-detection", content: "telephone=no" },
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      bodyAttrs: {},
+      script: [],
     },
     pageTransition: { name: "ROUTE_TRANSITION_BLUR", mode: "in-out" },
     layoutTransition: { name: "ROUTE_TRANSITION_BLUR" },
@@ -165,23 +183,19 @@ export default defineNuxtConfig({
     apiSecret: process.env.NUXT_API_SECRET ?? "",
 
     // Server-side infra flags (also useful on server)
-    databaseInit,
-    databaseConnectionName,
+    databaseInit: false,
+    databaseConnectionName: undefined,
 
     apiKeys: {
       gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
     },
 
     cache: {
-      enabled: parseBoolean(process.env.NUXT_CACHE_ENABLED),
-      connection: schemaCacheConnection.parse(
-        process.env.NUXT_CACHE_CONNECTION ?? "memory",
-      ),
+      enabled: false,
+      connection: "memory",
       namespace: process.env.NUXT_CACHE_NAMESPACE ?? "app",
       ttlMs: Number(process.env.NUXT_CACHE_DEFAULT_TTL_MS ?? 60000),
-      // setup cache connections
       connections: {
-        // memory: undefined,
         redis: {
           url: process.env.NUXT_CACHE_REDIS_URL ?? "http://127.0.0.1:6379",
         },
@@ -276,6 +290,7 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
+    zeroRuntime: true,
     cacheMaxAgeSeconds: PRODUCTION ? 60 * 60 : 60 * 10,
     autoLastmod: true,
     exclude: ["/api/**", "/_nuxt/**"],
@@ -292,10 +307,7 @@ export default defineNuxtConfig({
   },
 
   ogImage: {
-    enabled: PRODUCTION,
-    // defaults: {
-    //   component: "NuxtSeo",
-    // },
+    enabled: false,
   },
 
   linkChecker: {
@@ -308,15 +320,21 @@ export default defineNuxtConfig({
   // 08) Server runtime (Nitro) + caching + storage
   // ---------------------------------------------------------------------------
   nitro: {
-    preset: "node-server",
+    preset: "static",
     compressPublicAssets: true,
 
     // Pre-render only what you truly want baked at build-time
     prerender: PRODUCTION
       ? {
-          // crawlLinks: true,
-          // failOnError: true,
-          routes: ["/"],
+          routes: [...prerenderRoutes],
+
+          // prevents crawling /en, /about, etc.
+          crawlLinks: true,
+
+          // false : don't fail build if something 404s
+          // true  : fail if any of '.routes' routes break
+          // during CI; set false if for 'best effort'
+          failOnError: true,
         }
       : { routes: [] },
 
@@ -325,24 +343,10 @@ export default defineNuxtConfig({
       "/_nuxt/**": {
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
-      "/**": {
-        headers: {
-          "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
-        },
-      },
     },
 
-    // Optional Nitro storage adapter (Redis)
-    storage: {
-      ...(redisEnabled
-        ? {
-            redis: {
-              driver: "redis",
-              url: process.env.NUXT_REDIS_URL,
-            },
-          }
-        : {}),
-    },
+    storage: {},
+    devStorage: {},
   },
 
   // ---------------------------------------------------------------------------
@@ -359,9 +363,15 @@ export default defineNuxtConfig({
   },
 
   // ---------------------------------------------------------------------------
-  // 10) Hooks (build/runtime lifecycle taps)
+  // Hooks: add more prerender routes (dynamic pages)
   // ---------------------------------------------------------------------------
   hooks: {
+    // add dynamic routes
+    "prerender:routes": async ({ routes }) => {
+      // routes.add..
+    },
+
+    // override vuetify globals
     "vite:extendConfig"(config: any) {
       config.plugins ||= [];
       config.plugins.push(
@@ -373,17 +383,6 @@ export default defineNuxtConfig({
         }),
       );
     },
-    "prerender:routes": async ({ routes }) => {
-      // Example:
-      // const res = await fetch(API_URL);
-      // const d = await res.json();
-      // for (const pid of d.prerender.pids) routes.add(`/products/${pid}`);
-    },
-
-    // Other useful hooks:
-    // "pages:extend": () => {},
-    // "render:html": () => {},
-    // "components:dirs": (dirs) => { dirs.push({ path: "/path", prefix: "App" }) },
   },
 
   // ---------------------------------------------------------------------------
@@ -415,17 +414,35 @@ export default defineNuxtConfig({
       },
     },
 
-    plugins: [],
+    build: {
+      chunkSizeWarningLimit: 1024,
+      cssMinify: false,
+      rollupOptions: {
+        output: {
+          manualChunks: (id: any) => {
+            if (!id.includes("node_modules")) return;
 
-    esbuild: {
-      // Production log stripping
-      drop: PRODUCTION ? ["console", "debugger"] : [],
+            // big deps standalone
+            if (id.includes("/firebase/")) return "firebase";
+            if (id.includes("/vuetify/") || id.includes("/@mdi/")) return "ui";
+
+            return;
+          },
+        },
+      },
     },
 
     vue: {
       template: {
         transformAssetUrls,
       },
+    },
+
+    plugins: [],
+
+    esbuild: {
+      // Production log stripping
+      drop: PRODUCTION ? ["console", "debugger"] : [],
     },
 
     // global scss injection for all preprocessed .scss files
@@ -488,6 +505,7 @@ export default defineNuxtConfig({
 
   // nuxt-security (headers + security policies)
   security: {
+    sri: false,
     headers: {
       xContentTypeOptions: "nosniff",
       xFrameOptions: "SAMEORIGIN",
@@ -513,10 +531,13 @@ export default defineNuxtConfig({
 
   // @nuxt/icon
   icon: {
-    provider: "none",
+    // # 'auto':default | 'local' | 'remote'
+    // serverBundle: 'auto',
+    // provider: "none",
     componentName: "NuxtIcon",
-    size: "1em",
-    class: "inline-block align-middle",
+    size: "1.22rem",
+    class: "icon inline-block align-middle",
+    cssLayer: "base",
 
     customCollections: [
       {
@@ -530,21 +551,44 @@ export default defineNuxtConfig({
       scan: true,
       includeCustomCollections: true,
       sizeLimitKb: 256,
-      icons: ["local:logo-nikolav"],
+      icons: [
+        "local:logo-nikolav",
+        "mdi:eye",
+        "mdi:eye-off",
+        "mdi:key",
+        "mdi:forum",
+        "mdi:account-circle",
+        "mdi:account",
+        "mdi:feather",
+        "mdi:send",
+        "mdi:delete",
+        "mdi:logout",
+      ],
     },
   },
 
   // @nuxtjs/i18n
   // https://i18n.nuxtjs.org/docs/api/options
   i18n: {
+    defaultLocale,
     strategy: "prefix",
     baseUrl: siteUrl,
+
     customRoutes: "meta",
+    // pages: {
+    //   about: {
+    //     en: "/about-us",
+    //     fr: "/a-propos",
+    //     es: "/sobre",
+    //   },
+    // },
 
     detectBrowserLanguage: {
-      redirectOn: "root",
-      fallbackLocale: "sr",
+      useCookie: true,
+      cookieKey: "i18n_redirected",
       cookieCrossOrigin: true,
+      redirectOn: "root",
+      fallbackLocale: defaultLocale,
     },
 
     // https://i18n.nuxtjs.org/docs/api/options#skipsettinglocaleonnavigate
@@ -552,7 +596,6 @@ export default defineNuxtConfig({
 
     // langDir: "locales",
     // vueI18n: "i18n.config.ts",
-    defaultLocale,
 
     locales: [
       // example RTL:
@@ -561,7 +604,7 @@ export default defineNuxtConfig({
         code: "sr",
         iso: "sr-RS",
         name: "Srpski",
-        language: "sr-RS",
+        language: "sr-Latn-RS",
         file: "sr.json",
       },
       {
@@ -572,7 +615,6 @@ export default defineNuxtConfig({
         file: "sr-cyrl.json",
       },
       {
-        isCatchallLocale: true,
         code: "en",
         iso: "en-US",
         name: "English",
