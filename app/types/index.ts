@@ -156,6 +156,33 @@ export type TUseProcessMonitorReturnType = ReturnType<
   typeof import("../composables/utils/use-process-monitor").useProcessMonitor
 >;
 
+// photoswipe
+import type { PhotoSwipeOptions as TPhotoSwipeOptions } from "photoswipe";
+import type { default as TPhotoSwipeLightbox } from "photoswipe/lightbox";
+export type { TPhotoSwipeOptions, TPhotoSwipeLightbox };
+export type { DataSource as TPhotoSwipeDataSource } from "photoswipe";
+export type TPhotoSwipeMediaItem = {
+  src?: string;
+  srcset?: string;
+  width?: number;
+  height?: number;
+  // placeholder image URL that's displayed before large image is loaded
+  msrc?: string;
+  alt?: string;
+  // whether thumbnail is cropped client-side or not
+  thumbCropped?: boolean;
+  // html content of a slide
+  html?: string;
+  // slide type
+  type?: string;
+};
+export type TPhotoSwipeMedia = {
+  slides: TPhotoSwipeMediaItem[];
+  options?: TPhotoSwipeOptions;
+  index?: number;
+  setup?: (instance: TPhotoSwipeLightbox) => TMaybeAsync<void>;
+};
+// plyr
 /* =============================================================================
  * Plyr (video)
  * ========================================================================== */
