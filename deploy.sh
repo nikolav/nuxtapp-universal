@@ -30,4 +30,4 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
 
 # docker rm -f nuxt-app
 # docker system prune --all --volumes --force
-# docker volume rm vdata
+# docker volume rm nuxt_node_modules nuxt_npm_cache
