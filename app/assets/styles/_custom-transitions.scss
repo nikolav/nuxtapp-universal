@@ -1,0 +1,17 @@
+.app-transition-slide-y-r {
+  &-enter-active,
+  &-leave-active {
+    transition:
+      transform 156ms ease-out,
+      opacity 156ms ease-out;
+  }
+  &-leave-active {
+    transition-duration: 92ms;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+    transform: translateY(0.22rem);
+  }
+}

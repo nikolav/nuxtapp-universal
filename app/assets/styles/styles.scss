@@ -6,12 +6,14 @@
 @use "./scrollbars";
 @use "./reset_custom";
 
-@use "./route_transitions";
-
 @use "animate.css";
+
+@use "./route_transitions";
 
 @use "plyr/dist/plyr.css";
 @use "./plyr_custom";
 
-@use "vuetify";
 @use "photoswipe/style.css";
+
+@use "vuetify/styles";
+@use "./custom-transitions";
