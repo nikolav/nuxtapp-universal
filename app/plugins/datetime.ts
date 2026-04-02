@@ -65,21 +65,7 @@ if (!_extended) {
   _extended = true;
 }
 
-export class DatetimeService {
-  // #ISO-8601 duration strings
-  //   'P[n]Y[n]M[n]W[n]DT[n]H[n]M[n]S'
-
-  static readonly FORMAT = {
-    d: "DD-MM-YYYY",
-    D: "YYYY-MM-DD",
-  };
-  static readonly dayjs = dayjs;
-
-  // @@
-  utcnow(template?: string) {
-    return dayjs.utc().format(template);
-  }
-}
+import { DatetimeService } from "~/services/datetime";
 
 export default defineNuxtPlugin({
   name: "datetime",
@@ -88,12 +74,14 @@ export default defineNuxtPlugin({
     // sync dayjs locale with i18n
     inject(TOKEN_appEmitter$)!
       .pipe(
-        filter((e) => e.type === useAppConfig().events.EVENT_LOCALE_CHANGE),
+        filter(
+          (e) => e.type === (<any>useAppConfig().events).EVENT_LOCALE_CHANGE,
+        ),
         map((e) => <string>e.payload),
       )
-      .subscribe((loc) => {
-        dayjs.locale(loc);
-        onDebug({ "locale:switch:dayjs": loc });
+      .subscribe((locale) => {
+        dayjs.locale(locale);
+        onDebug({ "locale:switch:dayjs": locale });
       });
 
     return {

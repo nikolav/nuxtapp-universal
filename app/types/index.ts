@@ -15,6 +15,7 @@ import type {
 import type {
   Component as TVueComponent,
   FunctionalComponent as TVueFunctionalComponent,
+  MaybeRefOrGetter,
 } from "vue";
 import { schemaCacheKeyDriver, schemaCollectionsKeyDriver } from "../schemas";
 
@@ -53,10 +54,9 @@ export interface IEventApp<TPayload = unknown> {
  * GraphQL / AsyncData options
  * ========================================================================== */
 
-export type TGQLOptions<TData = unknown> = { key: unknown } & Omit<
-  RequestExtendedOptions,
-  "url"
-> &
+export type TGQLOptions<TData = unknown, TKey = MaybeRefOrGetter<string>> = {
+  key: TKey;
+} & Omit<RequestExtendedOptions, "url"> &
   AsyncDataOptions<TData>;
 
 /* =============================================================================
@@ -137,6 +137,7 @@ export { AuthService as TAuthService } from "~/services/auth/base";
 // json schema types
 export type { TRecordJson, TJson, TJsonLiteral };
 export type { TVueComponent, TVueFunctionalComponent };
+export type { MaybeRefOrGetter as TMaybeRefOrGetter };
 
 /* =============================================================================
  * External libs / dynamic imports

@@ -9,6 +9,10 @@ export default defineAppConfig({
   appShortName: "Nuxt",
   locale: "sr",
 
+  ui: {
+    DEFAULT_TRANSITION: "app-transition-slide-y-r",
+  },
+
   services: {
     auth: {
       DEFAULT_AUTHENTICATED_ROUTE_NAME: "index",

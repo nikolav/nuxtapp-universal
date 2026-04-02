@@ -4,13 +4,13 @@ export const useProcessMonitor = () => {
   const { $$ } = useNuxtApp();
 
   const processing = ref<TOrNoValue<boolean>>(null);
-  const error = ref<any>(null);
+  const error = shallowRef<any>(null);
   const success = ref<TOrNoValue<boolean>>(null);
 
   // sync with external state, useAsyncData .pending .error, etc.
   const external = shallowRef({
     pending: ref<TOrNoValue<boolean>>(null),
-    error: ref<any>(null),
+    error: shallowRef<any>(null),
   });
 
   const begin = (callback: any = $$.noop) => {
@@ -35,7 +35,7 @@ export const useProcessMonitor = () => {
   };
 
   // handle status flags for fn that resolves a value, or throws
-  const monitor = async <T = unknown>(
+  const exec = async <T = unknown>(
     fn: () => TMaybeAsync<T>,
     present = false,
   ) => {
@@ -73,17 +73,22 @@ export const useProcessMonitor = () => {
   );
 
   return {
-    error,
+    // status
     processing,
+    error,
     success,
 
+    // phases
     begin,
     setError,
     successful,
     done,
 
+    // sync with external status
     sync,
-    monitor,
-    exec: monitor,
+
+    // watch async action
+    monitor: exec,
+    exec,
   };
 };

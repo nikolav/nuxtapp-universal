@@ -15,7 +15,7 @@ import { VBtn } from "vuetify/components/VBtn";
 import { TOKEN_appEmitter$ } from "~/keys";
 import { light, dark } from "~/assets/themes";
 import { displayDefaults as display } from "~/assets/breakpoints";
-import { DatetimeService } from "~/plugins/datetime";
+import { DatetimeService } from "~/services/datetime";
 
 export default defineNuxtPlugin({
   name: "vuetify",
@@ -88,14 +88,15 @@ export default defineNuxtPlugin({
         VCol: {
           cols: 12,
         },
-        // VTooltip: {
-        //   // openDelay: TOOLTIPS_OPEN_DELAY,
-        //   // location: "bottom",
-        //   // activator: "parent",
-        // },
-        // VMenu: {
-        //   transition: DEFAULT_TRANSITION,
-        // },
+        VTooltip: {
+          openDelay: 456,
+          closeDelay: 122,
+          location: "bottom",
+          activator: "parent",
+        },
+        VMenu: {
+          transition: (<any>useAppConfig().ui).DEFAULT_TRANSITION,
+        },
         VForm: {
           autocomplete: "off",
         },
@@ -140,11 +141,13 @@ export default defineNuxtPlugin({
     const emitter$ = inject(TOKEN_appEmitter$)!;
     emitter$
       .pipe(
-        filter((e) => e.type === useAppConfig().events.EVENT_LOCALE_CHANGE),
+        filter(
+          (e) => e.type === (<any>useAppConfig().events).EVENT_LOCALE_CHANGE,
+        ),
         map((e) => <string>e.payload),
       )
-      .subscribe((localeCurrent) => {
-        vuetify.locale.current.value = localeCurrent || defaultLocale;
+      .subscribe((locale) => {
+        vuetify.locale.current.value = locale || defaultLocale;
       });
   },
 });
