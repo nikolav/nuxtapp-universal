@@ -99,6 +99,11 @@ export default {
     },
   },
 
+  // .grid-rows-auto-fill-auto
+  gridTemplateRows: {
+    "auto-fill-auto": "auto 1fr auto",
+  },
+
   /**
    * Key Vuetify compatibility:
    * Tailwind v4+ injects “preflight” via `@import "tailwindcss";`
