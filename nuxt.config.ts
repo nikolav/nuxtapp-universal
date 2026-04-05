@@ -1,6 +1,5 @@
 import vitePluginVuetify from "vite-plugin-vuetify";
 import { transformAssetUrls } from "vite-plugin-vuetify";
-// import { z } from "zod";
 import trimEnd from "lodash/trimEnd";
 
 import parseBoolean from "@eturino/ts-parse-boolean";
@@ -11,20 +10,9 @@ import {
   schemaCollectionsKeyDriver,
 } from "./app/schemas";
 
-const prerenderRoutes = [
-  "/",
-  // index
-  "/sr/dobrodosli",
-  "/sr-cyrl/dobrodosli",
-  "/en/welcome",
-  // about
-  "/sr/o-nama",
-  "/sr-cyrl/o-nama",
-  "/en/about-us",
-];
+import ROUTES from "./app/assets/routes.json";
 
-// schemas:config
-// const schemaCacheConnection = z.enum(["memory", "redis"] as const);
+const { prerender: prerenderRoutes, ignore: ignoreRoutes } = ROUTES;
 
 /**
  * ============================================================================
@@ -107,7 +95,7 @@ export default defineNuxtConfig({
   //   // ...
   // },
   routeRules: {
-    // "/": { redirect: "/sr" },
+    "/": { prerender: true },
 
     "/sr": { redirect: "/sr/dobrodosli" },
     "/sr-cyrl": { redirect: "/sr-cyrl/dobrodosli" },
@@ -415,7 +403,7 @@ export default defineNuxtConfig({
     },
 
     build: {
-      chunkSizeWarningLimit: 1024,
+      chunkSizeWarningLimit: 4096,
       cssMinify: false,
       rollupOptions: {
         output: {
@@ -473,14 +461,14 @@ export default defineNuxtConfig({
 
   // @nuxt/image
   image: {
-    quality: 81,
+    quality: 100,
     domains: [],
     screens: {
-      sm: 640,
-      md: 768,
-      lg: 1024,
-      xl: 1280,
-      "2xl": 1536,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+      "2xl": 2560,
     },
     providers: {},
     presets: {},
