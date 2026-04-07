@@ -2,6 +2,10 @@
   "prerender": [
     "/",
 
+    "/sr",
+    "/sr-cyrl",
+    "/en",
+
     "/sr/dobrodosli",
     "/sr-cyrl/dobrodosli",
     "/en/welcome",

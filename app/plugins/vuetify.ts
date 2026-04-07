@@ -70,6 +70,9 @@ export default defineNuxtPlugin({
         global: {
           // ripple: true,
         },
+        IconX: {
+          size: "1.22rem",
+        },
         VBtn: {
           rounded: true,
         },

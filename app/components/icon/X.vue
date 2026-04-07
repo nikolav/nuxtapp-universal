@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { useDefaults } from "vuetify";
+
 defineOptions({
   inheritAttrs: false,
 });
-const props = defineProps<{ icon: any }>();
+const _props_ = defineProps<{ icon: any; size?: any }>();
+const props = useDefaults(_props_, "IconX");
 
 const { $$ } = useNuxtApp();
 
@@ -13,7 +16,17 @@ const isVuetifyIcon = computed(
 // @@eos
 </script>
 <template>
-  <component v-if="isRenderFN" :is="props.icon" v-bind="$attrs" />
-  <VIcon v-else-if="isVuetifyIcon" :icon="props.icon" v-bind="$attrs" />
-  <NuxtIcon v-else :name="props.icon" v-bind="$attrs" />
+  <component
+    v-if="isRenderFN"
+    :is="props.icon"
+    :size="props.size"
+    v-bind="$attrs"
+  />
+  <VIcon
+    v-else-if="isVuetifyIcon"
+    :icon="props.icon"
+    :size="props.size"
+    v-bind="$attrs"
+  />
+  <NuxtIcon v-else :name="props.icon" :size="props.size" v-bind="$attrs" />
 </template>

@@ -77,9 +77,9 @@ export default defineAppConfig({
   },
 
   icon: {
-    size: "1em", // default <Icon> size applied
-    // class: "icon", // default <Icon> class applied
-    // mode: "css", // default <Icon> mode applied
+    size: "1em", // default <NuxtIcon> size applied
+    // class: "icon", // default <NuxtIcon> class applied
+    // mode: "css", // default <NuxtIcon> mode applied
     // cssLayer: "base", // set the css layer to inject to
     aliases: {},
     // # apply customizations globally

@@ -46,6 +46,7 @@ const chatActive = useActiveChat();
     <AppDrawerDefault
       :model-value="chatActive.isActive.value"
       @update:model-value="(m) => !m && chatActive.clear()"
+      id="drawer-chat"
     >
       <AppChatDefault
         v-if="chatActive.current.value"
