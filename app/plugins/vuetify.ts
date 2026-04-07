@@ -93,6 +93,7 @@ export default defineNuxtPlugin({
           closeDelay: 122,
           location: "bottom",
           activator: "parent",
+          transition: "app-transition-slide-y-r",
         },
         VMenu: {
           transition: (<any>useAppConfig().ui).DEFAULT_TRANSITION,

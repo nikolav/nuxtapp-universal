@@ -8,7 +8,11 @@
 
     "/sr/o-nama",
     "/sr-cyrl/o-nama",
-    "/en/about-us"
+    "/en/about-us",
+
+    "/sr/prijava",
+    "/sr-cyrl/prijava",
+    "/en/auth"
   ],
   "ignore": []
 }

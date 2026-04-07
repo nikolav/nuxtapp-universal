@@ -42,7 +42,7 @@ const siteUrl = trimEnd(
   PRODUCTION ? process.env.NUXT_SITE_URL : process.env.NUXT_SITE_URL_DEV,
   "/",
 );
-const siteName = process.env.NUXT_SITE_NAME ?? "";
+const siteName = process.env.NUXT_SITE_NAME ?? "NuxtApp";
 
 const apiBase = trimEnd(
   PRODUCTION ? process.env.NUXT_API_BASE : process.env.NUXT_API_BASE_DEV,
