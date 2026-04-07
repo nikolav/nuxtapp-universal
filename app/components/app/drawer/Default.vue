@@ -20,6 +20,10 @@ const props = withDefaults(
 const emit = defineEmits<{
   "update:model-value": [isActive: boolean];
 }>();
+const close = () => {
+  emit("update:model-value", false);
+};
+const closeClasses = "position-fixed top-1 z-[1]";
 
 const { $$ } = useNuxtApp();
 const { smAndUp, width: vw } = useDisplay();
@@ -46,18 +50,20 @@ const isActive = defineModel({ default: false });
         class="app-container-reset position-relative"
         height="100%"
       >
-        <VBtn
-          v-if="props.showClose"
-          variant="plain"
-          icon
-          rounded="full"
-          color="on-surface"
-          class="position-fixed top-1 end-2 z-[1]"
-          @click="emit('update:model-value', false)"
-          v-bind="props.propsClose"
-        >
-          <IconX icon="$close" size="1.88rem" />
-        </VBtn>
+        <slot name="close" :close :closeClasses>
+          <VBtn
+            v-if="props.showClose"
+            variant="plain"
+            icon
+            rounded="full"
+            color="on-surface"
+            :class="[closeClasses, 'end-2']"
+            @click="close"
+            v-bind="props.propsClose"
+          >
+            <IconX icon="$close" size="1.88rem" />
+          </VBtn>
+        </slot>
         <slot />
       </VSheet>
     </VNavigationDrawer>

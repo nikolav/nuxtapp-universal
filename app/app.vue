@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { COLOR_PRIMARY } from "~/assets/themes/colors";
 import { useActiveChat } from "~/composables/state/use-active-chat";
+import { useDrawerMain } from "~/composables/state/use-drawer-main";
 
 const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 
 const { finalizePendingLocaleChange } = useI18n();
 
 const chatActive = useActiveChat();
+const drawerMain = useDrawerMain();
 
 // @@eos
 </script>
@@ -52,6 +54,32 @@ const chatActive = useActiveChat();
         v-if="chatActive.current.value"
         :chat="chatActive.current.value"
       />
+    </AppDrawerDefault>
+
+    <!-- render sidebar main -->
+    <AppDrawerDefault
+      v-model="drawerMain.isActive.value"
+      location="start"
+      id="drawer-main"
+    >
+      <template #close="{ close, closeClasses }">
+        <VBtn
+          variant="plain"
+          icon
+          rounded="full"
+          color="on-surface"
+          :class="[closeClasses, 'end-1']"
+          @click="close"
+        >
+          <IconX icon="$prev" size="1.92rem" />
+        </VBtn>
+      </template>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab repellat id
+        repudiandae voluptate reprehenderit ullam praesentium quasi,
+        dignissimos, accusantium ad assumenda? Quae et, inventore impedit
+        reiciendis quis architecto nesciunt dolorem.
+      </p>
     </AppDrawerDefault>
 
     <!-- routes -->

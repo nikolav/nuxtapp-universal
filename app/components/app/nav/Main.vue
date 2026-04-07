@@ -3,12 +3,14 @@ import { useTheme } from "vuetify";
 
 import { useAuth } from "~/stores/use-auth.store";
 import { useActiveChat } from "~/composables/state/use-active-chat";
+import { useDrawerMain } from "~/composables/state/use-drawer-main";
 
 const auth = useAuth();
 const localePath = useLocalePath();
 const theme = useTheme();
 
 const chatActive = useActiveChat();
+const drawerMain = useDrawerMain();
 
 // @@eos
 </script>
@@ -17,7 +19,11 @@ const chatActive = useActiveChat();
   <VAppBar elevation="1" color="surface-bright">
     <template #prepend>
       <VSpacer class="ms-1" />
-      <VAppBarNavIcon disabled class="opacity-50" rounded="full" />
+      <VAppBarNavIcon
+        @click="drawerMain.toggle()"
+        class="opacity-50"
+        rounded="full"
+      />
     </template>
     <template #append>
       <VBtn icon rounded="full" @click="chatActive.current.value = 'main'">
