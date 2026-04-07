@@ -12,7 +12,11 @@
 
     "/sr/prijava",
     "/sr-cyrl/prijava",
-    "/en/auth"
+    "/en/auth",
+
+    "/sr/panel",
+    "/sr-cyrl/panel",
+    "/en/dashboard"
   ],
   "ignore": []
 }

@@ -17,6 +17,16 @@
       "description": "страна:чланци-ит:опис"
     }
   },
+  "form": {
+    "login": {
+      "title": "Пријава",
+      "label": {
+        "email": "Емаил",
+        "password": "Лозинка",
+        "submit": "Пријава"
+      }
+    }
+  },
   "Zdravo Svete!": "@:message.hello Свете!",
   "Danas je lepo vreme.": "Данас је лепо време."
 }

@@ -12,9 +12,19 @@
       "title": "strana:o-nama",
       "description": "strana:o-nama:opis"
     },
-    "blogs-tech-slug": {
-      "title": "strana:clanci-it",
-      "description": "strana:clanci-it:opis"
+    "auth": {
+      "title": "strana:prijava",
+      "description": "strana:prijava:opis"
+    }
+  },
+  "form": {
+    "login": {
+      "title": "Prijava",
+      "label": {
+        "email": "Email",
+        "password": "Lozinka",
+        "submit": "Prijava"
+      }
     }
   }
 }

@@ -17,6 +17,17 @@
       "description": "page:blogs-tech:description"
     }
   },
+  "form": {
+    "login": {
+      "title": "Login",
+      "label": {
+        "email": "Email",
+        "password": "Password",
+        "submit": "OK"
+      }
+    }
+  },
+
   "Zdravo Svete!": "@:message.hello World!",
   "Danas je lepo vreme.": "The weather is nice today."
 }

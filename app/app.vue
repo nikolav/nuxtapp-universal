@@ -36,6 +36,9 @@ const { finalizePendingLocaleChange } = useI18n();
     <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
     <NuxtLoadingIndicator :color="COLOR_PRIMARY" />
 
+    <!-- redirect on auth-change -->
+    <AppConfigurationOnAuthChange />
+
     <!-- routes -->
     <NuxtLayout>
       <NuxtPage :transition="{ onBeforeEnter: finalizePendingLocaleChange }" />

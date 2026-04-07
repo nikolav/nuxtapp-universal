@@ -2,9 +2,14 @@
 const route = useRoute();
 const seoLocaleHead = useLocaleHead();
 const { t } = useI18n();
+const { $$ } = useNuxtApp();
 
-const title = computed(() => t(String(route.meta.title ?? "#TBD")));
-const description = computed(() => t(String(route.meta.description ?? "#TBD")));
+const title = computed(() =>
+  t(<string>$$.get(route.meta, "context.title", "#TBD")),
+);
+const description = computed(() =>
+  t(<string>$$.get(route.meta, "context.description", "#TBD")),
+);
 
 useSeoMeta({
   title,
