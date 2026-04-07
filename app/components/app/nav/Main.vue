@@ -32,14 +32,9 @@ const theme = useTheme();
       <VBtn v-else icon rounded="full" @click="auth.logout()">
         <IconX class="opacity-50" icon="mdi:logout" size="1.44em" />
         <VTooltip
-          activator="parent"
-          :open-delay="240"
-          :close-delay="122"
           text="Izlaz"
-          transition="app-transition-slide-y-r"
           :theme="theme.global.name.value != 'dark' ? 'dark' : undefined"
           :content-props="{ elevation: 1 }"
-          location="bottom"
         />
       </VBtn>
       <VSpacer class="me-1" />

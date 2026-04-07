@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAuth } from "~/stores/use-auth.store";
+import { useAppConfigItem } from "~/composables/utils/use-app-config-item";
 
 // defineOptions({
 //   name: "COMPONENT_NAME",
@@ -7,9 +8,7 @@ import { useAuth } from "~/stores/use-auth.store";
 // });
 
 const auth = useAuth();
-const appConfig = useAppConfig();
 const localePath = useLocalePath();
-const { $$ } = useNuxtApp();
 
 watch(
   () => auth.isAuth,
@@ -18,10 +17,9 @@ watch(
       // @login
       navigateTo(
         localePath({
-          name: $$.get(
-            appConfig,
+          name: useAppConfigItem<string>(
             "services.auth.DEFAULT_AUTHENTICATED_ROUTE_NAME",
-          ),
+          ).value,
         }),
       );
       return;
@@ -30,10 +28,9 @@ watch(
       // @logout
       navigateTo(
         localePath({
-          name: $$.get(
-            appConfig,
+          name: useAppConfigItem<string>(
             "services.auth.DEFAULT_UNAUTHENTICATED_ROUTE_NAME",
-          ),
+          ).value,
         }),
       );
     }
