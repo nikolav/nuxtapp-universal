@@ -1,0 +1,38 @@
+[
+  {
+    "emoji": "🧑",
+    "title": "Admin",
+    "content": "Nikola Vuković",
+    "link": false
+  },
+  {
+    "emoji": "📩",
+    "title": "Email",
+    "content": "admin@nikolav.rs",
+    "link": "mailto"
+  },
+  {
+    "emoji": "📱",
+    "title": "Telefon",
+    "content": "+381 69 572 55 23",
+    "link": "tel"
+  },
+  {
+    "emoji": "✖",
+    "title": "X (twitter)",
+    "content": "https://x.com/twiNikola",
+    "link": true
+  },
+  {
+    "emoji": "📘",
+    "title": "Facebook",
+    "content": "https://www.facebook.com/nikolav.me",
+    "link": true
+  },
+  {
+    "emoji": "👨‍💻",
+    "title": "</> Github",
+    "content": "https://github.com/nikolav",
+    "link": true
+  }
+]
