@@ -44,12 +44,7 @@ const isActive = defineModel({ default: false });
       v-model="isActive"
       v-bind="$attrs"
     >
-      <VSheet
-        tile
-        rounded="0"
-        class="app-container-reset position-relative"
-        height="100%"
-      >
+      <VSheet tile rounded="0" class="app-container-reset position-relative">
         <slot name="close" :close :closeClasses>
           <VBtn
             v-if="props.showClose"

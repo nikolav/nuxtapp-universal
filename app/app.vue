@@ -74,12 +74,15 @@ const drawerMain = useDrawerMain();
           <IconX icon="$prev" size="1.92rem" />
         </VBtn>
       </template>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab repellat id
-        repudiandae voluptate reprehenderit ullam praesentium quasi,
-        dignissimos, accusantium ad assumenda? Quae et, inventore impedit
-        reiciendis quis architecto nesciunt dolorem.
-      </p>
+      <VSpacer class="mt-12" />
+      <VCardText>
+        <p>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab repellat
+          id repudiandae voluptate reprehenderit ullam praesentium quasi,
+          dignissimos, accusantium ad assumenda? Quae et, inventore impedit
+          reiciendis quis architecto nesciunt dolorem.
+        </p>
+      </VCardText>
     </AppDrawerDefault>
 
     <!-- routes -->
