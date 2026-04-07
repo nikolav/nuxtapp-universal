@@ -204,3 +204,5 @@ export type TDeepmergeArrayMergeStrategy<T = unknown> = (
 export interface IDeepMergeOptions<T = unknown> {
   arrayMergeStrategy: TDeepmergeArrayMergeStrategy<T>;
 }
+
+export type TServerTimestap = { seconds: number; nanoseconds: number };

@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { COLOR_PRIMARY } from "~/assets/themes/colors";
+import { useActiveChat } from "~/composables/state/use-active-chat";
 
 const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 
 const { finalizePendingLocaleChange } = useI18n();
+
+const chatActive = useActiveChat();
 
 // @@eos
 </script>
@@ -38,6 +41,17 @@ const { finalizePendingLocaleChange } = useI18n();
 
     <!-- redirect on auth-change -->
     <AppConfigurationOnAuthChange />
+
+    <!-- render active chat -->
+    <AppDrawerDefault
+      :model-value="chatActive.isActive.value"
+      @update:model-value="(m) => !m && chatActive.clear()"
+    >
+      <AppChatDefault
+        v-if="chatActive.current.value"
+        :chat="chatActive.current.value"
+      />
+    </AppDrawerDefault>
 
     <!-- routes -->
     <NuxtLayout>

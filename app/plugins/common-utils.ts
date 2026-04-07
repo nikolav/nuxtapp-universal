@@ -17,6 +17,7 @@ import omit from "lodash/omit";
 import pick from "lodash/pick";
 import keys from "lodash/keys";
 import values from "lodash/values";
+import orderBy from "lodash/orderBy";
 
 import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
@@ -42,6 +43,7 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          orderBy,
           keys,
           values,
           omit,

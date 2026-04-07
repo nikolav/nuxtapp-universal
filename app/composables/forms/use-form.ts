@@ -64,6 +64,12 @@ export const useForm = <TRules extends Record<string, ZodType>>(
     _.onSubmit?.(data.value);
   };
 
+  const clear = (fieldName: string, NULL = null) => {
+    if (fieldName in field) {
+      field[fieldName]!.value = NULL;
+    }
+  };
+
   return {
     FORM,
     valid,
@@ -71,5 +77,6 @@ export const useForm = <TRules extends Record<string, ZodType>>(
     field,
     data,
     handle,
+    clear,
   };
 };

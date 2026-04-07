@@ -8,7 +8,8 @@ export class DatetimeService {
     d: "DD-MM-YYYY",
     D: "YYYY-MM-DD",
   };
-  static readonly dayjs = dayjs;
+
+  readonly dayjs = dayjs;
 
   // @@
   utcnow(template?: string) {

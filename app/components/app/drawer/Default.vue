@@ -17,6 +17,10 @@ const props = withDefaults(
   },
 );
 
+const emit = defineEmits<{
+  "update:model-value": [isActive: boolean];
+}>();
+
 const { $$ } = useNuxtApp();
 const { smAndUp, width: vw } = useDisplay();
 
@@ -49,7 +53,7 @@ const isActive = defineModel({ default: false });
           rounded="full"
           color="on-surface"
           class="position-fixed top-1 end-2 z-[1]"
-          @click="isActive = false"
+          @click="emit('update:model-value', false)"
           v-bind="props.propsClose"
         >
           <IconX icon="$close" size="1.88rem" />

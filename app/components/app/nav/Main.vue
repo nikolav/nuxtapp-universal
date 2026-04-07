@@ -2,9 +2,13 @@
 import { useAuth } from "~/stores/use-auth.store";
 import { useTheme } from "vuetify";
 
+import { useActiveChat } from "~/composables/state/use-active-chat";
+
 const auth = useAuth();
 const localePath = useLocalePath();
 const theme = useTheme();
+
+const chatActive = useActiveChat();
 
 // @@eos
 </script>
@@ -16,6 +20,9 @@ const theme = useTheme();
       <VAppBarNavIcon disabled class="opacity-50" rounded="full" />
     </template>
     <template #append>
+      <VBtn icon rounded="full" @click="chatActive.current.value = 'main'">
+        <IconX class="opacity-50" icon="mdi:forum" size="1.5em" />
+      </VBtn>
       <VBtn
         v-if="!auth.isAuth"
         icon
