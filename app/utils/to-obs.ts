@@ -15,10 +15,20 @@ export const to$ = <T = unknown>(
   watchOptins: WatchOptions = { immediate: true },
 ) =>
   defer(() => {
-    // Observable
-    if (isObservable(input)) return input;
-    // Promise / PromiseLike
-    if (isPromiseLike<T>(input)) return from(input);
-    // else Vue reactivity|getter
-    return <Observable<T>>vufrom(toRef<T>(input), watchOptins);
+    switch (true) {
+      case isObservable(input):
+        // Observable
+        return input;
+        break;
+
+      case isPromiseLike<T>(input):
+        // PromiseLike
+        return from(input);
+        break;
+
+      default:
+        // Vue reactivity|getter
+        return <Observable<T>>vufrom(toRef<T>(input), watchOptins);
+        break;
+    }
   });

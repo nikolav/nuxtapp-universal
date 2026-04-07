@@ -17,7 +17,7 @@ watch(
       // @login
       navigateTo(
         localePath({
-          name: useAppConfigItem<string>(
+          name: useAppConfigItem(
             "services.auth.DEFAULT_AUTHENTICATED_ROUTE_NAME",
           ).value,
         }),
@@ -28,7 +28,7 @@ watch(
       // @logout
       navigateTo(
         localePath({
-          name: useAppConfigItem<string>(
+          name: useAppConfigItem(
             "services.auth.DEFAULT_UNAUTHENTICATED_ROUTE_NAME",
           ).value,
         }),

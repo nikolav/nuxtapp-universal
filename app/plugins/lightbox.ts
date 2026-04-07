@@ -8,6 +8,7 @@ import {
   switchMap,
   take,
 } from "rxjs/operators";
+import noop from "lodash/noop";
 
 import type {
   TOrNoValue,
@@ -52,7 +53,7 @@ const DEFAULTS_PHOTO_SWIPE_OPTIONS = <TPhotoSwipeOptions>{
 const DEFAULTS_MEDIA = <Partial<TPhotoSwipeMedia>>{
   options: {},
   index: 0,
-  setup: () => {},
+  setup: noop,
 };
 
 export default defineNuxtPlugin({
@@ -131,7 +132,7 @@ export default defineNuxtPlugin({
       (media: TPhotoSwipeMedia) => {
         media$.next($$.copy({}, DEFAULTS_MEDIA, media));
 
-        // $lightbox(media)((psw) => ...)
+        // $lightbox(media).open((psw) => ...)
         return {
           open: (handle?: (psw: TPhotoSwipeLightbox) => void) =>
             open$.pipe(take(1)).subscribe({

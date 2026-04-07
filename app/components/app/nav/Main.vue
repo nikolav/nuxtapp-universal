@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useAuth } from "~/stores/use-auth.store";
 import { useTheme } from "vuetify";
 
+import { useAuth } from "~/stores/use-auth.store";
 import { useActiveChat } from "~/composables/state/use-active-chat";
 
 const auth = useAuth();

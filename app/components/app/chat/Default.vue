@@ -26,7 +26,7 @@ const docsSortedDate = computed(() =>
 );
 
 const userTokenLocal = useLocalStorage(
-  useAppConfigItem<string>("keys.USER_TOKEN_LOCAL").value ?? "",
+  useAppConfigItem("keys.USER_TOKEN_LOCAL").value ?? "",
   "",
 );
 const form = useForm(
@@ -69,7 +69,7 @@ watch(
 
 // store local user name
 const displayName = useLocalStorage(
-  useAppConfigItem<string>("keys.CHAT_DISPLAY_NAME").value ?? "",
+  useAppConfigItem("keys.CHAT_DISPLAY_NAME").value ?? "",
   "",
 );
 watch(

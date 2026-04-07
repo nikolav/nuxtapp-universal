@@ -17,7 +17,7 @@ const fromNow = computed(() => {
 
 const uid = computed(() => $$.get(props.item, "data.uid"));
 const userTokenLocal = useLocalStorage(
-  useAppConfigItem<string>("keys.USER_TOKEN_LOCAL").value ?? "",
+  useAppConfigItem("keys.USER_TOKEN_LOCAL").value ?? "",
   "",
 );
 const owns = computed(() => userTokenLocal.value === uid.value);

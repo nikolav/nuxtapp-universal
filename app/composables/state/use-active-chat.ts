@@ -7,12 +7,10 @@ export const useActiveChat = <T = string>() => {
 
   const current = computed({
     get: () =>
-      <TOrNoValue<T>>(
-        $main.item(useAppConfigItem<string>("keys.CHAT_ACTIVE").value!)
-      ),
+      <TOrNoValue<T>>$main.item(useAppConfigItem("keys.CHAT_ACTIVE").value!),
     set: (val) =>
       $main.push({
-        [useAppConfigItem<string>("keys.CHAT_ACTIVE").value!]: val ?? null,
+        [useAppConfigItem("keys.CHAT_ACTIVE").value!]: val ?? null,
       }),
   });
   const isActive = computed(() => null != current.value);
