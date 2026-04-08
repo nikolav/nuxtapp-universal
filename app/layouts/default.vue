@@ -2,7 +2,7 @@
 const { $$ } = useNuxtApp();
 
 const showAppBar = computed(
-  () => false !== $$.get(useRoute().meta, "context.appBar"),
+  () => false !== $$.get(useRoute().meta, "context.showAppBar"),
 );
 // @@eos
 </script>

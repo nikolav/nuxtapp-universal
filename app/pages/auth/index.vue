@@ -10,7 +10,7 @@ definePageMeta({
   context: {
     title: "pages.auth.title",
     description: "pages.auth.description",
-    appBar: false,
+    showAppBar: false,
   },
   layout: "default",
   middleware: ["guest"],
