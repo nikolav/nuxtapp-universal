@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { useOnceMounted } from "~/composables/utils/use-once-mounted-on";
-import { onDebug } from "~/utils/on-debug";
+import { useStoreKeyValue } from "~/stores/use-key-value.store";
 
 definePageMeta({
   layout: "default",
 });
 
-useOnceMounted([], () => {
-  onDebug({ "page-init:demo": true });
-});
-
+const d = useStoreKeyValue();
+const commit = () => {
+  d.commit({ foo: Math.random(), bar: Math.random() });
+};
 // 76979871
 // DyXl4c2XN-o
 // @@eos
@@ -18,6 +17,16 @@ useOnceMounted([], () => {
 <template>
   <section class="app-container-reset page--demo">
     <h1>page:demo</h1>
+    <div class="flex justify-center gap-2">
+      <button @click="commit">ok</button>
+      <button @click="d.use('foo')">foo</button>
+      <button @click="d.use('bar')">bar</button>
+    </div>
+    <div>
+      <small>
+        <pre>d: [{{ d.current }}]</pre>
+      </small>
+    </div>
   </section>
 </template>
 
