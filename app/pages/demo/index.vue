@@ -5,6 +5,16 @@
 <template>
   <section class="app-container-reset page--demo">
     <h2>page:demo</h2>
+    <v-list>
+      <v-list-group value="admin">
+        <template #activator="{ props }">
+          <v-list-item v-bind="props" title="Admin" />
+        </template>
+
+        <v-list-item title="Users" />
+        <v-list-item title="Settings" />
+      </v-list-group>
+    </v-list>
   </section>
 </template>
 

@@ -1,0 +1,16 @@
+{
+  "clientBundle": [
+    "local:logo-nikolav",
+    "mdi:folder",
+    "mdi:eye",
+    "mdi:eye-off",
+    "mdi:key",
+    "mdi:forum",
+    "mdi:account-circle",
+    "mdi:account",
+    "mdi:feather",
+    "mdi:send",
+    "mdi:delete",
+    "mdi:logout"
+  ]
+}

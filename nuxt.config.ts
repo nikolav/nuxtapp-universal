@@ -11,8 +11,10 @@ import {
 } from "./app/schemas";
 
 import ROUTES from "./app/assets/routes.json";
+import ICONS from "./app/assets/icons-client.json";
 
 const { prerender: prerenderRoutes, ignore: ignoreRoutes } = ROUTES;
+const { clientBundle: iconsClientBundle } = ICONS;
 
 /**
  * ============================================================================
@@ -539,19 +541,7 @@ export default defineNuxtConfig({
       scan: true,
       includeCustomCollections: true,
       sizeLimitKb: 256,
-      icons: [
-        "local:logo-nikolav",
-        "mdi:eye",
-        "mdi:eye-off",
-        "mdi:key",
-        "mdi:forum",
-        "mdi:account-circle",
-        "mdi:account",
-        "mdi:feather",
-        "mdi:send",
-        "mdi:delete",
-        "mdi:logout",
-      ],
+      icons: iconsClientBundle,
     },
   },
 

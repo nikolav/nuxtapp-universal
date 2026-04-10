@@ -11,6 +11,7 @@ definePageMeta({
     title: "pages.auth.title",
     description: "pages.auth.description",
     showAppBar: false,
+    showFooterMain: false,
   },
   layout: "default",
   middleware: ["guest"],
