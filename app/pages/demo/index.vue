@@ -3,14 +3,15 @@ import { useFilePicker } from "~/composables/fs/use-file-picker";
 import { useMediaUrl } from "~/composables/media/use-data-url";
 
 const nodeUrls = useMediaUrl({ link: true });
-const filePicker = useFilePicker();
 
 const preview = () => {
-  filePicker.open({ accept: "*" }).subscribe((files) => {
-    console.log({ files });
-    const [file] = files ?? [];
-    nodeUrls.media.value = file;
-  });
+  useFilePicker()
+    .open({ accept: "*" })
+    .subscribe((files) => {
+      console.log({ files });
+      const [file] = files ?? [];
+      nodeUrls.media.value = file;
+    });
 };
 
 // @@eos

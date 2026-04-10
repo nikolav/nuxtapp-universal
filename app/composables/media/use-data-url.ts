@@ -28,7 +28,6 @@ export const useDataUrl = (
       if (!object) return;
 
       // calc urls
-      if (opts.link) urlLink.value = URL.createObjectURL(object);
       if (opts.dataUrl)
         (async () => {
           urlData.value = await new Promise((resolve, reject) => {
@@ -45,6 +44,7 @@ export const useDataUrl = (
             }
           });
         })();
+      if (opts.link) urlLink.value = URL.createObjectURL(object);
     },
     { immediate: true },
   );
