@@ -3,15 +3,15 @@ import { tryOnScopeDispose } from "@vueuse/shared";
 
 import type { TOrNoValue } from "~/types";
 
-interface IUseDataUrlOptions {
+interface IUseMediaUrlOptions {
   link?: boolean;
   dataUrl?: boolean;
 }
 
 export const useDataUrl = (
-  opts: IUseDataUrlOptions = { link: true, dataUrl: true },
+  opts: IUseMediaUrlOptions = { link: true, dataUrl: true },
 ) => {
-  const node = shallowRef<TOrNoValue<Blob | MediaSource>>();
+  const media = shallowRef<TOrNoValue<Blob | MediaSource>>();
 
   const urlLink = shallowRef<TOrNoValue<string>>();
   const urlData = shallowRef<TOrNoValue<string>>();
@@ -23,7 +23,7 @@ export const useDataUrl = (
   };
 
   watch(
-    () => toValue(node),
+    () => toValue(media),
     (object) => {
       destroy();
       if (!object) return;
@@ -34,7 +34,7 @@ export const useDataUrl = (
         (async () => {
           urlData.value = await new Promise((resolve, reject) => {
             try {
-              if (!(object instanceof Blob)) throw new Error("node !Blob.");
+              if (!(object instanceof Blob)) throw new Error("media !Blob.");
               const reader = new FileReader();
               reader.onerror = reject;
               reader.onload = () => {
@@ -54,7 +54,7 @@ export const useDataUrl = (
 
   return {
     // external file/blob
-    node,
+    media,
 
     // calculated urls
     link: shallowReadonly(urlLink),
@@ -64,3 +64,5 @@ export const useDataUrl = (
     destroy,
   };
 };
+
+export const useMediaUrl = useDataUrl;
