@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useFilePicker } from "~/composables/fs/use-file-picker";
-import { useDataUrl } from "~/composables/media/use-data-url";
+import { useMediaUrl } from "~/composables/media/use-data-url";
 
-const nodeUrls = useDataUrl({ link: true });
+const nodeUrls = useMediaUrl({ link: true });
 const filePicker = useFilePicker();
 
 const preview = () => {
   filePicker.open({ accept: "*" }).subscribe((files) => {
     const [file] = files ?? [];
-    nodeUrls.node.value = file;
+    nodeUrls.media.value = file;
   });
 };
 
