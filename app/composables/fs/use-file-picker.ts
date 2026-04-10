@@ -134,7 +134,7 @@ export const useFilePicker = () => {
 
   const open = (opts: IPickFileOptions = {}) =>
     from(
-      ps.exec(() =>
+      ps.monitor(() =>
         isProgressive$(opts).pipe(
           switchMap((isProgressive) =>
             isProgressive ? openProgressive$(opts) : openFallback$(opts),
