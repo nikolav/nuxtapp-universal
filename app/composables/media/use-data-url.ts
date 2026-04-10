@@ -1,4 +1,3 @@
-import { shallowReadonly, shallowRef, toValue, watch } from "vue";
 import { tryOnScopeDispose } from "@vueuse/shared";
 
 import type { TOrNoValue } from "~/types";
@@ -23,7 +22,7 @@ export const useDataUrl = (
   };
 
   watch(
-    () => toValue(media),
+    media,
     (object) => {
       destroy();
       if (!object) return;
