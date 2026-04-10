@@ -7,6 +7,7 @@ const filePicker = useFilePicker();
 
 const preview = () => {
   filePicker.open({ accept: "*" }).subscribe((files) => {
+    console.log({ files });
     const [file] = files ?? [];
     nodeUrls.media.value = file;
   });

@@ -29,7 +29,7 @@ export const useFilePicker = () => {
           }),
         ),
       ),
-      mergeMap((handles) =>
+      switchMap((handles) =>
         from(handles).pipe(mergeMap((h) => from(h.getFile()))),
       ),
       reduce(
