@@ -13,6 +13,7 @@ import type {
   TJsonLiteral,
 } from "../schemas/json.schema";
 import type {
+  Directive,
   Component as TVueComponent,
   FunctionalComponent as TVueFunctionalComponent,
   MaybeRefOrGetter,
@@ -206,3 +207,9 @@ export interface IDeepMergeOptions<T = unknown> {
 }
 
 export type TServerTimestap = { seconds: number; nanoseconds: number };
+
+/* =============================================================================
+ * vue
+ * ========================================================================== */
+
+export type TDirective<T = unknown> = Directive<TElement, T>;

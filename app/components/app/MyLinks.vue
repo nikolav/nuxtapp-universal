@@ -3,14 +3,18 @@ import { useDisplay } from "vuetify";
 
 import mylinks from "~/assets/my-links.json";
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const { smAndUp } = useDisplay();
 
 // @@eos
 </script>
 
 <template>
-  <div class="app-container-reset component--NAME">
-    <div class="__spacer__ p-4 space-y-4">
+  <div class="app-container-reset component--AppMyLinks">
+    <div class="__spacer__" v-bind="$attrs">
       <VList
         v-for="node in mylinks"
         :key="node.title"

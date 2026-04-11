@@ -1,32 +1,13 @@
 <script setup lang="ts">
-import { useFilePicker } from "~/composables/fs/use-file-picker";
-import { useMediaUrl } from "~/composables/media/use-data-url";
-
-const nodeUrls = useMediaUrl({ link: true });
-
-const preview = () => {
-  useFilePicker()
-    .open({ accept: "*" })
-    .subscribe((files) => {
-      console.log({ files });
-      const [file] = files ?? [];
-      nodeUrls.media.value = file;
-    });
-};
-
+import { vDemo } from "~/directives/v-demo";
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--demo">
     <h1>page:demo</h1>
-    <div class="flex justify-center gap-2">
-      <button @click="preview">ok</button>
-    </div>
-    <div class="flex justify-center gap-2 break-all">
-      <small>
-        {{ nodeUrls.link }}
-      </small>
+    <div class="flex justify-center">
+      <button v-demo>ok</button>
     </div>
   </section>
 </template>
