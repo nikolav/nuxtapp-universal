@@ -2,6 +2,7 @@
  * Imports
  * ========================================================================== */
 
+import type { Directive } from "vue";
 import { z } from "zod";
 import type { Observable, Subject, Subscription } from "rxjs";
 import type { RequestExtendedOptions } from "graphql-request";
@@ -204,3 +205,9 @@ export type TDeepmergeArrayMergeStrategy<T = unknown> = (
 export interface IDeepMergeOptions<T = unknown> {
   arrayMergeStrategy: TDeepmergeArrayMergeStrategy<T>;
 }
+
+/* =============================================================================
+ * vue
+ * ========================================================================== */
+
+export type TDirective<T = unknown> = Directive<TElement, T>;
