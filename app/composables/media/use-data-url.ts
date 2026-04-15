@@ -11,7 +11,7 @@ interface IUseDataUrlOptions {
 export const useDataUrl = (
   opts: IUseDataUrlOptions = { link: true, dataUrl: true },
 ) => {
-  const node = shallowRef<TOrNoValue<Blob | MediaSource>>();
+  const media = shallowRef<TOrNoValue<Blob | MediaSource>>();
 
   const urlLink = shallowRef<TOrNoValue<string>>();
   const urlData = shallowRef<TOrNoValue<string>>();
@@ -23,7 +23,7 @@ export const useDataUrl = (
   };
 
   watch(
-    () => toValue(node),
+    () => toValue(media),
     (object) => {
       destroy();
       if (!object) return;
@@ -54,7 +54,7 @@ export const useDataUrl = (
 
   return {
     // external file/blob
-    node,
+    media,
 
     // calculated urls
     link: shallowReadonly(urlLink),
@@ -64,3 +64,5 @@ export const useDataUrl = (
     destroy,
   };
 };
+
+export const useMediaUrl = useDataUrl;
