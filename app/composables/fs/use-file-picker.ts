@@ -1,8 +1,8 @@
 import { from, Observable, of } from "rxjs";
 import { catchError, mergeMap, reduce, switchMap } from "rxjs/operators";
 
-import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import type { IPickFileOptions } from "~/types";
+import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 
 const DEFAULT_MIME = "application/octet-stream";
 const extToMime: Record<string, string> = {
