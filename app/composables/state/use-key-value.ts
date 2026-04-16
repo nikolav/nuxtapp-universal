@@ -20,10 +20,15 @@ export const useKeyValue = <TValue = unknown>() => {
     currentKey.value = key;
   };
 
+  const clear = () => {
+    currentKey.value = undefined;
+  };
+
   return {
     current,
+    keys,
     commit,
     use,
-    keys,
+    clear,
   };
 };
