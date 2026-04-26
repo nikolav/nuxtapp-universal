@@ -22,7 +22,7 @@ export const useDataUrl = (
   };
 
   watch(
-    media,
+    () => toValue(media),
     (object) => {
       destroy();
       if (!object) return;
