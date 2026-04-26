@@ -1,6 +1,7 @@
 import { onScopeDispose } from "vue";
 import { tap } from "rxjs/operators";
 
+import { isPresent } from "~/utils/is-present";
 import { usePopupOAuth } from "~/composables/auth/use-popup-oauth";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import { schemaAuthDriver, schemaAuthToken } from "~/schemas";
@@ -31,7 +32,7 @@ export const useAuth = defineStore("store-auth", () => {
   // account data, auth
   const auth = useAsyncData<TOrNoValue<IUser>>(
     "auth-account-data",
-    async (_1, { signal }) =>
+    async (_nuxtApp, { signal }) =>
       authService.token.value
         ? await $$.resolved<IUser>(
             authService.authData(authService.token.value, signal),
@@ -52,7 +53,7 @@ export const useAuth = defineStore("store-auth", () => {
   ps.sync(auth.pending, auth.error);
 
   const account = computed(() => auth.data.value);
-  const isAuth = computed(() => null != $$.get(account.value, "id"));
+  const isAuth = computed(() => isPresent($$.get(account.value, "id")));
 
   const authenticate = (credenitals: ICredentials) =>
     ps.monitor(() => authService.authenticate(credenitals));
