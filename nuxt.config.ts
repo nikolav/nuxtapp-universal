@@ -552,7 +552,7 @@ export default defineNuxtConfig({
   // https://i18n.nuxtjs.org/docs/api/options
   i18n: {
     defaultLocale,
-    strategy: "prefix_and_default",
+    strategy: "prefix",
     baseUrl: siteUrl,
 
     customRoutes: "meta",
