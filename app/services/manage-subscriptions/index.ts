@@ -1,14 +1,14 @@
 import each from "lodash/each";
 
 import type { TManageSubscriptionsCache } from "~/types";
-import { coreHasOwn } from "~/utils/core-has-own";
+import { hasOwn } from "~/utils/core-has-own";
 
 export class ManageSubscriptionsService {
   private cache = <TManageSubscriptionsCache>{};
 
   clear(...keys: string[]) {
     keys.forEach((key) => {
-      if (coreHasOwn(this.cache, key)) {
+      if (hasOwn(this.cache, key)) {
         this.cache[key]?.unsubscribe();
         delete this.cache[key];
       }

@@ -20,15 +20,15 @@ const props = withDefaults(
 const emit = defineEmits<{
   "update:model-value": [isActive: boolean];
 }>();
+
+const isActive = defineModel({ default: false });
+
+const closeClasses = "position-fixed top-1 z-[1]";
+const { $$ } = useNuxtApp();
+const { smAndUp, width: vw } = useDisplay();
 const close = () => {
   emit("update:model-value", false);
 };
-const closeClasses = "position-fixed top-1 z-[1]";
-
-const { $$ } = useNuxtApp();
-const { smAndUp, width: vw } = useDisplay();
-
-const isActive = defineModel({ default: false });
 
 // @@eos
 </script>
@@ -44,7 +44,7 @@ const isActive = defineModel({ default: false });
       v-model="isActive"
       v-bind="$attrs"
     >
-      <VSheet tile rounded="0" class="app-container-reset position-relative">
+      <VSheet tile elevation="0" class="app-container-reset position-relative">
         <slot name="close" :close :closeClasses>
           <VBtn
             v-if="props.showClose"

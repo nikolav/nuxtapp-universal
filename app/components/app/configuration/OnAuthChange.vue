@@ -13,26 +13,30 @@ const localePath = useLocalePath();
 watch(
   () => auth.isAuth,
   (isAuth, old_isAuth) => {
-    if (isAuth) {
-      // @login
-      navigateTo(
-        localePath({
-          name: useAppConfigItem(
-            "services.auth.DEFAULT_AUTHENTICATED_ROUTE_NAME",
-          ).value,
-        }),
-      );
-      return;
-    }
-    if (!isAuth && true === old_isAuth) {
-      // @logout
-      navigateTo(
-        localePath({
-          name: useAppConfigItem(
-            "services.auth.DEFAULT_UNAUTHENTICATED_ROUTE_NAME",
-          ).value,
-        }),
-      );
+    switch (true) {
+      case isAuth:
+        // @login
+        return navigateTo(
+          localePath({
+            name: useAppConfigItem(
+              "services.auth.DEFAULT_AUTHENTICATED_ROUTE_NAME",
+            ).value,
+          }),
+        );
+        break;
+
+      case !isAuth && true === old_isAuth:
+        // @logout
+        return navigateTo(
+          localePath({
+            name: useAppConfigItem(
+              "services.auth.DEFAULT_UNAUTHENTICATED_ROUTE_NAME",
+            ).value,
+          }),
+        );
+
+      default:
+        break;
     }
   },
 );
