@@ -335,6 +335,9 @@ export default defineNuxtConfig({
       },
     },
 
+    // skip dynamic api endpoints or irrelevant pages
+    ignore: ignoreRoutes,
+
     storage: {},
     devStorage: {},
   },
@@ -358,7 +361,7 @@ export default defineNuxtConfig({
   hooks: {
     // add dynamic routes
     "prerender:routes": async ({ routes }) => {
-      // routes.add..
+      // routes.add(...)
     },
 
     // override vuetify globals
@@ -549,7 +552,7 @@ export default defineNuxtConfig({
   // https://i18n.nuxtjs.org/docs/api/options
   i18n: {
     defaultLocale,
-    strategy: "prefix",
+    strategy: "prefix_and_default",
     baseUrl: siteUrl,
 
     customRoutes: "meta",
@@ -563,7 +566,7 @@ export default defineNuxtConfig({
 
     detectBrowserLanguage: {
       useCookie: true,
-      cookieKey: "i18n_redirected",
+      cookieKey: "i18n_redirected:1b71f2e1-bdfa-573a-8775-901bb6793fae",
       cookieCrossOrigin: true,
       redirectOn: "root",
       fallbackLocale: defaultLocale,

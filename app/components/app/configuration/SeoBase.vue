@@ -44,6 +44,7 @@ useSeoMeta({
     :property="meta.property"
     :content="meta.content"
   />
+  <slot />
 </template>
 
 <!-- scoped component styles, default -->
