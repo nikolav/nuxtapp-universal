@@ -1,10 +1,9 @@
 import vitePluginVuetify from "vite-plugin-vuetify";
 import { transformAssetUrls } from "vite-plugin-vuetify";
-import trimEnd from "lodash/trimEnd";
 
+import trimEnd from "lodash/trimEnd";
 import parseBoolean from "@eturino/ts-parse-boolean";
 
-import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 import {
   schemaCacheKeyDriver,
   schemaCollectionsKeyDriver,
@@ -35,7 +34,7 @@ const ENV = [
   ? "development"
   : "production";
 
-const SSR = true;
+const SSR = parseBoolean(process.env.NUXT_SSR ?? false);
 
 export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
 
@@ -487,7 +486,7 @@ export default defineNuxtConfig({
 
   // Auto-imports config
   imports: {
-    presets: FROM_PACKAGES_IMPORT,
+    // presets: FROM_PACKAGES_IMPORT,
     scan: false,
   },
 

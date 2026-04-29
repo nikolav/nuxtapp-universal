@@ -1,16 +1,15 @@
 import { from, switchMap } from "rxjs";
 
-import { usePopupWindow } from "~/composables/ui/use-popup-window";
 import { schemaOAuthPayload, schemaOAuthProviders } from "~/schemas";
+import { usePopupWindow } from "~/composables/ui/use-popup-window";
 
 export const usePopupOAuth = () => {
-  const { $window$ } = useNuxtApp();
   const { apiBase } = useRuntimeConfig().public;
   const popupWindow = usePopupWindow();
   const expectedOrigin = new URL(apiBase).origin;
 
   const signInWithProvider = (provider: string) =>
-    $window$.pipe(
+    useNuxtApp().$window$.pipe(
       switchMap((window) =>
         popupWindow
           .open(

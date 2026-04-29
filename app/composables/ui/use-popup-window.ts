@@ -4,16 +4,14 @@ import { switchMap } from "rxjs/operators";
 import type { TOrNoValue } from "~/types";
 
 export const usePopupWindow = () => {
-  const { $window$ } = useNuxtApp();
-
-  const target = ref<TOrNoValue<globalThis.WindowProxy>>(null);
+  const target = shallowRef<TOrNoValue<globalThis.WindowProxy>>();
 
   const destroy = () => {
     target.value?.close();
   };
 
   const open = (url: string, name = "oauth", w = 420, h = 550) =>
-    $window$.pipe(
+    useNuxtApp().$window$.pipe(
       switchMap((window) => {
         const document = window.document;
         const screen = window.screen;

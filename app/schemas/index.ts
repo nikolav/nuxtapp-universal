@@ -3,6 +3,7 @@ import isJWT from "validator/es/lib/isJWT";
 import matches from "validator/es/lib/matches";
 
 import { rRegexSafeCharacters } from "../utils/re";
+
 export { schemaJsonData, schemaJsonDataRecord } from "./json.schema";
 export * from "./transforms";
 
@@ -19,12 +20,18 @@ export const schemaAuthToken = z
   .string()
   .min(1)
   .refine((val) => {
-    // jwt
-    if (val.includes(".") && isJWT(val)) return true;
-    // laravel sanctum token format: "123|abcdef..."
-    if (/^\d+\|[A-Za-z0-9+/=_-]+$/.test(val)) return true;
+    switch (true) {
+      // jwt
+      case val.includes(".") && isJWT(val):
+        return true;
 
-    return false;
+      // laravel tokens '122|Hmq7FefxfI1O..'
+      case /^\d+\|[A-Za-z0-9+/=_-]+$/.test(val):
+        return true;
+
+      default:
+        return false;
+    }
   }, "Invalid token format");
 
 export const schemaOAuthPayload = z.discriminatedUnion("type", [
