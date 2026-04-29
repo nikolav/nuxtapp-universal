@@ -74,6 +74,7 @@ export default defineNuxtPlugin({
           onDebug,
           hasOwn,
           // core, misc.
+          Math,
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),
           Math,
