@@ -3,9 +3,14 @@ defineOptions({
   inheritAttrs: false,
 });
 
+defineEmits<{
+  "update:model-value": [isActive: boolean];
+}>();
+
 const props = withDefaults(defineProps<{ propsSheet?: any }>(), {
   propsSheet: {},
 });
+
 // @@eos
 </script>
 
@@ -15,6 +20,7 @@ const props = withDefaults(defineProps<{ propsSheet?: any }>(), {
       fullscreen
       :scrim="false"
       transition="app-transition-slide-y-r"
+      @update:model-value="(m) => $emit('update:model-value', m)"
       v-bind="$attrs"
     >
       <VSheet
@@ -23,7 +29,7 @@ const props = withDefaults(defineProps<{ propsSheet?: any }>(), {
         class="app-container-reset"
         v-bind="props.propsSheet"
       >
-        <slot />
+        <slot :close="() => $emit('update:model-value', false)" />
       </VSheet>
     </VDialog>
   </ClientOnly>

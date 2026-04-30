@@ -77,7 +77,6 @@ export default defineNuxtPlugin({
           Math,
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),
-          Math,
           // 3rd party
           nanoid,
           uuid,

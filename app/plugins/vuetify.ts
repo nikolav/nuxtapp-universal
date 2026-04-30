@@ -1,5 +1,5 @@
 import { createVuetify } from "vuetify";
-import { md3 } from "vuetify/blueprints";
+import { md2 } from "vuetify/blueprints";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import { srLatn, en, srCyrl } from "vuetify/locale";
 import { filter, map } from "rxjs/operators";
@@ -24,7 +24,7 @@ export default defineNuxtPlugin({
     const { defaultLocale } = useRuntimeConfig().public;
     const vuetify = createVuetify({
       ssr: useRuntimeConfig().public.ssr,
-      blueprint: md3,
+      blueprint: md2,
 
       // @useDisplay composable configuration options
       // https://next.vuetifyjs.com/en/features/display-and-platform/#interface
