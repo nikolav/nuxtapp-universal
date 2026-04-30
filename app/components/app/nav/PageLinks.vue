@@ -1,9 +1,13 @@
 <script setup lang="ts">
+const localePath = useLocalePath();
 // @@eos
 </script>
 
 <template>
   <div class="app-container-reset component--AppNavPageLinks">
-    <NuxtLinkLocale to="demo">demo</NuxtLinkLocale>
+    <VList>
+      <VListItem :to="localePath({ name: 'index' })">home</VListItem>
+      <VListItem :to="localePath({ name: 'demo' })">demo</VListItem>
+    </VList>
   </div>
 </template>

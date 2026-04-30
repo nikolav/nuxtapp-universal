@@ -23,9 +23,9 @@ const { smAndUp } = useDisplay();
         max-width="550"
         class="mx-auto !p-3"
       >
-        <VListItem>
+        <VListItem class="ps-2">
           <template #prepend>
-            <span class="me-3 text-xl">{{ node.emoji }}</span>
+            <span class="me-4 text-xl">{{ node.emoji }}</span>
           </template>
           <VListItemTitle class="opacity-40 text-uppercase text-subtitle-2">{{
             node.title
