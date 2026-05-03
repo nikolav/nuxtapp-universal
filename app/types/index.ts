@@ -1,7 +1,3 @@
-/* =============================================================================
- * Imports
- * ========================================================================== */
-
 import type { Directive } from "vue";
 import { z } from "zod";
 import type { Observable, Subject, Subscription } from "rxjs";
@@ -132,6 +128,8 @@ export { AuthService as TAuthService } from "~/services/auth/base";
 
 // json schema types
 export type { TRecordJson, TJson, TJsonLiteral };
+
+export * from "./charts.types";
 
 /* =============================================================================
  * External libs / dynamic imports
