@@ -1,7 +1,4 @@
-/* =============================================================================
- * Imports
- * ========================================================================== */
-
+import type { Directive } from "vue";
 import { z } from "zod";
 import type { Observable, Subject, Subscription } from "rxjs";
 import type { RequestExtendedOptions } from "graphql-request";
@@ -139,6 +136,8 @@ export { AuthService as TAuthService } from "~/services/auth/base";
 export type { TRecordJson, TJson, TJsonLiteral };
 export type { TVueComponent, TVueFunctionalComponent };
 export type { MaybeRefOrGetter as TMaybeRefOrGetter };
+
+export * from "./charts.types";
 
 /* =============================================================================
  * External libs / dynamic imports
