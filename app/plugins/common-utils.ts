@@ -32,6 +32,7 @@ import { value$$ } from "~/utils/to-value-obs";
 import { deepmerge } from "~/utils/deepmerge";
 import { StatusResult } from "~/utils/status-result";
 import { parseShell } from "~/utils/parse-shell";
+import { configItem } from "~/utils/config-item";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -64,6 +65,7 @@ export default defineNuxtPlugin({
           hasPath,
           isString,
           // local
+          config: configItem,
           parseShell,
           res: StatusResult.init.bind(StatusResult),
           deepmerge,
@@ -75,6 +77,7 @@ export default defineNuxtPlugin({
           hasOwn,
           // core, misc.
           Math,
+          Date,
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),
           // 3rd party

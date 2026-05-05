@@ -1,15 +1,4 @@
-import type { TOrNoValue } from "~/types";
+import { configItem } from "~/utils/config-item";
 
-export const useConfigItem = <T = string>(
-  path: TOrNoValue<string>,
-  DEFAULT_NOT_FOUND = undefined,
-) =>
-  <T>(
-    (path
-      ? useNuxtApp().$$.get(
-          useRuntimeConfig(),
-          path,
-          useNuxtApp().$$.get(useAppConfig(), path, DEFAULT_NOT_FOUND),
-        )
-      : undefined)
-  );
+export const useConfigItem = <T = string>(path: string) =>
+  computed(() => <T>configItem(path));

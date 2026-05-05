@@ -7,56 +7,52 @@ import { COLOR_PRIMARY, COLOR_SECONDARY } from "./colors";
  */
 export const light: ThemeDefinition = {
   dark: false,
-
   colors: {
-    // App surfaces
-    background: "#F6F8FC", // GA page background (very light blue-gray)
-    surface: "#FFFFFF", // cards / panels
+    // Stronger layout contrast
+    background: "#F5F7F9", // slightly darker than before
+    surface: "#FFFFFF",
     "surface-bright": "#FFFFFF",
-    "surface-light": "#F8F9FA", // hover fills / light strips
-    "surface-variant": "#F1F3F4", // sidebar sections / separators
-    "on-surface-variant": "#3C4043", // GA secondary text
+    "surface-light": "#ECEFF1", // more visible section separation
+    "surface-variant": "#D0D5DA", // clearer borders/dividers
+    "on-surface-variant": "#3C4043", // stronger secondary text
 
-    // Accents (Google)
-    primary: COLOR_PRIMARY, // Google blue
-    secondary: COLOR_SECONDARY, // neutral gray (icons/labels)
+    primary: COLOR_PRIMARY,
+    secondary: COLOR_SECONDARY,
 
-    // Feedback
-    success: "#1E8E3E",
-    warning: "#F9AB00",
-    error: "#D93025",
+    // Status colors (slightly deepened for clarity)
+    error: "#C5221F",
     info: "#1A73E8",
+    success: "#137333",
+    warning: "#EA8600",
 
-    // Text on surfaces
-    "on-background": "#202124",
-    "on-surface": "#202124",
-    "on-primary": "#FFFFFF",
-    "on-secondary": "#FFFFFF",
+    // Text (higher contrast)
+    "on-background": "#1F1F1F",
+    "on-surface": "#1F1F1F",
   },
 
   variables: {
-    // Dividers/borders (GA uses visible but soft lines)
-    "border-color": "#DADCE0",
+    // Borders more visible (important for dashboards)
+    "border-color": "#C6CACC",
     "border-opacity": 1,
 
-    // Typography emphasis (GA has crisp hierarchy)
+    // Stronger text hierarchy
     "high-emphasis-opacity": 0.92,
-    "medium-emphasis-opacity": 0.72,
-    "disabled-opacity": 0.38,
+    "medium-emphasis-opacity": 0.7,
+    "disabled-opacity": 0.42,
 
-    // Interaction states (subtle fills like GA)
-    "idle-opacity": 0,
-    "hover-opacity": 0.04,
+    // Slightly stronger interaction feedback
+    "idle-opacity": 0.03,
+    "hover-opacity": 0.06,
     "focus-opacity": 0.1,
-    "selected-opacity": 0.08, // selected nav / chips
+    "selected-opacity": 0.08,
     "activated-opacity": 0.1,
     "pressed-opacity": 0.12,
-    "dragged-opacity": 0.06,
+    "dragged-opacity": 0.08,
 
-    // Code / kbd (neutral)
-    "theme-kbd": "#202124",
+    // UI utilities
+    "theme-kbd": "#1F1F1F",
     "theme-on-kbd": "#FFFFFF",
-    "theme-code": "#F1F3F4",
-    "theme-on-code": "#202124",
+    "theme-code": "#ECEFF1",
+    "theme-on-code": "#1F1F1F",
   },
 };

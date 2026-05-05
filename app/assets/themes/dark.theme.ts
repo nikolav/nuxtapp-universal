@@ -8,56 +8,55 @@ import { COLOR_PRIMARY_DARK, COLOR_SECONDARY_DARK } from "./colors";
  */
 export const dark: ThemeDefinition = {
   dark: true,
-
   colors: {
-    // App surfaces (deep, slightly blue/graphite)
-    background: "#0B1220", // app background (deep navy/graphite)
-    surface: "#111A2E", // cards / panels
-    "surface-bright": "#15203A", // raised cards / dialogs
-    "surface-light": "#0F172A", // hover strips / subtle fills
-    "surface-variant": "#1B2741", // sidebar sections / separators
-    "on-surface-variant": "#B6BFCC", // secondary text
+    // Base surfaces (Google dark palette)
+    background: "#202124", // main app bg
+    surface: "#303134", // cards / panels
+    "surface-bright": "#3C4043", // elevated elements
+    "surface-light": "#2A2B2E", // subtle sections
+    "surface-variant": "#5F6368", // borders / dividers
+    "on-surface-variant": "#BDC1C6", // secondary text
 
-    // Accents (Google blue still reads well on dark)
-    primary: COLOR_PRIMARY_DARK, // brighter blue for dark surfaces
-    secondary: COLOR_SECONDARY_DARK, // cool neutral gray (icons/labels)
+    // Primary (Google blue, slightly softened for dark mode)
+    primary: COLOR_PRIMARY_DARK,
 
-    // Feedback (slightly lifted for dark)
-    success: "#34A853", // Google green-ish
-    warning: "#F9AB00",
-    error: "#EA4335",
-    info: "#4C8DFF",
+    // Secondary (green accent, toned down)
+    secondary: COLOR_SECONDARY_DARK,
 
-    // Text on surfaces
-    "on-background": "#E8EAED", // GA dark mode-ish text
+    // Status colors (Google dark variants)
+    error: "#F28B82",
+    info: "#8AB4F8",
+    success: "#81C995",
+    warning: "#FDD663",
+
+    // Text colors
+    "on-background": "#E8EAED", // primary text
     "on-surface": "#E8EAED",
-    "on-primary": "#0B1220", // readable on bright primary
-    "on-secondary": "#0B1220",
   },
 
   variables: {
-    // Dividers/borders (subtle, not chalky)
-    "border-color": "#24314B",
-    "border-opacity": 1,
+    // Borders (subtle, not harsh)
+    "border-color": "#5F6368",
+    "border-opacity": 0.6,
 
-    // Typography emphasis
-    "high-emphasis-opacity": 0.92,
-    "medium-emphasis-opacity": 0.74,
-    "disabled-opacity": 0.42,
+    // Text emphasis
+    "high-emphasis-opacity": 0.87,
+    "medium-emphasis-opacity": 0.6,
+    "disabled-opacity": 0.38,
 
-    // Interaction states (slightly stronger than light so they show up)
-    "idle-opacity": 0,
+    // Interaction states (slightly stronger than light mode)
+    "idle-opacity": 0.05,
     "hover-opacity": 0.08,
-    "focus-opacity": 0.14,
-    "selected-opacity": 0.12,
-    "activated-opacity": 0.14,
-    "pressed-opacity": 0.16,
+    "focus-opacity": 0.12,
+    "selected-opacity": 0.1,
+    "activated-opacity": 0.12,
+    "pressed-opacity": 0.14,
     "dragged-opacity": 0.1,
 
-    // Code / kbd (dark neutrals)
+    // Code / kbd styling
     "theme-kbd": "#E8EAED",
-    "theme-on-kbd": "#0B1220",
-    "theme-code": "#0F172A",
+    "theme-on-kbd": "#202124",
+    "theme-code": "#2A2B2E",
     "theme-on-code": "#E8EAED",
   },
 };

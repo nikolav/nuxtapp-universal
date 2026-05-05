@@ -16,7 +16,7 @@ import { TOKEN_appEmitter$ } from "~/keys";
 import { light, dark } from "~/assets/themes";
 import { displayDefaults as display } from "~/assets/breakpoints";
 import { DatetimeService } from "~/services/datetime";
-import { useConfigItem } from "~/composables/utils/use-config-item";
+import { useAppConfigItem } from "~/composables/utils/use-app-config-item";
 
 export default defineNuxtPlugin({
   name: "vuetify",
@@ -95,7 +95,7 @@ export default defineNuxtPlugin({
           transition: "app-transition-slide-y-r",
         },
         VMenu: {
-          transition: <any>useConfigItem("ui.DEFAULT_TRANSITION"),
+          transition: <any>useAppConfigItem("ui.DEFAULT_TRANSITION").value,
         },
         VForm: {
           autocomplete: "off",
@@ -139,7 +139,9 @@ export default defineNuxtPlugin({
     emitter$
       .pipe(
         filter(
-          (e) => e.type === <any>useConfigItem("events.EVENT_LOCALE_CHANGE"),
+          (e) =>
+            e.type ===
+            <any>useAppConfigItem("events.EVENT_LOCALE_CHANGE").value,
         ),
         map((e) => <string>e.payload),
       )
