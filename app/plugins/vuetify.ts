@@ -16,6 +16,7 @@ import { TOKEN_appEmitter$ } from "~/keys";
 import { light, dark } from "~/assets/themes";
 import { displayDefaults as display } from "~/assets/breakpoints";
 import { DatetimeService } from "~/services/datetime";
+import { useConfigItem } from "~/composables/utils/use-config-item";
 
 export default defineNuxtPlugin({
   name: "vuetify",
@@ -53,8 +54,8 @@ export default defineNuxtPlugin({
             // "accent2",
             // "complement",
           ],
-          lighten: 1,
-          darken: 1,
+          lighten: 2,
+          darken: 2,
         },
         // layers: true,
         // cspNonce: "foo",
@@ -70,6 +71,9 @@ export default defineNuxtPlugin({
         global: {
           // ripple: true,
         },
+        // <Component>: {
+        //   "foo": "bar",
+        // },
         IconX: {
           size: "1.22rem",
         },
@@ -80,14 +84,6 @@ export default defineNuxtPlugin({
           color: "surface-light",
           rounded: true,
         },
-        // MyButton: {
-        //   color: 'primary',
-        //   variant: 'tonal',
-        // },
-        // VCard: {
-        //   MyButton: { color: 'secondary' },
-        //   VBtn: { color: 'primary' },
-        // },
         VCol: {
           cols: 12,
         },
@@ -99,14 +95,11 @@ export default defineNuxtPlugin({
           transition: "app-transition-slide-y-r",
         },
         VMenu: {
-          transition: (<any>useAppConfig().ui).DEFAULT_TRANSITION,
+          transition: <any>useConfigItem("ui.DEFAULT_TRANSITION"),
         },
         VForm: {
           autocomplete: "off",
         },
-        // <CustomComponent>: {
-        //   "foo:1": "bar",
-        // },
       },
 
       icons: {
@@ -146,7 +139,7 @@ export default defineNuxtPlugin({
     emitter$
       .pipe(
         filter(
-          (e) => e.type === (<any>useAppConfig().events).EVENT_LOCALE_CHANGE,
+          (e) => e.type === <any>useConfigItem("events.EVENT_LOCALE_CHANGE"),
         ),
         map((e) => <string>e.payload),
       )
