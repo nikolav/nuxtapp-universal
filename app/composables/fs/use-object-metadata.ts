@@ -39,10 +39,8 @@ export const useObjectMetadata = <T = unknown>(
   watch(
     object,
     (f: any) => {
-      if (!f) {
-        metadata.value = undefined;
-        return;
-      }
+      metadata.value = null;
+      if (!f) return;
       (async () => {
         try {
           switch (true) {
