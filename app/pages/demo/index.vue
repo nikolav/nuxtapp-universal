@@ -1,7 +1,15 @@
 <script setup lang="ts">
-import { onDebug } from "~/utils/on-debug";
-const demo = () => {
-  console.log(useNuxtApp().$$.config("keys.TOKEN_API_AUTH"));
+import { useFilePicker } from "~/composables/fs/use-file-picker";
+import { useObjectMetadata } from "~/composables/fs/use-object-metadata";
+
+const filePicker = useFilePicker();
+const objectMeta = useObjectMetadata();
+
+const preview = () => {
+  filePicker.open({ accept: "*" }).subscribe((files) => {
+    const [file] = files ?? [];
+    objectMeta.object.value = file;
+  });
 };
 
 // @@eos
@@ -10,7 +18,16 @@ const demo = () => {
 <template>
   <section class="app-container-reset page--demo">
     <h1>page:demo</h1>
-    <VBtn @click="demo">ok</VBtn>
+    <div class="flex justify-center gap-2">
+      <button @click="preview">ok</button>
+    </div>
+    <div class="flex justify-center gap-2 break-all">
+      <small>
+        <pre>
+          {{ objectMeta.metadata.value }}
+        </pre>
+      </small>
+    </div>
   </section>
 </template>
 
