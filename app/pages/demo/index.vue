@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useFilePicker } from "~/composables/fs/use-file-picker";
-import { useMediaUrl } from "~/composables/media/use-data-url";
+import { useObjectMetadata } from "~/composables/fs/use-object-metadata";
 
-const mediaUrls = useMediaUrl({ link: true });
 const filePicker = useFilePicker();
+const objectMeta = useObjectMetadata();
 
 const preview = () => {
   filePicker.open({ accept: "*" }).subscribe((files) => {
     const [file] = files ?? [];
-    mediaUrls.media.value = file;
+    objectMeta.object.value = file;
   });
 };
 
@@ -23,7 +23,9 @@ const preview = () => {
     </div>
     <div class="flex justify-center gap-2 break-all">
       <small>
-        {{ mediaUrls.link }}
+        <pre>
+          {{ objectMeta.metadata.value }}
+        </pre>
       </small>
     </div>
   </section>
