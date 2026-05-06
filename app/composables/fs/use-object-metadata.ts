@@ -3,6 +3,7 @@ import { fileTypeFromBlob } from "file-type";
 import type { FileTypeResult as TFileTypeResult } from "file-type";
 
 import type { TOrNoValue } from "~/types";
+import { onDebug } from "~/utils/on-debug";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 
 export type TUseObjectMetadataConfig = {
@@ -43,30 +44,37 @@ export const useObjectMetadata = <T = unknown>(
         return;
       }
       (async () => {
-        switch (true) {
-          // takes blob
-          case "blob" === config.type:
-            metadata.value = $$.copy(
-              {},
-              await ps.exec(() => fileTypeFromBlob(f)),
-              schemaBlobMetadata.parse(f),
-            );
-            break;
+        try {
+          switch (true) {
+            // takes blob
+            case "blob" === config.type:
+              metadata.value = $$.copy(
+                {},
+                Object(schemaBlobMetadata.safeParse(f).data),
+                await ps.exec(() => fileTypeFromBlob(f)),
+              );
+              break;
 
-          // takes filepath
-          case "file" === config.type:
-            break;
+            // takes filepath
+            case "file" === config.type:
+              throw new Error("not implemented");
+              break;
 
-          // takes int buffer
-          case "buffer" === config.type:
-            break;
+            // takes int buffer
+            case "buffer" === config.type:
+              throw new Error("not implemented");
+              break;
 
-          // takes url stream
-          case "stream" === config.type:
-            break;
+            // takes url stream
+            case "stream" === config.type:
+              throw new Error("not implemented");
+              break;
 
-          default:
-            break;
+            default:
+              break;
+          }
+        } catch (error) {
+          onDebug({ "error:use-object-metadata": error });
         }
       })();
     },
