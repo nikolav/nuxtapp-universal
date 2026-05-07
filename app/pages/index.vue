@@ -19,7 +19,7 @@ definePageMeta({
 
 <template>
   <section class="app-container-reset page--index">
-    <AppMyLinks class="p-4 space-y-4" />
+    <h2>page:home</h2>
   </section>
 </template>
 

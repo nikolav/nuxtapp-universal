@@ -4,11 +4,15 @@ import { useTheme } from "vuetify";
 const theme = useTheme();
 
 const themeStored = useLocalStorage(useAppConfig().theme.THEME_ACTIVE, "");
+
 // @theme store
 watch(
   () => theme.global.name.value,
   (theme_) => {
     themeStored.value = theme_;
+  },
+  {
+    immediate: true,
   },
 );
 

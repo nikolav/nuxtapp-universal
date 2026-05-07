@@ -1,4 +1,5 @@
-import { catchError, finalize, from, map, mergeMap, of, reduce } from "rxjs";
+import { from, of } from "rxjs";
+import { catchError, finalize, map, mergeMap, reduce } from "rxjs/operators";
 import type { TFnMaybeAsync } from "~/types";
 
 const CONCURRENCY = 10;
@@ -6,12 +7,17 @@ export const useCleanup = <T = void>() => {
   const { $$ } = useNuxtApp();
   const gc = new Set<TFnMaybeAsync<T>>();
 
-  const reset = () => {
-    gc.clear();
-  };
+  // add cleanup task
   const task = (cleanupTask: TFnMaybeAsync<T>) => {
     gc.add(cleanupTask);
   };
+
+  // clear all cleanup tasks
+  const reset = () => {
+    gc.clear();
+  };
+
+  // run all cleanup tasks
   const run = async () => {
     await $$.resolved(
       !$$.isEmpty(gc)

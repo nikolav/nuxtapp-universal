@@ -1,23 +1,25 @@
-import get from "lodash/get";
-import set from "lodash/set";
-import hasPath from "lodash/has";
-import unset from "lodash/unset";
 import each from "lodash/each";
-import transform from "lodash/transform";
-import isEmpty from "lodash/isEmpty";
-import isString from "lodash/isString";
-import trim from "lodash/trim";
-import noop from "lodash/noop";
-import reduce from "lodash/reduce";
-import some from "lodash/some";
 import every from "lodash/every";
-import once from "lodash/once";
+import first from "lodash/first";
+import get from "lodash/get";
+import hasPath from "lodash/has";
+import isEmpty from "lodash/isEmpty";
 import isFunction from "lodash/isFunction";
-import omit from "lodash/omit";
-import pick from "lodash/pick";
+import isString from "lodash/isString";
 import keys from "lodash/keys";
-import values from "lodash/values";
+import last from "lodash/last";
+import noop from "lodash/noop";
+import omit from "lodash/omit";
+import once from "lodash/once";
 import orderBy from "lodash/orderBy";
+import pick from "lodash/pick";
+import reduce from "lodash/reduce";
+import set from "lodash/set";
+import some from "lodash/some";
+import transform from "lodash/transform";
+import trim from "lodash/trim";
+import unset from "lodash/unset";
+import values from "lodash/values";
 
 import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
@@ -44,29 +46,31 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
-          orderBy,
-          keys,
-          values,
-          omit,
-          pick,
-          once,
-          isFunction,
-          some,
-          every,
-          reduce,
-          trim,
-          noop,
           each,
+          every,
+          first,
           get,
-          isEmpty,
-          transform,
-          set,
-          unset,
           hasPath,
+          isEmpty,
+          isFunction,
           isString,
+          keys,
+          last,
+          noop,
+          omit,
+          once,
+          orderBy,
+          pick,
+          reduce,
+          set,
+          some,
+          transform,
+          trim,
+          unset,
+          values,
+
           // local
           config: configItem,
-          parseShell,
           res: StatusResult.init.bind(StatusResult),
           deepmerge,
           value$$,
@@ -75,12 +79,15 @@ export default defineNuxtPlugin({
           resolved,
           onDebug,
           hasOwn,
+
           // core, misc.
           Math,
           Date,
           copy: Object.assign.bind(Object),
           cloned: structuredClone.bind(null),
+
           // 3rd party
+          parseShell,
           nanoid,
           uuid,
           parseBoolean,

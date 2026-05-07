@@ -1,7 +1,4 @@
 <script setup lang="ts">
-// ##imports
-// ##config:const
-// ##config ##props ##route ##attrs ##form-fields
 definePageMeta({
   context: {
     title: "pages.about.title",
@@ -16,31 +13,12 @@ definePageMeta({
     },
   },
 });
-// ##schemas
-// ##utils
-// ##icons
-// ##refs ##flags ##models
-// ##data ##auth ##state
-// ##computed
-// ##forms ##handlers ##helpers ##small-utils
-// ##watch
-// ##hooks ##lifecycle
-// ##head ##meta
-// useHead({ title: "" });
-// ##provide
-// ##io
 
 // @@eos
 </script>
 <template>
   <section class="app-container-reset page--about">
-    <h2>about</h2>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed quas aperiam
-      praesentium quo molestias nisi porro sapiente reprehenderit unde expedita!
-      Iure natus excepturi officiis id ullam minima rerum nesciunt
-      reprehenderit.
-    </p>
+    <h2>page:about</h2>
   </section>
 </template>
 <style lang="scss" scoped></style>
