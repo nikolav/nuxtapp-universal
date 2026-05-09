@@ -1,21 +1,23 @@
-import get from "lodash/get";
-import set from "lodash/set";
-import hasPath from "lodash/has";
-import unset from "lodash/unset";
 import each from "lodash/each";
-import transform from "lodash/transform";
-import isEmpty from "lodash/isEmpty";
-import isString from "lodash/isString";
-import trim from "lodash/trim";
-import noop from "lodash/noop";
-import reduce from "lodash/reduce";
-import some from "lodash/some";
 import every from "lodash/every";
-import once from "lodash/once";
+import get from "lodash/get";
+import hasPath from "lodash/has";
+import isEmpty from "lodash/isEmpty";
 import isFunction from "lodash/isFunction";
-import omit from "lodash/omit";
-import pick from "lodash/pick";
+import isString from "lodash/isString";
 import keys from "lodash/keys";
+import noop from "lodash/noop";
+import omit from "lodash/omit";
+import once from "lodash/once";
+import pick from "lodash/pick";
+import reduce from "lodash/reduce";
+import sample from "lodash/sample";
+import set from "lodash/set";
+import some from "lodash/some";
+import transform from "lodash/transform";
+import trim from "lodash/trim";
+import trimEnd from "lodash/trimEnd";
+import unset from "lodash/unset";
 import values from "lodash/values";
 
 import { v4 as uuid } from "uuid";
@@ -31,6 +33,7 @@ import { value$$ } from "~/utils/to-value-obs";
 import { deepmerge } from "~/utils/deepmerge";
 import { StatusResult } from "~/utils/status-result";
 import { parseShell } from "~/utils/parse-shell";
+import { configItem } from "~/utils/config-item";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -42,6 +45,8 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          trimEnd,
+          sample,
           keys,
           values,
           omit,
@@ -62,6 +67,7 @@ export default defineNuxtPlugin({
           hasPath,
           isString,
           // local
+          config: configItem,
           parseShell,
           res: StatusResult.init.bind(StatusResult),
           deepmerge,
