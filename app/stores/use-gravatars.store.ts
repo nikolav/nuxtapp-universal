@@ -73,6 +73,7 @@ export const useGravatars = defineStore("gravatars:store", () => {
     ps,
     enabled,
     src,
+    store: g,
 
     enable,
     refresh,
