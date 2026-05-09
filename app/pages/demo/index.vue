@@ -14,11 +14,14 @@ useOnceMounted([], () => {
 <template>
   <section class="app-container-reset page--demo">
     <h2>page:demo</h2>
-    <VBtn @click="() => g.enable(true)">enable</VBtn>
-    <VBtn @click="() => g.enable(false)">disable</VBtn>
-    <VBtn @click="() => g.refresh()">refresh</VBtn>
-    <pre>src: {{ g.src }}</pre>
-    <img :src="g.src" v-if="g.enabled" />
+    <div class="flex justify-center gap-4">
+      <AppBtnDefault @click="() => g.enable(true)">enable</AppBtnDefault>
+      <AppBtnDefault @click="() => g.enable(false)">disable</AppBtnDefault>
+      <VBtn @click="() => g.refresh()">refresh</VBtn>
+    </div>
+    <div class="flex justify-center pa-2">
+      <VAvatar :size="54" :image="g.src" v-if="g.enabled" />
+    </div>
   </section>
 </template>
 
