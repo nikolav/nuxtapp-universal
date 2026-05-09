@@ -92,7 +92,6 @@ export default defineNuxtPlugin({
           cloned: structuredClone.bind(null),
 
           // 3rd party
-          parseShell,
           nanoid,
           uuid,
           parseBoolean,
