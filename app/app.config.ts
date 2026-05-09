@@ -9,6 +9,18 @@ export default defineAppConfig({
   appShortName: "Nuxt",
   locale: "sr",
 
+  stores: {
+    gravatars: {
+      BASE_URL: "https://www.gravatar.com/avatar",
+      MODE: {
+        monsterid: true,
+        wavatar: true,
+        robohash: true,
+      },
+      SIZE: 92,
+    },
+  },
+
   ui: {
     DEFAULT_TRANSITION: "app-transition-slide-y-r",
   },
