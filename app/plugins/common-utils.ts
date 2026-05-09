@@ -14,10 +14,12 @@ import once from "lodash/once";
 import orderBy from "lodash/orderBy";
 import pick from "lodash/pick";
 import reduce from "lodash/reduce";
+import sample from "lodash/sample";
 import set from "lodash/set";
 import some from "lodash/some";
 import transform from "lodash/transform";
 import trim from "lodash/trim";
+import trimEnd from "lodash/trimEnd";
 import unset from "lodash/unset";
 import values from "lodash/values";
 
@@ -62,15 +64,18 @@ export default defineNuxtPlugin({
           orderBy,
           pick,
           reduce,
+          sample,
           set,
           some,
           transform,
           trim,
+          trimEnd,
           unset,
           values,
 
           // local
           config: configItem,
+          parseShell,
           res: StatusResult.init.bind(StatusResult),
           deepmerge,
           value$$,
