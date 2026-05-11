@@ -1,7 +1,6 @@
-export const useTopics = () => {
-  const { keys } = useAppConfig();
-  return {
-    collectionsTag: (collectionName: any) =>
-      collectionName ? `${keys.COLLECTIONS_NAME_PREFIX}${collectionName}` : "",
-  };
-};
+export const useTopics = () => ({
+  collectionsTag: (collectionName: any) =>
+    collectionName
+      ? `${useNuxtApp().$$.config("keys.COLLECTIONS_NAME_PREFIX")}${collectionName}`
+      : "",
+});
