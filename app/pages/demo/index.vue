@@ -1,15 +1,28 @@
 <script setup lang="ts">
 import { useFilePicker } from "~/composables/fs/use-file-picker";
-import { useObjectMetadata } from "~/composables/fs/use-object-metadata";
+import { useFileStoarage } from "~/composables/fs/use-file-storage";
 
 const filePicker = useFilePicker();
-const objectMeta = useObjectMetadata();
+const fileStorage = useFileStoarage("/misc");
 
-const preview = () => {
-  filePicker.open({ accept: "*" }).subscribe((files) => {
-    const [file] = files ?? [];
-    objectMeta.object.value = file;
+const upload = () => {
+  filePicker.open({ accept: "*", multiple: false }).subscribe((files) => {
+    fileStorage.push({
+      "file-1": useNuxtApp().$$.first(files),
+    });
   });
+};
+
+const ls = () => {
+  fileStorage.pull();
+};
+
+const rm = () => {
+  fileStorage.rm("file-1");
+};
+
+const show = () => {
+  console.log(fileStorage.meta("file-1"));
 };
 
 // @@eos
@@ -19,13 +32,14 @@ const preview = () => {
   <section class="app-container-reset page--demo">
     <h1>page:demo</h1>
     <div class="flex justify-center gap-2">
-      <button @click="preview">ok</button>
+      <button @click="upload">upload</button>
+      <button @click="ls">ls</button>
+      <button @click="rm">rm</button>
+      <button @click="show">show</button>
     </div>
-    <div class="flex justify-center gap-2 break-all">
+    <div>
       <small>
-        <pre>
-          {{ objectMeta.metadata.value }}
-        </pre>
+        <pre>{{ fileStorage.files.value }}</pre>
       </small>
     </div>
   </section>

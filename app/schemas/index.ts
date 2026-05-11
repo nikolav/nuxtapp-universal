@@ -56,3 +56,5 @@ export const schemaStatusResultDump = z.object({
 });
 
 export const schemaCollectionsKeyDriver = z.enum(["local", "api"] as const);
+
+export const schemaFileStorageDriver = z.enum(["local"] as const);

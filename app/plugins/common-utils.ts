@@ -1,11 +1,13 @@
 import each from "lodash/each";
 import every from "lodash/every";
+import first from "lodash/first";
 import get from "lodash/get";
 import hasPath from "lodash/has";
 import isEmpty from "lodash/isEmpty";
 import isFunction from "lodash/isFunction";
 import isString from "lodash/isString";
 import keys from "lodash/keys";
+import last from "lodash/last";
 import noop from "lodash/noop";
 import omit from "lodash/omit";
 import once from "lodash/once";
@@ -45,27 +47,29 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
-          trimEnd,
-          sample,
-          keys,
-          values,
-          omit,
-          pick,
-          once,
-          isFunction,
-          some,
-          every,
-          reduce,
-          trim,
-          noop,
           each,
+          every,
+          first,
           get,
-          isEmpty,
-          transform,
-          set,
-          unset,
           hasPath,
+          isEmpty,
+          isFunction,
           isString,
+          keys,
+          last,
+          noop,
+          omit,
+          once,
+          pick,
+          reduce,
+          sample,
+          set,
+          some,
+          transform,
+          trim,
+          trimEnd,
+          unset,
+          values,
           // local
           config: configItem,
           parseShell,

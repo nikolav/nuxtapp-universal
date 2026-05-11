@@ -6,6 +6,7 @@ import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 import {
   schemaCacheKeyDriver,
   schemaCollectionsKeyDriver,
+  schemaFileStorageDriver,
 } from "./app/schemas";
 
 // schemas:config
@@ -236,6 +237,9 @@ export default defineNuxtConfig({
       ),
       collectionsKeyDriver: schemaCollectionsKeyDriver.parse(
         process.env.NUXT_PUBLIC_COLLECTIONS_KEY_DRIVER ?? "local",
+      ),
+      fileStorageDriver: schemaFileStorageDriver.parse(
+        process.env.NUXT_PUBLIC_FILE_STORAGE_DRIVER ?? "local",
       ),
     },
   },

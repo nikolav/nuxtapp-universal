@@ -33,6 +33,7 @@ export type TOrNoValue<T = unknown> = T | undefined | null;
 export type TMaybePromise<T> = T | Promise<T>;
 export type TMaybeAsync<T> = T | Observable<T> | Promise<T>;
 export type TFnMaybeAsync<T = unknown> = () => TMaybeAsync<T>;
+export type TLooseRest<T, TRest = unknown> = T & { [key: string]: TRest };
 
 /** watch() dep style: value or getter fn. */
 export type TWatchDep<T = unknown> = T | (() => T);
@@ -177,3 +178,21 @@ export interface IDeepMergeOptions<T = unknown> {
  * ========================================================================== */
 
 export type TDirective<T = unknown> = Directive<TElement, T>;
+
+/* =============================================================================
+ * FileStorage types
+ * ========================================================================== */
+
+export type TUploadFiles = {
+  [path: string]: File;
+};
+
+export type TFileStorageMetadata<TRest = unknown> = TLooseRest<
+  {
+    key: string;
+    type: string;
+    size: number;
+    lastModified: number;
+  },
+  TRest
+>;
