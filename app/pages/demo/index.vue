@@ -15,8 +15,8 @@ useOnceMounted([], () => {
   <section class="app-container-reset page--demo">
     <h2>page:demo</h2>
     <div class="flex justify-center gap-4">
-      <AppBtnDefault @click="() => g.enable(true)">enable</AppBtnDefault>
-      <AppBtnDefault @click="() => g.enable(false)">disable</AppBtnDefault>
+      <AppBtn @click="() => g.enable(true)">enable</AppBtn>
+      <AppBtn @click="() => g.enable(false)">disable</AppBtn>
       <VBtn @click="() => g.refresh()">refresh</VBtn>
     </div>
     <div class="flex justify-center pa-2">
