@@ -1,4 +1,4 @@
-import { onScopeDispose } from "vue";
+import { tryOnScopeDispose } from "@vueuse/shared";
 
 import type { TMaybeAsync } from "~/types";
 import { to$ } from "~/utils/to-obs";
@@ -8,7 +8,7 @@ export const useComputed$ = <T = unknown>(
   source: TMaybeAsync<T>,
   initial: T,
 ) => {
-  const current = ref(initial);
+  const current = shallowRef(initial);
 
   const subs = new ManageSubscriptionsService();
 
@@ -23,7 +23,7 @@ export const useComputed$ = <T = unknown>(
   const destroy = () => {
     subs.destroy();
   };
-  onScopeDispose(destroy);
+  tryOnScopeDispose(destroy);
 
   return computed<T>(() => current.value);
 };
