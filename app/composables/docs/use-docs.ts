@@ -1,5 +1,8 @@
+import { tryOnScopeDispose } from "@vueuse/shared";
+
 import type { TUseDocsKeyDriver } from "~/types";
 import type { CollectionsBase } from "~/services/docs/base";
+import { schemaNonSpecialChars } from "~/schemas";
 import { CollectionsDriverMemory } from "~/services/docs/driver-memory";
 import { CollectionsDriverApi } from "~/services/docs/driver-api";
 import { CollectionsFirebase } from "~/services/docs/driver-firebase";
@@ -7,7 +10,6 @@ import { useComputed$ } from "~/composables/utils/use-computed-obs";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import { useTopics } from "~/composables/utils/use-topics";
 import { useAuth } from "~/stores/use-auth.store";
-import { schemaNonSpecialChars } from "~/schemas";
 
 export const useDocs = (
   collectionName: string,
@@ -41,9 +43,9 @@ export const useDocs = (
   const data = useComputed$(service.data$, []);
 
   const destroy = async () => {
-    await service.destroy();
+    await useNuxtApp().$$.resolved(service.destroy(), false);
   };
-  onScopeDispose(destroy);
+  tryOnScopeDispose(destroy);
 
   return {
     ps,
