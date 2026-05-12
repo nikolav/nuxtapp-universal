@@ -24,9 +24,11 @@ export const useFileStoarage = (prefix = "/") => {
   tryOnScopeDispose(destroy);
 
   return {
+    // @@state
     files,
+
+    // @@sync
     init: service.init.bind(service),
-    destroy,
 
     // @@crud
     push: service.push.bind(service),
@@ -34,5 +36,8 @@ export const useFileStoarage = (prefix = "/") => {
     url: service.url.bind(service),
     meta: service.meta.bind(service),
     rm: service.rm.bind(service),
+
+    // @@cleanup
+    destroy,
   };
 };
