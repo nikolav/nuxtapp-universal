@@ -1,11 +1,13 @@
-import { CacheByKeyDriverLocal } from "~/services/doc/local";
-import { useProcessMonitor } from "../utils/use-process-monitor";
+import { tryOnScopeDispose } from "@vueuse/shared";
+
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
 import type { CacheByKeyBase } from "~/services/doc/base";
-import { CacheByKeyDriverApi } from "~/services/doc/driver-api";
-import { useAuth } from "~/stores/use-auth.store";
-import { useComputed$ } from "~/composables/utils/use-computed-obs";
 import { schemaNonSpecialChars } from "~/schemas";
+import { CacheByKeyDriverLocal } from "~/services/doc/local";
+import { CacheByKeyDriverApi } from "~/services/doc/driver-api";
+import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
+import { useComputed$ } from "~/composables/utils/use-computed-obs";
+import { useAuth } from "~/stores/use-auth.store";
 
 export const useDoc = (key: string) => {
   const ps = useProcessMonitor();
@@ -29,10 +31,10 @@ export const useDoc = (key: string) => {
 
   const data = useComputed$<TRecordJson>(service.data$, {});
 
-  const destroy = () => {
-    service.destroy();
+  const destroy = async () => {
+    await useNuxtApp().$$.resolved(service.destroy(), false);
   };
-  onScopeDispose(destroy);
+  tryOnScopeDispose(destroy);
 
   return {
     ps,
