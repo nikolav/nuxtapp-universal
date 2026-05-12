@@ -69,3 +69,5 @@ export const schemaCollectionsKeyDriver = z.enum([
   "api",
   "firebase",
 ] as const);
+
+export const schemaFileStorageDriver = z.enum(["local"] as const);

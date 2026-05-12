@@ -1,26 +1,46 @@
 <script setup lang="ts">
-import { useGravatars } from "~/stores/use-gravatars.store";
-import { useOnceMounted } from "~/composables/utils/use-once-mounted-on";
+import { useFilePicker } from "~/composables/fs/use-file-picker";
+import { useFileStoarage } from "~/composables/fs/use-file-storage";
 
-const g = useGravatars();
+const filePicker = useFilePicker();
+const fileStorage = useFileStoarage("/misc");
 
-useOnceMounted([], () => {
-  g.start();
-});
+const upload = () => {
+  filePicker.open({ accept: "*", multiple: false }).subscribe((files) => {
+    fileStorage.push({
+      "file-1": useNuxtApp().$$.first(files),
+    });
+  });
+};
+
+const ls = () => {
+  fileStorage.pull();
+};
+
+const rm = () => {
+  fileStorage.rm("file-1");
+};
+
+const show = () => {
+  console.log(fileStorage.meta("file-1"));
+};
 
 // @@eos
 </script>
 
 <template>
   <section class="app-container-reset page--demo">
-    <h2>page:demo</h2>
-    <div class="flex justify-center gap-4">
-      <AppBtn @click="() => g.enable(true)">enable</AppBtn>
-      <AppBtn @click="() => g.enable(false)">disable</AppBtn>
-      <VBtn @click="() => g.refresh()">refresh</VBtn>
+    <h1>page:demo</h1>
+    <div class="flex justify-center gap-2">
+      <button @click="upload">upload</button>
+      <button @click="ls">ls</button>
+      <button @click="rm">rm</button>
+      <button @click="show">show</button>
     </div>
-    <div class="flex justify-center pa-2">
-      <VAvatar :size="54" :image="g.src" v-if="g.enabled" />
+    <div>
+      <small>
+        <pre>{{ fileStorage.files.value }}</pre>
+      </small>
     </div>
   </section>
 </template>

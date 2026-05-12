@@ -7,6 +7,7 @@ import parseBoolean from "@eturino/ts-parse-boolean";
 import {
   schemaCacheKeyDriver,
   schemaCollectionsKeyDriver,
+  schemaFileStorageDriver,
 } from "./app/schemas";
 
 import ROUTES from "./app/assets/routes.json";
@@ -241,6 +242,9 @@ export default defineNuxtConfig({
       ),
       collectionsKeyDriver: schemaCollectionsKeyDriver.parse(
         process.env.NUXT_PUBLIC_COLLECTIONS_KEY_DRIVER ?? "local",
+      ),
+      fileStorageDriver: schemaFileStorageDriver.parse(
+        process.env.NUXT_PUBLIC_FILE_STORAGE_DRIVER ?? "local",
       ),
     },
   },
