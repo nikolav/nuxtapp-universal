@@ -25,11 +25,14 @@ export const useFileStoarage = (prefix = "/") => {
 
   return {
     files,
+    init: service.init.bind(service),
+    destroy,
+
+    // @@crud
     push: service.push.bind(service),
-    rm: service.rm.bind(service),
     pull: service.pull.bind(service),
     url: service.url.bind(service),
     meta: service.meta.bind(service),
-    destroy,
+    rm: service.rm.bind(service),
   };
 };
