@@ -1,9 +1,11 @@
+import { tryOnScopeDispose } from "@vueuse/shared";
+
 import type { TRecordJson, TUseCacheKeyDriver } from "~/types";
 import type { CacheByKeyBase } from "~/services/doc/base";
 import { schemaNonSpecialChars } from "~/schemas";
-import { CacheByKeyDriverLocal } from "~/services/doc/local";
-import { CacheByKeyDriverFirebase } from "~/services/doc/driver-firebase";
 import { CacheByKeyDriverApi } from "~/services/doc/driver-api";
+import { CacheByKeyDriverFirebase } from "~/services/doc/driver-firebase";
+import { CacheByKeyDriverLocal } from "~/services/doc/local";
 import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import { useComputed$ } from "~/composables/utils/use-computed-obs";
 import { useAppConfigItem } from "~/composables/utils/use-app-config-item";
@@ -34,10 +36,10 @@ export const useDoc = (key: string) => {
 
   const data = useComputed$<TRecordJson>(service.data$, {});
 
-  const destroy = () => {
-    service.destroy();
+  const destroy = async () => {
+    await useNuxtApp().$$.resolved(service.destroy(), false);
   };
-  onScopeDispose(destroy);
+  tryOnScopeDispose(destroy);
 
   return {
     ps,
