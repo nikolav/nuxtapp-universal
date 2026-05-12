@@ -27,7 +27,7 @@ export const useFileStoarage = (prefix = "/") => {
     // @@state
     files,
 
-    // @@sync
+    // @@boot
     init: service.init.bind(service),
 
     // @@crud
