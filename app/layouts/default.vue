@@ -4,9 +4,6 @@ const { $$ } = useNuxtApp();
 const showAppBar = computed(
   () => false !== $$.get(useRoute().meta, "context.showAppBar"),
 );
-const showFooterMain = computed(
-  () => false !== $$.get(useRoute().meta, "context.showFooterMain"),
-);
 // @@eos
 </script>
 <template>
@@ -14,7 +11,6 @@ const showFooterMain = computed(
     <AppNavMain v-if="showAppBar" />
     <slot />
   </VMain>
-  <AppFooterMain v-if="showFooterMain" />
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

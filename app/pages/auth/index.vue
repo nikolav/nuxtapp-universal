@@ -55,7 +55,7 @@ const passwordType = computed(() =>
     <VContainer :max-width="550" class="mx-auto mt-12">
       <VForm @submit.prevent="form.handle" id="form-login">
         <VCard :class="{ 'mx-1': !smAndUp }">
-          <VCardItem class="pa-3 bg-surface-variant">
+          <VCardItem class="pa-3 bg-surface-light">
             <template #prepend>
               <IconX
                 icon="material-symbols:person"
@@ -63,7 +63,7 @@ const passwordType = computed(() =>
                 class="opacity-30"
               />
             </template>
-            <VCardTitle class="text-center -ms-5">{{
+            <VCardTitle class="text-center -ms-5 opacity-80">{{
               t("form.login.title")
             }}</VCardTitle>
           </VCardItem>
