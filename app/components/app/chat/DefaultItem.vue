@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { useAppConfigItem } from "~/composables/utils/use-app-config-item";
 import { ms } from "~/utils/firebase";
 
 const props = defineProps<{ item: any }>();
-const emit = defineEmits<{
+defineEmits<{
   onDelete: [id: string];
 }>();
 
 const { $$, $dt } = useNuxtApp();
+const userTokenLocal = useLocalStorage(
+  $$.config("keys.USER_TOKEN_LOCAL") ?? "",
+  "",
+);
+
 const uname = computed(() => $$.get(props.item, "data.user"));
 const content = computed(() => $$.get(props.item, "data.content"));
 const fromNow = computed(() => {
@@ -16,10 +20,6 @@ const fromNow = computed(() => {
 });
 
 const uid = computed(() => $$.get(props.item, "data.uid"));
-const userTokenLocal = useLocalStorage(
-  useAppConfigItem("keys.USER_TOKEN_LOCAL").value ?? "",
-  "",
-);
 const owns = computed(() => userTokenLocal.value === uid.value);
 
 // @@eos
@@ -28,7 +28,7 @@ const owns = computed(() => userTokenLocal.value === uid.value);
 <template>
   <VCard
     class="component--AppChatDefaultItem"
-    :color="owns ? 'surface-bright' : 'surface-variant'"
+    :color="owns ? 'surface-bright' : 'surface-light'"
   >
     <VBtn
       v-if="owns"
@@ -37,7 +37,7 @@ const owns = computed(() => userTokenLocal.value === uid.value);
       color="error"
       rounded="full"
       class="position-absolute top-1 end-1 opacity-50"
-      @click="emit('onDelete', props.item.id)"
+      @click="$emit('onDelete', props.item.id)"
     >
       <IconX icon="mdi:delete" size="1.22rem" />
     </VBtn>
@@ -47,7 +47,10 @@ const owns = computed(() => userTokenLocal.value === uid.value);
         {{ uname }}
       </span>
       <VSpacer />
-      <small class="opacity-50 italic"> ⌚ {{ fromNow }} </small>
+      <small class="opacity-50 italic">
+        <span> ⌚ </span>
+        {{ fromNow }}
+      </small>
     </VCardSubtitle>
   </VCard>
 </template>

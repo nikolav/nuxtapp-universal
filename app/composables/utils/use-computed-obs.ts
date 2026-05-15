@@ -14,8 +14,8 @@ export const useComputed$ = <T = unknown>(
 
   if (import.meta.client) {
     subs.push({
-      current: to$(source).subscribe((val) => {
-        current.value = val;
+      current: to$(source).subscribe((d) => {
+        current.value = d;
       }),
     });
   }

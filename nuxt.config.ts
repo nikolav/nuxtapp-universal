@@ -364,7 +364,7 @@ export default defineNuxtConfig({
   hooks: {
     // add dynamic routes
     "prerender:routes": async ({ routes }) => {
-      // routes.add(...)
+      // routes.add(`/${pageName}`)
     },
 
     // override vuetify globals

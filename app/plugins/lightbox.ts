@@ -134,9 +134,9 @@ export default defineNuxtPlugin({
 
         // $lightbox(media).open((psw) => ...)
         return {
-          open: (handle?: (psw: TPhotoSwipeLightbox) => void) =>
+          open: (next?: (psw: TPhotoSwipeLightbox) => void) =>
             open$.pipe(take(1)).subscribe({
-              next: handle,
+              next,
               error: (error) => onDebug({ "lightbox:photoswipe:open": error }),
             }),
         };

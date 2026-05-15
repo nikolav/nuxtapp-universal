@@ -3,7 +3,6 @@ import type { ZodType } from "zod";
 import type { TJson, TRecordJson } from "~/types";
 import { schemaNonSpecialChars } from "~/schemas";
 import { useStoreMain } from "~/stores/use-store-main.store";
-import { useAppConfigItem } from "~/composables/utils/use-app-config-item";
 
 interface IUseFormOptions {
   onSubmit?: (data: TRecordJson) => void;
@@ -16,7 +15,7 @@ export const useForm = <TRules extends Record<string, ZodType>>(
 ) => {
   const { $$ } = useNuxtApp();
   const cache = useStoreMain();
-  const FORM = `${useAppConfigItem("keys.KEY_FORMS").value}:${schemaNonSpecialChars.parse(key)}`;
+  const FORM = `${$$.config("keys.KEY_FORMS")}:${schemaNonSpecialChars.parse(key)}`;
 
   const _ = $$.copy(<IUseFormOptions>{}, { onSubmit: $$.noop }, options);
 

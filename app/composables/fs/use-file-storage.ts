@@ -7,24 +7,20 @@ import { FileStorageDriverLocal } from "~/services/filestorage/driver-local";
 import { useComputed$ } from "~/composables/utils/use-computed-obs";
 
 export const useFileStoarage = (prefix = "/") => {
-  //
+  const { $$ } = useNuxtApp();
   const service: FileStorageBase = {
     local: () => new FileStorageDriverLocal(prefix),
-  }[
-    schemaFileStorageDriver.parse(
-      useNuxtApp().$$.config("public.fileStorageDriver"),
-    )
-  ]();
+  }[schemaFileStorageDriver.parse($$.config("public.fileStorageDriver"))]();
 
   const files = useComputed$(service.files$, <TFileStorageMetadata[]>[]);
 
   const destroy = async () => {
-    await useNuxtApp().$$.resolved(service.destroy(), false);
+    await $$.resolved(service.destroy(), false);
   };
   tryOnScopeDispose(destroy);
 
   return {
-    // @@state
+    // @@objects
     files,
 
     // @@boot
