@@ -1,4 +1,3 @@
-import type { Directive } from "vue";
 import { z } from "zod";
 import type { Observable, Subject, Subscription } from "rxjs";
 import type { RequestExtendedOptions } from "graphql-request";
@@ -10,7 +9,7 @@ import type {
   TJsonLiteral,
 } from "../schemas/json.schema";
 import type {
-  Directive,
+  Directive as TVueDirective,
   Component as TVueComponent,
   FunctionalComponent as TVueFunctionalComponent,
   MaybeRefOrGetter,
@@ -212,7 +211,7 @@ export type TServerTimestap = { seconds: number; nanoseconds: number };
  * vue
  * ========================================================================== */
 
-export type TDirective<T = unknown> = Directive<TElement, T>;
+export type TDirective<T = unknown> = TVueDirective<TElement, T>;
 
 /* =============================================================================
  * FileStorage types
