@@ -9,19 +9,19 @@ export default defineNuxtPlugin({
   name: "cashdom",
   dependsOn: ["use-platform"],
   setup: () => {
-    const dom: Observable<TCashDomClient> = single$(
+    const dom: Observable<{ $: TCashDomClient }> = single$(
       useNuxtApp().$window$.pipe(
         switchMap(() =>
           defer(() => import("cash-dom")).pipe(
             switchMap(
               ({ default: $ }) =>
-                new Observable<TCashDomClient>((obs) => {
+                new Observable<{ $: TCashDomClient }>((obs) => {
                   if (import.meta.server) {
                     obs.complete();
                     return;
                   }
                   $(() => {
-                    obs.next($);
+                    obs.next({ $ });
                     obs.complete();
                   });
                 }),
