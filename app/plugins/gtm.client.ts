@@ -11,7 +11,7 @@ export default defineNuxtPlugin({
 
     useNuxtApp()
       .$dom.pipe(take(1))
-      .subscribe(($) => {
+      .subscribe(({ $ }) => {
         if ($(`#${scriptId}`).length) return;
 
         $("head").append(
