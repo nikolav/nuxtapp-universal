@@ -14,8 +14,10 @@ export abstract class AuthService<User = unknown, TCredentials = unknown> {
 
   // start/setup service
   async init() {}
+
   // override to do cleanup @service:destroyed
   destroy() {}
+
   // false @overrides for custom auth token handling for app hard reloads
   //   firebase auto reloads auth state @reloads
   storesAuthToken() {

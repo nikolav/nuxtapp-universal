@@ -1,4 +1,4 @@
-import { onScopeDispose } from "vue";
+import { tryOnScopeDispose } from "@vueuse/shared";
 import { tap } from "rxjs/operators";
 
 import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
@@ -20,7 +20,7 @@ export const useAuth = defineStore("store-auth", () => {
   } = useAppConfig();
   const ps = useProcessMonitor();
 
-  const authService: TAuthService<IUser, ICredentials> = $$.get(
+  const service: TAuthService<IUser, ICredentials> = $$.get(
     {
       memory: () => new AuthMemoryService(),
       api: () => new AuthApiService(config, defaultsAuthenticate),
@@ -33,16 +33,16 @@ export const useAuth = defineStore("store-auth", () => {
   const auth = useAsyncData<TOrNoValue<IUser>>(
     "auth-account-data",
     async (_nuxtApp, { signal }) =>
-      authService.token.value
+      service.token.value
         ? await $$.resolved<IUser>(
-            authService.authData(authService.token.value, signal),
+            service.authData(service.token.value, signal),
           )
         : null,
     {
       server: false,
       immediate: true,
       lazy: true,
-      watch: [authService.token],
+      watch: [service.token],
       default: () => null,
       dedupe: "cancel",
       timeout: defaultsAuthenticate.timeoutMs,
@@ -56,24 +56,24 @@ export const useAuth = defineStore("store-auth", () => {
   const isAuth = computed(() => isPresent($$.get(account.value, "id")));
 
   const authenticate = (credenitals: ICredentials) =>
-    ps.monitor(() => authService.authenticate(credenitals));
+    ps.monitor(() => service.authenticate(credenitals));
 
-  const logout = () => ps.monitor<void>(() => authService.logout());
+  const logout = () => ps.monitor<void>(() => service.logout());
 
   const register = (credentials: ICredentials) =>
-    ps.monitor(() => authService.register(credentials));
+    ps.monitor(() => service.register(credentials));
 
   const { signInWithProvider: signInWithProviderBase_ } = usePopupOAuth();
   const signInWithProvider = (provider: string) =>
     ps.monitor(() => {
       switch (true) {
-        case authService instanceof AuthFirebaseService:
-          return authService.signInWithProvider(provider);
+        case service instanceof AuthFirebaseService:
+          return service.signInWithProvider(provider);
 
         default:
           return signInWithProviderBase_(provider).pipe(
             tap((token) => {
-              authService.token.value = token;
+              service.token.value = token;
             }),
           );
       }
@@ -89,11 +89,11 @@ export const useAuth = defineStore("store-auth", () => {
   onNuxtReady(() => {
     callOnce(() => {
       (async () => {
-        await authService.init();
-        if (!authService.storesAuthToken()) return;
+        await service.init();
+        if (!service.storesAuthToken()) return;
         try {
           if (storageAuth.value)
-            authService.token.value = schemaAuthToken.parse(storageAuth.value);
+            service.token.value = schemaAuthToken.parse(storageAuth.value);
         } catch (error) {
           // pass
         }
@@ -102,21 +102,21 @@ export const useAuth = defineStore("store-auth", () => {
   });
 
   // @auth; sync storage auth token
-  watch(authService.token, (token) => {
-    if (!authService.storesAuthToken()) return;
+  watch(service.token, (token) => {
+    if (!service.storesAuthToken()) return;
     storageAuth.value = token ?? "";
   });
 
   const destroy = () => {
     // misc. cleanup
-    authService.destroy();
+    service.destroy();
   };
 
-  onScopeDispose(destroy);
+  tryOnScopeDispose(destroy);
 
   return {
     status: ps,
-    token: authService.token,
+    token: service.token,
     account,
     isAuth,
     authenticate,

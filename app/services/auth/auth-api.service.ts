@@ -3,18 +3,18 @@ import get from "lodash/get";
 import omit from "lodash/omit";
 import type { PublicRuntimeConfig } from "nuxt/schema";
 
-import { AuthService } from "~/services/auth/base";
-import { schemaAuthCredentials, schemaAuthToken } from "~/schemas";
-import { INTERNAL_AUTH_TOKEN } from "~/config";
 import type {
   TOrNoValue,
   ICredentials,
   IAuthenticateOptions,
   IUser,
 } from "~/types";
+import { INTERNAL_AUTH_TOKEN } from "~/config";
+import { schemaAuthCredentials, schemaAuthToken } from "~/schemas";
+import { AuthService } from "~/services/auth/base";
 
 export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
-  private authEndpoint: Record<string, string> = {};
+  private endpoint: Record<string, string> = {};
 
   token = ref<TOrNoValue<string>>(null);
 
@@ -29,16 +29,16 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
       trim(config.apiBase, "/"),
       trim(config.auth.endpoint, "/"),
     ].join("/");
-    this.authEndpoint.authenticate = `${base}/authenticate`;
-    this.authEndpoint.who = `${base}/who`;
-    this.authEndpoint.logout = `${base}/logout`;
-    this.authEndpoint.register = `${base}/register`;
+    this.endpoint.authenticate = `${base}/authenticate`;
+    this.endpoint.who = `${base}/who`;
+    this.endpoint.logout = `${base}/logout`;
+    this.endpoint.register = `${base}/register`;
   }
 
   authData = async (token: string, signal?: globalThis.AbortSignal) =>
     omit(
       get(
-        await $fetch<{ auth: IUser<number> }>(this.authEndpoint.who!, {
+        await $fetch<{ auth: IUser<number> }>(this.endpoint.who!, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,20 +61,17 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
   ) => {
     const token = schemaAuthToken.parse(
       get(
-        await $fetch<{ access_token?: string }>(
-          this.authEndpoint.authenticate!,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              ...this.headersBase(),
-            },
-            body: schemaAuthCredentials.parse(payload),
-            signal: options?.controller?.signal,
-            timeout: options?.timeoutMs ?? this.defaultsAuthenticate.timeoutMs,
-            retry: 0,
+        await $fetch<{ access_token?: string }>(this.endpoint.authenticate!, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...this.headersBase(),
           },
-        ),
+          body: schemaAuthCredentials.parse(payload),
+          signal: options?.controller?.signal,
+          timeout: options?.timeoutMs ?? this.defaultsAuthenticate.timeoutMs,
+          retry: 0,
+        }),
         "access_token",
       ),
     );
@@ -90,7 +87,7 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
       if (
         "ok" !==
         get(
-          await $fetch<{ status: string }>(this.authEndpoint.logout!, {
+          await $fetch<{ status: string }>(this.endpoint.logout!, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -125,7 +122,7 @@ export class AuthApiService extends AuthService<IUser<number>, ICredentials> {
   register = async (payload: ICredentials, options?: IAuthenticateOptions) =>
     get(
       await $fetch<{ access_token: string; auth: IUser<string> }>(
-        this.authEndpoint.register!,
+        this.endpoint.register!,
         {
           method: "POST",
           headers: {
