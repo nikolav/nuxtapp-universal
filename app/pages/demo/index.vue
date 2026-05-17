@@ -1,30 +1,12 @@
 <script setup lang="ts">
-import { useFilePicker } from "~/composables/fs/use-file-picker";
-import { useFileStoarage } from "~/composables/fs/use-file-storage";
+import type { TRecordJson } from "~/types";
+import { useLinkedNodes } from "~/composables/state/use-linked-nodes";
 
-const filePicker = useFilePicker();
-const fileStorage = useFileStoarage("/misc");
-
-const upload = () => {
-  filePicker.open({ accept: "*", multiple: false }).subscribe((files) => {
-    fileStorage.push({
-      "file-1": useNuxtApp().$$.first(files),
-    });
-  });
+const { $$ } = useNuxtApp();
+const ll = useLinkedNodes<TRecordJson>({ x: 0 });
+const addLink = () => {
+  ll.link({ x: $$.nanoid() });
 };
-
-const ls = () => {
-  fileStorage.pull();
-};
-
-const rm = () => {
-  fileStorage.rm("file-1");
-};
-
-const show = () => {
-  console.log(fileStorage.meta("file-1"));
-};
-
 // @@eos
 </script>
 
@@ -32,16 +14,21 @@ const show = () => {
   <section class="app-container-reset page--demo">
     <h1>page:demo</h1>
     <div class="flex justify-center gap-2">
-      <button @click="upload">upload</button>
-      <button @click="ls">ls</button>
-      <button @click="rm">rm</button>
-      <button @click="show">show</button>
+      <button @click="addLink">add-link</button>
+      <button @click="ll.prev">prev</button>
+      <button @click="ll.next">next</button>
+      <button @click="ll.first">first</button>
+      <button @click="ll.last">last</button>
     </div>
-    <div>
+    <p>
       <small>
-        <pre>{{ fileStorage.files.value }}</pre>
+        <pre>
+          index : [{{ ll.index.value }}]
+          size  : [{{ ll.size.value }}]
+          [{{ ll.node.value.payload }}]
+        </pre>
       </small>
-    </div>
+    </p>
   </section>
 </template>
 
