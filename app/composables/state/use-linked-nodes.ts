@@ -20,7 +20,7 @@ export const useLinkedNodes = <T = unknown>(initial: T) => {
     for (
       let current = _initial_, tail_ = tail.value;
       current !== tail_;
-      current = current.next!, c += 1
+      current = current.next!, c++
     );
     return c;
   });
