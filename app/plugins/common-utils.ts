@@ -37,6 +37,7 @@ import { deepmerge } from "~/utils/deepmerge";
 import { StatusResult } from "~/utils/status-result";
 import { parseShell } from "~/utils/parse-shell";
 import { configItem } from "~/utils/config-item";
+import { normalizedIndex } from "~/utils/normalized-index";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -74,6 +75,7 @@ export default defineNuxtPlugin({
           values,
 
           // local
+          normalizedIndex,
           config: configItem,
           parseShell,
           res: StatusResult.init.bind(StatusResult),

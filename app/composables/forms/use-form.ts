@@ -1,11 +1,11 @@
 import type { ZodType } from "zod";
 
-import type { TJson, TRecordJson } from "~/types";
+import type { TJson, TRecordJson, TMaybeAsync } from "~/types";
 import { schemaNonSpecialChars } from "~/schemas";
 import { useStoreMain } from "~/stores/use-store-main.store";
 
 interface IUseFormOptions {
-  onSubmit?: (data: TRecordJson) => void;
+  onSubmit?: (data: TRecordJson) => TMaybeAsync<void>;
 }
 
 export const useForm = <TRules extends Record<string, ZodType>>(
