@@ -21,6 +21,8 @@ import { onDebug } from "~/utils/on-debug";
 export const useIO = () => {
   const { reverb } = useRuntimeConfig().public.broadcasting;
 
+  onDebug({ "reverb:config": reverb });
+
   const deps$ = useNuxtApp()
     .$window$.pipe(
       combineLatestWith(
