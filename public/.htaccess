@@ -40,30 +40,40 @@ DirectoryIndex index.html
   # RewriteRule \.map$ - [F,L,NC]
 
   # ---------------------------------------------------------------------------
-  # 1) Serve existing files/directories as-is
+  # 1) Serve existing files/directories as-is (PRIORITET 1)
   # ---------------------------------------------------------------------------
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
   # ---------------------------------------------------------------------------
-  # 2) Clean URL → prerendered HTML resolution
+  # 2) Nuxt statičke rute (prerendered HTML) - PRIORITET 2
   # ---------------------------------------------------------------------------
 
-  # If request is like /about (no extension), and /about.html exists → serve it
+  # Ako je ruta bez ekstenzije i postoji /route.html → serve it
   RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,6}$  [NC]
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.+)$ $1.html [L]
 
-  # If request is like /about (no extension), and /about/index.html exists → serve it
+  # Ako je ruta bez ekstenzije i postoji /route/index.html → serve it
   RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,6}$  [NC]
   RewriteCond %{REQUEST_FILENAME}/index.html -f
   RewriteRule ^(.+)$ $1/index.html [L]
 
   # ---------------------------------------------------------------------------
-  # 3) SPA fallback (Nuxt client-side routing)
+  # 3) Fallback na .html (samo ako statička Nuxt ruta ne postoji) - PRIORITET 3
   # ---------------------------------------------------------------------------
-  # If nothing matched (no file/dir, no prerendered html), send to index.html
+  # Ovo je ZADNJA šansa za .html prije SPA fallbacka
+  # Provjerava da li postoji fajl s .html ekstenzijom za putanje bez ekstenzije
+  RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,6}$  [NC]
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+
+  # ---------------------------------------------------------------------------
+  # 4) SPA fallback (Nuxt client-side routing) - PRIORITET 4 (ZADNJI)
+  # ---------------------------------------------------------------------------
+  # Ako ništa nije match-ano (nema fajl/dir, nema prerendered HTML, nema .html fallback)
+  # šalji na index.html za SPA routing
   RewriteRule ^ index.html [L]
 </IfModule>
 
@@ -84,7 +94,11 @@ DirectoryIndex index.html
 # Notes:
 # - Place this in web root (where index.html lives).
 # - For Nuxt SSG output, deploy `.output/public/*` to the web root.
-# - The prerender resolver supports BOTH:
-#     /route.html
-#     /route/index.html
+#
+# Priorities for routes without extension (e.g., /demo):
+#   1. Existing file or directory (serve as-is)
+#   2. /demo.html (Nuxt prerendered static route)
+#   3. /demo/index.html (Nuxt prerendered static route with subdir)
+#   4. /demo.html (fallback - if file exists but wasn't caught as Nuxt route)
+#   5. index.html (SPA fallback - client-side routing)
 # =============================================================================
