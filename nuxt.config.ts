@@ -393,12 +393,6 @@ export default defineNuxtConfig({
   // Create custom path shortcuts (e.g., '@components': '/components')
   // alias: {},
 
-  // // console:log stripping
-  oxc: {
-    minify: PRODUCTION,
-    drop: PRODUCTION ? ["console", "debugger"] : [],
-  },
-
   vite: {
     server: {
       watch: {
