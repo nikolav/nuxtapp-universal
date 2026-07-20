@@ -394,10 +394,10 @@ export default defineNuxtConfig({
   // alias: {},
 
   // // console:log stripping
-  // oxc: {
-  //   minify: PRODUCTION,
-  //   drop: PRODUCTION ? ["console", "debugger"] : [],
-  // },
+  oxc: {
+    minify: PRODUCTION,
+    drop: PRODUCTION ? ["console", "debugger"] : [],
+  },
 
   vite: {
     server: {
@@ -449,10 +449,10 @@ export default defineNuxtConfig({
 
     plugins: [],
 
-    esbuild: {
-      // Production log stripping
-      drop: PRODUCTION ? ["console", "debugger"] : [],
-    },
+    // esbuild: {
+    //   // Production log stripping
+    //   drop: PRODUCTION ? ["console", "debugger"] : [],
+    // },
 
     // global scss injection for all preprocessed .scss files
     css: {
