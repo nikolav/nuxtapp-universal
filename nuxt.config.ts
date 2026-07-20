@@ -5,27 +5,19 @@ import trimEnd from "lodash/trimEnd";
 
 import parseBoolean from "@eturino/ts-parse-boolean";
 
-import { FROM_PACKAGES_IMPORT } from "./app/config/from-packages-import";
 import {
   schemaCacheKeyDriver,
   schemaCollectionsKeyDriver,
   schemaFileStorageDriver,
 } from "./app/schemas";
 
-const prerenderRoutes = [
-  "/",
-  // index
-  "/sr/dobrodosli",
-  "/sr-cyrl/dobrodosli",
-  "/en/welcome",
-  // about
-  "/sr/o-nama",
-  "/sr-cyrl/o-nama",
-  "/en/about-us",
-];
-
 // schemas:config
 // const schemaCacheConnection = z.enum(["memory", "redis"] as const);
+import ROUTES from "./app/assets/routes.json";
+import ICONS from "./app/assets/icons-client.json";
+
+const { prerender: prerenderRoutes, ignore: ignoreRoutes } = ROUTES;
+const { clientBundle: iconsClientBundle } = ICONS;
 
 /**
  * ============================================================================
@@ -349,6 +341,9 @@ export default defineNuxtConfig({
       },
     },
 
+    // skip dynamic api endpoints or irrelevant pages
+    ignore: ignoreRoutes,
+
     storage: {},
     devStorage: {},
   },
@@ -498,7 +493,6 @@ export default defineNuxtConfig({
 
   // Auto-imports config
   imports: {
-    presets: FROM_PACKAGES_IMPORT,
     scan: false,
   },
 
@@ -555,19 +549,7 @@ export default defineNuxtConfig({
       scan: true,
       includeCustomCollections: true,
       sizeLimitKb: 256,
-      icons: [
-        "local:logo-nikolav",
-        "mdi:eye",
-        "mdi:eye-off",
-        "mdi:key",
-        "mdi:forum",
-        "mdi:account-circle",
-        "mdi:account",
-        "mdi:feather",
-        "mdi:send",
-        "mdi:delete",
-        "mdi:logout",
-      ],
+      icons: iconsClientBundle,
     },
   },
 
