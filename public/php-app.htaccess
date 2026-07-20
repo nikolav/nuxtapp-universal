@@ -1,0 +1,121 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Set the base directory (adjust if app is in subfolder)
+# RewriteBase /
+
+# Redirect trailing slashes (SEO friendly)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [L,R=301]
+
+# Route all requests to index.php (for MVC/Front Controller pattern)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+
+    # Enable XSS protection
+    Header set X-XSS-Protection "1; mode=block"
+
+    # Prevent clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+
+    # Referrer policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Disable directory browsing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "(composer\.json|composer\.lock|\.env|\.gitignore|\.htaccess|\.htpasswd|php\.ini|php\.xml)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect .env file specifically
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# PHP Settings
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 20M
+    php_value post_max_size 20M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+    php_value memory_limit 256M
+    php_value error_reporting E_ALL & ~E_DEPRECATED & ~E_STRICT
+    php_flag display_errors Off
+    php_flag log_errors On
+</IfModule>
+
+# Enable Gzip Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+    AddOutputFilterByType DEFLATE application/xml application/rss+xml application/atom+xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Browser Caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    ExpiresByType text/html "access plus 1 hour"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# Cache Control
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|jpg|jpeg|png|gif|svg|woff|woff2)$">
+        Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
+
+    <FilesMatch "\.(html|php)$">
+        Header set Cache-Control "max-age=0, private, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# Custom Error Pages
+ErrorDocument 400 /error/400.html
+ErrorDocument 401 /error/401.html
+ErrorDocument 403 /error/403.html
+ErrorDocument 404 /error/404.html
+ErrorDocument 500 /error/500.html
+
+# Block bad bots
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_USER_AGENT} (ahrefs|semrush|mj12bot|dotbot|spider|scrape|scraper|crawl) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# Prevent access to sensitive directories
+RewriteRule ^(vendor|storage|bootstrap/cache)/ - [F,L,NC]
+
+# Allow CORS for specific domains (optional)
+# <IfModule mod_headers.c>
+#     SetEnvIf Origin "^https?://(your-domain\.com)$" AccessControlAllowOrigin=$0
+#     Header set Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+#     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+#     Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+# </IfModule>

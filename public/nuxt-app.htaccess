@@ -1,0 +1,104 @@
+# =============================================================================
+# Nuxt (Static / Prerendered) + SPA Fallback — hardened .htaccess
+# - Serves generated static files (.output/public → your web root)
+# - Uses prerendered HTML when it exists (/about -> /about/index.html or /about.html)
+# - Falls back to SPA routing (index.html) for unknown routes
+# - Blocks common sensitive files/folders
+# =============================================================================
+
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Redirect root "/" → "/sr"
+  RewriteCond %{REQUEST_URI} ^/?$
+  RewriteRule ^$ /sr [R=301,L]
+
+  # ---------------------------------------------------------------------------
+  # 0) Basic hardening
+  # ---------------------------------------------------------------------------
+
+  # Prevent path traversal-ish requests
+  RewriteCond %{THE_REQUEST} \.\. [NC,OR]
+  RewriteCond %{REQUEST_URI} \.\. [NC]
+  RewriteRule ^ - [F,L]
+
+  # Block hidden files & directories (dotfiles)
+  RewriteRule (^|/)\. - [F,L]
+
+  # Block common sensitive file extensions
+  RewriteRule \.(?:env|ini|log|bak|old|swp|sql|sqlite|sqlite3|yml|yaml|toml|jsonl|lock|pem|key|crt|p12|pfx|asc)$ - [F,L,NC]
+
+  # Block common sensitive filenames
+  RewriteRule ^(?:composer\.(?:json|lock)|package(?:-lock)?\.json|pnpm-lock\.yaml|yarn\.lock|\.htaccess|\.htpasswd)$ - [F,L,NC]
+
+  # Block sensitive folders (adjust to your deploy)
+  RewriteRule ^(?:node_modules|\.nuxt|\.output|\.nitro|storage|vendor|tests|private|backup|backups|tmp|temp)/ - [F,L,NC]
+
+  # Optional: block source maps in production (uncomment if desired)
+  # RewriteRule \.map$ - [F,L,NC]
+
+  # ---------------------------------------------------------------------------
+  # 1) Serve existing files/directories as-is (PRIORITET 1)
+  # ---------------------------------------------------------------------------
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # ---------------------------------------------------------------------------
+  # 2) Nuxt statičke rute (prerendered HTML) - PRIORITET 2
+  # ---------------------------------------------------------------------------
+
+  # Ako je ruta bez ekstenzije i postoji /route.html → serve it
+  RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,6}$  [NC]
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+)$ $1.html [L]
+
+  # Ako je ruta bez ekstenzije i postoji /route/index.html → serve it
+  RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,6}$  [NC]
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.+)$ $1/index.html [L]
+
+  # ---------------------------------------------------------------------------
+  # 3) Fallback na .html (samo ako statička Nuxt ruta ne postoji) - PRIORITET 3
+  # ---------------------------------------------------------------------------
+  # Ovo je ZADNJA šansa za .html prije SPA fallbacka
+  # Provjerava da li postoji fajl s .html ekstenzijom za putanje bez ekstenzije
+  RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,6}$  [NC]
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+
+  # ---------------------------------------------------------------------------
+  # 4) SPA fallback (Nuxt client-side routing) - PRIORITET 4 (ZADNJI)
+  # ---------------------------------------------------------------------------
+  # Ako ništa nije match-ano (nema fajl/dir, nema prerendered HTML, nema .html fallback)
+  # šalji na index.html za SPA routing
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Basic security headers (safe defaults). Adjust CSP for your site if needed.
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+<IfModule mod_mime.c>
+  # Ensure proper JS MIME (some shared hosts misconfigure)
+  AddType application/javascript .js
+</IfModule>
+
+# =============================================================================
+# Notes:
+# - Place this in web root (where index.html lives).
+# - For Nuxt SSG output, deploy `.output/public/*` to the web root.
+#
+# Priorities for routes without extension (e.g., /demo):
+#   1. Existing file or directory (serve as-is)
+#   2. /demo.html (Nuxt prerendered static route)
+#   3. /demo/index.html (Nuxt prerendered static route with subdir)
+#   4. /demo.html (fallback - if file exists but wasn't caught as Nuxt route)
+#   5. index.html (SPA fallback - client-side routing)
+# =============================================================================
