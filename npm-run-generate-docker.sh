@@ -10,7 +10,4 @@ docker run --rm -it \
   -v "$(pwd):/app" \
   -v nuxt_node_modules:/app/node_modules \
   -v nuxt_npm_cache:/root/.npm \
-  node:20-bullseye bash  -lc "npm ci && rm -rf .nuxt .output node_modules/.cache && npm run generate:nuxt "
-
-
-# node:20-bullseye bash  -lc "rm -rf .nuxt .output node_modules/.cache && npm i && npx nuxt prepare && npx nuxt generate "
+  node:22-bullseye bash -lc "npm i && rm -rf .nuxt .output node_modules/.cache && npm run generate:nuxt "
