@@ -393,6 +393,12 @@ export default defineNuxtConfig({
   // Create custom path shortcuts (e.g., '@components': '/components')
   // alias: {},
 
+  // // console:log stripping
+  // oxc: {
+  //   minify: PRODUCTION,
+  //   drop: PRODUCTION ? ["console", "debugger"] : [],
+  // },
+
   vite: {
     server: {
       watch: {
@@ -406,8 +412,12 @@ export default defineNuxtConfig({
         usePolling: true,
         interval: 100,
       },
-      hmr: {
-        // helps when localhost/ipv6 gets weird
+      // hmr: {
+      //   // helps when localhost/ipv6 gets weird
+      //   protocol: "ws",
+      //   host: "localhost",
+      // },
+      ws: {
         protocol: "ws",
         host: "localhost",
       },

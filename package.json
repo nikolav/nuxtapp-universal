@@ -9,6 +9,7 @@
     "dev:clean": "rm -rf .nuxt .output node_modules/.vite && npm run dev",
     "generate:nuxt": "nuxt generate",
     "generate": "bash ./npm-run-generate-docker.sh",
+    "generate:log": "npm run generate > ./output-log.txt 2>&1 ",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "tinker": "npx tsx tinker.ts ",
@@ -42,12 +43,12 @@
     "animate.css": "^4.1.1",
     "bcryptjs": "^3.0.3",
     "cash-dom": "^8.1.5",
-    "chroma-js": "^3.2.0",
     "chart.js": "^4.5.1",
+    "chroma-js": "^3.2.0",
     "dayjs": "^1.11.19",
     "dotenv": "^17.2.3",
-    "firebase": "^12.8.0",
     "file-type": "^22.0.1",
+    "firebase": "^12.8.0",
     "graphql": "^16.12.0",
     "graphql-request": "^7.4.0",
     "graphql-yoga": "^5.18.0",
@@ -85,8 +86,8 @@
     "@nuxt/test-utils": "^4.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/chroma-js": "^3.1.2",
-    "@types/firebase": "^2.4.32",
     "@types/file-type": "^10.6.0",
+    "@types/firebase": "^2.4.32",
     "@types/graphql": "^14.2.3",
     "@types/lodash": "^4.17.21",
     "@types/md5": "^2.3.6",
@@ -112,6 +113,19 @@
     "vitest": "^4.0.18"
   },
   "overrides": {
-    "tar": "^7.5.7"
+    "tar": "^7.5.7",
+    "glob": "^11.0.1",
+    "rimraf": "^6.0.1",
+    "gauge": "^5.0.2",
+    "are-we-there-yet": "^4.0.2",
+    "npmlog": "^7.0.1",
+    "prebuild-install": "^7.1.3",
+    "inflight": "^2.0.0"
+  },
+  "resolutions": {
+    "glob": "^11.0.1"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

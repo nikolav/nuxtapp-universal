@@ -8,6 +8,7 @@ export MSYS2_ARG_CONV_EXCL="*"
 docker run --rm -it \
   -w /app \
   -v "$(pwd):/app" \
-  -v nuxt_node_modules:/app/node_modules \
-  -v nuxt_npm_cache:/root/.npm \
-  node:22-bullseye bash -lc "npm i && rm -rf .nuxt .output node_modules/.cache && npm run generate:nuxt "
+  -v nuxt_node_modules_et3bhpu:/app/node_modules \
+  -v nuxt_cache_et3bhpu:/root/.cache/nuxt \
+  -v nuxt_npm_cache_et3bhpu:/root/.npm \
+  node:22-bullseye bash -c "npm i && npm run generate:nuxt "
