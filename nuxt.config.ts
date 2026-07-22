@@ -9,9 +9,6 @@ import {
   schemaFileStorageDriver,
 } from "./app/schemas";
 
-// schemas:config
-const schemaCacheConnection = z.enum(["memory", "redis"] as const);
-
 /**
  * ============================================================================
  * ENV / FLAGS (derived once, reused everywhere)
@@ -49,9 +46,6 @@ const apiBase = trimEnd(
 
 /** Feature flags / infra toggles */
 const isHttps = siteUrl.startsWith("https://");
-const databaseInit = parseBoolean(process.env.NUXT_DATABASE_INIT);
-const databaseConnectionName = process.env.NUXT_DATABASE_CONNECTION_NAME;
-const redisEnabled = parseBoolean(process.env.NUXT_REDIS_INIT);
 const broadcastingEnabled = parseBoolean(
   process.env.NUXT_PUBLIC_BROADCASTING_ENABLED,
 );
@@ -113,16 +107,6 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@nuxt/fonts",
 
-    // Custom module: build-time SQLite handling
-    [
-      "./modules/on-build-copy-sqlite-db",
-      {
-        PRODUCTION,
-        databaseInit,
-        databaseConnectionName,
-      },
-    ],
-
     //testing
     "@nuxt/test-utils/module",
   ],
@@ -162,29 +146,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Server-only secrets
     apiSecret: process.env.NUXT_API_SECRET ?? "",
-
-    // Server-side infra flags (also useful on server)
-    databaseInit,
-    databaseConnectionName,
-
     apiKeys: {
       gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
-    },
-
-    cache: {
-      enabled: parseBoolean(process.env.NUXT_CACHE_ENABLED),
-      connection: schemaCacheConnection.parse(
-        process.env.NUXT_CACHE_CONNECTION ?? "memory",
-      ),
-      namespace: process.env.NUXT_CACHE_NAMESPACE ?? "app",
-      ttlMs: Number(process.env.NUXT_CACHE_DEFAULT_TTL_MS ?? 60000),
-      // setup cache connections
-      connections: {
-        // memory: undefined,
-        redis: {
-          url: process.env.NUXT_CACHE_REDIS_URL ?? "http://127.0.0.1:6379",
-        },
-      },
     },
 
     // Client-exposed settings
@@ -235,9 +198,11 @@ export default defineNuxtConfig({
       cacheKeyDriver: schemaCacheKeyDriver.parse(
         process.env.NUXT_PUBLIC_CACHE_KEY_DRIVER ?? "local",
       ),
+
       collectionsKeyDriver: schemaCollectionsKeyDriver.parse(
         process.env.NUXT_PUBLIC_COLLECTIONS_KEY_DRIVER ?? "local",
       ),
+
       fileStorageDriver: schemaFileStorageDriver.parse(
         process.env.NUXT_PUBLIC_FILE_STORAGE_DRIVER ?? "local",
       ),
@@ -284,14 +249,19 @@ export default defineNuxtConfig({
     defaults: { changefreq: "weekly", priority: 0.7 },
   },
 
-  schemaOrg: {
-    identity: {
-      type: "Organization",
-      name: siteName,
-      url: siteUrl,
-      // logo: "/logo.png",
-    },
-  },
+  schemaOrg: false,
+  // schemaOrg: {
+  //   enabled: PRODUCTION,
+  //   identity: {
+  //     type: "Organization",
+  //     name: siteName,
+  //     url: siteUrl,
+  //     // logo: "/logo.png",
+  //   },
+  //   // node: {
+  //   //   "@id": siteUrl,
+  //   // },
+  // },
 
   ogImage: {
     enabled: PRODUCTION,
@@ -312,6 +282,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: "node-server",
     compressPublicAssets: true,
+    minify: true,
 
     // Pre-render only what you truly want baked at build-time
     prerender: PRODUCTION
@@ -335,16 +306,9 @@ export default defineNuxtConfig({
     },
 
     // Optional Nitro storage adapter (Redis)
-    storage: {
-      ...(redisEnabled
-        ? {
-            redis: {
-              driver: "redis",
-              url: process.env.NUXT_REDIS_URL,
-            },
-          }
-        : {}),
-    },
+    storage: {},
+
+    logLevel: PRODUCTION ? "warn" : "info",
   },
 
   // ---------------------------------------------------------------------------
@@ -399,22 +363,28 @@ export default defineNuxtConfig({
         usePolling: true,
         interval: 100,
       },
-      hmr: {
+      ws: {
         // helps when localhost/ipv6 gets weird
         protocol: "ws",
         host: "localhost",
       },
     },
 
-    esbuild: {
-      // Production log stripping
-      drop: PRODUCTION ? ["console", "debugger"] : [],
-    },
+    // esbuild: {
+    //   // Production log stripping
+    //   drop: PRODUCTION ? ["console", "debugger"] : [],
+    // },
     clearScreen: false,
   },
 
   // Source maps strategy (server always useful; client hidden for prod)
   sourcemap: { server: true, client: "hidden" },
+
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => ["suspense"].includes(tag),
+    },
+  },
 
   // ---------------------------------------------------------------------------
   // 12) Module configuration blocks

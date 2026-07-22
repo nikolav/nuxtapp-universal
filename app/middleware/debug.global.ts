@@ -1,8 +1,5 @@
+import { onDebug } from "~/utils/on-debug";
+
 export default defineNuxtRouteMiddleware((to, from) => {
-  console.log({
-    "middleware:debug": {
-      from,
-      to,
-    },
-  });
+  onDebug({ "mw:debug": { to, from } });
 });
