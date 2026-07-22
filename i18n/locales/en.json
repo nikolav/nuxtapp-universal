@@ -11,10 +11,6 @@
     "about": {
       "title": "page:about-us",
       "description": "page:about-us:description"
-    },
-    "blogs-tech-slug": {
-      "title": "page:blogs-tech",
-      "description": "page:blogs-tech:description"
     }
   },
   "Zdravo Svete!": "@:message.hello World!",
