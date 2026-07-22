@@ -31,3 +31,7 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
 # docker rm -f nuxt-app
 # docker system prune --all --volumes --force
 # docker volume rm nuxt_node_modules nuxt_npm_cache
+# docker volume rm vdata
+
+## search fs for file; contains 'foo' or has 'foo' in filename
+# find . -type f -not -path "*/node_modules/*" \( -iname "*foo*" -o -exec grep -il "foo" {} \; \)

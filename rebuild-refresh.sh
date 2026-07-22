@@ -2,7 +2,7 @@
 set -euo pipefail
 
 echo "🧹 Cleaning build artifacts..."
-rm -rf .nuxt .output dist node_modules
+rm -rf .nuxt .output dist node_modules/.vite node_modules
 
 echo "🧾 Re-resolving deps + regenerating package-lock..."
 rm -f package-lock.json
