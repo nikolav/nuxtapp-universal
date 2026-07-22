@@ -13,6 +13,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "tinker": "npx tsx tinker.ts ",
+    "rebuild": "bash rebuild-refresh.sh",
+    "rebuild:log": "npm run rebuild > ./output-log.txt 2>&1 ",
     "test": "docker compose -f docker-compose.test.dev.yml run --rm --pull=missing test",
     "test:ci": "docker compose -f docker-compose.test.yml run --rm --pull=missing test",
     "test:vitest": "vitest",
