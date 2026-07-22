@@ -174,25 +174,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Server-only secrets
     apiSecret: process.env.NUXT_API_SECRET ?? "",
-
-    // Server-side infra flags (also useful on server)
-    databaseInit: false,
-    databaseConnectionName: undefined,
-
     apiKeys: {
       gooogleTranslateAPI: process.env.NUXT_KEY_GOOGLE_TRANSPATE_API,
-    },
-
-    cache: {
-      enabled: false,
-      connection: "memory",
-      namespace: process.env.NUXT_CACHE_NAMESPACE ?? "app",
-      ttlMs: Number(process.env.NUXT_CACHE_DEFAULT_TTL_MS ?? 60000),
-      connections: {
-        redis: {
-          url: process.env.NUXT_CACHE_REDIS_URL ?? "http://127.0.0.1:6379",
-        },
-      },
     },
 
     // Client-exposed settings
@@ -243,9 +226,11 @@ export default defineNuxtConfig({
       cacheKeyDriver: schemaCacheKeyDriver.parse(
         process.env.NUXT_PUBLIC_CACHE_KEY_DRIVER ?? "local",
       ),
+
       collectionsKeyDriver: schemaCollectionsKeyDriver.parse(
         process.env.NUXT_PUBLIC_COLLECTIONS_KEY_DRIVER ?? "local",
       ),
+
       fileStorageDriver: schemaFileStorageDriver.parse(
         process.env.NUXT_PUBLIC_FILE_STORAGE_DRIVER ?? "local",
       ),
@@ -293,14 +278,19 @@ export default defineNuxtConfig({
     defaults: { changefreq: "weekly", priority: 0.7 },
   },
 
-  schemaOrg: {
-    identity: {
-      type: "Organization",
-      name: siteName,
-      url: siteUrl,
-      // logo: "/logo.png",
-    },
-  },
+  schemaOrg: false,
+  // schemaOrg: {
+  //   enabled: PRODUCTION,
+  //   identity: {
+  //     type: "Organization",
+  //     name: siteName,
+  //     url: siteUrl,
+  //     // logo: "/logo.png",
+  //   },
+  //   // node: {
+  //   //   "@id": siteUrl,
+  //   // },
+  // },
 
   ogImage: {
     enabled: false,
@@ -318,6 +308,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: "static",
     compressPublicAssets: true,
+    minify: true,
 
     // Pre-render only what you truly want baked at build-time
     prerender: PRODUCTION
@@ -344,8 +335,11 @@ export default defineNuxtConfig({
     // skip dynamic api endpoints or irrelevant pages
     ignore: ignoreRoutes,
 
+    // Optional Nitro storage adapter (Redis)
     storage: {},
     devStorage: {},
+
+    logLevel: PRODUCTION ? "warn" : "info",
   },
 
   // ---------------------------------------------------------------------------
@@ -393,12 +387,6 @@ export default defineNuxtConfig({
   // Create custom path shortcuts (e.g., '@components': '/components')
   // alias: {},
 
-  // // console:log stripping
-  oxc: {
-    minify: PRODUCTION,
-    drop: PRODUCTION ? ["console", "debugger"] : [],
-  },
-
   vite: {
     server: {
       watch: {
@@ -412,12 +400,8 @@ export default defineNuxtConfig({
         usePolling: true,
         interval: 100,
       },
-      // hmr: {
-      //   // helps when localhost/ipv6 gets weird
-      //   protocol: "ws",
-      //   host: "localhost",
-      // },
       ws: {
+        // helps when localhost/ipv6 gets weird
         protocol: "ws",
         host: "localhost",
       },
@@ -449,11 +433,6 @@ export default defineNuxtConfig({
 
     plugins: [],
 
-    // esbuild: {
-    //   // Production log stripping
-    //   drop: PRODUCTION ? ["console", "debugger"] : [],
-    // },
-
     // global scss injection for all preprocessed .scss files
     css: {
       preprocessorOptions: {
@@ -474,6 +453,12 @@ export default defineNuxtConfig({
 
   build: {
     transpile: ["vuetify"],
+  },
+
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => ["suspense"].includes(tag),
+    },
   },
 
   // ---------------------------------------------------------------------------

@@ -99,6 +99,7 @@ dist
 .tmp/
 test-results/
 playwright-report/
+*-log.txt
 
 *-log.txt
 
