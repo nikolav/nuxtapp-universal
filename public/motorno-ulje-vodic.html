@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>📊 Brzi vodič – izbor motornog ulja</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    }
+    body {
+      background: #0b0f16;
+      color: #e6edf6;
+      padding: 1rem 0.8rem 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: clamp(1.5rem, 5vw, 2.2rem);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-left: 4px solid #4ecdc4;
+      padding-left: 0.8rem;
+      margin-bottom: 0.2rem;
+      line-height: 1.2;
+    }
+    .sub {
+      color: #9aabbe;
+      border-bottom: 1px solid #29323e;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.3rem;
+      font-size: clamp(0.75rem, 2vw, 1rem);
+    }
+
+    /* --- TABELA --- */
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 1.8rem;
+      border-radius: 16px;
+      border: 1px solid #2d3d4f;
+      background: #111a26;
+    }
+    table {
+      width: 100%;
+      min-width: 600px;
+      border-collapse: collapse;
+      font-size: clamp(0.78rem, 1.6vw, 0.95rem);
+    }
+    thead {
+      background: #1a2635;
+      border-bottom: 2px solid #3f5368;
+    }
+    thead th {
+      padding: 0.8rem 0.6rem;
+      text-align: left;
+      font-weight: 600;
+      color: #4ecdc4;
+      white-space: nowrap;
+      border-right: 1px solid #2d3d4f;
+    }
+    thead th:last-child {
+      border-right: none;
+    }
+    tbody td {
+      padding: 0.6rem 0.6rem;
+      border-bottom: 1px solid #1f2d3d;
+      border-right: 1px solid #1f2d3d;
+      vertical-align: top;
+      line-height: 1.4;
+    }
+    tbody td:last-child {
+      border-right: none;
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .year-cell {
+      font-weight: 600;
+      color: #f5d386;
+      white-space: nowrap;
+      vertical-align: middle;
+      text-align: center;
+      padding: 0.6rem 0.4rem;
+    }
+    .engine-cell {
+      padding: 0.3rem 0.6rem;
+      font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+      border-bottom: 1px solid #1a2635;
+    }
+    .engine-cell:last-child {
+      border-bottom: none;
+    }
+    .engine-row {
+      border-bottom: 1px solid #1f2d3d;
+    }
+    .engine-row:last-child {
+      border-bottom: none;
+    }
+    .visc-badge {
+      display: inline-block;
+      background: #1f2e3f;
+      padding: 0.1rem 0.6rem;
+      border-radius: 30px;
+      font-weight: 600;
+      color: #f5d386;
+      font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+      white-space: nowrap;
+      border: 1px solid #3f5368;
+    }
+    .spec-badge {
+      display: inline-block;
+      background: #0f1f2e;
+      padding: 0.1rem 0.6rem;
+      border-radius: 20px;
+      font-size: clamp(0.65rem, 1.3vw, 0.8rem);
+      color: #9dc3f0;
+      white-space: nowrap;
+      border: 1px solid #2a5a7a;
+    }
+    .note-warning {
+      color: #f5b342;
+      font-weight: 500;
+    }
+    .note-important {
+      color: #ff6b6b;
+      font-weight: 600;
+    }
+    .engine-icon {
+      margin-right: 0.2rem;
+    }
+
+    /* --- KARTICE --- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+      margin: 1.5rem 0 1.2rem;
+    }
+    @media (min-width: 500px) {
+      .card-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (min-width: 768px) {
+      .card-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .card {
+      background: #111a26;
+      border-radius: 14px;
+      padding: 0.8rem 1rem;
+      border: 1px solid #2d3d4f;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .card:hover {
+      border-color: #4ecdc4;
+      background: #16202e;
+    }
+    .card .num {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #4ecdc4;
+    }
+    .card .label {
+      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+      color: #c6d7ea;
+      margin-top: 0.1rem;
+    }
+    .card .desc {
+      font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+      color: #8b9db3;
+      margin-top: 0.1rem;
+    }
+
+    /* --- KLIMA KARTICE --- */
+    .climate-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.6rem;
+      margin: 1rem 0 1.2rem;
+    }
+    .climate-card {
+      background: #0f1a26;
+      border-radius: 12px;
+      padding: 0.6rem 0.8rem;
+      text-align: center;
+      border: 1px solid #2a3d52;
+      font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+    }
+    .climate-card .icon {
+      font-size: 1.4rem;
+    }
+    .climate-card .rule {
+      color: #f5d386;
+      font-weight: 500;
+    }
+
+    /* --- SIGURNA OPCIJA --- */
+    .safe-box {
+      background: #0f1a26;
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      border: 1px solid #2a5a7a;
+      margin: 1.2rem 0;
+    }
+    .safe-box .title {
+      font-weight: 600;
+      color: #4ecdc4;
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+      margin-bottom: 0.3rem;
+    }
+    .safe-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem 1rem;
+      font-size: clamp(0.78rem, 1.6vw, 0.9rem);
+    }
+    .safe-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.3rem;
+      color: #ccddec;
+      padding: 0.2rem 0;
+      border-bottom: 1px solid #1a2635;
+    }
+    .safe-item .rec {
+      color: #f5d386;
+      font-weight: 500;
+    }
+
+    /* --- FOOTER --- */
+    .footnote {
+      color: #8b9db3;
+      text-align: center;
+      margin-top: 1.8rem;
+      border-top: 1px solid #202b38;
+      padding-top: 1.2rem;
+      font-size: clamp(0.7rem, 1.6vw, 0.85rem);
+    }
+    .footnote strong {
+      color: #c6d7ea;
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 480px) {
+      .table-wrap {
+        border-radius: 12px;
+      }
+      table {
+        font-size: 0.7rem;
+        min-width: 480px;
+      }
+      thead th {
+        padding: 0.5rem 0.4rem;
+        font-size: 0.65rem;
+      }
+      tbody td {
+        padding: 0.4rem 0.4rem;
+      }
+      .visc-badge {
+        font-size: 0.65rem;
+        padding: 0.05rem 0.4rem;
+      }
+      .spec-badge {
+        font-size: 0.6rem;
+        padding: 0.05rem 0.4rem;
+      }
+      .climate-grid {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+      }
+      .safe-grid {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+      .card-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+      }
+      .card .num {
+        font-size: 1.2rem;
+      }
+    }
+    @media (max-width: 380px) {
+      table {
+        min-width: 360px;
+        font-size: 0.62rem;
+      }
+      thead th {
+        padding: 0.3rem 0.3rem;
+        font-size: 0.58rem;
+      }
+      tbody td {
+        padding: 0.3rem 0.3rem;
+      }
+      .visc-badge {
+        font-size: 0.58rem;
+        padding: 0.05rem 0.3rem;
+      }
+      .spec-badge {
+        font-size: 0.55rem;
+        padding: 0.05rem 0.3rem;
+      }
+    }
+    /* Pristupačnost */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>📊 Brzi vodič – izbor motornog ulja</h1>
+  <div class="sub">
+    <span>📘 preporuka na osnovu godišta i motora</span>
+    <span style="color:#7d8fa5;">🔍 SAE + specifikacija</span>
+  </div>
+
+  <!-- ===== TABELA ===== -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>📅 Godište</th>
+          <th>🔥 Motor</th>
+          <th>🛢️ Viskoznost</th>
+          <th>📋 Specifikacija</th>
+          <th>⚠️ Napomena</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- do 2004 -->
+        <tr>
+          <td class="year-cell" rowspan="3">⭐<br><span style="font-size:0.8rem;">do 2004.</span></td>
+          <td class="engine-cell">⛽ Benzinski</td>
+          <td><span class="visc-badge">SAE 10W-40</span></td>
+          <td><span class="spec-badge">API SL/CF, ACEA A3/B4</span></td>
+          <td>Mineralno/polusintetičko</td>
+        </tr>
+        <tr>
+          <td class="engine-cell">🚛 Dizel (bez DPF)</td>
+          <td><span class="visc-badge">SAE 10W-40</span> / <span class="visc-badge">15W-40</span></td>
+          <td><span class="spec-badge">API CF, ACEA A3/B4</span></td>
+          <td>Gušće ulje – štiti istrošene delove</td>
+        </tr>
+        <tr>
+          <td class="engine-cell">🚛 Dizel (sa DPF)</td>
+          <td><span class="visc-badge">SAE 5W-30</span></td>
+          <td><span class="spec-badge">ACEA C3, Low SAPS</span></td>
+          <td><span class="note-important">⚠️ OBAVEZNO Low SAPS</span></td>
+        </tr>
+
+        <!-- 2005–2014 -->
+        <tr>
+          <td class="year-cell" rowspan="3">📆<br><span style="font-size:0.8rem;">2005–2014</span></td>
+          <td class="engine-cell">⛽ Benzinski</td>
+          <td><span class="visc-badge">SAE 5W-40</span></td>
+          <td><span class="spec-badge">API SN/CF, ACEA A3/B4</span></td>
+          <td>Polusintetičko ili sintetičko</td>
+        </tr>
+        <tr>
+          <td class="engine-cell">🚛 Dizel (bez DPF)</td>
+          <td><span class="visc-badge">SAE 5W-40</span></td>
+          <td><span class="spec-badge">API CI-4, ACEA A3/B4</span></td>
+          <td>Dobra zaštita na visokim T</td>
+        </tr>
+        <tr>
+          <td class="engine-cell">🚛 Dizel (sa DPF)</td>
+          <td><span class="visc-badge">SAE 5W-30</span></td>
+          <td><span class="spec-badge">ACEA C3, Low SAPS</span></td>
+          <td><span class="note-important">⚠️ OBAVEZNO Low SAPS</span></td>
+        </tr>
+
+        <!-- 2015–2019 -->
+        <tr>
+          <td class="year-cell" rowspan="3">🚀<br><span style="font-size:0.8rem;">2015–2019</span></td>
+          <td class="engine-cell">⛽ Benzinski</td>
+          <td><span class="visc-badge">SAE 5W-30</span></td>
+          <td><span class="spec-badge">API SP, ACEA A3/B4</span></td>
+          <td>Sintetičko – štiti od LSPI</td>
+        </tr>
+        <tr>
+          <td class="engine-cell">🚛 Dizel (bez DPF)</td>
+          <td><span class="visc-badge">SAE 5W-30</span></td>
+          <td><span class="spec-badge">API CJ-4, ACEA A3/B4</span></td>
+          <td>Sintetičko – za EGR sisteme</td>
+        </tr>
+        <tr>
+          <td class="engine-cell">🚛 Dizel (sa DPF)</td>
+          <td><span class="visc-badge">SAE 5W-30</span></td>
+          <td><span class="spec-badge">ACEA C3, Low SAPS</span></td>
+          <td><span class="note-important">⚠️ OBAVEZNO Low SAPS</span></td>
+        </tr>
+
+        <!-- 2020+ -->
+        <tr>
+          <td class="year-cell" rowspan="3">✨<br><span style="font-size:0.8rem;">2020+</span></td>
+          <td class="engine-cell">⛽ Benzinski</td>
+          <td><span class="visc-badge">SAE 5W-30</span> / <span class="visc-badge">0W-20</span></td>
+          <td><span class="spec-badge">API SP, ACEA A3/B4 ili C5</span></td>
+          <td>0W-20 za uštedu goriva</td>
+        </tr>
+        <tr>
+          <td class="engine-cell">🚛 Dizel (sa DPF)</td>
+          <td><span class="visc-badge">SAE 5W-30</span></td>
+          <td><span class="spec-badge">ACEA C3/C4, Low SAPS</span></td>
+          <td><span class="note-important">⚠️ Euro 6 – OBAVEZNO Low SAPS</span></td>
+        </tr>
+        <tr>
+          <td class="engine-cell">⚡ Hibrid / Euro 6</td>
+          <td><span class="visc-badge">SAE 0W-20</span></td>
+          <td><span class="spec-badge">ACEA C5, API SP, ILSAC GF-6</span></td>
+          <td>Ultra tečno – max ušteda goriva</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== 4 PRAVILA ===== -->
+  <div class="card-grid">
+    <div class="card"><div class="num">1️⃣</div><div class="label">Stariji = gušće</div><div class="desc">10W-40 za motore do 2004.</div></div>
+    <div class="card"><div class="num">2️⃣</div><div class="label">Noviji = tečnije</div><div class="desc">5W-30 / 0W-20 za 2015+</div></div>
+    <div class="card"><div class="num">3️⃣</div><div class="label">DPF = Low SAPS</div><div class="desc">ACEA C3 – OBAVEZNO</div></div>
+    <div class="card"><div class="num">4️⃣</div><div class="label">Uvek OEM</div><div class="desc">VW 504, BMW LL-04, MB 229.5</div></div>
+  </div>
+
+  <!-- ===== KLIMA KOREKCIJE ===== -->
+  <div style="font-weight:600; color:#c6d7ea; font-size:clamp(0.9rem,2vw,1.05rem); margin-top:0.2rem;">🌡️ Korekcije prema klimi</div>
+  <div class="climate-grid">
+    <div class="climate-card"><span class="icon">❄️</span> <span class="rule">Hladna</span><br>Smanjite prvi broj<br><span style="color:#f5d386; font-size:0.85rem;">5W-30 → 0W-30</span></div>
+    <div class="climate-card"><span class="icon">☀️</span> <span class="rule">Topla</span><br>Povećajte drugi broj<br><span style="color:#f5d386; font-size:0.85rem;">5W-30 → 5W-40</span></div>
+    <div class="climate-card"><span class="icon">🏁</span> <span class="rule">Sportska</span><br>Povećajte drugi + HTHS ≥ 3.5<br><span style="color:#f5d386; font-size:0.85rem;">5W-30 → 5W-40</span></div>
+  </div>
+
+  <!-- ===== SIGURNA OPCIJA ===== -->
+  <div class="safe-box">
+    <div class="title">🆘 Sigurna opcija – ako niste sigurni</div>
+    <div class="safe-grid">
+      <div class="safe-item">❓ Stariji auto (do 2004) → <span class="rec">SAE 10W-40, API SL/CF, ACEA A3/B4</span></div>
+      <div class="safe-item">❓ Noviji auto (2005+) → <span class="rec">SAE 5W-30, API SN/CF, ACEA A3/B4</span></div>
+      <div class="safe-item">❓ Dizel sa DPF → <span class="rec">SAE 5W-30, ACEA C3, Low SAPS</span></div>
+      <div class="safe-item">❓ Hibrid → <span class="rec">SAE 0W-20, ACEA C5, API SP</span></div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footnote">
+    💡 <strong>Proverite servisnu knjižicu ili poklopac motora</strong> – tu piše TAČNA preporuka za vaše vozilo!
+  </div>
+
+</div>
+</body>
+</html>

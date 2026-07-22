@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📘 Tehničke specifikacije ulja – vodič</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0e14;
+            color: #e8edf5;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            padding: 2rem 1.5rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            letter-spacing: -0.5px;
+            border-left: 6px solid #f0b34b;
+            padding-left: 1.2rem;
+        }
+
+        .subtitle {
+            color: #9aa8b9;
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #2a313c;
+            padding-bottom: 0.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .section {
+            margin-bottom: 2.8rem;
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            font-weight: 500;
+            margin-bottom: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #f2c94c;
+            border-bottom: 2px solid #2f3a47;
+            padding-bottom: 0.4rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.4rem;
+        }
+
+        .card {
+            background: #171f2a;
+            border-radius: 18px;
+            padding: 1.2rem 1.4rem;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+            border: 1px solid #29333f;
+            transition: all 0.15s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .card:hover {
+            background: #1e2836;
+            border-color: #f0b34b66;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px #00000055;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #d6e2f0;
+        }
+
+        .card-sub {
+            font-size: 0.9rem;
+            color: #bcc9db;
+            margin-bottom: 0.4rem;
+            border-left: 3px solid #f0b34b;
+            padding-left: 0.7rem;
+            background: #0f1722;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: #d0dcec;
+            margin-top: 0.25rem;
+            line-height: 1.5;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #2e3b4b;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: #bdd0e6;
+            margin-top: 0.3rem;
+            border: 1px solid #3f4d5e;
+        }
+
+        .highlight {
+            color: #f5d386;
+            font-weight: 500;
+        }
+
+        .term {
+            color: #b3d0f0;
+            font-weight: 500;
+        }
+
+        .inline-code {
+            background: #1f2a38;
+            padding: 0.1rem 0.6rem;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #e0b86a;
+            border: 1px solid #334153;
+            white-space: nowrap;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #2c3847;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .footer-note {
+            font-size: 0.9rem;
+            color: #7b8a9e;
+            text-align: center;
+            margin-top: 2.5rem;
+            border-top: 1px solid #232e3b;
+            padding-top: 1.8rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+                flex-wrap: wrap;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>🧪 Tehničke specifikacije & skraćenice</h1>
+    <div class="subtitle">
+        <span>📖 Pregled najvažnijih oznaka i termina za izbor motornog ulja</span>
+        <span style="color:#7f8fa0;">🔍 korisno za brzo snalaženje</span>
+    </div>
+
+    <!-- ======== SAE VISKOZNOST ======== -->
+    <div class="section">
+        <div class="section-title">🧊 SAE viskoznost</div>
+        <div class="card-grid">
+
+            <div class="card">
+                <div class="card-header">❄️ 0W-20 / 0W-30 / 0W-40</div>
+                <div class="card-sub">ekstremno hladno do -40 °C</div>
+                <div class="card-desc">Najtečnija ulja, trenutno podmazivanje na hladnom startu. <span class="highlight">0W</span> za arktičke uslove. Drugi broj (20–40) definiše debljinu filma na 100 °C.</div>
+                <div class="badge">⭐ noviji motori, hibridi, Euro 6</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🌡️ 5W-30 / 5W-40</div>
+                <div class="card-sub">univerzalna preporuka</div>
+                <div class="card-desc"><span class="term">5W</span> do -35 °C. Najčešći izbor za savremena vozila. <span class="highlight">5W-30</span> ušteda goriva, <span class="highlight">5W-40</span> stabilniji film na visokim T.</div>
+                <div class="badge">🚗 većina putničkih automobila</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">☀️ 10W-40 / 10W-50 / 10W-60</div>
+                <div class="card-sub">do -25 °C, veća viskoznost</div>
+                <div class="card-desc">Za starije motore (pre 2000), toplije klime, sportske motore. <span class="highlight">10W-60</span> koristi Alfa Romeo GTA za ekstremna opterećenja.</div>
+                <div class="badge">🏁 stariji automobili, trkaći motori</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🚛 15W-40 / 20W-50</div>
+                <div class="card-sub">do -20 °C / -15 °C</div>
+                <div class="card-desc">Gušća ulja za starije dizel motore, kamione, poljoprivredu, Zastavu. <span class="highlight">20W-50</span> za motore sa većom potrošnjom ulja.</div>
+                <div class="badge">🏗️ teška vozila, van puta</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">⚙️ SAE 30 (monograde)</div>
+                <div class="card-sub">jednogradno, bez zimskog dodatka</div>
+                <div class="card-desc">Stabilno na radnoj T, ali loše na hladnom. Koristi se u malim motorima (kosilice, agregati).</div>
+                <div class="badge">🌿 baštenska mehanizacija</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ======== API ======== -->
+    <div class="section">
+        <div class="section-title">🛢️ API specifikacije</div>
+        <div class="card-grid">
+
+            <div class="card">
+                <div class="card-header">⛽ API S (benzinski)</div>
+                <div class="card-sub">Service – motori sa iskrom</div>
+                <div class="card-desc"><span class="highlight">SN, SP</span> – najnoviji. <span class="term">SP</span> štiti od LSPI (prerano paljenje kod turbo benzinaca). Uvek koristite slovo isto ili više (npr. SL → SN).</div>
+                <div class="badge">🔥 SJ → SL → SM → SN → SP</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">⛽ API C (dizel)</div>
+                <div class="card-sub">Commercial – teški uslovi</div>
+                <div class="card-desc"><span class="highlight">CK-4</span> najnoviji (2017+), za Euro 6. <span class="term">CJ-4</span> za DPF, <span class="term">CI-4</span> za EGR.</div>
+                <div class="badge">📦 CF → CI-4 → CJ-4 → CK-4</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🔀 API SN/CF</div>
+                <div class="card-sub">kombinovano za benzin i dizel</div>
+                <div class="card-desc">Univerzalno ulje za mešovite vozne parkove. Zadovoljava i benzinsku i dizel specifikaciju.</div>
+                <div class="badge">🧰 univerzalna upotreba</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ======== ACEA ======== -->
+    <div class="section">
+        <div class="section-title">🇪🇺 ACEA specifikacije</div>
+        <div class="card-grid">
+
+            <div class="card">
+                <div class="card-header">🔹 A3 / B4</div>
+                <div class="card-sub">visoke performanse, stabilna viskoznost</div>
+                <div class="card-desc"><span class="highlight">A3/B4</span> – najčešći standard. Za benzinske i dizel motore sa direktnim ubrizgavanjem, visoka otpornost na oksidaciju. HTHS ≥ 3.5.</div>
+                <div class="badge">🏎️ većina evropskih vozila do 2010.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🔸 C3 / C4 (Low SAPS)</div>
+                <div class="card-sub">za DPF filtere – nizak pepeo</div>
+                <div class="card-desc"><span class="term">C3</span> – najčešći Low SAPS, HTHS ≥ 3.5. <span class="term">C4</span> – još strožiji. Čuvaju DPF od začepljenja.</div>
+                <div class="badge">🛡️ obavezno za dizel sa DPF</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🔹 C5 / A5/B5</div>
+                <div class="card-sub">ušteda goriva, niska viskoznost</div>
+                <div class="card-desc"><span class="highlight">C5</span> – za 0W-20, maksimalna ušteda. <span class="term">A5/B5</span> – za produžene intervale, ali ne za sve motore.</div>
+                <div class="badge">⛽ hibridi, Euro 6</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🚛 E serija (teški dizel)</div>
+                <div class="card-sub">kamioni, autobusi, mehanizacija</div>
+                <div class="card-desc"><span class="highlight">E6 / E9</span> – Low SAPS za DPF i SCR (AdBlue). <span class="term">E4 / E7</span> – za motore bez DPF.</div>
+                <div class="badge">🚛 komercijalna vozila</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ======== OEM PROIZVOĐAČKE ======== -->
+    <div class="section">
+        <div class="section-title">🏭 OEM specifikacije (proizvođači)</div>
+        <div class="card-grid">
+
+            <div class="card">
+                <div class="card-header">🇩🇪 VW 504.00 / 507.00</div>
+                <div class="card-sub">LongLife, Low SAPS</div>
+                <div class="card-desc"><span class="highlight">504.00</span> – benzin, <span class="highlight">507.00</span> – dizel (sa DPF). Produženi intervali do 30.000 km. Zamenjuje starije 502.00/505.00.</div>
+                <div class="badge">🚗 VW, Audi, Seat, Škoda (2005+)</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🇩🇪 BMW Longlife-04</div>
+                <div class="card-sub">Low SAPS za DPF</div>
+                <div class="card-desc">Za BMW modele sa DPF filterom. <span class="term">LL-01</span> za starije bez DPF. Obezbeđuje zaštitu i produžene servisne intervale.</div>
+                <div class="badge">🧿 BMW serije 1–7, X, Z</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🇩🇪 MB 229.51 / 229.52</div>
+                <div class="card-sub">Mercedes Low SAPS</div>
+                <div class="card-desc"><span class="highlight">229.51</span> – za DPF, produženi intervali. <span class="highlight">229.52</span> – dodatna ušteda goriva.</div>
+                <div class="badge">⭐ Mercedes-Benz dizel (2006+)</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🇫🇷 Renault RN 0720</div>
+                <div class="card-sub">ACEA C4, Low SAPS</div>
+                <div class="card-desc">Za Renault/Nissan dizel motore sa DPF. Zamenjuje RN 0710 (bez DPF).</div>
+                <div class="badge">🚙 Renault, Nissan, Dacia</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🇺🇸 Ford WSS-M2C913-B/C</div>
+                <div class="card-sub">Ford specifikacija</div>
+                <div class="card-desc"><span class="term">913-B</span> – za dizel sa DPF. <span class="term">913-C/D</span> – noviji standardi za Euro 5/6.</div>
+                <div class="badge">🔧 Ford, Mazda, Jaguar, Land Rover</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🇮🇹 Fiat 9.55535-S2/S3</div>
+                <div class="card-sub">Fiat/Alfa/Lancia</div>
+                <div class="card-desc"><span class="highlight">S2</span> – Low SAPS za dizel sa DPF. <span class="highlight">S3</span> – za Euro 6 i produžene intervale.</div>
+                <div class="badge">🇮🇹 Alfa Romeo, Fiat, Lancia</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🇩🇪 Porsche A40 / C30</div>
+                <div class="card-sub">Porsche specifikacije</div>
+                <div class="card-desc"><span class="term">A40</span> – za benzinske motore (HTHS ≥ 3.5). <span class="term">C30</span> – Low SAPS za DPF.</div>
+                <div class="badge">🏎️ Porsche 911, Cayenne, Panamera</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🇺🇸 GM-LL-A/B-025</div>
+                <div class="card-sub">Opel / General Motors</div>
+                <div class="card-desc"><span class="term">A-025</span> – benzin, <span class="term">B-025</span> – dizel. Koristi se u Opel, Saab, Chevrolet modelima.</div>
+                <div class="badge">⚡ Opel, Saab, Chevrolet</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ======== SPECIJALNI TERMINI ======== -->
+    <div class="section">
+        <div class="section-title">🧬 Stručni termini & skraćenice</div>
+        <div class="card-grid">
+
+            <div class="card">
+                <div class="card-header">🧹 DPF</div>
+                <div class="card-sub">Diesel Particulate Filter</div>
+                <div class="card-desc">Filter čestica za dizel. Zahteva <span class="highlight">Low SAPS</span> ulje (ACEA C3, VW 507.00) da se ne začepi.</div>
+                <div class="badge">🛑 obavezno proveriti</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🧪 Low SAPS</div>
+                <div class="card-sub">nizak sadržaj pepela, sumpora, fosfora</div>
+                <div class="card-desc">Čuva DPF i katalizatore. Oznake: <span class="term">ACEA C1–C4, E6/E9, VW 504/507, BMW LL-04, MB 229.51</span>.</div>
+                <div class="badge">🌱 ne koristiti u starim motorima</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🔥 HTHS</div>
+                <div class="card-sub">High Temperature High Shear</div>
+                <div class="card-desc">Viskoznost pod pritiskom na 150°C. <span class="highlight">≥ 3.5</span> – za teške uslove (turbo, direktno ubrizgavanje). <span class="term">&lt; 3.5</span> – ušteda goriva.</div>
+                <div class="badge">⚙️ bitno za turbo motore</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🧪 TBN</div>
+                <div class="card-sub">Total Base Number</div>
+                <div class="card-desc">Alkalna rezerva – neutrališe kiselost. Nova ulja imaju 8–12 mg KOH/g. Kada padne, ulje se menja.</div>
+                <div class="badge">📉 pratiti na dijagnostici</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">📈 VI – indeks viskoznosti</div>
+                <div class="card-sub">stabilnost na temperaturne promene</div>
+                <div class="card-desc">Viši VI (150+) = sintetika, manje promene viskoznosti. Niži VI (90–100) = mineralna ulja.</div>
+                <div class="badge">📊 sintetika ima bolji VI</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🧨 LSPI</div>
+                <div class="card-sub">Low-Speed Pre-Ignition</div>
+                <div class="card-desc">Prerano paljenje kod turbo benzinaca. <span class="highlight">API SP</span> i <span class="term">ILSAC GF-6</span> imaju zaštitu.</div>
+                <div class="badge">🔥 opasnost za novije turbo motore</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">♻️ SCR / AdBlue</div>
+                <div class="card-sub">Selective Catalytic Reduction</div>
+                <div class="card-desc">Sistem za smanjenje NOx ubrizgavanjem AdBlue. Nema posebne zahteve za ulje, ali Low SAPS je poželjan.</div>
+                <div class="badge">💧 kamioni i noviji dizeli</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🔄 EGR</div>
+                <div class="card-sub">Exhaust Gas Recirculation</div>
+                <div class="card-desc">Recirkulacija izduvnih gasova – smanjuje NOx. Ulje mora imati dobru disperzivnost (držati čađ u suspenziji).</div>
+                <div class="badge">🌀 prisutan kod većine dizela</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🧴 SAPS</div>
+                <div class="card-sub">Sulfated Ash, Phosphorus, Sulfur</div>
+                <div class="card-desc">High SAPS = bolja zaštita, ali začepljuje DPF. Low SAPS = čuva DPF, ali nešto slabija zaštita ekstremnih opterećenja.</div>
+                <div class="badge">⚖️ balans između zaštite i DPF</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">🧊 Pour Point</div>
+                <div class="card-sub">temperatura tečenja</div>
+                <div class="card-desc">Najniža temperatura na kojoj ulje teče. Npr. <span class="term">0W</span> ima Pour Point ispod -40 °C.</div>
+                <div class="badge">❄️ važno za hladne startove</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ======== PRAKTIČNI SAVET ======== -->
+    <hr>
+    <div style="background: #121b26; border-radius: 28px; padding: 1.8rem 2rem; border: 1px solid #2f3f52;">
+        <div style="display: flex; align-items: flex-start; gap: 1.2rem; flex-wrap: wrap;">
+            <span style="font-size: 2.8rem;">🧭</span>
+            <div>
+                <div style="font-weight: 600; font-size: 1.5rem; color: #f0c674;">Praktični savet – kako odabrati</div>
+                <ul style="margin-top: 0.8rem; list-style: none; color: #cbdae9; font-size: 1rem; line-height: 1.7;">
+                    <li>📖 1. Pronađi preporuku u servisnoj knjizi (SAE + specifikacija)</li>
+                    <li>🔎 2. Nađi ulje koje ima <span class="highlight">ISTU</span> ili <span class="highlight">VIŠU</span> specifikaciju</li>
+                    <li>🧹 3. Ako imaš DPF – obavezno <span class="highlight">Low SAPS</span> (ACEA C3, VW 507.00...)</li>
+                    <li>🧪 4. Bez preporuke? <span class="term">SAE 5W-40, ACEA A3/B4</span> za starija vozila; <span class="term">SAE 5W-30, ACEA C3</span> za novija (2005+)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        ⚡ Vodič kroz tehničke specifikacije motornih ulja – koristi za brzo snalaženje i pamćenje.
+    </div>
+
+</div>
+</body>
+</html>
