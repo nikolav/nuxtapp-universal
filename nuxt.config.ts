@@ -1,6 +1,6 @@
 import vitePluginVuetify from "vite-plugin-vuetify";
 import { transformAssetUrls } from "vite-plugin-vuetify";
-// import { z } from "zod";
+
 import trimEnd from "lodash/trimEnd";
 
 import parseBoolean from "@eturino/ts-parse-boolean";
@@ -48,6 +48,7 @@ const siteUrl = trimEnd(
   "/",
 );
 const siteName = process.env.NUXT_SITE_NAME ?? "";
+const appId = process.env.NUXT_PUBLIC_APP_ID;
 
 const apiBase = trimEnd(
   PRODUCTION ? process.env.NUXT_API_BASE : process.env.NUXT_API_BASE_DEV,
@@ -183,6 +184,7 @@ export default defineNuxtConfig({
       PRODUCTION,
       appEnv: ENV,
       ssr: SSR,
+      appId,
 
       // Site / API
       siteUrl,
