@@ -2,9 +2,14 @@
 const route = useRoute();
 const seoLocaleHead = useLocaleHead();
 const { t } = useI18n();
+const { $$ } = useNuxtApp();
 
-const title = computed(() => t(String(route.meta.title ?? "#TBD")));
-const description = computed(() => t(String(route.meta.description ?? "#TBD")));
+const title = computed(() =>
+  t(String($$.get(route.meta, "context.title", "#TBD"))),
+);
+const description = computed(() =>
+  t(String($$.get(route.meta, "context.description", "#TBD"))),
+);
 
 useSeoMeta({
   title,
@@ -22,21 +27,21 @@ useSeoMeta({
     :dir="seoLocaleHead.htmlAttrs.dir"
   />
   <Title>{{ title }}</Title>
-  <Link
-    v-for="link in seoLocaleHead.link"
-    :key="link.key"
-    :id="link.key"
-    :rel="link.rel"
-    :href="link.href"
-    :hreflang="link.hreflang"
-  />
-  <Meta
-    v-for="meta in seoLocaleHead.meta"
-    :key="meta.key"
-    :id="meta.key"
-    :property="meta.property"
-    :content="meta.content"
-  />
+  <template v-for="link in seoLocaleHead.link" :key="link.key">
+    <Link
+      :id="`${link.key ?? ''}`"
+      :rel="`${link.rel ?? ''}`"
+      :href="`${link.href ?? ''}`"
+      :hreflang="(<any>link).hreflang"
+    />
+  </template>
+  <template v-for="meta in seoLocaleHead.meta" :key="meta.key">
+    <Meta
+      :id="`${meta.key ?? ''}`"
+      :property="`${meta.property ?? ''}`"
+      :content="`${meta.content ?? ''}`"
+    />
+  </template>
 </template>
 
 <!-- scoped component styles, default -->

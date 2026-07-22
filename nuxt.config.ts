@@ -567,9 +567,9 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: "i18n_redirected",
-      cookieCrossOrigin: true,
       redirectOn: "root",
-      fallbackLocale: defaultLocale,
+      // cookieCrossOrigin: true,
+      // fallbackLocale: defaultLocale,
     },
 
     // https://i18n.nuxtjs.org/docs/api/options#skipsettinglocaleonnavigate

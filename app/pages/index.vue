@@ -1,7 +1,5 @@
 <script setup lang="ts">
 definePageMeta({
-  title: "pages.index.title",
-  description: "pages.index.description",
   layout: "default",
   i18n: {
     paths: {
@@ -9,6 +7,10 @@ definePageMeta({
       "sr-cyrl": "/dobrodosli",
       en: "/welcome",
     },
+  },
+  context: {
+    title: "pages.index.title",
+    description: "pages.index.description",
   },
 });
 

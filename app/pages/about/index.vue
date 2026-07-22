@@ -1,10 +1,5 @@
 <script setup lang="ts">
-// ##imports
-// ##config:const
-// ##config ##props ##route ##attrs ##form-fields
 definePageMeta({
-  title: "pages.about.title",
-  description: "pages.about.description",
   layout: "default",
   i18n: {
     paths: {
@@ -13,20 +8,11 @@ definePageMeta({
       en: "/about-us",
     },
   },
+  context: {
+    title: "pages.about.title",
+    description: "pages.about.description",
+  },
 });
-// ##schemas
-// ##utils
-// ##icons
-// ##refs ##flags ##models
-// ##data ##auth ##state
-// ##computed
-// ##forms ##handlers ##helpers ##small-utils
-// ##watch
-// ##hooks ##lifecycle
-// ##head ##meta
-// useHead({ title: "" });
-// ##provide
-// ##io
 
 // @@eos
 </script>
