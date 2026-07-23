@@ -26,6 +26,9 @@ const props = withDefaults(
   },
 );
 
+const attrs = useAttrs();
+const { $$ } = useNuxtApp();
+
 const DEFAULTS_PLYR_OPTIONS: TPlayerOptions = {
   // ux + perf sanity
   autoplay: false,
@@ -76,12 +79,7 @@ const DEFAULTS_PLYR_OPTIONS: TPlayerOptions = {
   },
 };
 
-const { $$ } = useNuxtApp();
-const ID = `PLAYER-${$$.uuid()}`;
-
-const exposed = {
-  player: ref<TOrNoValue<TPlayerInstance>>(),
-};
+const ID = computed(() => String(attrs["id"] ?? `PLAYER-${$$.uuid()}`));
 
 const COMP = {
   html5: PlayerHtml5,
@@ -89,11 +87,16 @@ const COMP = {
   vimeo: PlayerVimeo,
 };
 
+const exposed = {
+  player: shallowRef<TOrNoValue<TPlayerInstance>>(),
+  id: ID,
+};
+
 useOnceMounted([], async () => {
   usePlayer()
     .pipe(take(1))
-    .subscribe((Plyr) => {
-      exposed.player.value = new Plyr(`#${ID}`, DEFAULTS_PLYR_OPTIONS);
+    .subscribe(({ Plyr }) => {
+      exposed.player.value = new Plyr(`#${ID.value}`, DEFAULTS_PLYR_OPTIONS);
     });
 });
 

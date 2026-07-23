@@ -9,7 +9,7 @@ export const usePlayer = () =>
     useNuxtApp().$platformBrowser$.pipe(
       switchMap(() =>
         defer(() => import("plyr")).pipe(
-          map((val) => <TPlayer>(<any>val).default),
+          map((val) => ({ Plyr: <TPlayer>(<any>val).default })),
         ),
       ),
     ),
