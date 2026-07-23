@@ -8,7 +8,6 @@
       :props-body="{ class: '!bg-v-secondary' }"
     >
       <template #top>
-        <AppNavMain />
         <slot />
       </template>
       <template #bottom>
@@ -16,7 +15,15 @@
       </template>
 
       <!-- app:controlls :middle -->
-      <div>:controlls</div>
+      <VToolbar density="compact" elevation="2" tile class="pe-2">
+        <VToolbarItems>
+          <VBtn>1</VBtn>
+          <VBtn>2</VBtn>
+          <VBtn>3</VBtn>
+        </VToolbarItems>
+        <VSpacer />
+        <AppNavLine />
+      </VToolbar>
     </AppGridRowsFullAutoFull>
   </VMain>
 </template>
