@@ -18,9 +18,9 @@ definePageMeta({
 </script>
 
 <template>
-  <section class="app-container-reset page--index">
+  <div class="app-container-reset page--index">
     <h2>page:home</h2>
-  </section>
+  </div>
 </template>
 
 <!-- scoped component styles, default -->

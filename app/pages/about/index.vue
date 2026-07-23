@@ -17,15 +17,10 @@ definePageMeta({
 // @@eos
 </script>
 <template>
-  <section class="app-container-reset page--about">
-    <h2>about</h2>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed quas aperiam
-      praesentium quo molestias nisi porro sapiente reprehenderit unde expedita!
-      Iure natus excepturi officiis id ullam minima rerum nesciunt
-      reprehenderit.
-    </p>
-  </section>
+  <div class="app-container-reset page--about">
+    <h2>page:about</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium impedit saepe illum quisquam, veniam, debitis consequatur placeat commodi accusamus doloremque voluptas laboriosam consectetur recusandae quod est sed iure eius. Facere?</p>
+  </div>
 </template>
 <style lang="scss" scoped></style>
 <style module></style>

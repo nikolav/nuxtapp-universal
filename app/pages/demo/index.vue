@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <section class="app-container-reset page--demo">
+  <AppBoxBase class="page--demo">
     <h2>page:demo</h2>
-  </section>
+  </AppBoxBase>
 </template>
 
 <!-- scoped component styles, default -->
