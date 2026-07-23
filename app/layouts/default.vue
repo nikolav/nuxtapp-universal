@@ -3,11 +3,7 @@
 </script>
 <template>
   <VMain>
-    <NuxtLinkLocale :to="{ name: 'demo' }">demo</NuxtLinkLocale>
-    <span> | </span>
-    <NuxtLinkLocale :to="{ name: 'index' }">home</NuxtLinkLocale>
-    <span> | </span>
-    <NuxtLinkLocale :to="{ name: 'about' }">about</NuxtLinkLocale>
+    <AppNavMain />
     <slot />
   </VMain>
 </template>

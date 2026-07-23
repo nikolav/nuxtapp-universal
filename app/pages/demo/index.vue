@@ -4,7 +4,7 @@
 
 <template>
   <section class="app-container-reset page--demo">
-    <h1>page:demo</h1>
+    <h2>page:demo</h2>
   </section>
 </template>
 

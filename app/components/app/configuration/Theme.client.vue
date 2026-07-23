@@ -2,8 +2,9 @@
 import { useTheme } from "vuetify";
 
 const theme = useTheme();
+const { $$ } = useNuxtApp();
 
-const themeStored = useLocalStorage(useAppConfig().theme.THEME_ACTIVE, "");
+const themeStored = useLocalStorage($$.config("theme.THEME_ACTIVE")!, "");
 // @theme store
 watch(
   () => theme.global.name.value,
@@ -12,9 +13,6 @@ watch(
   },
 );
 
-const {
-  theme: { darkRootClass },
-} = useAppConfig();
 const themeIsDark = computed(() => theme.global.current.value.dark);
 
 // @boot;
@@ -27,7 +25,7 @@ onNuxtReady(() => {
 
 useHead({
   htmlAttrs: {
-    class: { [darkRootClass]: themeIsDark },
+    class: { [$$.config("theme.darkRootClass ")!]: themeIsDark },
   },
 });
 

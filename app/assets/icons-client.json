@@ -11,6 +11,7 @@
     "mdi:feather",
     "mdi:send",
     "mdi:delete",
-    "mdi:logout"
+    "mdi:logout",
+    "mdi:file"
   ]
 }

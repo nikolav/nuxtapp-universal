@@ -101,7 +101,7 @@ export default defineNuxtConfig({
   //   // ...
   // },
   routeRules: {
-    // "/": { redirect: "/sr" },
+    "/": { redirect: `/${defaultLocale}` },
 
     "/sr": { redirect: "/sr/dobrodosli" },
     "/sr-cyrl": { redirect: "/sr-cyrl/dobrodosli" },
