@@ -317,6 +317,9 @@ export default defineNuxtConfig({
       ? {
           routes: [...prerenderRoutes],
 
+          // skip dynamic api endpoints or irrelevant pages
+          ignore: ignoreRoutes,
+
           // prevents crawling /en, /about, etc.
           crawlLinks: true,
 
@@ -334,9 +337,6 @@ export default defineNuxtConfig({
       },
     },
 
-    // skip dynamic api endpoints or irrelevant pages
-    ignore: ignoreRoutes,
-
     // Optional Nitro storage adapter (Redis)
     storage: {},
     devStorage: {},
@@ -348,7 +348,10 @@ export default defineNuxtConfig({
   // 09) Experiments / flags (Nuxt internal experimental switches)
   // ---------------------------------------------------------------------------
   experimental: {
-    payloadExtraction: true,
+    // 'client' - Payload inlined in HTML (default v4)
+    // true     - Extracted to _payload.json (CDN-cacheable)
+    // false    - Always inlined (no external payload)
+    payloadExtraction: "client",
 
     // # enable typed routes (⚠ disables custom route names for locales)
     // typedPages: true,
@@ -367,9 +370,11 @@ export default defineNuxtConfig({
   // Hooks: add more prerender routes (dynamic pages)
   // ---------------------------------------------------------------------------
   hooks: {
-    // add dynamic routes
+    // include dynamic routes
     "prerender:routes": async ({ routes }) => {
-      // routes.add..
+      // // Fetch all blog post slugs from CMS
+      // const posts = await $fetch("https://cms.com/api/posts");
+      // posts.forEach((post) => routes.add(`/blog/${post.slug}`));
     },
 
     // override vuetify globals
