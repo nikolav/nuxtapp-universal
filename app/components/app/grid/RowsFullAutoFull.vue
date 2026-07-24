@@ -9,19 +9,19 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div
-    class="component--AppGridRowsFullAutoFull app-container-reset grid grid-cols-1 rows-fill-auto-fill"
+  <AppBoxBase
+    class="component--AppGridRowsFullAutoFull grid grid-cols-1 rows-fill-auto-fill"
   >
-    <div class="app-container-reset" v-bind="props.propsTop">
+    <AppBoxBase v-bind="props.propsTop">
       <slot name="top" />
-    </div>
-    <div class="app-container-reset" v-bind="props.propsBody">
+    </AppBoxBase>
+    <AppBoxBase v-bind="props.propsBody">
       <slot />
-    </div>
-    <div class="app-container-reset" v-bind="props.propsBottom">
+    </AppBoxBase>
+    <AppBoxBase v-bind="props.propsBottom">
       <slot name="bottom" />
-    </div>
-  </div>
+    </AppBoxBase>
+  </AppBoxBase>
 </template>
 
 <style lang="scss" scoped>

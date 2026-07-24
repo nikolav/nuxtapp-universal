@@ -3,13 +3,11 @@
 </script>
 <template>
   <VMain>
-    <AppGridRowsFullAutoFull
-      class="fill-height"
-      :props-body="{ class: '!bg-v-secondary' }"
-    >
+    <AppGridRowsFullAutoFull class="fill-height">
       <template #top>
         <slot />
       </template>
+
       <template #bottom>
         <h2>chat:main</h2>
       </template>
