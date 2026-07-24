@@ -1,5 +1,10 @@
 import type { ThemeDefinition } from "vuetify";
-import { COLOR_PRIMARY, COLOR_SECONDARY } from "./colors";
+import {
+  COLOR_PRIMARY,
+  COLOR_SECONDARY,
+  COLOR_ACCENT,
+  COLOR_PRIMARY_VARIANT,
+} from "./colors";
 
 /**
  * GA4-ish (screenshot): airy light-gray app bg, white cards,
@@ -15,11 +20,12 @@ export const light: ThemeDefinition = {
     "surface-bright": "#FFFFFF",
     "surface-light": "#F8F9FA", // hover fills / light strips
     "surface-variant": "#F1F3F4", // sidebar sections / separators
-    "on-surface-variant": "#3C4043", // GA secondary text
 
     // Accents (Google)
-    primary: COLOR_PRIMARY, // Google blue
-    secondary: COLOR_SECONDARY, // neutral gray (icons/labels)
+    primary: COLOR_PRIMARY,
+    secondary: COLOR_SECONDARY,
+    accent: COLOR_ACCENT,
+    "primary-variant": COLOR_PRIMARY_VARIANT,
 
     // Feedback
     success: "#1E8E3E",
@@ -30,8 +36,11 @@ export const light: ThemeDefinition = {
     // Text on surfaces
     "on-background": "#202124",
     "on-surface": "#202124",
+    "on-surface-variant": "#3C4043", // GA secondary text
     "on-primary": "#FFFFFF",
     "on-secondary": "#FFFFFF",
+    "on-accent": "#FFFFFF",
+    "on-primary-variant": "#FFFFFF", // White text on primary-variant
   },
 
   variables: {

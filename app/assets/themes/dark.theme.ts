@@ -1,10 +1,15 @@
 import type { ThemeDefinition } from "vuetify";
-import { COLOR_PRIMARY_DARK, COLOR_SECONDARY_DARK } from "./colors";
+import {
+  COLOR_PRIMARY_DARK,
+  COLOR_SECONDARY_DARK,
+  COLOR_ACCENT_DARK,
+  COLOR_PRIMARY_VARIANT_DARK,
+} from "./colors";
 
 /**
  * Dark companion for GA4-ish light theme:
  * deep neutral surfaces, subtle dividers, Google blue accent.
- * Aim: low-glare, high-contrast, “pro dashboard” feel.
+ * Aim: low-glare, high-contrast, "pro dashboard" feel.
  */
 export const dark: ThemeDefinition = {
   dark: true,
@@ -18,9 +23,11 @@ export const dark: ThemeDefinition = {
     "surface-variant": "#1B2741", // sidebar sections / separators
     "on-surface-variant": "#B6BFCC", // secondary text
 
-    // Accents (Google blue still reads well on dark)
+    // Accents
     primary: COLOR_PRIMARY_DARK, // brighter blue for dark surfaces
     secondary: COLOR_SECONDARY_DARK, // cool neutral gray (icons/labels)
+    accent: COLOR_ACCENT_DARK, // Google Red - stands out well on dark backgrounds
+    "primary-variant": COLOR_PRIMARY_VARIANT_DARK, // Brighter teal-blue for dark surfaces
 
     // Feedback (slightly lifted for dark)
     success: "#34A853", // Google green-ish
@@ -33,6 +40,8 @@ export const dark: ThemeDefinition = {
     "on-surface": "#E8EAED",
     "on-primary": "#0B1220", // readable on bright primary
     "on-secondary": "#0B1220",
+    "on-accent": "#FFFFFF",
+    "on-primary-variant": "#0B1220", // Dark text on bright teal variant
   },
 
   variables: {

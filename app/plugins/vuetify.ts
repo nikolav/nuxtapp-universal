@@ -47,9 +47,12 @@ export default defineNuxtPlugin({
             "info",
             "warning",
             "error",
+
+            "accent",
+            "primary-variant",
+
             // "primary2",
             // "primary3",
-            // "accent1",
             // "accent2",
             // "complement",
           ],

@@ -51,9 +51,14 @@ export default {
         v: {
           primary: "rgb(var(--v-theme-primary), <alpha-value>)",
           "on-primary": "rgb(var(--v-theme-on-primary), <alpha-value>)",
-
           secondary: "rgb(var(--v-theme-secondary), <alpha-value>)",
           "on-secondary": "rgb(var(--v-theme-on-secondary), <alpha-value>)",
+          accent: "rgb(var(--v-theme-accent), <alpha-value>)",
+          "on-accent": "rgb(var(--v-theme-on-accent), <alpha-value>)",
+          "primary-variant":
+            "rgb(var(--v-theme-primary-variant), <alpha-value>)",
+          "on-primary-variant":
+            "rgb(var(--v-theme-on-primary-variant), <alpha-value>)",
 
           success: "rgb(var(--v-theme-success), <alpha-value>)",
           warning: "rgb(var(--v-theme-warning), <alpha-value>)",
