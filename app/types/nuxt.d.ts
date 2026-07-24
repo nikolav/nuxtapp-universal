@@ -5,3 +5,5 @@ declare module "@nuxt/schema" {
     oxc?: any;
   }
 }
+
+export {};

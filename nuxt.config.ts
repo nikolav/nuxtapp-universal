@@ -355,6 +355,12 @@ export default defineNuxtConfig({
 
     // keep generated route values / metadata
     scanPageMeta: true,
+
+    // // Define route rules for hybrid rendering at the page level.
+    // inlineRouteRules: true,
+
+    // // save the current app state on reload
+    // restoreState: false,
   },
 
   // ---------------------------------------------------------------------------
@@ -469,7 +475,7 @@ export default defineNuxtConfig({
 
   // @nuxt/image
   image: {
-    quality: 81,
+    quality: 85,
     domains: [],
     screens: {
       sm: 640,

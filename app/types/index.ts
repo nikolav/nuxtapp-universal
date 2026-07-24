@@ -20,6 +20,10 @@ import { schemaCacheKeyDriver, schemaCollectionsKeyDriver } from "../schemas";
  * Core utility types
  * ========================================================================== */
 
+export * from "./nuxt";
+export * from "./page-meta";
+export * from "./vuetify-styles";
+
 export type ElementOf<T extends readonly unknown[]> = T[number];
 
 export type TFunctionVoid = (...args: unknown[]) => void;
