@@ -1,15 +1,5 @@
-###
+### https://demo.nikolav.rs
 
 GET http://localhost:3000/api/status
-
-###
-
-POST http://localhost:3000/api/graphql
-Content-Type: application/json
-Accept: application/json
-
-{
-  "query": "{ status }"
-}
 
 ###

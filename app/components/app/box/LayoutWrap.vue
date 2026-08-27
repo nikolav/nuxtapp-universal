@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container-reset layout--AppBoxLayoutWrap">
+  <div class="app-container-reset component--AppBoxLayoutWrap">
     <slot />
   </div>
 </template>

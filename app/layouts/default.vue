@@ -2,7 +2,7 @@
 // @@eos
 </script>
 <template>
-  <VMain>
+  <VMain class="layout--default">
     <AppGridRowsFullAutoFull class="fill-height">
       <template #top>
         <slot />
@@ -19,6 +19,7 @@
         elevation="1"
         tile
         class="pe-1"
+        border="t surface-light"
       >
         <VToolbarItems>
           <VBtn>1</VBtn>

@@ -5,8 +5,8 @@
   },
   "pages": {
     "index": {
-      "title": "strana:dobrodosli",
-      "description": "strana:dobrodosli:opis"
+      "title": "strana dobrodosli",
+      "description": "strana dobrodosli --opis"
     }
   }
 }
