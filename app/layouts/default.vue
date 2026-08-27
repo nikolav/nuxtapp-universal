@@ -13,7 +13,13 @@
       </template>
 
       <!-- app:controlls :middle -->
-      <VToolbar density="compact" elevation="2" tile class="pe-2">
+      <VToolbar
+        color="surface"
+        density="compact"
+        elevation="1"
+        tile
+        class="pe-1"
+      >
         <VToolbarItems>
           <VBtn>1</VBtn>
           <VBtn>2</VBtn>
