@@ -561,7 +561,7 @@ export default defineNuxtConfig({
       cookieKey: "i18n_redirected",
       redirectOn: "root",
       // cookieCrossOrigin: true,
-      // fallbackLocale: defaultLocale,
+      fallbackLocale: defaultLocale,
     },
 
     // https://i18n.nuxtjs.org/docs/api/options#skipsettinglocaleonnavigate

@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { filter } from "rxjs";
 import { useTheme } from "vuetify";
+
+import { TOKEN_appEmitter$ } from "~/keys";
 
 const theme = useTheme();
 const { $$ } = useNuxtApp();
@@ -15,12 +18,22 @@ watch(
 
 const themeIsDark = computed(() => theme.global.current.value.dark);
 
+const emitter$ = inject(TOKEN_appEmitter$)!;
+
+// @color-mode change theme
+useSubscription(
+  emitter$
+    .pipe(filter((evt) => evt.type === $$.config("events.EVENT_COLOR_MODE")))
+    .subscribe((evt) => {
+      $$.onDebug({ "@color-mode": evt });
+      theme.change(`${evt.payload ?? ""}`);
+    }),
+);
+
 // @boot;
 onNuxtReady(() => {
-  callOnce(() => {
-    // use cached theme
-    theme.change(themeStored.value);
-  });
+  // use cached theme
+  theme.change(themeStored.value);
 });
 
 useHead({
@@ -35,10 +48,3 @@ useHead({
 <template>
   <slot />
 </template>
-
-<!-- scoped component styles, default -->
-<style lang="scss" scoped></style>
-<!-- css modules, per-class hashing -->
-<style module></style>
-<!-- global styles, rare, prefer styles.scss -->
-<style lang="scss"></style>

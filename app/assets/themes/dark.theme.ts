@@ -1,72 +1,63 @@
 import type { ThemeDefinition } from "vuetify";
-import {
-  COLOR_PRIMARY_DARK,
-  COLOR_SECONDARY_DARK,
-  COLOR_ACCENT_DARK,
-  COLOR_PRIMARY_VARIANT_DARK,
-} from "./colors";
+import { BW_COLORS_DARK, TEXT_BW_DARK } from "./colors";
 
-/**
- * Dark companion for GA4-ish light theme:
- * deep neutral surfaces, subtle dividers, Google blue accent.
- * Aim: low-glare, high-contrast, "pro dashboard" feel.
- */
 export const dark: ThemeDefinition = {
   dark: true,
-
   colors: {
-    // App surfaces (deep, slightly blue/graphite)
-    background: "#0B1220", // app background (deep navy/graphite)
-    surface: "#111A2E", // cards / panels
-    "surface-bright": "#15203A", // raised cards / dialogs
-    "surface-light": "#0F172A", // hover strips / subtle fills
-    "surface-variant": "#1B2741", // sidebar sections / separators
-    "on-surface-variant": "#B6BFCC", // secondary text
+    // ===== SURFACE =====
+    background: BW_COLORS_DARK.background,
+    surface: BW_COLORS_DARK.surface,
+    "surface-bright": BW_COLORS_DARK["surface-bright"],
+    "surface-light": BW_COLORS_DARK["surface-light"],
+    "surface-variant": BW_COLORS_DARK["surface-variant"],
 
-    // Accents
-    primary: COLOR_PRIMARY_DARK, // brighter blue for dark surfaces
-    secondary: COLOR_SECONDARY_DARK, // cool neutral gray (icons/labels)
-    accent: COLOR_ACCENT_DARK, // Google Red - stands out well on dark backgrounds
-    "primary-variant": COLOR_PRIMARY_VARIANT_DARK, // Brighter teal-blue for dark surfaces
+    // ===== ACCENT =====
+    primary: BW_COLORS_DARK.primary,
+    "primary-variant": BW_COLORS_DARK["primary-variant"],
+    accent: BW_COLORS_DARK.accent,
+    ui: BW_COLORS_DARK.ui,
+    secondary: BW_COLORS_DARK.secondary,
 
-    // Feedback (slightly lifted for dark)
-    success: "#34A853", // Google green-ish
-    warning: "#F9AB00",
-    error: "#EA4335",
-    info: "#4C8DFF",
+    // ===== STATUS =====
+    success: BW_COLORS_DARK.success,
+    warning: BW_COLORS_DARK.warning,
+    error: BW_COLORS_DARK.error,
+    info: BW_COLORS_DARK.info,
 
-    // Text on surfaces
-    "on-background": "#E8EAED", // GA dark mode-ish text
-    "on-surface": "#E8EAED",
-    "on-primary": "#0B1220", // readable on bright primary
-    "on-secondary": "#0B1220",
+    // ===== ON COLORS =====
+    "on-background": TEXT_BW_DARK["on-background"],
+    "on-surface": TEXT_BW_DARK["on-surface"],
+    "on-surface-bright": TEXT_BW_DARK.primary,
+    "on-surface-light": TEXT_BW_DARK.primary,
+    "on-surface-variant": TEXT_BW_DARK.secondary,
+
+    "on-primary": "#000000",
+    "on-primary-variant": "#000000",
     "on-accent": "#FFFFFF",
-    "on-primary-variant": "#0B1220", // Dark text on bright teal variant
+    "on-ui": "#000000",
+    "on-secondary": "#000000",
+
+    "on-success": "#000000",
+    "on-warning": "#000000",
+    "on-error": "#000000",
+    "on-info": "#000000",
   },
-
   variables: {
-    // Dividers/borders (subtle, not chalky)
-    "border-color": "#24314B",
+    "border-color": "#FFFFFF",
     "border-opacity": 1,
-
-    // Typography emphasis
-    "high-emphasis-opacity": 0.92,
-    "medium-emphasis-opacity": 0.74,
-    "disabled-opacity": 0.42,
-
-    // Interaction states (slightly stronger than light so they show up)
+    "high-emphasis-opacity": 1.0,
+    "medium-emphasis-opacity": 0.87,
+    "disabled-opacity": 0.4,
     "idle-opacity": 0,
     "hover-opacity": 0.08,
-    "focus-opacity": 0.14,
+    "focus-opacity": 0.15,
     "selected-opacity": 0.12,
-    "activated-opacity": 0.14,
-    "pressed-opacity": 0.16,
-    "dragged-opacity": 0.1,
-
-    // Code / kbd (dark neutrals)
-    "theme-kbd": "#E8EAED",
-    "theme-on-kbd": "#0B1220",
-    "theme-code": "#0F172A",
-    "theme-on-code": "#E8EAED",
+    "activated-opacity": 0.18,
+    "pressed-opacity": 0.22,
+    "dragged-opacity": 0.08,
+    "theme-kbd": "#333333",
+    "theme-on-kbd": "#FFFFFF",
+    "theme-code": "#1A1A1A",
+    "theme-on-code": "#FFFFFF",
   },
 };

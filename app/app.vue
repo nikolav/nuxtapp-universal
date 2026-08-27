@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { COLOR_PRIMARY } from "~/assets/themes/colors";
-
 const { analyticsEnabled, gtmId: GTMID } = useRuntimeConfig().public;
 
 const { finalizePendingLocaleChange } = useI18n();
@@ -34,7 +32,7 @@ const { finalizePendingLocaleChange } = useI18n();
     <AppConfigurationTheme />
 
     <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
-    <NuxtLoadingIndicator :color="COLOR_PRIMARY" />
+    <NuxtLoadingIndicator />
 
     <!-- redirect on auth-change -->
     <AppConfigurationOnAuthChange />
