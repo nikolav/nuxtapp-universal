@@ -10,7 +10,7 @@ import srDayjs from "dayjs/locale/sr";
 import srCyrlDayjs from "dayjs/locale/sr-cyrl";
 
 // use aliases
-import { VBtn } from "vuetify/components/VBtn";
+// import { VBtn } from "vuetify/components/VBtn";
 
 import { TOKEN_appEmitter$ } from "~/keys";
 import { light, dark } from "~/assets/themes";
@@ -42,19 +42,20 @@ export default defineNuxtPlugin({
         variations: {
           colors: [
             "primary",
+            "primary-variant",
+            "accent",
             "secondary",
+            "ui",
+
             "success",
-            "info",
             "warning",
             "error",
+            "info",
 
-            "accent",
-            "primary-variant",
-
-            // "primary2",
-            // "primary3",
-            // "accent2",
-            // "complement",
+            "surface",
+            "surface-bright",
+            "surface-light",
+            "surface-variant",
           ],
           lighten: 1,
           darken: 1,
@@ -64,9 +65,7 @@ export default defineNuxtPlugin({
         // stylesheetId: "122",
       },
 
-      aliases: {
-        AppVBtn: VBtn,
-      },
+      aliases: {},
 
       // component/alias props
       defaults: {
@@ -74,10 +73,6 @@ export default defineNuxtPlugin({
           // ripple: true,
         },
         VBtn: {
-          rounded: true,
-        },
-        AppVBtn: {
-          color: "surface-light",
           rounded: true,
         },
         // MyButton: {
@@ -160,42 +155,3 @@ declare module "vuetify" {
     interface Adapter extends DayJsAdapter {}
   }
 }
-
-// interface IconAliases {
-//   [name: string]: IconValue;
-//   calendar: IconValue;
-//   cancel: IconValue;
-//   checkboxIndeterminate: IconValue;
-//   checkboxOff: IconValue;
-//   checkboxOn: IconValue;
-//   clear: IconValue;
-//   close: IconValue;
-//   complete: IconValue;
-//   delete: IconValue;
-//   delimiter: IconValue;
-//   dropdown: IconValue;
-//   edit: IconValue;
-//   error: IconValue;
-//   expand: IconValue;
-//   file: IconValue;
-//   first: IconValue;
-//   info: IconValue;
-//   last: IconValue;
-//   loading: IconValue;
-//   menu: IconValue;
-//   minus: IconValue;
-//   next: IconValue;
-//   plus: IconValue;
-//   prev: IconValue;
-//   radioOff: IconValue;
-//   radioOn: IconValue;
-//   ratingEmpty: IconValue;
-//   ratingFull: IconValue;
-//   ratingHalf: IconValue;
-//   sortAsc: IconValue;
-//   sortDesc: IconValue;
-//   subgroup: IconValue;
-//   success: IconValue;
-//   unfold: IconValue;
-//   warning: IconValue;
-// }

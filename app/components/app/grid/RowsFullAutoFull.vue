@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
   <AppBoxBase
-    class="component--AppGridRowsFullAutoFull grid grid-cols-1 rows-fill-auto-fill"
+    class="component--AppGridRowsFullAutoFull grid grid-cols-1 grid-rows-[1fr_auto_1fr]"
   >
     <AppBoxBase v-bind="props.propsTop">
       <slot name="top" />
@@ -23,9 +23,3 @@ const props = defineProps<{
     </AppBoxBase>
   </AppBoxBase>
 </template>
-
-<style lang="scss" scoped>
-.rows-fill-auto-fill {
-  grid-template-rows: 1fr auto 1fr;
-}
-</style>

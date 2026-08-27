@@ -7,10 +7,6 @@
     "index": {
       "title": "page:welcome",
       "description": "page:welcome:description"
-    },
-    "about": {
-      "title": "page:about-us",
-      "description": "page:about-us:description"
     }
   },
   "Zdravo Svete!": "@:message.hello World!",
