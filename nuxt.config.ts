@@ -1,5 +1,7 @@
-import vitePluginVuetify from "vite-plugin-vuetify";
-import { transformAssetUrls } from "vite-plugin-vuetify";
+import {
+  default as vitePluginVuetify,
+  transformAssetUrls,
+} from "vite-plugin-vuetify";
 
 import trimEnd from "lodash/trimEnd";
 
@@ -258,18 +260,6 @@ export default defineNuxtConfig({
   },
 
   schemaOrg: false,
-  // schemaOrg: {
-  //   enabled: PRODUCTION,
-  //   identity: {
-  //     type: "Organization",
-  //     name: siteName,
-  //     url: siteUrl,
-  //     // logo: "/logo.png",
-  //   },
-  //   // node: {
-  //   //   "@id": siteUrl,
-  //   // },
-  // },
 
   ogImage: {
     enabled: false,
@@ -520,9 +510,9 @@ export default defineNuxtConfig({
     // serverBundle: 'auto',
     // provider: "none",
     componentName: "NuxtIcon",
-    size: "1.22rem",
-    class: "icon inline-block align-middle",
-    cssLayer: "base",
+    // size: "1.22rem",
+    // class: "icon inline-block align-middle",
+    // cssLayer: "base",
 
     customCollections: [
       {
@@ -533,10 +523,10 @@ export default defineNuxtConfig({
     ],
 
     clientBundle: {
+      icons: iconsClientBundle,
       scan: true,
       includeCustomCollections: true,
       sizeLimitKb: 256,
-      icons: iconsClientBundle,
     },
   },
 
