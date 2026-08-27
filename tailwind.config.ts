@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
 
-import { COLOR_PRIMARY as primary } from "./app/assets/themes/colors";
 import { darkRootClass } from "./app/config/vars.env.public";
 
 export default {
@@ -44,7 +43,6 @@ export default {
       colors: {
         current: "currentColor",
         transparent: "transparent",
-        primary,
         // handy when mixing with Vuetify CSS vars in utilities:
         // text-v-primary
         // e.g. text-[rgb(var(--v-theme-on-surface))]

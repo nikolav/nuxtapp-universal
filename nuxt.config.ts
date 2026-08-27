@@ -70,7 +70,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   // 01) Core runtime behavior (SSR, compat, devtools, TS)
   // ---------------------------------------------------------------------------
-  compatibilityDate: "2025-07-15",
+  compatibilityDate: "2026-08-27",
   ssr: SSR,
 
   devtools: { enabled: !PRODUCTION },
@@ -89,32 +89,9 @@ export default defineNuxtConfig({
   // --------------------
   // Route rules: for SSG
   // --------------------
-  // routeRules: {
-  //   // Generated at build time for SEO purpose
-  //   "/": { prerender: true },
-  //   // Cached for 1 hour
-  //   "/api/*": { cache: { maxAge: 60 * 60 } },
-  //   // Redirection to avoid 404
-  //   "/old-page": {
-  //     redirect: { to: "/new-page", statusCode: 302 },
-  //   },
-  //   // ...
-  // },
   routeRules: {
-    "/": { redirect: `/${defaultLocale}` },
-
-    "/sr": { redirect: "/sr/dobrodosli" },
-    "/sr-cyrl": { redirect: "/sr-cyrl/dobrodosli" },
-    "/en": { redirect: "/en/welcome" },
-
     // // If you have a blog that should be exported as HTML too:
     // "/blog/**": { prerender: true },
-
-    // // spa:auth
-    // "/sr/prijava": { ssr: false },
-    // "/sr-cyrl/prijava": { ssr: false },
-    // "/en/login": { ssr: false },
-
     // // Never prerender API paths (and they shouldn't exist in a static build anyway)
     // "/api/**": { ssr: false },
   },
@@ -147,8 +124,8 @@ export default defineNuxtConfig({
       charset: "utf-8",
       viewport:
         "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
-      title: "nuxtapp | petrol.nikolav.rs",
-      titleTemplate: "%s | petrol.nikolav.rs",
+      title: "nuxtapp | demo.nikolav.rs",
+      titleTemplate: "%s | demo.nikolav.rs",
       meta: [
         { name: "description", content: "NuxtApp --starter" },
         { name: "theme-color", content: "#fafafa" },
@@ -308,9 +285,9 @@ export default defineNuxtConfig({
   // 08) Server runtime (Nitro) + caching + storage
   // ---------------------------------------------------------------------------
   nitro: {
-    preset: "static",
+    preset: "node-server",
     compressPublicAssets: true,
-    minify: true,
+    // minify: true,
 
     // Pre-render only what you truly want baked at build-time
     prerender: PRODUCTION
@@ -341,7 +318,7 @@ export default defineNuxtConfig({
     storage: {},
     devStorage: {},
 
-    logLevel: PRODUCTION ? "warn" : "info",
+    // logLevel: PRODUCTION ? "warn" : "info",
   },
 
   // ---------------------------------------------------------------------------
@@ -364,6 +341,8 @@ export default defineNuxtConfig({
 
     // // save the current app state on reload
     // restoreState: false,
+
+    // prerenderErrorPages: true,
   },
 
   // ---------------------------------------------------------------------------
@@ -462,7 +441,7 @@ export default defineNuxtConfig({
   },
 
   // Source maps strategy (server always useful; client hidden for prod)
-  sourcemap: { server: true, client: "hidden" },
+  sourcemap: { server: false, client: false },
 
   build: {
     transpile: ["vuetify"],

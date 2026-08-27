@@ -10,6 +10,7 @@
     "generate:nuxt": "nuxt generate",
     "generate": "bash ./npm-run-generate-docker.sh",
     "generate:log": "npm run generate > ./output-log.txt 2>&1 ",
+    "ssr": "node .output/server/index.mjs",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "tinker": "npx tsx tinker.ts ",
