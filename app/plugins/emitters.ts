@@ -1,7 +1,7 @@
 import { Subject } from "rxjs";
 
-import { TOKEN_appEmitter$ } from "~/keys";
 import type { IEventApp } from "~/types";
+import { TOKEN_appEmitter$ } from "~/keys";
 
 export default defineNuxtPlugin({
   name: "emitters",
