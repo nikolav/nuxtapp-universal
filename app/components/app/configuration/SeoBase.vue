@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const route = useRoute();
-const seoLocaleHead = useLocaleHead();
-const { t } = useI18n();
 const { $$ } = useNuxtApp();
+const { t } = useI18n();
+const seoLocaleHead = useLocaleHead();
 
 const title = computed(() =>
   t(String($$.get(route.meta, "context.title", "#TBD"))),
