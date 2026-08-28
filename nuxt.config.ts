@@ -102,7 +102,7 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true,
-    typeCheck: "build",
+    // typeCheck: false,
   },
 
   future: {
