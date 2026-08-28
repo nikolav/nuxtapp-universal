@@ -49,4 +49,6 @@ const { finalizePendingLocaleChange } = useI18n();
 <!-- css modules, per-class hashing -->
 <style module></style>
 <!-- global styles, rare, prefer styles.scss -->
-<style lang="scss"></style>
+<style lang="scss">
+@use "~/assets/styles/app-globals";
+</style>
