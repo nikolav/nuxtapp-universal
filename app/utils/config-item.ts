@@ -10,8 +10,8 @@ export const configItem = <T = unknown>(path: string, DEFAULT?: T) => {
       i = 0,
       len = configs.length;
     i < len && !isPresent(value);
-    value = <TOrNoValue<T>>get(configs[i++]!(), path, DEFAULT)
+    value = <TOrNoValue<T>>get(configs[i++]!(), path)
   );
 
-  return value;
+  return value ?? DEFAULT;
 };

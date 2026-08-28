@@ -5,10 +5,10 @@ const { t } = useI18n();
 const seoLocaleHead = useLocaleHead();
 
 const title = computed(() =>
-  t(String($$.get(route.meta, "context.title", "#TBD"))),
+  t(`${$$.get(route.meta, "context.title", "@@TBD")}`),
 );
 const description = computed(() =>
-  t(String($$.get(route.meta, "context.description", "#TBD"))),
+  t(`${$$.get(route.meta, "context.description", "@@TBD")}`),
 );
 
 useHead(() => ({
