@@ -1,35 +1,35 @@
 import type { ThemeDefinition } from "vuetify";
-import { BW_COLORS_LIGHT, TEXT_BW_LIGHT } from "./colors";
+import { COLORS_LIGHT, TEXT_LIGHT } from "./colors";
 
 export const light: ThemeDefinition = {
   dark: false,
   colors: {
     // ===== SURFACE =====
-    background: BW_COLORS_LIGHT.background,
-    surface: BW_COLORS_LIGHT.surface,
-    "surface-bright": BW_COLORS_LIGHT["surface-bright"],
-    "surface-light": BW_COLORS_LIGHT["surface-light"],
-    "surface-variant": BW_COLORS_LIGHT["surface-variant"],
+    background: COLORS_LIGHT.background,
+    surface: COLORS_LIGHT.surface,
+    "surface-bright": COLORS_LIGHT["surface-bright"],
+    "surface-light": COLORS_LIGHT["surface-light"],
+    "surface-variant": COLORS_LIGHT["surface-variant"],
 
     // ===== ACCENT =====
-    primary: BW_COLORS_LIGHT.primary,
-    "primary-variant": BW_COLORS_LIGHT["primary-variant"],
-    accent: BW_COLORS_LIGHT.accent,
-    ui: BW_COLORS_LIGHT.ui,
-    secondary: BW_COLORS_LIGHT.secondary,
+    primary: COLORS_LIGHT.primary,
+    "primary-variant": COLORS_LIGHT["primary-variant"],
+    accent: COLORS_LIGHT.accent,
+    ui: COLORS_LIGHT.ui,
+    secondary: COLORS_LIGHT.secondary,
 
     // ===== STATUS =====
-    success: BW_COLORS_LIGHT.success,
-    warning: BW_COLORS_LIGHT.warning,
-    error: BW_COLORS_LIGHT.error,
-    info: BW_COLORS_LIGHT.info,
+    success: COLORS_LIGHT.success,
+    warning: COLORS_LIGHT.warning,
+    error: COLORS_LIGHT.error,
+    info: COLORS_LIGHT.info,
 
     // ===== ON COLORS =====
-    "on-background": TEXT_BW_LIGHT["on-background"],
-    "on-surface": TEXT_BW_LIGHT["on-surface"],
-    "on-surface-bright": TEXT_BW_LIGHT.primary,
-    "on-surface-light": TEXT_BW_LIGHT.primary,
-    "on-surface-variant": TEXT_BW_LIGHT.secondary,
+    "on-background": TEXT_LIGHT["on-background"],
+    "on-surface": TEXT_LIGHT["on-surface"],
+    "on-surface-bright": TEXT_LIGHT.primary,
+    "on-surface-light": TEXT_LIGHT.primary,
+    "on-surface-variant": TEXT_LIGHT.secondary,
 
     "on-primary": "#FFFFFF",
     "on-primary-variant": "#FFFFFF",

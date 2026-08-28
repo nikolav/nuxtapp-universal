@@ -7,7 +7,7 @@ const { finalizePendingLocaleChange } = useI18n();
 </script>
 
 <template>
-  <VApp class="*app-container-reset app--root">
+  <VApp class="app--root">
     <template v-if="analyticsEnabled">
       <noscript
         ><iframe
@@ -32,7 +32,7 @@ const { finalizePendingLocaleChange } = useI18n();
     <AppConfigurationTheme />
 
     <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
-    <NuxtLoadingIndicator />
+    <NuxtLoadingIndicator color="rgb(var(--v-theme-primary))" />
 
     <!-- redirect on auth-change -->
     <AppConfigurationOnAuthChange />

@@ -1,6 +1,6 @@
 // ===== BLACK & WHITE THEME COLORS =====
 // Light mode - High contrast black and white
-export const BW_COLORS_LIGHT = {
+export const COLORS_LIGHT = {
   // Core colors
   primary: "#000000",
   "primary-variant": "#1A1A1A",
@@ -27,7 +27,7 @@ export const BW_COLORS_LIGHT = {
 };
 
 // Dark mode - High contrast black and white
-export const BW_COLORS_DARK = {
+export const COLORS_DARK = {
   // Core colors
   primary: "#FFFFFF",
   "primary-variant": "#E0E0E0",
@@ -54,7 +54,7 @@ export const BW_COLORS_DARK = {
 };
 
 // ===== TEXT COLORS - HIGH CONTRAST =====
-export const TEXT_BW_LIGHT = {
+export const TEXT_LIGHT = {
   primary: "#000000",
   secondary: "#1A1A1A",
   disabled: "#666666",
@@ -63,11 +63,16 @@ export const TEXT_BW_LIGHT = {
   "on-background": "#000000",
 };
 
-export const TEXT_BW_DARK = {
+export const TEXT_DARK = {
   primary: "#FFFFFF",
   secondary: "#E0E0E0",
   disabled: "#888888",
   hint: "#666666",
   "on-surface": "#FFFFFF",
   "on-background": "#FFFFFF",
+};
+
+export const PRIMARY = {
+  light: COLORS_LIGHT.primary,
+  dark: COLORS_DARK.primary,
 };

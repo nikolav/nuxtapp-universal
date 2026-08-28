@@ -1,35 +1,35 @@
 import type { ThemeDefinition } from "vuetify";
-import { BW_COLORS_DARK, TEXT_BW_DARK } from "./colors";
+import { COLORS_DARK, TEXT_DARK } from "./colors";
 
 export const dark: ThemeDefinition = {
   dark: true,
   colors: {
     // ===== SURFACE =====
-    background: BW_COLORS_DARK.background,
-    surface: BW_COLORS_DARK.surface,
-    "surface-bright": BW_COLORS_DARK["surface-bright"],
-    "surface-light": BW_COLORS_DARK["surface-light"],
-    "surface-variant": BW_COLORS_DARK["surface-variant"],
+    background: COLORS_DARK.background,
+    surface: COLORS_DARK.surface,
+    "surface-bright": COLORS_DARK["surface-bright"],
+    "surface-light": COLORS_DARK["surface-light"],
+    "surface-variant": COLORS_DARK["surface-variant"],
 
     // ===== ACCENT =====
-    primary: BW_COLORS_DARK.primary,
-    "primary-variant": BW_COLORS_DARK["primary-variant"],
-    accent: BW_COLORS_DARK.accent,
-    ui: BW_COLORS_DARK.ui,
-    secondary: BW_COLORS_DARK.secondary,
+    primary: COLORS_DARK.primary,
+    "primary-variant": COLORS_DARK["primary-variant"],
+    accent: COLORS_DARK.accent,
+    ui: COLORS_DARK.ui,
+    secondary: COLORS_DARK.secondary,
 
     // ===== STATUS =====
-    success: BW_COLORS_DARK.success,
-    warning: BW_COLORS_DARK.warning,
-    error: BW_COLORS_DARK.error,
-    info: BW_COLORS_DARK.info,
+    success: COLORS_DARK.success,
+    warning: COLORS_DARK.warning,
+    error: COLORS_DARK.error,
+    info: COLORS_DARK.info,
 
     // ===== ON COLORS =====
-    "on-background": TEXT_BW_DARK["on-background"],
-    "on-surface": TEXT_BW_DARK["on-surface"],
-    "on-surface-bright": TEXT_BW_DARK.primary,
-    "on-surface-light": TEXT_BW_DARK.primary,
-    "on-surface-variant": TEXT_BW_DARK.secondary,
+    "on-background": TEXT_DARK["on-background"],
+    "on-surface": TEXT_DARK["on-surface"],
+    "on-surface-bright": TEXT_DARK.primary,
+    "on-surface-light": TEXT_DARK.primary,
+    "on-surface-variant": TEXT_DARK.secondary,
 
     "on-primary": "#000000",
     "on-primary-variant": "#000000",

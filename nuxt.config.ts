@@ -63,22 +63,46 @@ const broadcastingEnabled = parseBoolean(
   process.env.NUXT_PUBLIC_BROADCASTING_ENABLED,
 );
 
+const DEBUG = parseBoolean(process.env.NUXT_DEBUG);
+
 /**
  * ============================================================================
  * NUXT CONFIG
  * ============================================================================
  */
 export default defineNuxtConfig({
+  // ============ ENVIRONMENT OVERRIDES ============
+  $production: {
+    sourcemap: { server: false, client: "hidden" },
+  },
+  $development: {
+    sourcemap: true,
+    devtools: { enabled: true },
+  },
+
+  // custom env
+  //  $ nuxt build --envName staging
+  $env: {
+    demo: {
+      runtimeConfig: {
+        FOO: "BAR --env-demo",
+      },
+    },
+  },
+
   // ---------------------------------------------------------------------------
   // 01) Core runtime behavior (SSR, compat, devtools, TS)
   // ---------------------------------------------------------------------------
   compatibilityDate: "2026-08-27",
   ssr: SSR,
+  // builder: 'vite', // (default)
 
   devtools: { enabled: !PRODUCTION },
+  debug: DEBUG,
 
   typescript: {
     strict: true,
+    typeCheck: "build",
   },
 
   future: {
@@ -164,6 +188,7 @@ export default defineNuxtConfig({
       appEnv: ENV,
       ssr: SSR,
       appId,
+      debug: DEBUG,
 
       // Site / API
       siteUrl,
@@ -288,7 +313,7 @@ export default defineNuxtConfig({
           ignore: ignoreRoutes,
 
           // prevents crawling /en, /about, etc.
-          crawlLinks: true,
+          // crawlLinks: true,
 
           // false : don't fail build if something 404s
           // true  : fail if any of '.routes' routes break
@@ -302,6 +327,7 @@ export default defineNuxtConfig({
       "/_nuxt/**": {
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
+      "/api/**": { cors: true, headers: { "Cache-Control": "no-cache" } },
     },
 
     // Optional Nitro storage adapter (Redis)
@@ -316,7 +342,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   experimental: {
     // 'client' - Payload inlined in HTML (default v4)
-    // true     - Extracted to _payload.json (CDN-cacheable)
+    // true     - Extracted to _payload.json (CDN-cacheable) (default)
     // false    - Always inlined (no external payload)
     payloadExtraction: "client",
 
