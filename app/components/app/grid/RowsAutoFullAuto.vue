@@ -9,23 +9,17 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div
-    class="component--AppGridRowsAutoFullAuto app-container-reset grid grid-cols-1 rows-auto-fill-auto"
+  <AppBoxBase
+    class="component--AppGridRowsAutoFullAuto grid grid-cols-1 grid-rows-[auto_1fr_auto]"
   >
-    <div class="app-container-reset" v-bind="props.propsTop">
+    <AppBoxBase v-bind="props.propsTop">
       <slot name="top" />
-    </div>
-    <div class="app-container-reset" v-bind="props.propsBody">
+    </AppBoxBase>
+    <AppBoxBase v-bind="props.propsBody">
       <slot />
-    </div>
-    <div class="app-container-reset" v-bind="props.propsBottom">
+    </AppBoxBase>
+    <AppBoxBase v-bind="props.propsBottom">
       <slot name="bottom" />
-    </div>
-  </div>
+    </AppBoxBase>
+  </AppBoxBase>
 </template>
-
-<style lang="scss" scoped>
-.rows-auto-fill-auto {
-  grid-template-rows: auto 1fr auto;
-}
-</style>

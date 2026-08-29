@@ -3,35 +3,8 @@
 </script>
 <template>
   <VMain class="layout--default">
-    <AppGridRowsFullAutoFull class="fill-height">
-      <template #top>
-        <slot />
-      </template>
-
-      <template #bottom>
-        <h2>chat:main</h2>
-      </template>
-
-      <!-- app:controlls :middle -->
-      <VToolbar
-        color="surface"
-        density="compact"
-        elevation="1"
-        tile
-        class="pe-1"
-        border="t surface-light"
-      >
-        <VToolbarItems>
-          <VBtn>1</VBtn>
-          <VBtn>2</VBtn>
-          <VBtn>3</VBtn>
-        </VToolbarItems>
-        <VSpacer />
-        <AppNavLine />
-      </VToolbar>
-    </AppGridRowsFullAutoFull>
+    <AppNavLine />
+    <hr />
+    <slot />
   </VMain>
 </template>
-<style lang="scss" scoped></style>
-<style module></style>
-<style lang="scss"></style>

@@ -8,9 +8,9 @@
 </script>
 
 <template>
-  <span class="app-container-reset component--AppNavLine inline-flex gap-2">
+  <AppBoxBaseInline class="component--AppNavLine !inline-flex gap-2">
     <NuxtLinkLocale :to="{ name: 'demo' }">demo</NuxtLinkLocale>
     <span> • </span>
     <NuxtLinkLocale :to="{ name: 'index' }">home</NuxtLinkLocale>
-  </span>
+  </AppBoxBaseInline>
 </template>
