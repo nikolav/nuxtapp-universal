@@ -116,6 +116,11 @@ export default defineNuxtConfig({
   // Route rules: for SSG
   // --------------------
   routeRules: {
+    "/": { redirect: `/${defaultLocale}` },
+
+    "/sr": { redirect: "/sr/dobrodosli" },
+    "/sr-cyrl": { redirect: "/sr/dobrodosli" },
+    "/en": { redirect: "/en/welcome" },
     // // If you have a blog that should be exported as HTML too:
     // "/blog/**": { prerender: true },
     // // Never prerender API paths (and they shouldn't exist in a static build anyway)
