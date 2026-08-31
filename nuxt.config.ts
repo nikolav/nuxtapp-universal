@@ -116,6 +116,12 @@ export default defineNuxtConfig({
   // Route rules: for SSG
   // --------------------
   routeRules: {
+    "/": { redirect: `/${defaultLocale}` },
+
+    "/sr": { redirect: "/sr/dobrodosli" },
+    "/sr-cyrl": { redirect: "/sr-cyrl/dobrodosli" },
+    "/en": { redirect: "/en/welcome" },
+
     // // If you have a blog that should be exported as HTML too:
     // "/blog/**": { prerender: true },
     // // Never prerender API paths (and they shouldn't exist in a static build anyway)
@@ -150,8 +156,8 @@ export default defineNuxtConfig({
       charset: "utf-8",
       viewport:
         "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
-      title: "nuxtapp | demo.nikolav.rs",
-      titleTemplate: "%s | demo.nikolav.rs",
+      title: "nuxtapp | petrol.nikolav.rs",
+      titleTemplate: "%s | petrol.nikolav.rs",
       meta: [
         { name: "description", content: "NuxtApp --starter" },
         { name: "theme-color", content: "#fafafa" },
