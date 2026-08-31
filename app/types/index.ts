@@ -133,6 +133,8 @@ export type TManageSubscriptionsCache = Record<
  * Re-exports (types/services)
  * ========================================================================== */
 
+export type { VueInstance as TVueInstance } from "@vueuse/core";
+
 // service type alias (value export -> aliased as a type)
 export { AuthService as TAuthService } from "~/services/auth/base";
 
