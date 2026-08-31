@@ -119,7 +119,7 @@ export default defineNuxtConfig({
     "/": { redirect: `/${defaultLocale}` },
 
     "/sr": { redirect: "/sr/dobrodosli" },
-    "/sr-cyrl": { redirect: "/sr/dobrodosli" },
+    "/sr-cyrl": { redirect: "/sr-cyrl/dobrodosli" },
     "/en": { redirect: "/en/welcome" },
     // // If you have a blog that should be exported as HTML too:
     // "/blog/**": { prerender: true },
