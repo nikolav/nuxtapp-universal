@@ -4,20 +4,20 @@ import { TOKEN_appEmitter$ } from "~/keys";
 
 const emitter$ = inject(TOKEN_appEmitter$);
 
-const { events: e } = useAppConfig();
+const e = useAppConfig().events;
 const { locale } = useI18n();
 const cmode = useColorMode();
 
 watchEffect(() => {
   emitter$?.next(<IEventApp<string>>{
-    type: <string>(<any>e).EVENT_LOCALE_CHANGE,
+    type: e.EVENT_LOCALE_CHANGE,
     payload: locale.value,
   });
 });
 
 watchEffect(() => {
   emitter$?.next(<IEventApp<string>>{
-    type: <string>(<any>e).EVENT_COLOR_MODE,
+    type: e.EVENT_COLOR_MODE,
     payload: cmode.value,
   });
 });
