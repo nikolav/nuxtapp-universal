@@ -7,9 +7,9 @@ const target = useTemplateRef<TOrNoValue<InstanceType<typeof TAppBoxBase>>>(
 );
 
 const el_ = useCurrentElement((<unknown>target) as TVueInstance);
-const s = useElementSize(el_);
+const elSize = useElementSize(el_);
 
-const exposed = { ...s };
+const exposed = { ...elSize };
 
 defineExpose(exposed);
 
@@ -21,6 +21,6 @@ defineExpose(exposed);
     class="component--AppProvidesElementSize"
     ref="target-945b03c3-ef77-56ae-9208-04ce7c28ca20"
   >
-    <slot v-bind="s" />
+    <slot v-bind="elSize" />
   </AppBoxBase>
 </template>
