@@ -481,16 +481,19 @@ export default defineNuxtConfig({
   // @nuxt/image
   image: {
     quality: 85,
+    format: ["avif", "webp", "jpg"],
+    densities: [1, 2],
     domains: [],
     screens: {
-      sm: 640,
-      md: 768,
-      lg: 1024,
-      xl: 1280,
-      "2xl": 1536,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+      "2xl": 2560,
     },
-    providers: {},
-    presets: {},
+    dir: "assets/media",
+    // providers: {},
+    // presets: {},
   },
 
   // @nuxtjs/tailwindcss
