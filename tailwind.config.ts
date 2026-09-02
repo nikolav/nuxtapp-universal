@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { default as pluginContainerQueries } from "@tailwindcss/container-queries";
 
 import { COLOR_PRIMARY as primary } from "./app/assets/themes/colors";
 import { darkRootClass } from "./app/config/vars.env.public";
@@ -96,6 +97,11 @@ export default {
         // Matches Vuetify default rounding better for utility wrappers/cards you add
         "v-card": "var(--v-border-radius, 16px)",
       },
+
+      // #https://github.com/tailwindlabs/tailwindcss-container-queries
+      containers: {
+        // custom contaniner sizes
+      },
     },
   },
 
@@ -121,6 +127,6 @@ export default {
    */
   plugins: [
     // require("@tailwindcss/typography"),
-    // require("@tailwindcss/container-queries"),
+    pluginContainerQueries,
   ],
 } satisfies Config;
