@@ -25,8 +25,8 @@ useSubscription(
   emitter$
     .pipe(filter((evt) => evt.type === $$.config("events.EVENT_COLOR_MODE")))
     .subscribe((evt) => {
-      $$.onDebug({ "@color-mode": evt });
       theme.change(`${evt.payload ?? ""}`);
+      $$.onDebug({ "@color-mode": evt });
     }),
 );
 
@@ -36,15 +36,14 @@ onNuxtReady(() => {
   theme.change(themeStored.value);
 });
 
-useHead({
-  htmlAttrs: {
-    class: { [$$.config<string>("theme.darkRootClass ")!]: themeIsDark },
-  },
-});
-
 // @@eos
 </script>
 
 <template>
+  <Html
+    :class="{
+      [`${$$.config('theme.darkRootClass')}`]: themeIsDark,
+    }"
+  />
   <slot />
 </template>
