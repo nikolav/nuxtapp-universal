@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useTheme } from "vuetify";
+
 definePageMeta({
   layout: "default",
   i18n: {
@@ -14,11 +16,14 @@ definePageMeta({
   },
 });
 
+const theme = useTheme();
+
 // @@eos
 </script>
 
 <template>
   <AppBoxPageWrap class="page--index">
     <h2>page:home</h2>
+    <p>{{ theme.global.name.value }}</p>
   </AppBoxPageWrap>
 </template>
