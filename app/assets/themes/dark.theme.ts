@@ -15,8 +15,8 @@ export const dark: ThemeDefinition = {
     primary: COLORS_DARK.primary,
     "primary-variant": COLORS_DARK["primary-variant"],
     accent: COLORS_DARK.accent,
-    ui: COLORS_DARK.ui,
     secondary: COLORS_DARK.secondary,
+    ui: COLORS_DARK.ui,
 
     // ===== STATUS =====
     success: COLORS_DARK.success,
@@ -34,8 +34,8 @@ export const dark: ThemeDefinition = {
     "on-primary": "#000000",
     "on-primary-variant": "#000000",
     "on-accent": "#FFFFFF",
-    "on-ui": "#000000",
     "on-secondary": "#000000",
+    "on-ui": "#000000",
 
     "on-success": "#000000",
     "on-warning": "#000000",
