@@ -1,10 +1,10 @@
 import { useSubscription } from "@vueuse/rxjs";
 
-import type { TDirective } from "~/types";
 import { onDebug } from "~/utils/on-debug";
+import { defineVueDirective } from "~/lib/define-vue-directive";
 import { useDom } from "~/composables/dom/use-dom";
 
-export const vDemo = <TDirective>{
+export const vDemo = defineVueDirective({
   mounted: (el, binding) => {
     useSubscription(
       useDom(el).subscribe(($coll) => {
@@ -22,4 +22,4 @@ export const vDemo = <TDirective>{
       }),
     );
   },
-};
+});
