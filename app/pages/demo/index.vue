@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <AppBoxPageWrap class="page--demo max-h-full overflow-y-auto">
+  <AppBoxPageWrap class="page--demo">
     <h2>page:demo</h2>
   </AppBoxPageWrap>
 </template>
