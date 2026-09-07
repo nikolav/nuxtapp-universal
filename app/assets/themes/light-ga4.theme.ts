@@ -60,11 +60,5 @@ export const light: ThemeDefinition = {
     "theme-on-kbd": "#1A1D23",
     "theme-code": "#F5F6F8",
     "theme-on-code": "#1A1D23",
-
-    // Elevation - More prominent shadows
-    "elevation-1": "0 1px 3px rgba(0,0,0,0.10)",
-    "elevation-2": "0 2px 6px rgba(0,0,0,0.12)",
-    "elevation-3": "0 4px 12px rgba(0,0,0,0.15)",
-    "elevation-4": "0 8px 24px rgba(0,0,0,0.18)",
   },
 };

@@ -1,6 +1,8 @@
 {
   "clientBundle": [
     "local:logo-nikolav",
+    "mdi:home",
+    "mdi:file-outline",
     "mdi:folder",
     "mdi:eye",
     "mdi:eye-off",
