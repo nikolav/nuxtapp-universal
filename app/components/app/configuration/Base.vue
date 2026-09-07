@@ -31,5 +31,12 @@ useHead({
 </script>
 
 <template>
+  <Html
+    :class="{
+      'DEBUG--box-outline': false,
+      'DEBUG--box-bg': false,
+    }"
+  />
+
   <slot />
 </template>
