@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useTheme } from "vuetify";
-
 definePageMeta({
   layout: "default",
   i18n: {
