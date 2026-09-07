@@ -19,7 +19,7 @@ definePageMeta({
 
 <template>
   <AppBoxPageWrap class="page--index">
-    <VAlert type="success" tile variant="flat" color="primary" prominent>
+    <VAlert tile variant="flat" color="primary" prominent>
       <template #prepend>
         <IconX icon="mdi:home" size="1.5rem" />
       </template>
