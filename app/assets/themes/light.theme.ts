@@ -15,8 +15,8 @@ export const light: ThemeDefinition = {
     primary: COLORS_LIGHT.primary,
     "primary-variant": COLORS_LIGHT["primary-variant"],
     accent: COLORS_LIGHT.accent,
-    ui: COLORS_LIGHT.ui,
     secondary: COLORS_LIGHT.secondary,
+    ui: COLORS_LIGHT.ui,
 
     // ===== STATUS =====
     success: COLORS_LIGHT.success,
@@ -34,8 +34,8 @@ export const light: ThemeDefinition = {
     "on-primary": "#FFFFFF",
     "on-primary-variant": "#FFFFFF",
     "on-accent": "#000000",
-    "on-ui": "#FFFFFF",
     "on-secondary": "#FFFFFF",
+    "on-ui": "#FFFFFF",
 
     "on-success": "#FFFFFF",
     "on-warning": "#FFFFFF",
