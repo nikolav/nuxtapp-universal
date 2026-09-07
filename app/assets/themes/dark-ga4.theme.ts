@@ -1,5 +1,5 @@
 import type { ThemeDefinition } from "vuetify";
-import { COLORS_DARK, TEXT_DARK } from "./colors";
+import { COLORS_DARK, TEXT_DARK } from "./colors-ga4";
 
 export const dark: ThemeDefinition = {
   dark: true,
