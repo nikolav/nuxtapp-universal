@@ -19,6 +19,6 @@ definePageMeta({
 
 <template>
   <AppBoxPageWrap class="page--index">
-    <h2>page:home</h2>
+    <h2>page:demo</h2>
   </AppBoxPageWrap>
 </template>
