@@ -58,11 +58,17 @@ export default {
             "rgb(var(--v-theme-primary-variant), <alpha-value>)",
           "on-primary-variant":
             "rgb(var(--v-theme-on-primary-variant), <alpha-value>)",
+          ui: "rgb(var(--v-theme-ui), <alpha-value>)",
+          "on-ui": "rgb(var(--v-theme-on-ui), <alpha-value>)",
 
           success: "rgb(var(--v-theme-success), <alpha-value>)",
+          "on-success": "rgb(var(--v-theme-on-success), <alpha-value>)",
           warning: "rgb(var(--v-theme-warning), <alpha-value>)",
+          "on-warning": "rgb(var(--v-theme-on-warning), <alpha-value>)",
           error: "rgb(var(--v-theme-error), <alpha-value>)",
+          "on-error": "rgb(var(--v-theme-on-error), <alpha-value>)",
           info: "rgb(var(--v-theme-info), <alpha-value>)",
+          "on-info": "rgb(var(--v-theme-on-info), <alpha-value>)",
 
           background: "rgb(var(--v-theme-background), <alpha-value>)",
           surface: "rgb(var(--v-theme-surface), <alpha-value>)",
