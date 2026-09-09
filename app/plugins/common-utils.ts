@@ -37,6 +37,7 @@ import { StatusResult } from "~/utils/status-result";
 import { parseShell } from "~/utils/parse-shell";
 import { configItem } from "~/utils/config-item";
 import { normalizedIndex } from "~/utils/normalized-index";
+import { isPresent } from "~/utils/is-present";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -72,6 +73,7 @@ export default defineNuxtPlugin({
           unset,
           values,
           // local
+          isPresent,
           normalizedIndex,
           config: configItem,
           parseShell,

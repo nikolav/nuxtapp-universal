@@ -4,6 +4,11 @@
 
 <template>
   <AppBoxPageWrap class="page--demo">
-    <h2>page:demo</h2>
+    <VAlert tile variant="flat" color="primary-variant" prominent>
+      <template #prepend>
+        <IconX icon="mdi:file-outline" size="1.5rem" />
+      </template>
+      page:demo
+    </VAlert>
   </AppBoxPageWrap>
 </template>
