@@ -1,8 +1,8 @@
-import vitePluginVuetify from "vite-plugin-vuetify";
-import { transformAssetUrls } from "vite-plugin-vuetify";
-// import { z } from "zod";
+import {
+  default as vitePluginVuetify,
+  transformAssetUrls,
+} from "vite-plugin-vuetify";
 import trimEnd from "lodash/trimEnd";
-
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import {
@@ -100,7 +100,7 @@ export default defineNuxtConfig({
   //   // ...
   // },
   routeRules: {
-    // "/": { redirect: "/sr" },
+    "/": { redirect: `/${defaultLocale}` },
 
     "/sr": { redirect: "/sr/dobrodosli" },
     "/sr-cyrl": { redirect: "/sr-cyrl/dobrodosli" },
@@ -308,7 +308,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: "static",
     compressPublicAssets: true,
-    minify: true,
+    // minify: true,
 
     // Pre-render only what you truly want baked at build-time
     prerender: PRODUCTION
@@ -339,7 +339,7 @@ export default defineNuxtConfig({
     storage: {},
     devStorage: {},
 
-    logLevel: PRODUCTION ? "warn" : "info",
+    // logLevel: PRODUCTION ? "warn" : "info",
   },
 
   // ---------------------------------------------------------------------------
@@ -467,17 +467,20 @@ export default defineNuxtConfig({
 
   // @nuxt/image
   image: {
-    quality: 81,
+    quality: 85,
+    // format: ["avif", "webp", "jpg"],
+    // densities: [1, 2],
     domains: [],
     screens: {
-      sm: 640,
-      md: 768,
-      lg: 1024,
-      xl: 1280,
-      "2xl": 1536,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+      "2xl": 2560,
     },
-    providers: {},
-    presets: {},
+    dir: "assets/media",
+    // providers: {},
+    // presets: {},
   },
 
   // @nuxtjs/tailwindcss
@@ -528,9 +531,9 @@ export default defineNuxtConfig({
     // serverBundle: 'auto',
     // provider: "none",
     componentName: "NuxtIcon",
-    size: "1.22rem",
-    class: "icon inline-block align-middle",
-    cssLayer: "base",
+    // size: "1em",
+    // class: "icon inline-block align-middle",
+    // cssLayer: "base",
 
     customCollections: [
       {

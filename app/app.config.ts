@@ -90,7 +90,7 @@ export default defineAppConfig({
 
   icon: {
     size: "1em", // default <Icon> size applied
-    // class: "icon", // default <Icon> class applied
+    // class: "icon inline-block align-middle", // default <Icon> class applied
     // mode: "css", // default <Icon> mode applied
     // cssLayer: "base", // set the css layer to inject to
     aliases: {},
