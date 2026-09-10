@@ -88,6 +88,6 @@ export const useObjectMetadata = <T = unknown>(
       success: ps.success,
     },
     object,
-    metadata,
+    metadata: readonly(metadata),
   };
 };
