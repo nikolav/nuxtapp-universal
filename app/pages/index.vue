@@ -25,8 +25,5 @@ definePageMeta({
       </template>
       page:home
     </VAlert>
-    <VFab icon>
-      <IconX icon="$complete" />
-    </VFab>
   </AppBoxPageWrap>
 </template>
