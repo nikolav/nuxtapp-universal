@@ -18,5 +18,7 @@ export const useAllPass = <T = unknown>(
     options,
   );
 
+  tryOnScopeDispose(cancel);
+
   return { cancel };
 };
