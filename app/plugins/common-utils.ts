@@ -21,6 +21,7 @@ import trim from "lodash/trim";
 import trimEnd from "lodash/trimEnd";
 import unset from "lodash/unset";
 import values from "lodash/values";
+import identity from "lodash/identity";
 
 import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
@@ -49,6 +50,7 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
+          identity,
           each,
           every,
           first,
