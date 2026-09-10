@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "default",
+  layout: "debug",
   i18n: {
     paths: {
       sr: "/dobrodosli",
