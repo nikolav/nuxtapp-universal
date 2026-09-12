@@ -1,8 +1,8 @@
-import vitePluginVuetify from "vite-plugin-vuetify";
-import { transformAssetUrls } from "vite-plugin-vuetify";
-// import { z } from "zod";
+import {
+  default as vitePluginVuetify,
+  transformAssetUrls,
+} from "vite-plugin-vuetify";
 import trimEnd from "lodash/trimEnd";
-
 import parseBoolean from "@eturino/ts-parse-boolean";
 
 import {
@@ -13,10 +13,8 @@ import {
 
 // schemas:config
 // const schemaCacheConnection = z.enum(["memory", "redis"] as const);
-import ROUTES from "./app/assets/routes.json";
 import ICONS from "./app/assets/icons-client.json";
 
-const { prerender: prerenderRoutes, ignore: ignoreRoutes } = ROUTES;
 const { clientBundle: iconsClientBundle } = ICONS;
 
 /**
@@ -38,7 +36,7 @@ const ENV = [
   ? "development"
   : "production";
 
-const SSR = true;
+const SSR = false;
 
 export const defaultLocale = process.env.NUXT_DEFAULT_LOCALE ?? "sr";
 
@@ -74,9 +72,9 @@ export default defineNuxtConfig({
 
   devtools: { enabled: !PRODUCTION },
 
-  typescript: {
-    strict: true,
-  },
+  // typescript: {
+  //   strict: true,
+  // },
 
   future: {
     // Nuxt 4 compatibility mode / forward-leaning defaults
@@ -308,12 +306,12 @@ export default defineNuxtConfig({
   nitro: {
     preset: "static",
     compressPublicAssets: true,
-    minify: true,
+    // minify: true,
 
     // Pre-render only what you truly want baked at build-time
     prerender: PRODUCTION
       ? {
-          routes: [...prerenderRoutes],
+          routes: [],
 
           // prevents crawling /en, /about, etc.
           crawlLinks: true,
@@ -333,7 +331,7 @@ export default defineNuxtConfig({
     },
 
     // skip dynamic api endpoints or irrelevant pages
-    ignore: ignoreRoutes,
+    // ignore: ignoreRoutes,
 
     // Optional Nitro storage adapter (Redis)
     storage: {},
@@ -361,7 +359,8 @@ export default defineNuxtConfig({
   hooks: {
     // add dynamic routes
     "prerender:routes": async ({ routes }) => {
-      // routes.add..
+      // Clear all routes from prerendering to generate only SPA fallbacks
+      routes.clear();
     },
 
     // override vuetify globals

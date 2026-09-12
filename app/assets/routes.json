@@ -1,18 +1,4 @@
 {
-  "prerender": [
-    "/",
-
-    "/sr",
-    "/sr-cyrl",
-    "/en",
-
-    "/sr/dobrodosli",
-    "/sr-cyrl/dobrodosli",
-    "/en/welcome",
-
-    "/sr/o-nama",
-    "/sr-cyrl/o-nama",
-    "/en/about-us"
-  ],
+  "prerender": [],
   "ignore": []
 }
