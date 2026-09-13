@@ -1,6 +1,7 @@
 {
   "clientBundle": [
     "local:logo-nikolav",
+    "local:info-symbol",
     "mdi:home",
     "mdi:file-outline",
     "mdi:folder",

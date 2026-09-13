@@ -481,9 +481,9 @@ export default defineNuxtConfig({
 
   // @nuxt/image
   image: {
-    quality: 85,
-    format: ["avif", "webp", "jpg"],
-    densities: [1, 2],
+    quality: 100,
+    // format: ["avif", "webp", "jpg"],
+    // densities: [1, 2],
     domains: [],
     screens: {
       sm: 600,
