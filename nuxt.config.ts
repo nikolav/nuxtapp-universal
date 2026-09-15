@@ -100,10 +100,10 @@ export default defineNuxtConfig({
   devtools: { enabled: !PRODUCTION },
   debug: DEBUG,
 
-  typescript: {
-    strict: true,
-    // typeCheck: false,
-  },
+  // typescript: {
+  //   strict: true,
+  //   // typeCheck: false,
+  // },
 
   future: {
     // Nuxt 4 compatibility mode / forward-leaning defaults

@@ -6,9 +6,9 @@ import { useAuth } from "~/stores/use-auth.store";
 //   inheritAttrs: false,
 // });
 
-const auth = useAuth();
-const localePath = useLocalePath();
 const { $$ } = useNuxtApp();
+const localePath = useLocalePath();
+const auth = useAuth();
 
 watch(
   () => auth.isAuth,
@@ -21,7 +21,6 @@ watch(
             name: $$.config("services.auth.DEFAULT_AUTHENTICATED_ROUTE_NAME"),
           }),
         );
-        break;
 
       case !isAuth && true === old_isAuth:
         // @logout

@@ -16,7 +16,6 @@ definePageMeta({
     description: "pages.auth.description",
   },
 });
-
 // @@eos
 </script>
 
