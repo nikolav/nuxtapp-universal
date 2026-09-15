@@ -18,13 +18,12 @@ useOnceMounted([], () => {
   });
 });
 
-const rtConfig = useRuntimeConfig();
+const config = useRuntimeConfig();
 const appDomain = computed(
-  () => new URL(`${$$.get(rtConfig, "public.siteUrl", "")}`).hostname,
+  () => new URL(`${$$.get(config, "public.siteUrl", "")}`).hostname,
 );
 useHead({
-  titleTemplate: (title) =>
-    `${title ?? "NUXT-APP"} • ${appDomain.value ?? "APP"}`,
+  titleTemplate: (title) => `${title ?? "APP"} • ${appDomain.value ?? "NUXT"}`,
 });
 
 // @@eos
