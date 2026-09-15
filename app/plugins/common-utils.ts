@@ -3,6 +3,7 @@ import every from "lodash/every";
 import first from "lodash/first";
 import get from "lodash/get";
 import hasPath from "lodash/has";
+import identity from "lodash/identity";
 import isEmpty from "lodash/isEmpty";
 import isFunction from "lodash/isFunction";
 import isString from "lodash/isString";
@@ -21,24 +22,23 @@ import trim from "lodash/trim";
 import trimEnd from "lodash/trimEnd";
 import unset from "lodash/unset";
 import values from "lodash/values";
-import identity from "lodash/identity";
 
 import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
 import { nanoid } from "nanoid";
 
-import { onDebug } from "~/utils/on-debug";
-import { hasOwn } from "~/utils/core-has-own";
-import { to$ } from "~/utils/to-obs";
-import { resolved } from "~/utils/resolved";
-import { error$$ } from "~/utils/error-obs";
-import { value$$ } from "~/utils/to-value-obs";
-import { deepmerge } from "~/utils/deepmerge";
-import { StatusResult } from "~/utils/status-result";
-import { parseShell } from "~/utils/parse-shell";
 import { configItem } from "~/utils/config-item";
-import { normalizedIndex } from "~/utils/normalized-index";
+import { deepmerge } from "~/utils/deepmerge";
+import { error$$ } from "~/utils/error-obs";
+import { hasOwn } from "~/utils/core-has-own";
 import { isPresent } from "~/utils/is-present";
+import { normalizedIndex } from "~/utils/normalized-index";
+import { onDebug } from "~/utils/on-debug";
+import { parseShell } from "~/utils/parse-shell";
+import { resolved } from "~/utils/resolved";
+import { single$ } from "~/utils/to-value-obs";
+import { StatusResult } from "~/utils/status-result";
+import { to$ } from "~/utils/to-obs";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -50,12 +50,12 @@ export default defineNuxtPlugin({
         //   foo => $foo
         $: {
           // lodash
-          identity,
           each,
           every,
           first,
           get,
           hasPath,
+          identity,
           isEmpty,
           isFunction,
           isString,
@@ -81,7 +81,7 @@ export default defineNuxtPlugin({
           parseShell,
           res: StatusResult.init.bind(StatusResult),
           deepmerge,
-          value$$,
+          single$,
           error$$,
           to$,
           resolved,

@@ -4,6 +4,10 @@
     "hello": "Hello"
   },
   "pages": {
+    "auth": {
+      "title": "page:auth",
+      "description": "page:auth:description"
+    },
     "index": {
       "title": "page:welcome",
       "description": "page:welcome:description"

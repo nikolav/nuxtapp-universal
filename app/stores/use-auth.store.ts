@@ -1,14 +1,13 @@
-import { onScopeDispose } from "vue";
 import { tap } from "rxjs/operators";
 
+import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
 import { isPresent } from "~/utils/is-present";
-import { usePopupOAuth } from "~/composables/auth/use-popup-oauth";
-import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 import { schemaAuthDriver, schemaAuthToken } from "~/schemas";
 import { AuthFirebaseService } from "~/services/auth/auth-firebase.service";
 import { AuthApiService } from "~/services/auth/auth-api.service";
 import { AuthMemoryService } from "~/services/auth/auth-memory.service";
-import type { ICredentials, IUser, TAuthService, TOrNoValue } from "~/types";
+import { usePopupOAuth } from "~/composables/auth/use-popup-oauth";
+import { useProcessMonitor } from "~/composables/utils/use-process-monitor";
 
 export const useAuth = defineStore("store-auth", () => {
   const { $$ } = useNuxtApp();
@@ -112,7 +111,7 @@ export const useAuth = defineStore("store-auth", () => {
     authService.destroy();
   };
 
-  onScopeDispose(destroy);
+  tryOnScopeDispose(destroy);
 
   return {
     status: ps,

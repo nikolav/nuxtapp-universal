@@ -4,9 +4,13 @@
     "hello": "Zdravo"
   },
   "pages": {
+    "auth": {
+      "title": "strana:prijava",
+      "description": "strana:prijava:opis"
+    },
     "index": {
-      "title": "strana dobrodosli",
-      "description": "strana dobrodosli --opis"
+      "title": "strana:dobrodosli",
+      "description": "strana:dobrodosli:opis"
     }
   }
 }
