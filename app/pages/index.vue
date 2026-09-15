@@ -18,9 +18,7 @@ definePageMeta({
 </script>
 
 <template>
-  <AppBoxPageWrap class="page--index fill-height">
-    <AppBoxFlex center class="fill-height">
-      <strong class="text-xl">🚧</strong>
-    </AppBoxFlex>
+  <AppBoxPageWrap class="page--index">
+    <h2>page:index</h2>
   </AppBoxPageWrap>
 </template>
