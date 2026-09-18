@@ -1,5 +1,19 @@
 ### https://petrol.nikolav.rs
 
+GET http://localhost:3000/healthz
+
+###
+
 GET http://localhost:3000/api/status
+
+###
+
+POST http://localhost:3000/graphql
+Accept: application/json
+Content-Type: application/json
+
+{
+  "query": "{ status }"
+}
 
 ###
