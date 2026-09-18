@@ -3,7 +3,7 @@ import type { TJson, TOrNoValue } from "#server/types";
 import { isPresent } from "#server/utils/is-present";
 
 export class RouteResult<TData extends TJson = TJson, TError = any> {
-  static transformDump = z.transform((res: RouteResult) => ({
+  static schemaTransformDump = z.transform((res: RouteResult) => ({
     error: isPresent(res.error) ? `${res.error}` : null,
     result: res.data,
   }));
@@ -14,6 +14,6 @@ export class RouteResult<TData extends TJson = TJson, TError = any> {
   ) {}
 
   dump() {
-    return RouteResult.transformDump.parse(this);
+    return RouteResult.schemaTransformDump.parse(this);
   }
 }
