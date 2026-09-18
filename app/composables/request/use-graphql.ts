@@ -1,9 +1,7 @@
 import { request } from "graphql-request";
 import type { TGQLOptions } from "~/types";
 
-export const useAsyncGraphqlData = <TData = unknown>(
-  options: TGQLOptions<TData>,
-) => {
+export const useGraphql = <TData = unknown>(options: TGQLOptions<TData>) => {
   const { $$ } = useNuxtApp();
   const { apiBase, graphqlEndpoint } = useRuntimeConfig().public;
   const url = `${apiBase}/${$$.trim(graphqlEndpoint, "/")}`;
