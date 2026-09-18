@@ -1,3 +1,5 @@
+import { RouteResult } from "#server/utils/route-result";
+
 export const Mutation = {
-  demo: () => ({ result: "mutation demo ok" }),
+  demo: () => new RouteResult("mutation demo ok").dump(),
 };
