@@ -2,7 +2,7 @@ export const typeDefs = /* Graphql */ `
   scalar JsonData
 
   type Query {
-    status: JsonData!
+    status(x: String): JsonData!
   }
 
   type Mutation {
