@@ -8,17 +8,17 @@ definePageMeta({
 
 const { $$ } = useNuxtApp();
 
-const x_ = shallowRef<string>("FOO");
+const x = shallowRef<string>("FOO");
 
 const dd = useGraphql({
   key: "dd:Q_status",
   document: Q_status,
-  variables: { x: x_ },
+  variables: { x },
   transform: (d) => $$.get(d, "status.result"),
 });
 
 const updates = () => {
-  x_.value = `FOO:${Math.random()}`;
+  x.value = `FOO:${Math.random()}`;
 };
 
 // @@eos
