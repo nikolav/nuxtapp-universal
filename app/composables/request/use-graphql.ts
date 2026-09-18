@@ -34,7 +34,7 @@ export const useGraphql = <TData = unknown>(
       server: true,
       lazy: true,
       ...(<any>options),
-      watch: [variables],
+      watch: [...(options.watch ?? []), variables],
     },
   );
 };
