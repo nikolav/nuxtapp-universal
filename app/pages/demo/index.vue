@@ -8,12 +8,18 @@ definePageMeta({
 
 const { $$ } = useNuxtApp();
 
+const x_ = shallowRef<string>("FOO");
+
 const dd = useGraphql({
   key: "dd:Q_status",
   document: Q_status,
-  variables: { x: "FOO:2" },
+  variables: { x: x_ },
   transform: (d) => $$.get(d, "status.result"),
 });
+
+const updates = () => {
+  x_.value = `FOO:${Math.random()}`;
+};
 
 // @@eos
 </script>
@@ -26,6 +32,7 @@ const dd = useGraphql({
       </template>
       page:demo
     </VAlert>
+    <VBtn @click="updates">updates</VBtn>
     <AppBoxBase>
       <small>
         <pre>{{ dd.data.value }}</pre>
