@@ -1,0 +1,19 @@
+import { z } from "zod";
+import type { TJson, TOrNoValue } from "#server/types";
+import { isPresent } from "#server/utils/is-present";
+
+export class RouteResult<TData extends TJson = TJson, TError = any> {
+  static transformDump = z.transform((res: RouteResult) => ({
+    error: isPresent(res.error) ? `${res.error}` : null,
+    result: res.data,
+  }));
+
+  constructor(
+    public data: TData,
+    public error: TOrNoValue<TError> = null,
+  ) {}
+
+  dump() {
+    return RouteResult.transformDump.parse(this);
+  }
+}

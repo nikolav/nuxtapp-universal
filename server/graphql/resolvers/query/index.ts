@@ -1,3 +1,5 @@
+import { RouteResult } from "~~/server/utils/route-result";
+
 export const Query = {
-  status: () => ({ result: "ok" }),
+  status: () => new RouteResult("ok").dump(),
 };
