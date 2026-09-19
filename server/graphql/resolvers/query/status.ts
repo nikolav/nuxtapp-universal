@@ -1,4 +1,4 @@
-import get from "lodash/get";
+import get from "lodash/get.js";
 import { RouteResult } from "#server/utils/route-result";
 
 export const status = (_: unknown, args: unknown) => {
