@@ -1,3 +1,5 @@
+import { $$ } from "#server/utils";
+
 export const Query = {
-  status: () => ({ result: "ok" }),
+  status: () => $$.res({ status: "ok" }),
 };
