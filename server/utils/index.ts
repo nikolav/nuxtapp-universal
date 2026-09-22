@@ -5,6 +5,7 @@ import type { TOrNoValue } from "#server/types";
 
 import { isPresent } from "#server/utils/is-present/is-present";
 import { RouteResult } from "#server/utils/route-result/route-result";
+import { cloned } from "#server/utils/cloned/cloned";
 
 export const $$ = {
   // 3rd party; lodash,
@@ -13,6 +14,7 @@ export const $$ = {
 
   // utils
   isPresent,
+  cloned,
 
   // lib
   RouteResult,
