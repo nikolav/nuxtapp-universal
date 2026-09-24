@@ -9,7 +9,7 @@ export const useAllPass = <T = unknown>(
 ) => {
   const { $$ } = useNuxtApp();
 
-  const cancel = watch(
+  const destroy = watch(
     () => deps.map(toValue),
     async (values) => {
       if (!values.every(test)) return;
@@ -18,7 +18,7 @@ export const useAllPass = <T = unknown>(
     options,
   );
 
-  tryOnScopeDispose(cancel);
+  tryOnScopeDispose(destroy);
 
-  return { cancel };
+  return { destroy };
 };
