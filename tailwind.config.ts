@@ -1,7 +1,8 @@
 import type { Config } from "tailwindcss";
+import tailwindcssPlugin from "tailwindcss/plugin";
 import { default as pluginContainerQueries } from "@tailwindcss/container-queries";
+import { default as reduce } from "lodash/reduce";
 
-import { COLOR_PRIMARY as primary } from "./app/assets/themes/colors";
 import { darkRootClass } from "./app/config/vars.env.public";
 
 export default {
@@ -45,16 +46,23 @@ export default {
       colors: {
         current: "currentColor",
         transparent: "transparent",
-        primary,
+
         // handy when mixing with Vuetify CSS vars in utilities:
         // text-v-primary
         // e.g. text-[rgb(var(--v-theme-on-surface))]
         v: {
           primary: "rgb(var(--v-theme-primary), <alpha-value>)",
           "on-primary": "rgb(var(--v-theme-on-primary), <alpha-value>)",
-
           secondary: "rgb(var(--v-theme-secondary), <alpha-value>)",
           "on-secondary": "rgb(var(--v-theme-on-secondary), <alpha-value>)",
+          accent: "rgb(var(--v-theme-accent), <alpha-value>)",
+          "on-accent": "rgb(var(--v-theme-on-accent), <alpha-value>)",
+          "primary-variant":
+            "rgb(var(--v-theme-primary-variant), <alpha-value>)",
+          "on-primary-variant":
+            "rgb(var(--v-theme-on-primary-variant), <alpha-value>)",
+          ui: "rgb(var(--v-theme-ui), <alpha-value>)",
+          "on-ui": "rgb(var(--v-theme-on-ui), <alpha-value>)",
 
           success: "rgb(var(--v-theme-success), <alpha-value>)",
           warning: "rgb(var(--v-theme-warning), <alpha-value>)",
@@ -98,6 +106,29 @@ export default {
         "v-card": "var(--v-border-radius, 16px)",
       },
 
+      textShadow: {
+        sm: "0 1px 2px rgba(0, 0, 0, 0.5)",
+        md: "0 2px 4px rgba(0, 0, 0, 0.5)",
+        lg: "0 4px 8px rgba(0, 0, 0, 0.5)",
+        xl: "0 8px 16px rgba(0, 0, 0, 0.5)",
+        glow: "0 0 20px rgba(255, 255, 255, 0.8)",
+        neon: "0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.6)",
+        "3d": "0 1px 0 #999, 0 2px 0 #888, 0 3px 0 #777, 0 4px 0 #666, 0 5px 0 #555",
+      },
+
+      filterShadow: {
+        sm: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))",
+        md: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))",
+        lg: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))",
+        xl: "drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3))",
+        "2xl": "drop-shadow(0 12px 24px rgba(0, 0, 0, 0.3))",
+        glow: "drop-shadow(0 0 20px rgba(255, 255, 255, 0.8))",
+        neon: "drop-shadow(0 0 10px rgba(0, 255, 255, 0.8)) drop-shadow(0 0 20px rgba(0, 255, 255, 0.6))",
+        colored: "drop-shadow(4px 4px 8px rgba(255, 0, 0, 0.4))",
+        sharp: "drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.3))",
+        soft: "drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15))",
+      },
+
       // #https://github.com/tailwindlabs/tailwindcss-container-queries
       containers: {
         // custom contaniner sizes
@@ -128,5 +159,39 @@ export default {
   plugins: [
     // require("@tailwindcss/typography"),
     pluginContainerQueries,
+
+    // text-shadow
+    tailwindcssPlugin((_) => {
+      const utilities = reduce(
+        _.theme("textShadow", {}),
+        (accum, value, key) => [
+          ...accum,
+          { [`.text-shadow-${key}`]: { "text-shadow": value } },
+        ],
+        <any[]>[],
+      );
+      // _.addUtilities(utilities, ["responsive", "hover"]);
+      _.addUtilities(utilities);
+    }),
+
+    // filter: drop-shadow
+    tailwindcssPlugin((_) => {
+      const filterUtilities = reduce(
+        _.theme("filterShadow", {}),
+        (accum, value, key) => [
+          ...accum,
+          {
+            [`.filter-shadow-${key}`]: {
+              filter: value,
+              // WebKit prefix for Safari compatibility
+              "-webkit-filter": value,
+            },
+          },
+        ],
+        <any[]>[],
+      );
+      // _.addUtilities(filterUtilities, ["responsive", "hover"]);
+      _.addUtilities(filterUtilities);
+    }),
   ],
 } satisfies Config;
