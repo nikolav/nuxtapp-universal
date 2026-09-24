@@ -1,3 +1,3 @@
 export const Mutation = {
-  demo: () => ({ result: "mutation demo ok" }),
+  demo: () => $$.res("mutation:demo ok"),
 };
