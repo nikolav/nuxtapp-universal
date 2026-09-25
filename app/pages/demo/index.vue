@@ -5,8 +5,8 @@ const { $$ } = useNuxtApp();
 </script>
 
 <template>
-  <section class="app-container-reset page--demo">
+  <AppBoxPageWrap class="page--demo">
     <h1>page:demo</h1>
-    <VBtn> ok </VBtn>
-  </section>
+    <VBtn @click="$$.onDebug({ event: $event })"> ok </VBtn>
+  </AppBoxPageWrap>
 </template>
