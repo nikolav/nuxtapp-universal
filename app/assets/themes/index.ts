@@ -1,2 +1,2 @@
-export { light } from "./light-ga4.theme";
-export { dark } from "./dark-ga4.theme";
+export { light } from "./ga4/light.theme";
+export { dark } from "./ga4/dark.theme";
