@@ -19,6 +19,15 @@ definePageMeta({
 
 <template>
   <AppBoxPageWrap class="page--index">
-    <span>🚧</span>
+    <AppBoxItem
+      :props-prepend="{
+        class: 'd-flex items-center',
+      }"
+    >
+      <template #prepend>
+        <span>🚧</span>
+      </template>
+      <h2>page:home</h2>
+    </AppBoxItem>
   </AppBoxPageWrap>
 </template>
