@@ -6,6 +6,6 @@ export const typeDefs = /* Graphql */ `
   }
 
   type Mutation {
-    demo: JsonData!
+    demo(data: JsonData): JsonData!
   }
 `;
