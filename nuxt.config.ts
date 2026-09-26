@@ -2,7 +2,7 @@ import {
   default as vitePluginVuetify,
   transformAssetUrls,
 } from "vite-plugin-vuetify";
-
+// import { z } from "zod";
 import trimEnd from "lodash/trimEnd";
 
 import parseBoolean from "@eturino/ts-parse-boolean";
@@ -105,12 +105,12 @@ export default defineNuxtConfig({
   //   // typeCheck: false,
   // },
 
-  future: {
-    // Nuxt 4 compatibility mode / forward-leaning defaults
-    compatibilityVersion: 4,
-    // Keep TS “bundler” resolution mode (better with modern exports)
-    typescriptBundlerResolution: true,
-  },
+  // future: {
+  //   // Nuxt 4 compatibility mode / forward-leaning defaults
+  //   compatibilityVersion: 4,
+  //   // Keep TS “bundler” resolution mode (better with modern exports)
+  //   typescriptBundlerResolution: true,
+  // },
 
   // --------------------
   // Route rules: for SSG
@@ -481,9 +481,7 @@ export default defineNuxtConfig({
 
   // @nuxt/image
   image: {
-    quality: 100,
-    // format: ["avif", "webp", "jpg"],
-    // densities: [1, 2],
+    quality: 99,
     domains: [],
     screens: {
       sm: 600,
