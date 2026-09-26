@@ -1,5 +1,5 @@
-import { $$ } from "#server/utils";
+import { demo } from "#server/graphql/resolvers/mutation/demo";
 
 export const Mutation = {
-  demo: () => $$.res("mutation:demo ok"),
+  demo,
 };

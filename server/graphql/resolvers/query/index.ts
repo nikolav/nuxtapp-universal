@@ -1,5 +1,5 @@
-import { $$ } from "#server/utils";
+import { status } from "#server/graphql/resolvers/query/status";
 
 export const Query = {
-  status: () => $$.res({ status: "ok" }),
+  status,
 };
