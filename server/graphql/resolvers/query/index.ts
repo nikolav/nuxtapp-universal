@@ -1,5 +1,5 @@
-import { status } from "./status";
+import { $$ } from "#server/utils";
 
 export const Query = {
-  status,
+  status: () => $$.res({ status: "ok" }),
 };

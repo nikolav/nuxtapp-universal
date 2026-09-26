@@ -334,6 +334,7 @@ export default defineNuxtConfig({
         headers: { "cache-control": "public, max-age=31536000, immutable" },
       },
       "/api/**": { cors: true, headers: { "Cache-Control": "no-cache" } },
+      "/graphql": { cors: true, headers: { "Cache-Control": "no-cache" } },
     },
 
     // Optional Nitro storage adapter (Redis)

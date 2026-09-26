@@ -1,5 +1,5 @@
-import { RouteResult } from "#server/utils/route-result";
+import { $$ } from "#server/utils";
 
 export const Mutation = {
-  demo: () => new RouteResult("mutation demo ok").dump(),
+  demo: () => $$.res("mutation:demo ok"),
 };
