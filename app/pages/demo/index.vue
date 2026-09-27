@@ -26,7 +26,7 @@ const updates = () => {
 
 <template>
   <AppBoxPageWrap class="page--demo">
-    <VAlert tile variant="flat" color="primary-variant" prominent>
+    <VAlert tile variant="tonal" prominent color="primary">
       <template #prepend>
         <IconX icon="mdi:file-outline" size="1.5rem" />
       </template>

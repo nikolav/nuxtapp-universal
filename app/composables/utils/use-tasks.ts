@@ -1,32 +1,34 @@
-import { from, of } from "rxjs";
-import { catchError, finalize, map, mergeMap, reduce } from "rxjs/operators";
+import { of, from } from "rxjs";
+import { mergeMap, map, catchError, reduce, finalize } from "rxjs/operators";
 import type { TFnMaybeAsync } from "~/types";
 
-const CONCURRENCY = 10;
-export const useCleanup = <T = void>() => {
+const CONCURRENCY = 22;
+export const useTasks = <T = unknown>() => {
   const { $$ } = useNuxtApp();
-  const gc = new Set<TFnMaybeAsync<T>>();
 
+  const tasks = new Set<TFnMaybeAsync<T>>();
+  const add = (...lst: TFnMaybeAsync<T>[]) => {
+    lst.forEach((t) => {
+      tasks.add(t);
+    });
+  };
   const reset = () => {
-    gc.clear();
+    tasks.clear();
   };
-  const task = (cleanupTask: TFnMaybeAsync<T>) => {
-    gc.add(cleanupTask);
-  };
-  const run = async () => {
+  const run = async () =>
     await $$.resolved(
-      !$$.isEmpty(gc)
-        ? from(Array.from(gc)).pipe(
-            // execut cleanup
+      !$$.isEmpty(tasks)
+        ? from(Array.from(tasks)).pipe(
             mergeMap(
-              (cleanup) =>
-                $$.to$(cleanup()).pipe(
+              (task) =>
+                $$.to$(task()).pipe(
                   map(() => null),
                   // send errors
                   catchError((error) => of({ error })),
                 ),
               CONCURRENCY,
             ),
+
             // collect errors
             reduce(
               (accum, res) => {
@@ -37,14 +39,17 @@ export const useCleanup = <T = void>() => {
               },
               $$.res(null, <any[]>[]),
             ),
+
             // map, close
             map((res) => res.dump()),
             finalize(reset),
           )
-        : of($$.res(null, []).dump()),
+        : of($$.res(null, <any[]>[]).dump()),
       false,
     );
+  return {
+    add,
+    reset,
+    run,
   };
-
-  return { task, run, reset };
 };

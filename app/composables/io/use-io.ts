@@ -113,10 +113,11 @@ export const useIO = () => {
   ) => {
     const cleanup = useCleanup();
     const sub = echo.pipe(take(1)).subscribe((e) => callback(e, cleanup.task));
-    onScopeDispose(() => {
+    const destroy = () => {
       cleanup.run();
       sub.unsubscribe();
-    });
+    };
+    tryOnScopeDispose(destroy);
   };
 
   // useIO().client((echo, cleanup) => listenStuff(echo).then(cleanup);)
