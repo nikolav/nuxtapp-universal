@@ -16,7 +16,7 @@ definePageMeta({
 </script>
 
 <template>
-  <section class="app-container-reset page--index">
+  <AppBoxBase class="page--index">
     <h2>page:home</h2>
-  </section>
+  </AppBoxBase>
 </template>
