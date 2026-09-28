@@ -19,7 +19,6 @@ export const useGraphql = <TData = unknown>(
       <any>{},
     ),
   );
-  const vars = () => variables.value;
   return useAsyncData(
     options.key,
     (_nuxtApp, { signal }) =>
@@ -27,7 +26,7 @@ export const useGraphql = <TData = unknown>(
         signal,
         requestHeaders: <HeadersInit>{},
         ...options,
-        variables: vars(),
+        variables: variables.value,
         url,
       }),
     {
