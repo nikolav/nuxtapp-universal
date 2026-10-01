@@ -1,12 +1,24 @@
 import { request } from "graphql-request";
-import type { TGQLOptions } from "~/types";
+import type { TGQLOptions, TMaybeRefOrGetter } from "~/types";
 
-export const useAsyncGraphqlData = <TData = unknown>(
-  options: TGQLOptions<TData>,
+export const useGraphql = <TData = unknown>(
+  options: TGQLOptions<TData> & {
+    variables?: Record<string, TMaybeRefOrGetter>;
+  },
 ) => {
   const { $$ } = useNuxtApp();
   const { apiBase, graphqlEndpoint } = useRuntimeConfig().public;
   const url = `${apiBase}/${$$.trim(graphqlEndpoint, "/")}`;
+  const variables = computed(() =>
+    $$.reduce(
+      options.variables ?? <any>{},
+      (res, dep, name) => {
+        res[name] = toValue(dep);
+        return res;
+      },
+      <any>{},
+    ),
+  );
   return useAsyncData(
     options.key,
     (_nuxtApp, { signal }) =>
@@ -14,12 +26,14 @@ export const useAsyncGraphqlData = <TData = unknown>(
         signal,
         requestHeaders: <HeadersInit>{},
         ...options,
+        variables: variables.value,
         url,
       }),
     {
       server: true,
       lazy: true,
       ...(<any>options),
+      watch: [...(options.watch ?? []), variables],
     },
   );
 };
