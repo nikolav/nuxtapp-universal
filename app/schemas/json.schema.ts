@@ -8,9 +8,10 @@ export const schemaJsonLiteral = z.union([
 ]);
 
 export type TJsonLiteral = z.infer<typeof schemaJsonLiteral>;
-export type TJson = TJsonLiteral | { [key: string]: TJson } | TJson[];
 
 export const schemaJsonData = z.json();
+export type TJson = z.infer<typeof schemaJsonData>;
+
 export const schemaJsonDataRecord: z.ZodType<{ [key: string]: TJson }> = z.lazy(
   () => z.record(z.string(), schemaJsonData),
 );
