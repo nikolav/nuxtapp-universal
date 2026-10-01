@@ -18,12 +18,7 @@ definePageMeta({
 </script>
 
 <template>
-  <AppBoxPageWrap class="page--index">
-    <VAlert tile variant="flat" color="primary" prominent>
-      <template #prepend>
-        <IconX icon="mdi:home" size="1.5rem" />
-      </template>
-      page:home
-    </VAlert>
-  </AppBoxPageWrap>
+  <AppBoxBase class="page--index">
+    <h2>page:home</h2>
+  </AppBoxBase>
 </template>

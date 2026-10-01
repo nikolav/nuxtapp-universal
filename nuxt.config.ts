@@ -74,6 +74,9 @@ export default defineNuxtConfig({
   // ============ ENVIRONMENT OVERRIDES ============
   $production: {
     sourcemap: { server: false, client: "hidden" },
+    nitro: {
+      compressPublicAssets: true,
+    },
   },
   $development: {
     sourcemap: true,
@@ -105,12 +108,12 @@ export default defineNuxtConfig({
     // typeCheck: false,
   },
 
-  // future: {
-  //   // Nuxt 4 compatibility mode / forward-leaning defaults
-  //   compatibilityVersion: 4,
-  //   // Keep TS “bundler” resolution mode (better with modern exports)
-  //   typescriptBundlerResolution: true,
-  // },
+  future: {
+    // Opt into Nuxt 4 directory structure & features (`app/` directory)
+    compatibilityVersion: 4,
+    // // Keep TS “bundler” resolution mode (better with modern exports)
+    // typescriptBundlerResolution: true,
+  },
 
   // --------------------
   // Route rules: for SSG
@@ -306,7 +309,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   nitro: {
     preset: "node-server",
-    compressPublicAssets: true,
+    // compressPublicAssets: true,
     // minify: true,
 
     // Pre-render only what you truly want baked at build-time
