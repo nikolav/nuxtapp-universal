@@ -1,10 +1,10 @@
 import { useSubscription } from "@vueuse/rxjs";
 
 import { onDebug } from "~/utils/on-debug";
-import { defineVueDirective } from "~/lib/define-vue-directive";
+import { createVueDirective } from "~/lib/create-vue-directive";
 import { useDom } from "~/composables/dom/use-dom";
 
-export const vDemo = defineVueDirective({
+export const vDemo = createVueDirective({
   mounted: (el, binding) => {
     useSubscription(
       useDom(el).subscribe(($coll) => {
