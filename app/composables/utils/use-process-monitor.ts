@@ -3,13 +3,13 @@ import type { TMaybeAsync, TOrNoValue } from "~/types";
 export const useProcessMonitor = () => {
   const { $$ } = useNuxtApp();
 
-  const processing = ref<TOrNoValue<boolean>>(null);
+  const processing = shallowRef<TOrNoValue<boolean>>(null);
   const error = shallowRef<any>(null);
-  const success = ref<TOrNoValue<boolean>>(null);
+  const success = shallowRef<TOrNoValue<boolean>>(null);
 
   // sync with external state, useAsyncData .pending .error, etc.
   const external = shallowRef({
-    pending: ref<TOrNoValue<boolean>>(null),
+    pending: shallowRef<TOrNoValue<boolean>>(null),
     error: shallowRef<any>(null),
   });
 
@@ -88,7 +88,7 @@ export const useProcessMonitor = () => {
     sync,
 
     // watch async action
-    monitor: exec,
     exec,
+    monitor: exec,
   };
 };
