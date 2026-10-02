@@ -9,5 +9,6 @@ definePageMeta({
 <template>
   <AppBoxBase class="page--demo">
     <h1>page:demo</h1>
+    <AppDemo1 />
   </AppBoxBase>
 </template>

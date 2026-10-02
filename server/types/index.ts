@@ -1,8 +1,12 @@
 import { z } from "zod";
 
-import { schemaJsonLiteral } from "#server/schemas";
+import {
+  schemaJsonLiteral,
+  schemaJsonData,
+  schemaJsonDataRecord,
+} from "#shared/schemas";
 
 export type TOrNoValue<T = unknown> = T | undefined | null;
 export type TJsonLiteral = z.infer<typeof schemaJsonLiteral>;
-export type TJson = TJsonLiteral | { [key: string]: TJson } | TJson[];
-export type TRecordJson = { [key: string]: TJson };
+export type TJson = z.infer<typeof schemaJsonData>;
+export type TRecordJson = z.infer<typeof schemaJsonDataRecord>;
