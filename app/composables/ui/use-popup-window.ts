@@ -6,7 +6,7 @@ import type { TOrNoValue } from "~/types";
 export const usePopupWindow = () => {
   const { $window$ } = useNuxtApp();
 
-  const target = ref<TOrNoValue<globalThis.WindowProxy>>(null);
+  const target = shallowRef<TOrNoValue<globalThis.WindowProxy>>(null);
 
   const destroy = () => {
     target.value?.close();

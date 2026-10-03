@@ -1,5 +1,5 @@
 import { $$ } from "#server/utils";
 
 export const Query = {
-  status: () => $$.res({ status: "ok" }),
+  status: () => $$.res({ status: `ok:${Math.random()}` }),
 };

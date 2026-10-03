@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <AppBoxBase class="component--AppDemo1"> 122 </AppBoxBase>
+  <AppBoxBase class="component--AppDemo1"> foo </AppBoxBase>
 </template>
