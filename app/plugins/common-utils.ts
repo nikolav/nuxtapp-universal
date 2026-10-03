@@ -39,6 +39,7 @@ import { parseShell } from "~/utils/parse-shell";
 import { configItem } from "~/utils/config-item";
 import { normalizedIndex } from "~/utils/normalized-index";
 import { isPresent } from "~/utils/is-present";
+import { isNumeric } from "~/utils/is-numeric";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -75,6 +76,7 @@ export default defineNuxtPlugin({
           unset,
           values,
           // local
+          isNumeric,
           isPresent,
           normalizedIndex,
           config: configItem,
