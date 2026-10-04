@@ -2,7 +2,7 @@ import { defer, EMPTY, Observable } from "rxjs";
 import { catchError, switchMap } from "rxjs/operators";
 
 import type { TCashDomClient } from "~/types";
-import { single$ } from "~/utils/to-value-obs";
+import { single$ } from "~/utils/to-single-obs";
 import { onDebug } from "~/utils/on-debug";
 
 export default defineNuxtPlugin({

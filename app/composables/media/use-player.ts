@@ -2,7 +2,7 @@ import { defer } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 
 import type { TPlayer } from "~/types";
-import { single$ } from "~/utils/to-value-obs";
+import { single$ } from "~/utils/to-single-obs";
 
 export const usePlayer = () =>
   single$(
