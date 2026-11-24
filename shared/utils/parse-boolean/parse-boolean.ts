@@ -1,5 +1,5 @@
-import { default as isString } from "lodash/isString";
-import { default as isNumber } from "lodash/isNumber";
+import isString from "lodash/isString.js";
+import isNumber from "lodash/isNumber.js";
 
 const FALSE_STRINGS = <string[]>["FALSE", "NO", "0"];
 
