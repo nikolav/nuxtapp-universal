@@ -26,11 +26,17 @@ const updates = () => {
 
 <template>
   <AppBoxPageWrap class="page--demo">
-    <VAlert tile variant="tonal" prominent color="primary">
+    <VAlert tile variant="tonal">
       <template #prepend>
         <IconX icon="mdi:file-outline" size="1.5rem" />
       </template>
-      page:demo
+      <template #title> foo </template>
+      <template #text>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora ipsum
+          iure aliquid.
+        </p>
+      </template>
     </VAlert>
     <VBtn @click="updates">updates</VBtn>
     <AppBoxBase>

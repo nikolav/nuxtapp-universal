@@ -1,7 +1,9 @@
 <template>
-  <VMain class="layout--default">
-    <AppNavLine />
-    <hr />
-    <slot />
-  </VMain>
+  <AppBoxLayoutWrap class="layout--default">
+    <VMain>
+      <AppNavLine />
+      <hr />
+      <slot />
+    </VMain>
+  </AppBoxLayoutWrap>
 </template>
