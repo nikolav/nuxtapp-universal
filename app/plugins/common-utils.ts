@@ -26,7 +26,7 @@ import values from "lodash/values";
 import { v4 as uuid } from "uuid";
 import { nanoid } from "nanoid";
 
-import { parseBoolean } from "#shared/utils/parse-boolean";
+import { parseBoolean } from "#shared/utils/parse-boolean/parse-boolean";
 
 import { onDebug } from "~/utils/on-debug";
 import { hasOwn } from "~/utils/core-has-own";
