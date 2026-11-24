@@ -5,7 +5,7 @@ import {
 // import { z } from "zod";
 import trimEnd from "lodash/trimEnd";
 
-import parseBoolean from "@eturino/ts-parse-boolean";
+import { parseBoolean } from "./shared/utils/parse-boolean/parse-boolean";
 
 import {
   schemaCacheKeyDriver,
@@ -148,8 +148,8 @@ export default defineNuxtConfig({
       charset: "utf-8",
       viewport:
         "width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1",
-      title: "nuxtapp | nikolav.rs",
-      titleTemplate: "%s | nikolav.rs",
+      title: "nuxtapp • nikolav.rs",
+      titleTemplate: "%s • nikolav.rs",
       meta: [
         { name: "description", content: "NuxtApp --starter" },
         { name: "theme-color", content: "#fafafa" },
@@ -309,7 +309,7 @@ export default defineNuxtConfig({
   // ---------------------------------------------------------------------------
   nitro: {
     preset: "static",
-    compressPublicAssets: true,
+    // compressPublicAssets: true,
     // minify: true,
 
     // Pre-render only what you truly want baked at build-time
