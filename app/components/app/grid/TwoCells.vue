@@ -20,7 +20,7 @@ const props = withDefaults(
 <template>
   <AppBoxBase
     class="component--AppGridTwoCells"
-    :class="[props.stack ? undefined : `grid ${props.colsClass}`]"
+    :class="{ [`grid ${props.colsClass}`]: !props.stack }"
   >
     <AppBoxBase
       :class="

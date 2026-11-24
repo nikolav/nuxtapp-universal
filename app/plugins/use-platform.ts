@@ -2,7 +2,7 @@ import { EMPTY, of } from "rxjs";
 import { shareReplay } from "rxjs/operators";
 import type { Observable } from "rxjs";
 
-import { single$ } from "~/utils/to-value-obs";
+import { single$ } from "~/utils/to-single-obs";
 
 export default defineNuxtPlugin({
   name: "use-platform",

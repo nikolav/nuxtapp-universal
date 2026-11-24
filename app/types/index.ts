@@ -5,7 +5,7 @@ import type { RequestExtendedOptions } from "graphql-request";
 import type { AsyncDataOptions } from "#app";
 
 import type {
-  JsonDataRecord as TRecordJson,
+  TJsonDataRecord as TRecordJson,
   TJson,
   TJsonLiteral,
 } from "../schemas/json.schema";

@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{ propsSheet?: any }>(), {
       <VSheet
         tile
         elevation="0"
-        class="app-container-reset"
+        class="app-container-reset position-relative"
         v-bind="props.propsSheet"
       >
         <slot />
@@ -28,10 +28,3 @@ const props = withDefaults(defineProps<{ propsSheet?: any }>(), {
     </VDialog>
   </ClientOnly>
 </template>
-
-<!-- scoped component styles -->
-<style lang="scss" scoped></style>
-<!-- css modules, per-class hashing -->
-<style module></style>
-<!-- global styles -->
-<style lang="scss"></style>

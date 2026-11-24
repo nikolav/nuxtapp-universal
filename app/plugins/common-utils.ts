@@ -27,18 +27,19 @@ import { v4 as uuid } from "uuid";
 import parseBoolean from "@eturino/ts-parse-boolean";
 import { nanoid } from "nanoid";
 
-import { configItem } from "~/utils/config-item";
-import { deepmerge } from "~/utils/deepmerge";
-import { error$$ } from "~/utils/error-obs";
+import { onDebug } from "~/utils/on-debug";
 import { hasOwn } from "~/utils/core-has-own";
+import { to$ } from "~/utils/to-obs";
+import { resolved } from "~/utils/resolved";
+import { error$$ } from "~/utils/error-obs";
+import { single$ } from "~/utils/to-single-obs";
+import { deepmerge } from "~/utils/deepmerge";
+import { StatusResult } from "~/utils/status-result";
+import { parseShell } from "~/utils/parse-shell";
+import { configItem } from "~/utils/config-item";
 import { isPresent } from "~/utils/is-present";
 import { normalizedIndex } from "~/utils/normalized-index";
-import { onDebug } from "~/utils/on-debug";
-import { parseShell } from "~/utils/parse-shell";
-import { resolved } from "~/utils/resolved";
-import { single$ } from "~/utils/to-value-obs";
-import { StatusResult } from "~/utils/status-result";
-import { to$ } from "~/utils/to-obs";
+import { isNumeric } from "~/utils/is-numeric";
 //
 export default defineNuxtPlugin({
   name: "utils",
@@ -75,6 +76,7 @@ export default defineNuxtPlugin({
           unset,
           values,
           // local
+          isNumeric,
           isPresent,
           normalizedIndex,
           config: configItem,
