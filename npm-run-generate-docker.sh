@@ -8,6 +8,7 @@ export MSYS2_ARG_CONV_EXCL="*"
 docker run --rm -it \
   -w /app \
   -v "$(pwd):/app" \
+  -v "$(pwd)/.output:/app/.output" \
   -v nuxt_node_modules_ikfnahmevqilsg:/app/node_modules \
   -v nuxt_cache_ikfnahmevqilsg:/root/.cache/nuxt \
   -v nuxt_npm_cache_ikfnahmevqilsg:/root/.npm \

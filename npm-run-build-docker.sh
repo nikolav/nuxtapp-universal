@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Git Bash / MSYS fix: do NOT convert /app -> C:/Program Files/Git/app
+export MSYS_NO_PATHCONV=1
+export MSYS2_ARG_CONV_EXCL="*"
+
+docker run --rm --init \
+  -w /app \
+  -v "$(pwd):/app" \
+  -v nuxt_node_modules_rtbdy17oyoobcmic9:/app/node_modules \
+  -v nuxt_npm_cache_rtbdy17oyoobcmic9:/root/.npm \
+  node:22.23.5 \
+  bash -c '
+    set -euo pipefail
+    npm i --no-audit --no-fund && npm run build
+  '

@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
+    "build:docker": "bash ./npm-run-build-docker.sh ",
+    "build:docker:log": "npm run build:docker > ./output-log.txt 2>&1 ",
     "dev": "nuxt dev",
     "start": "npm run dev ",
     "dev:clean": "rm -rf .nuxt .output node_modules/.vite && npm run dev",
@@ -14,7 +16,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "tinker": "npx tsx tinker.ts ",
-    "rebuild": "bash rebuild-refresh.sh",
+    "rebuild": "bash ./rebuild-refresh.sh",
     "rebuild:log": "npm run rebuild > ./output-log.txt 2>&1 ",
     "info": "nuxt info",
     "test": "docker compose -f docker-compose.test.dev.yml run --rm --pull=missing test",
@@ -47,9 +49,7 @@
     "dayjs": "^1.11.19",
     "file-type": "^22.0.1",
     "firebase": "^12.8.0",
-    "graphql": "^16.14.2",
     "graphql-request": "^7.4.0",
-    "graphql-yoga": "^5.24.1",
     "jose": "^6.1.3",
     "laravel-echo": "^2.3.0",
     "lodash": "^4.17.21",
@@ -114,8 +114,7 @@
     "are-we-there-yet": "^4.0.2",
     "npmlog": "^7.0.1",
     "prebuild-install": "^7.1.3",
-    "inflight": "^2.0.0",
-    "@whatwg-node/promise-helpers": "1.3.2"
+    "inflight": "^2.0.0"
   },
   "resolutions": {
     "glob": "^11.0.1"

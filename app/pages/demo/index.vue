@@ -1,25 +1,7 @@
 <script setup lang="ts">
-import { useGraphql } from "~/composables/request/use-graphql";
-import { Q_status } from "~/graphql";
-
 definePageMeta({
   layout: "debug",
 });
-
-const { $$ } = useNuxtApp();
-
-const x = shallowRef<string>("FOO");
-
-const dd = useGraphql({
-  key: "dd:Q_status",
-  document: Q_status,
-  variables: { x },
-  transform: (d) => $$.get(d, "status.result"),
-});
-
-const updates = () => {
-  x.value = `FOO:${Math.random()}`;
-};
 
 // @@eos
 </script>
@@ -30,7 +12,7 @@ const updates = () => {
       <template #prepend>
         <IconX icon="mdi:file-outline" size="1.5rem" />
       </template>
-      <template #title> foo </template>
+      <template #title> page:demo </template>
       <template #text>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora ipsum
@@ -38,11 +20,5 @@ const updates = () => {
         </p>
       </template>
     </VAlert>
-    <VBtn @click="updates">updates</VBtn>
-    <AppBoxBase>
-      <small>
-        <pre>{{ dd.data.value }}</pre>
-      </small>
-    </AppBoxBase>
   </AppBoxPageWrap>
 </template>
