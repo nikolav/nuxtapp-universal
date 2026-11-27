@@ -10,7 +10,7 @@ const props = withDefaults(
     propsBack?: any;
   }>(),
   {
-    duration: 500,
+    duration: 240,
     transform: "rotateY(180deg)",
   },
 );
