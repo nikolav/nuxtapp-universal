@@ -32,7 +32,7 @@ const { finalizePendingLocaleChange } = useI18n();
     <AppConfigurationTheme />
 
     <!-- #https://nuxt.com/docs/4.x/api/components/nuxt-loading-indicator -->
-    <NuxtLoadingIndicator />
+    <NuxtLoadingIndicator color="rgb(var(--v-theme-primary))" />
 
     <!-- redirect on auth-change -->
     <AppConfigurationOnAuthChange />

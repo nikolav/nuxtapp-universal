@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 import tailwindcssPlugin from "tailwindcss/plugin";
 import { default as pluginContainerQueries } from "@tailwindcss/container-queries";
+import { default as pluginTypography } from "@tailwindcss/typography";
 import { default as reduce } from "lodash/reduce";
 
 import { displayDefaults } from "./app/assets/breakpoints";
@@ -131,9 +132,9 @@ export default {
       // #https://github.com/tailwindlabs/tailwindcss-container-queries
       containers: {
         // custom contaniner sizes
-        "chars-wide": "81ch",
-        "chars-default": "71ch",
-        "chars-narrow": "51ch",
+        "chars-default": "81ch",
+        "chars-comfortable": "71ch",
+        "chars-compact": "51ch",
       },
     },
   },
@@ -159,8 +160,8 @@ export default {
    * Add aspect-ratio only if you need it (Vuetify has its own patterns too).
    */
   plugins: [
-    // require("@tailwindcss/typography"),
     pluginContainerQueries,
+    pluginTypography,
 
     // text-shadow
     tailwindcssPlugin((_) => {
