@@ -3,6 +3,7 @@ import tailwindcssPlugin from "tailwindcss/plugin";
 import { default as pluginContainerQueries } from "@tailwindcss/container-queries";
 import { default as reduce } from "lodash/reduce";
 
+import { displayDefaults } from "./app/assets/breakpoints";
 import { darkRootClass } from "./app/config/vars.env.public";
 
 export default {
@@ -25,8 +26,8 @@ export default {
 
   // Keep empty unless you *need* dynamic class support
   safelist: [
-    { pattern: /^(bg|text|border|ring|outline)-v-(.+)$/ },
-    { pattern: /^(bg|text|border|ring|outline)-v-(.+)\/\d+$/ },
+    { pattern: /^(bg|text|border|ring|outline|divide)-v-(.+)$/ },
+    { pattern: /^(bg|text|border|ring|outline|divide)-v-(.+)\/\d+$/ },
   ],
 
   // Keep empty unless you intentionally want to prevent some utilities
@@ -34,14 +35,14 @@ export default {
 
   theme: {
     extend: {
-      screens: {
-        xs: "0px",
-        sm: "600px",
-        md: "960px",
-        lg: "1280px",
-        xl: "1920px",
-        "2xl": "2560px",
-      },
+      screens: reduce(
+        displayDefaults?.thresholds ?? {},
+        (res, val, breakpoint) => {
+          res["xxl" !== breakpoint ? breakpoint : "2xl"] = `${val}px`;
+          return res;
+        },
+        <any>{},
+      ),
 
       colors: {
         current: "currentColor",
@@ -65,9 +66,13 @@ export default {
           "on-ui": "rgb(var(--v-theme-on-ui), <alpha-value>)",
 
           success: "rgb(var(--v-theme-success), <alpha-value>)",
+          "on-success": "rgb(var(--v-theme-on-success), <alpha-value>)",
           warning: "rgb(var(--v-theme-warning), <alpha-value>)",
+          "on-warning": "rgb(var(--v-theme-on-warning), <alpha-value>)",
           error: "rgb(var(--v-theme-error), <alpha-value>)",
+          "on-error": "rgb(var(--v-theme-on-error), <alpha-value>)",
           info: "rgb(var(--v-theme-info), <alpha-value>)",
+          "on-info": "rgb(var(--v-theme-on-info), <alpha-value>)",
 
           background: "rgb(var(--v-theme-background), <alpha-value>)",
           surface: "rgb(var(--v-theme-surface), <alpha-value>)",
@@ -88,17 +93,11 @@ export default {
       },
 
       fontFamily: {
-        sans: [
-          "Inter",
-          "ui-sans-serif",
-          "system-ui",
-          "-apple-system",
-          "Segoe UI",
-          "Roboto",
-          "Arial",
-          "Noto Sans",
-          "sans-serif",
-        ],
+        "app-base": "var(--app-font-base)",
+        "app-sans": "var(--app-font-sans)",
+        "app-serif": "var(--app-font-serif)",
+        "app-mono": "var(--app-font-mono)",
+        "app-comic": "var(--app-font-comic)",
       },
 
       borderRadius: {
@@ -132,6 +131,9 @@ export default {
       // #https://github.com/tailwindlabs/tailwindcss-container-queries
       containers: {
         // custom contaniner sizes
+        "chars-wide": "81ch",
+        "chars-default": "71ch",
+        "chars-narrow": "51ch",
       },
     },
   },

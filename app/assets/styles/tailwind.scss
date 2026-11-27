@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .cdk-overlay-dark-backdrop-blured {
-    @apply backdrop-blur-sm bg-black/10 transition-opacity;
-  }
-}
-
 @layer utilities {
   .app-container-reset {
     /* layout sanity */
