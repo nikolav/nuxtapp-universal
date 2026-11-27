@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useTheme } from "vuetify";
 
+const { $$ } = useNuxtApp();
+
 const theme = useTheme();
 
 const themeStored = useLocalStorage(useAppConfig().theme.THEME_ACTIVE, "");
@@ -17,18 +19,15 @@ const {
 } = useAppConfig();
 const themeIsDark = computed(() => theme.global.current.value.dark);
 
-// @boot;
-onNuxtReady(() => {
-  callOnce(() => {
-    // use cached theme
-    theme.change(themeStored.value);
-  });
-});
-
 useHead({
   htmlAttrs: {
     class: { [darkRootClass]: themeIsDark },
   },
+});
+
+// @boot;
+onNuxtReady(() => {
+  $$.onDebug({ "@nuxt:ready": Date.now() });
 });
 
 // @@eos
@@ -37,10 +36,3 @@ useHead({
 <template>
   <slot />
 </template>
-
-<!-- scoped component styles, default -->
-<style lang="scss" scoped></style>
-<!-- css modules, per-class hashing -->
-<style module></style>
-<!-- global styles, rare, prefer styles.scss -->
-<style lang="scss"></style>

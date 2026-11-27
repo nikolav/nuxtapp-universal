@@ -2,6 +2,8 @@
 import type { IEventApp } from "~/types";
 import { TOKEN_appEmitter$ } from "~/keys";
 
+const { $$ } = useNuxtApp();
+
 const emitter$ = inject(TOKEN_appEmitter$);
 
 const { events: e } = useAppConfig();
@@ -20,6 +22,8 @@ watchEffect(() => {
     type: <string>(<any>e).EVENT_COLOR_MODE,
     payload: cmode.value,
   });
+
+  $$.onDebug({ "@cm:change": cmode.value });
 });
 
 // @@eos
@@ -28,10 +32,3 @@ watchEffect(() => {
 <template>
   <slot />
 </template>
-
-<!-- scoped component styles, default -->
-<style lang="scss" scoped></style>
-<!-- css modules, per-class hashing -->
-<style module></style>
-<!-- global styles, rare, prefer styles.scss -->
-<style lang="scss"></style>

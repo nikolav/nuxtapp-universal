@@ -1,3 +1,4 @@
+// @use "sass:string";
 // @use "vuetify/settings";
 
 // @use "vuetify/settings" with (
@@ -9,17 +10,11 @@
   // $badge-height: 22px,
   // $badge-min-width: 22px,
   // $badge-border-radius: 11px,
-  $rounded:
-    (
-      "2lg": 12px,
-      "3lg": 16px,
-      "4lg": 20px,
-      "2xl": 32px,
-      "3xl": 48px,
-    ),
+  // $body-font-family: string.unquote('"Comic Sans MS", sans-serif'),
+  // $body-font-family: var(--app-ff-base),
+  $rounded: ("2lg": 12px, "3lg": 16px, "4lg": 20px, "2xl": 32px, "3xl": 48px),
   // tailwind first utils set
-  $utilities:
-    (
+  $utilities: (
       // // =========================================================================
       // // Keep: Vuetify-specific / still useful even with Tailwind
       // // =========================================================================
@@ -128,7 +123,7 @@
       // "text-overflow": false,
       // "text-transform": false,
       // "typography": false,
-      // "white-space": false,,
+       // "white-space": false,,
     ),
   // mostly unused in production
   $color-pack: false

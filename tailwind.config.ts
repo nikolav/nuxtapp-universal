@@ -1,8 +1,10 @@
 import type { Config } from "tailwindcss";
 import tailwindcssPlugin from "tailwindcss/plugin";
 import { default as pluginContainerQueries } from "@tailwindcss/container-queries";
+import { default as pluginTypography } from "@tailwindcss/typography";
 import { default as reduce } from "lodash/reduce";
 
+import { displayDefaults } from "./app/assets/breakpoints";
 import { darkRootClass } from "./app/config/vars.env.public";
 
 export default {
@@ -25,8 +27,8 @@ export default {
 
   // Keep empty unless you *need* dynamic class support
   safelist: [
-    { pattern: /^(bg|text|border|ring|outline)-v-(.+)$/ },
-    { pattern: /^(bg|text|border|ring|outline)-v-(.+)\/\d+$/ },
+    { pattern: /^(bg|text|border|ring|outline|divide)-v-(.+)$/ },
+    { pattern: /^(bg|text|border|ring|outline|divide)-v-(.+)\/\d+$/ },
   ],
 
   // Keep empty unless you intentionally want to prevent some utilities
@@ -34,14 +36,14 @@ export default {
 
   theme: {
     extend: {
-      screens: {
-        xs: "0px",
-        sm: "600px",
-        md: "960px",
-        lg: "1280px",
-        xl: "1920px",
-        "2xl": "2560px",
-      },
+      screens: reduce(
+        displayDefaults?.thresholds ?? {},
+        (res, val, breakpoint) => {
+          res["xxl" !== breakpoint ? breakpoint : "2xl"] = `${val}px`;
+          return res;
+        },
+        <any>{},
+      ),
 
       colors: {
         current: "currentColor",
@@ -50,37 +52,47 @@ export default {
         // handy when mixing with Vuetify CSS vars in utilities:
         // text-v-primary
         // e.g. text-[rgb(var(--v-theme-on-surface))]
-        v: {
-          primary: "rgb(var(--v-theme-primary), <alpha-value>)",
-          "on-primary": "rgb(var(--v-theme-on-primary), <alpha-value>)",
-          secondary: "rgb(var(--v-theme-secondary), <alpha-value>)",
-          "on-secondary": "rgb(var(--v-theme-on-secondary), <alpha-value>)",
-          accent: "rgb(var(--v-theme-accent), <alpha-value>)",
-          "on-accent": "rgb(var(--v-theme-on-accent), <alpha-value>)",
-          "primary-variant":
-            "rgb(var(--v-theme-primary-variant), <alpha-value>)",
-          "on-primary-variant":
-            "rgb(var(--v-theme-on-primary-variant), <alpha-value>)",
-          ui: "rgb(var(--v-theme-ui), <alpha-value>)",
-          "on-ui": "rgb(var(--v-theme-on-ui), <alpha-value>)",
+        v: reduce(
+          [
+            "primary",
+            "primary-variant",
+            "secondary",
+            "accent",
+            "ui",
 
-          success: "rgb(var(--v-theme-success), <alpha-value>)",
-          warning: "rgb(var(--v-theme-warning), <alpha-value>)",
-          error: "rgb(var(--v-theme-error), <alpha-value>)",
-          info: "rgb(var(--v-theme-info), <alpha-value>)",
+            "background",
+            "surface",
+            "surface-variant",
+            "surface-bright",
+            "surface-light",
 
-          background: "rgb(var(--v-theme-background), <alpha-value>)",
-          surface: "rgb(var(--v-theme-surface), <alpha-value>)",
-          "surface-variant":
-            "rgb(var(--v-theme-surface-variant), <alpha-value>)",
-          "surface-light": "rgb(var(--v-theme-surface-light), <alpha-value>)",
-          "surface-bright": "rgb(var(--v-theme-surface-bright), <alpha-value>)",
+            "success",
+            "error",
+            "warning",
+            "info",
 
-          "on-background": "rgb(var(--v-theme-on-background), <alpha-value>)",
-          "on-surface": "rgb(var(--v-theme-on-surface), <alpha-value>)",
+            "on-primary",
+            "on-primary-variant",
+            "on-secondary",
+            "on-accent",
+            "on-ui",
 
-          outline: "rgb(var(--v-theme-outline), <alpha-value>)",
-        },
+            "on-success",
+            "on-error",
+            "on-warning",
+            "on-info",
+
+            "on-background",
+            "on-surface",
+
+            "outline",
+          ],
+          (res, color) => {
+            res[color] = `rgb(var(--v-theme-${color}), <alpha-value>)`;
+            return res;
+          },
+          <any>{},
+        ),
       },
 
       spacing: {
@@ -88,17 +100,11 @@ export default {
       },
 
       fontFamily: {
-        sans: [
-          "Inter",
-          "ui-sans-serif",
-          "system-ui",
-          "-apple-system",
-          "Segoe UI",
-          "Roboto",
-          "Arial",
-          "Noto Sans",
-          "sans-serif",
-        ],
+        "app-base": "var(--app-ff-base)",
+        "app-sans": "var(--app-ff-sans)",
+        "app-serif": "var(--app-ff-serif)",
+        "app-mono": "var(--app-ff-mono)",
+        "app-comic": "var(--app-ff-comic)",
       },
 
       borderRadius: {
@@ -132,6 +138,9 @@ export default {
       // #https://github.com/tailwindlabs/tailwindcss-container-queries
       containers: {
         // custom contaniner sizes
+        "chars-default": "81ch",
+        "chars-comfortable": "71ch",
+        "chars-compact": "51ch",
       },
     },
   },
@@ -157,8 +166,8 @@ export default {
    * Add aspect-ratio only if you need it (Vuetify has its own patterns too).
    */
   plugins: [
-    // require("@tailwindcss/typography"),
     pluginContainerQueries,
+    pluginTypography,
 
     // text-shadow
     tailwindcssPlugin((_) => {
@@ -192,6 +201,13 @@ export default {
       );
       // _.addUtilities(filterUtilities, ["responsive", "hover"]);
       _.addUtilities(filterUtilities);
+    }),
+
+    // dynamic arbitrary value support (e.g., perspective-[750px])
+    tailwindcssPlugin((_) => {
+      _.matchUtilities({
+        perspective: (value) => ({ perspective: value }),
+      });
     }),
   ],
 } satisfies Config;

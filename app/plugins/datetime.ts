@@ -69,7 +69,7 @@ import { DatetimeService } from "~/services/datetime";
 
 export default defineNuxtPlugin({
   name: "datetime",
-  dependsOn: ["emitters"],
+  dependsOn: ["providers"],
   setup: (_nuxtApp) => {
     // sync dayjs locale with i18n
     inject(TOKEN_appEmitter$)!

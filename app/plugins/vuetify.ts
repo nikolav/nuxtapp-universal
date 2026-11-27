@@ -19,7 +19,7 @@ import { DatetimeService } from "~/services/datetime";
 
 export default defineNuxtPlugin({
   name: "vuetify",
-  dependsOn: ["emitters"],
+  dependsOn: ["providers"],
   setup: (nuxtApp) => {
     const { defaultLocale } = useRuntimeConfig().public;
     const vuetify = createVuetify({

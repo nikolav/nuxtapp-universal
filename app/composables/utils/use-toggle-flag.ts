@@ -1,7 +1,7 @@
 export const useToggleFlag = (initial = false) => {
   const DEFAULT_TIMEOUT = 1000;
   const { $$ } = useNuxtApp();
-  const isActive$ = ref(initial);
+  const isActive$ = shallowRef(initial);
   const toggle = () => {
     isActive$.value = !isActive$.value;
   };
@@ -12,7 +12,7 @@ export const useToggleFlag = (initial = false) => {
     isActive$.value = false;
   };
   // @delayed
-  const timeout_ = ref<ReturnType<typeof setTimeout>>();
+  const timeout_ = shallowRef<ReturnType<typeof setTimeout>>();
   const delayCancel = () => clearTimeout(timeout_.value);
   const delayToggle = (msTimeout = DEFAULT_TIMEOUT) => {
     delayCancel();
