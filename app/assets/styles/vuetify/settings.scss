@@ -1,4 +1,4 @@
-@use "sass:string";
+// @use "sass:string";
 // @use "vuetify/settings";
 
 // @use "vuetify/settings" with (
@@ -11,7 +11,7 @@
   // $badge-min-width: 22px,
   // $badge-border-radius: 11px,
   // $body-font-family: string.unquote('"Comic Sans MS", sans-serif'),
-  // $body-font-family: var(--app-font-base),
+  // $body-font-family: var(--app-ff-base),
   $rounded: ("2lg": 12px, "3lg": 16px, "4lg": 20px, "2xl": 32px, "3xl": 48px),
   // tailwind first utils set
   $utilities: (

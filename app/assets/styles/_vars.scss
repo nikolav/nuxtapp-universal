@@ -1,16 +1,16 @@
 :root {
-  --app-font-base:
+  --app-ff-base:
     "Open Sans", Inter, ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     "Noto Sans", sans-serif;
-  --app-font-sans:
+  --app-ff-sans:
     "Inter Variable", "Inter var", Inter, ui-sans-serif, system-ui,
     -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
-  --app-font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --app-font-mono:
+  --app-ff-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --app-ff-mono:
     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
-  --app-font-comic:
+  --app-ff-comic:
     "Comic Neue", "Patrick Hand", "Comic Sans MS", "Chalkboard SE",
     "Marker Felt", cursive;
 }

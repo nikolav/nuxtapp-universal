@@ -17,18 +17,15 @@ const {
 } = useAppConfig();
 const themeIsDark = computed(() => theme.global.current.value.dark);
 
-// @boot;
-onNuxtReady(() => {
-  callOnce(() => {
-    // use cached theme
-    theme.change(themeStored.value);
-  });
-});
-
 useHead({
   htmlAttrs: {
     class: { [darkRootClass]: themeIsDark },
   },
+});
+
+// @boot;
+onNuxtReady(() => {
+  theme.change(themeStored.value);
 });
 
 // @@eos

@@ -93,11 +93,11 @@ export default {
       },
 
       fontFamily: {
-        "app-base": "var(--app-font-base)",
-        "app-sans": "var(--app-font-sans)",
-        "app-serif": "var(--app-font-serif)",
-        "app-mono": "var(--app-font-mono)",
-        "app-comic": "var(--app-font-comic)",
+        "app-base": "var(--app-ff-base)",
+        "app-sans": "var(--app-ff-sans)",
+        "app-serif": "var(--app-ff-serif)",
+        "app-mono": "var(--app-ff-mono)",
+        "app-comic": "var(--app-ff-comic)",
       },
 
       borderRadius: {
