@@ -4,7 +4,8 @@ import {
 } from "vite-plugin-vuetify";
 // import { z } from "zod";
 import trimEnd from "lodash/trimEnd";
-import parseBoolean from "@eturino/ts-parse-boolean";
+
+import { parseBoolean } from "./shared/utils/parse-boolean/parse-boolean";
 
 import {
   schemaCacheKeyDriver,
