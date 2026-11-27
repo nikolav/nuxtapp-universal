@@ -8,7 +8,7 @@ const toggle = useToggleFlag();
 <template>
   <AppBoxPageWrap class="page--demo">
     <h2>page:demo</h2>
-    <VBtn @click="toggle">ok</VBtn>
+    <VBtn @click="toggle" color="surface"> ok</VBtn>
     <AppBoxFlip
       :flip="toggle.isActive.value"
       class="h-[122px] w-[122px] mx-auto"
@@ -20,7 +20,7 @@ const toggle = useToggleFlag();
         <VCard color="secondary" class="fill-height"> ipsum </VCard>
       </template>
     </AppBoxFlip>
-    <AppBoxBase class="text-body-1 !font-app-comic">
+    <AppBoxBase class="text-h6 !font-app-serif">
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, qui
         magni. Ratione!

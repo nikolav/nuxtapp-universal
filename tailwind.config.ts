@@ -52,41 +52,47 @@ export default {
         // handy when mixing with Vuetify CSS vars in utilities:
         // text-v-primary
         // e.g. text-[rgb(var(--v-theme-on-surface))]
-        v: {
-          primary: "rgb(var(--v-theme-primary), <alpha-value>)",
-          "on-primary": "rgb(var(--v-theme-on-primary), <alpha-value>)",
-          secondary: "rgb(var(--v-theme-secondary), <alpha-value>)",
-          "on-secondary": "rgb(var(--v-theme-on-secondary), <alpha-value>)",
-          accent: "rgb(var(--v-theme-accent), <alpha-value>)",
-          "on-accent": "rgb(var(--v-theme-on-accent), <alpha-value>)",
-          "primary-variant":
-            "rgb(var(--v-theme-primary-variant), <alpha-value>)",
-          "on-primary-variant":
-            "rgb(var(--v-theme-on-primary-variant), <alpha-value>)",
-          ui: "rgb(var(--v-theme-ui), <alpha-value>)",
-          "on-ui": "rgb(var(--v-theme-on-ui), <alpha-value>)",
+        v: reduce(
+          [
+            "primary",
+            "primary-variant",
+            "secondary",
+            "accent",
+            "ui",
 
-          success: "rgb(var(--v-theme-success), <alpha-value>)",
-          "on-success": "rgb(var(--v-theme-on-success), <alpha-value>)",
-          warning: "rgb(var(--v-theme-warning), <alpha-value>)",
-          "on-warning": "rgb(var(--v-theme-on-warning), <alpha-value>)",
-          error: "rgb(var(--v-theme-error), <alpha-value>)",
-          "on-error": "rgb(var(--v-theme-on-error), <alpha-value>)",
-          info: "rgb(var(--v-theme-info), <alpha-value>)",
-          "on-info": "rgb(var(--v-theme-on-info), <alpha-value>)",
+            "background",
+            "surface",
+            "surface-variant",
+            "surface-bright",
+            "surface-light",
 
-          background: "rgb(var(--v-theme-background), <alpha-value>)",
-          surface: "rgb(var(--v-theme-surface), <alpha-value>)",
-          "surface-variant":
-            "rgb(var(--v-theme-surface-variant), <alpha-value>)",
-          "surface-light": "rgb(var(--v-theme-surface-light), <alpha-value>)",
-          "surface-bright": "rgb(var(--v-theme-surface-bright), <alpha-value>)",
+            "success",
+            "error",
+            "warning",
+            "info",
 
-          "on-background": "rgb(var(--v-theme-on-background), <alpha-value>)",
-          "on-surface": "rgb(var(--v-theme-on-surface), <alpha-value>)",
+            "on-primary",
+            "on-primary-variant",
+            "on-secondary",
+            "on-accent",
+            "on-ui",
 
-          outline: "rgb(var(--v-theme-outline), <alpha-value>)",
-        },
+            "on-success",
+            "on-error",
+            "on-warning",
+            "on-info",
+
+            "on-background",
+            "on-surface",
+
+            "outline",
+          ],
+          (res, color) => {
+            res[color] = `rgb(var(--v-theme-${color}), <alpha-value>)`;
+            return res;
+          },
+          <any>{},
+        ),
       },
 
       spacing: {
