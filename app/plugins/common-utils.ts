@@ -26,6 +26,7 @@ import { v4 as uuid } from "uuid";
 import { nanoid } from "nanoid";
 
 import { parseBoolean } from "#shared/utils/parse-boolean/parse-boolean";
+import { isNumeric } from "#shared/utils/is-numeric/is-numeric";
 
 import { onDebug } from "~/utils/on-debug";
 import { hasOwn } from "~/utils/core-has-own";
@@ -73,6 +74,8 @@ export default defineNuxtPlugin({
           unset,
           values,
           // local
+          isNumeric,
+          parseBoolean,
           normalizedIndex,
           config: configItem,
           parseShell,
@@ -91,7 +94,6 @@ export default defineNuxtPlugin({
           // 3rd party
           nanoid,
           uuid,
-          parseBoolean,
         },
       },
     };

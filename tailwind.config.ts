@@ -196,5 +196,12 @@ export default {
       // _.addUtilities(filterUtilities, ["responsive", "hover"]);
       _.addUtilities(filterUtilities);
     }),
+
+    // dynamic arbitrary value support (e.g., perspective-[750px])
+    tailwindcssPlugin((_) => {
+      _.matchUtilities({
+        perspective: (value) => ({ perspective: value }),
+      });
+    }),
   ],
 } satisfies Config;
