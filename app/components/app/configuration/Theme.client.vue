@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useTheme } from "vuetify";
 
+const { $$ } = useNuxtApp();
+
 const theme = useTheme();
 
 const themeStored = useLocalStorage(useAppConfig().theme.THEME_ACTIVE, "");
@@ -25,7 +27,7 @@ useHead({
 
 // @boot;
 onNuxtReady(() => {
-  theme.change(themeStored.value);
+  $$.onDebug({ "@nuxt:ready": Date.now() });
 });
 
 // @@eos
@@ -34,10 +36,3 @@ onNuxtReady(() => {
 <template>
   <slot />
 </template>
-
-<!-- scoped component styles, default -->
-<style lang="scss" scoped></style>
-<!-- css modules, per-class hashing -->
-<style module></style>
-<!-- global styles, rare, prefer styles.scss -->
-<style lang="scss"></style>

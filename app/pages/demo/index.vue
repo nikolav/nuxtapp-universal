@@ -20,7 +20,7 @@ const toggle = useToggleFlag();
         <VCard color="secondary" class="fill-height"> ipsum </VCard>
       </template>
     </AppBoxFlip>
-    <AppBoxBase>
+    <AppBoxBase class="text-body-1 !font-app-comic">
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, qui
         magni. Ratione!
